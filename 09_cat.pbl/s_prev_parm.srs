@@ -1,0 +1,8 @@
+﻿global type s_prev_parm from structure
+	integer		pag_x
+	integer		pag_y
+	long		id_catalogo
+	long		id_pagina
+	long		id_lingua
+end type
+

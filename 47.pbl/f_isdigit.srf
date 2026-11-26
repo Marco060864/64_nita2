@@ -1,0 +1,16 @@
+﻿global type f_isdigit from function_object
+end type
+
+forward prototypes
+global function boolean f_isdigit (character ac_car)
+end prototypes
+
+global function boolean f_isdigit (character ac_car);
+boolean lb_rtv
+
+lb_rtv = false
+if (ac_car>='0') and (ac_car<='9') then lb_rtv = true
+
+return lb_rtv
+end function
+

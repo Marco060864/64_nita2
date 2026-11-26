@@ -1,0 +1,8 @@
+﻿//objectcomments Struttura per il passaggio di parametri da w_reg_pd_cx a w_insoluti_cx.
+global type s_insoluti from structure
+	long		l_id_prof_registrazione
+	date		d_data_registrazione
+	long		l_id_conto[]
+	string		s_filtro_conto[]
+end type
+

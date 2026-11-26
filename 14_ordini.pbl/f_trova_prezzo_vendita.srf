@@ -1,0 +1,39 @@
+﻿global type f_trova_prezzo_vendita from function_object
+end type
+
+forward prototypes
+global function decimal f_trova_prezzo_vendita (long al_id_articolo)
+end prototypes
+
+global function decimal f_trova_prezzo_vendita (long al_id_articolo);long ll_id_uc
+decimal ldc_prezzo, ldc_prezzo_manifattura
+string ls_tipo
+
+select u.id_unita_confezione, um.tipo
+into :ll_id_uc, :ls_tipo
+from dba.unita_confezione u, dba.unita_misura um
+where um.id_unita_misura=u.id_unita_misura
+and u.id_articolo=:al_id_articolo
+and u.unita_base='S'
+;
+
+
+select prezzo, prezzo_manifattura
+into :ldc_prezzo, :ldc_prezzo_manifattura
+from dba.prezzo p, variazione v, listino l
+where v.data_inizio<=today()
+and v.data_fine>=today()
+and v.id_variazione=p.id_variazione
+and v.id_listino=l.id_listino
+and l.lis_base='S'
+and l.tipo='V'
+and p.id_unita_confezione=:ll_id_uc
+;
+if ls_tipo='P' then
+	return ldc_prezzo_manifattura
+else
+	return ldc_prezzo
+end if
+
+end function
+

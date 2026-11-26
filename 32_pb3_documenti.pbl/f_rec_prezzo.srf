@@ -1,0 +1,242 @@
+﻿global type f_rec_prezzo from function_object
+end type
+
+forward prototypes
+global function integer f_rec_prezzo (long row, decimal qta, datawindow dw_testa, datawindow dw_righe, string ls_tras_mezzo, long al_id_tipo_trasporto)
+end prototypes
+
+global function integer f_rec_prezzo (long row, decimal qta, datawindow dw_testa, datawindow dw_righe, string ls_tras_mezzo, long al_id_tipo_trasporto);
+
+	
+
+
+string 			ls_tipo_applicazione		
+STRING			LS_SQL_SCRIPT				
+STRING			ls_app						
+long 				ll_riga_corrente
+date 				ldt_data_attuale			
+long				ll_id_U_C_in_esame		
+long 				ll_sog_com					
+decimal		   ld_prezzo					
+
+long 				ll_listino					
+string			ls_percentuali				
+long				ll_id_cat_com_sc			
+long				ll_id_art_in_esame		
+long 				ll_id_cat_com_articolo	
+decimal{4}		ld_qta						
+long           ll_sog_com_fornitore		
+long 				ll_id_produttore			
+long				ll_id_listino				
+string			ls_qta
+long				ll_pos
+long 				ll_id_registro
+string   		ls_tipo_registro
+string 			ls_cod_art_in_esame		
+long 				ll_id_magazzino
+
+Long				ll_id_destinazione		
+String			ls_con_listino				
+Integer			li_pos_cond					
+Long				ll_con_listino				
+date				ldt_data_documento
+string			ls_stato, lc_ges_offerte		
+
+ll_riga_corrente=dw_testa.getrow()
+ll_id_registro=dw_testa.getitemnumber(ll_riga_corrente, "id_registro")
+select tipo_registro
+into :ls_tipo_registro
+from registro
+where id_registro= :ll_id_registro;
+ls_app= right(ls_tipo_registro, 1)
+
+ll_riga_corrente=dw_testa.getrow()
+ldt_data_attuale=dw_testa.getitemdate(ll_riga_corrente, "data_registrazione")
+if isnull(ldt_data_attuale) then 
+	messagebox("Attenzione!", "Specificare la data del documento") 
+	return 0
+end if
+
+long ll_id_prof_doc
+string ls_blocco_ric
+ll_id_prof_doc = dw_testa.getitemnumber(1,"id_prof_documento")
+
+select blocco_ricalcolo
+into :ls_blocco_ric
+from prof_documento
+where id_prof_documento = :ll_id_prof_doc;
+
+if (ls_blocco_ric = 'S') then return 1
+
+	ll_id_destinazione=dw_testa.getitemnumber(ll_riga_corrente, "id_destinazione")
+	
+	ll_sog_com=dw_testa.getitemnumber(ll_riga_corrente, "id_sog_commerciale")
+	select id_cat_com_sc, id_listino
+	into :ll_id_cat_com_sc, :ll_id_listino
+	from sog_commerciale
+	where id_sog_commerciale = :ll_sog_com;
+if isnull(ll_id_cat_com_sc) then ll_id_cat_com_sc=0
+if isnull(ll_id_listino) then ll_id_listino=0
+
+ll_riga_corrente=row
+ll_id_art_in_esame=dw_righe.getitemnumber(ll_riga_corrente,"riga_documento_id_articolo")
+if isnull(ll_id_art_in_esame) then ll_id_art_in_esame=0
+ls_cod_art_in_esame=dw_righe.getitemstring(ll_riga_corrente, "c_articolo_cod")
+
+	select id_cat_com_articolo
+	into :ll_id_cat_com_articolo
+	from articolo
+	where id_articolo= :ll_id_art_in_esame;
+if isnull(ll_id_cat_com_articolo) then ll_id_cat_com_articolo=0	
+
+	select id_sog_commerciale, id_anagrafica
+	into :ll_sog_com_fornitore, :ll_id_produttore
+	from articolo
+	where id_articolo= :ll_id_art_in_esame;
+if isnull(ll_sog_com_fornitore) then ll_sog_com_fornitore=0	
+if isnull(ll_id_produttore) then ll_id_produttore=0	
+
+	
+ll_id_U_C_in_esame=dw_righe.getitemnumber(ll_riga_corrente, "riga_documento_id_unita_confezione")
+if isnull(ll_id_U_C_in_esame) then ll_id_U_C_in_esame=0
+ld_qta=qta
+if isnull(ld_qta) then ld_qta=0
+ls_qta=string(ld_qta)
+ll_pos = Pos(ls_qta, ",", 1)
+ls_qta=replace(ls_qta, ll_pos, 1, ".")
+ll_id_magazzino=dw_righe.getitemnumber(ll_riga_corrente, "id_locazione_1")
+if ll_id_magazzino<1 then 
+	Messagebox("Attenzione!", "Non è stato specificato alcun magazzino~r~n"&
+									+"per questa riga!")
+end if
+
+integer i
+for i = 1 to 6		
+	if i=1 then ls_tipo_applicazione="P"
+	if i=2 then ls_tipo_applicazione="R"
+	if i=3 then ls_tipo_applicazione="S"
+	if i=4 then ls_tipo_applicazione="D"
+	if i=5 then ls_tipo_applicazione="U"
+	if i=6 then ls_tipo_applicazione="M"	
+	
+	string ls_prezzo
+	long ll_valuta, ll_id_var
+	integer li_pos
+	string ls_lis_variazione
+	
+	ll_id_listino=dw_testa.getItemNumber(1,"documento_id_listino")
+	ll_id_var=dw_testa.getItemNumber(1,"documento_id_variazione")
+	ll_valuta=dw_righe.getitemnumber(1,"riga_documento_id_valuta")
+	ldt_data_documento=dw_testa.getitemdate(1, "data_documento")
+	
+	
+	if isnull(ldt_data_documento) then &
+		ldt_data_documento = dw_testa.getitemdate(1, "data_registrazione")
+	
+	
+	ls_prezzo=f_recupera_prezzo_listino(ls_app, ll_id_U_C_in_esame, ll_sog_com,ll_id_cat_com_sc, ls_cod_art_in_esame, & 
+						ll_id_cat_com_articolo,	ll_sog_com_fornitore, ll_id_produttore,& 
+						ld_qta, ls_tipo_applicazione, ll_id_art_in_esame, ll_id_magazzino, ll_valuta, ll_id_listino, ll_id_var, &
+						ll_id_destinazione, ls_tras_mezzo, ldt_data_documento, al_id_tipo_trasporto)
+						
+	
+
+	
+	
+	li_pos=pos(ls_prezzo, "!")
+	
+	li_pos_cond=pos(ls_prezzo, "!", li_pos + 1)
+	
+	if li_pos>0 then
+		ls_lis_variazione=mid(ls_prezzo, li_pos + 1, (li_pos_cond - li_pos - 1) )
+		ll_id_var=long(ls_lis_variazione)
+		
+		ls_con_listino=right(ls_prezzo, len(ls_prezzo) - li_pos_cond)
+		ll_con_listino=long(ls_con_listino)
+
+		ls_prezzo=left(ls_prezzo, li_pos - 1)
+		
+		if ll_id_var>0 then
+			dw_righe.setitem(row, "riga_documento_id_listino", ll_id_var)
+			
+		
+		end if
+		
+		
+		if ll_con_listino>0 then
+			dw_righe.setitem(row, "riga_documento_id_con_lis_articolo", ll_con_listino)
+			
+			
+			SELECT stato
+			INTO	 :ls_stato
+			FROM	 con_lis_articolo
+			WHERE  id_con_lis_articolo = :ll_con_listino
+			;
+		
+			if (SQLCA.SQLCODE = -1) then messagebox ("DBError", SQLCA.SQLERRTEXT)
+			
+			if (ls_stato = 'O') then 
+				
+				SELECT ges_offerte
+				INTO	 :lc_ges_offerte
+				FROM	 pers_par_sistema
+				;
+				
+				if (SQLCA.SQLCODE = -1) then messagebox ("DBError", SQLCA.SQLERRTEXT)
+				
+				if (lc_ges_offerte = 'S') then  
+					beep(1)
+				end if
+			end if
+			
+			
+			
+			
+		end if		
+	end if
+						
+	if i=1  then 
+		ld_prezzo=dec(ls_prezzo)
+		
+		if ld_prezzo >0 then 
+			dw_righe.setitem&
+						(ll_riga_corrente, "prezzo", ld_prezzo)
+
+			
+			
+			if (ls_stato = 'O') then exit
+			
+		end if
+	elseif i=2 then
+		ld_prezzo=dec(ls_prezzo)
+		
+		
+		if ld_prezzo >0 then dw_righe.setitem&
+										(ll_riga_corrente, "riga_documento_sconto_riga", (ld_prezzo ))
+		
+	elseif i=3 then
+		ll_riga_corrente=dw_righe.getrow()
+		dw_righe.setitem(ll_riga_corrente, "sconto", ls_prezzo)
+	elseif i=4 then
+		ld_prezzo=dec(ls_prezzo)
+		ll_riga_corrente=dw_testa.getrow()
+		dw_testa.setitem(ll_riga_corrente, "documento_sconto_finanziario", ls_prezzo)
+	elseif i=5 then
+		
+		ll_riga_corrente=dw_righe.getrow()		
+		ld_prezzo=dec(ls_prezzo)
+		if ld_prezzo > 0 then dw_righe.setitem&
+										(ll_riga_corrente, "prezzo", ld_prezzo)
+	elseif i=6 then
+		
+		ll_riga_corrente=dw_righe.getrow()		
+		ld_prezzo=dec(ls_prezzo)
+		if ld_prezzo >= 0 then dw_righe.setitem&
+										(ll_riga_corrente, "qta_sconto_merce", ld_prezzo)		
+		
+	end if
+next
+	return 1
+	
+end function
+

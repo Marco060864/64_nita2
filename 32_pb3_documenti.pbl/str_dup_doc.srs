@@ -1,0 +1,6 @@
+﻿global type str_dup_doc from structure
+	long		id_prof_doc
+	long		id_registro
+	long		id_caus_mag
+end type
+

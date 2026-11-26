@@ -1,0 +1,4 @@
+﻿global type s_gp from structure
+	string		s_par[10]
+end type
+

@@ -1,0 +1,36 @@
+# pcode binario, rigenerato ad ogni build
+**/.pb/
+**/build/
+
+# deploy binari (pbd), rigenerati dalla build — non serve versionarli
+*.pbd
+
+# eseguibile prodotto dalla build — cambia a ogni compilazione, rumore nei diff.
+# NB: cl32.dll / mapi32.dll restano invece tracciate: sono DLL di runtime, non artefatti di build.
+nita.exe
+
+# backup interni creati dal wizard di conversione workspace -> solution
+_BackupFiles/
+
+# backup manuali / zip di sicurezza — troppo pesanti per git
+*.bak
+*.zip
+
+# stato personale dell'IDE PowerBuilder (finestre aperte, layout): diverso per utente e per macchina.
+# NB: new_tpl.usr.opt resta tracciato, è fermo dal 2017 e toglierlo lo cancellerebbe sull'altro PC.
+*.usr.opt
+
+# config locale di Claude Code — permessi/preview specifici di questa macchina, non da condividere
+.claude/settings.local.json
+
+# log di runtime scritto dal programma nella root del progetto: e output, non sorgente
+w_reg_pd_cx.log
+
+# log della migrazione da PB 12.5
+nitatron_mig.log
+
+# vecchia libreria binaria 12.5 non inclusa nella solution (non convertita)
+13_magold.pbl
+
+# 64_nita2: nita.exe a 64 bit e nita.xml prodotti dalla build
+nita.xml

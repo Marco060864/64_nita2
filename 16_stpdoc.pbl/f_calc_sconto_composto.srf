@@ -1,0 +1,96 @@
+﻿global type f_calc_sconto_composto from function_object
+end type
+
+forward prototypes
+global function decimal f_calc_sconto_composto (string as_sconto, decimal adc_prezzo, decimal adc_quantita)
+end prototypes
+
+global function decimal f_calc_sconto_composto (string as_sconto, decimal adc_prezzo, decimal adc_quantita);
+char		lch_sconto[], lch_item[]
+long 		ll_char_size, ll_char_count, ll_item_count
+decimal  ldc_parte,ldc_tot_riga
+string  ls_parte
+long ll_row, ll_pos_plus,ll_pos_minus, ll_pos
+boolean lb_non_calcolabile, lb_minus
+string ls_tot_riga
+
+lb_minus= FALSE
+lch_item = ""
+ll_item_count=0
+if IsNull(adc_prezzo) then adc_prezzo = 0
+if not (IsNull(as_sconto) OR as_sconto= "") then
+	lch_sconto= Trim(as_sconto)
+	ll_char_size= UpperBound(lch_sconto)
+	For ll_char_count= 1 to ll_char_size
+		CHOOSE CASE lch_sconto[ll_char_count]
+			CASE "-"
+				If not(lch_item = "") OR ll_char_count = 1 then
+					ldc_parte= Dec(lch_item)
+					if  ldc_parte < 0 OR (ldc_parte > 100 AND not lb_minus) then 
+					
+						SetNull(ldc_parte)	
+						RETURN ldc_parte
+					else
+						if lb_minus then
+							adc_prezzo = adc_prezzo + adc_prezzo * (ldc_parte / 100)
+						else
+							adc_prezzo = adc_prezzo - adc_prezzo * (ldc_parte / 100)
+						end if
+					end if
+				else
+					
+					SetNull(ldc_parte)	
+					RETURN ldc_parte				
+				end if
+				lch_item = ""
+				ll_item_count=0
+				lb_minus = TRUE
+			CASE "+"
+					If not(lch_item = "") OR ll_char_count = 1 then
+					ldc_parte= Dec(lch_item)
+					if ldc_parte < 0 OR (ldc_parte > 100 AND not lb_minus) then 
+					
+						SetNull(ldc_parte)	
+						RETURN ldc_parte
+					else
+						if lb_minus then
+							adc_prezzo = adc_prezzo + adc_prezzo * (ldc_parte / 100)
+						else
+							adc_prezzo = adc_prezzo - adc_prezzo * (ldc_parte / 100)
+						end if
+					end if
+				else
+					
+					SetNull(ldc_parte)	
+					RETURN ldc_parte				
+				end if
+				lch_item = ""
+				ll_item_count=0
+				lb_minus = FALSE
+			CASE ELSE
+				ll_item_count ++
+				lch_item[ll_item_count]= lch_sconto[ll_char_count]
+		END CHOOSE
+	next
+
+
+	If not(lch_item = "") then
+		ldc_parte= Dec(lch_item)
+		if ldc_parte < 0 OR (ldc_parte > 100 AND not lb_minus) then 
+		
+			SetNull(ldc_parte)	
+			RETURN ldc_parte
+		else
+			if lb_minus then
+				adc_prezzo = adc_prezzo + adc_prezzo * (ldc_parte / 100)
+			else
+				adc_prezzo = adc_prezzo - adc_prezzo * (ldc_parte / 100)
+			end if
+		end if
+	end if
+end if
+
+RETURN adc_prezzo
+
+end function
+

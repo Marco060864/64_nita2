@@ -1,0 +1,101 @@
+﻿//objectcomments selectionlist per la tabella riepilogo per un articolo, un esercizio e una attività
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no pointer="S:\pb\commonframework\Point.cur" grid.lines=0 selected.mouse=no )
+header(height=124 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=76 color="553648127" )
+table(column=(type=long updatewhereclause=yes name=riepilogo_id_esercizio dbname="riepilogo.id_esercizio" )
+ column=(type=long updatewhereclause=yes name=riepilogo_id_attivita dbname="riepilogo.id_attivita" )
+ column=(type=long updatewhereclause=yes name=riepilogo_id_articolo dbname="riepilogo.id_articolo" )
+ column=(type=long updatewhereclause=yes name=riepilogo_id_locazione dbname="riepilogo.id_locazione" )
+ column=(type=decimal(0) updatewhereclause=yes name=riepilogo_anno dbname="riepilogo.anno" )
+ column=(type=decimal(0) updatewhereclause=yes name=riepilogo_mese dbname="riepilogo.mese" )
+ column=(type=char(32) updatewhereclause=yes name=articolo_codice dbname="articolo.codice" )
+ column=(type=date updatewhereclause=yes name=riepilogo_data_ult_costo dbname="riepilogo.data_ult_costo" )
+ column=(type=date updatewhereclause=yes name=riepilogo_data_primo_costo dbname="riepilogo.data_primo_costo" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_qta_rim_iniziale dbname="riepilogo.qta_rim_iniziale" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_val_rim_iniziale dbname="riepilogo.val_rim_iniziale" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_qta_caricata dbname="riepilogo.qta_caricata" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_qta_scaricata dbname="riepilogo.qta_scaricata" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_val_caricato dbname="riepilogo.val_caricato" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_val_scaricato dbname="riepilogo.val_scaricato" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_qta_ord_clienti dbname="riepilogo.qta_ord_clienti" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_qta_ord_fornitori dbname="riepilogo.qta_ord_fornitori" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_qta_vis_clienti dbname="riepilogo.qta_vis_clienti" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_qta_vis_fornitori dbname="riepilogo.qta_vis_fornitori" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_qta_imp_produzione dbname="riepilogo.qta_imp_produzione" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_qta_ord_produzione dbname="riepilogo.qta_ord_produzione" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_qta_cl_clienti dbname="riepilogo.qta_cl_clienti" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_qta_cl_fornitori dbname="riepilogo.qta_cl_fornitori" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_qta_cl_terzi dbname="riepilogo.qta_cl_terzi" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_qta_gruppo_lib_1 dbname="riepilogo.qta_gruppo_lib_1" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_qta_gruppo_lib_2 dbname="riepilogo.qta_gruppo_lib_2" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_qta_gruppo_lib_3 dbname="riepilogo.qta_gruppo_lib_3" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_qta_gruppo_lib_4 dbname="riepilogo.qta_gruppo_lib_4" )
+ column=(type=long updatewhereclause=yes name=riepilogo_id_azienda dbname="riepilogo.id_azienda" )
+ column=(type=date updatewhereclause=yes name=riepilogo_data_ult_scarico dbname="riepilogo.data_ult_scarico" )
+ column=(type=decimal(6) updatewhereclause=yes name=riepilogo_ult_costo dbname="riepilogo.ult_costo" )
+ column=(type=decimal(6) updatewhereclause=yes name=riepilogo_primo_costo dbname="riepilogo.primo_costo" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"riepilogo~" )  TABLE(NAME=~"articolo~" ) COLUMN(NAME=~"riepilogo.id_esercizio~") COLUMN(NAME=~"riepilogo.id_attivita~") COLUMN(NAME=~"riepilogo.id_articolo~") COLUMN(NAME=~"riepilogo.id_locazione~") COLUMN(NAME=~"riepilogo.anno~") COLUMN(NAME=~"riepilogo.mese~") COLUMN(NAME=~"articolo.codice~") COLUMN(NAME=~"riepilogo.data_ult_costo~") COLUMN(NAME=~"riepilogo.data_primo_costo~") COLUMN(NAME=~"riepilogo.qta_rim_iniziale~") COLUMN(NAME=~"riepilogo.val_rim_iniziale~") COLUMN(NAME=~"riepilogo.qta_caricata~") COLUMN(NAME=~"riepilogo.qta_scaricata~") COLUMN(NAME=~"riepilogo.val_caricato~") COLUMN(NAME=~"riepilogo.val_scaricato~") COLUMN(NAME=~"riepilogo.qta_ord_clienti~") COLUMN(NAME=~"riepilogo.qta_ord_fornitori~") COLUMN(NAME=~"riepilogo.qta_vis_clienti~") COLUMN(NAME=~"riepilogo.qta_vis_fornitori~") COLUMN(NAME=~"riepilogo.qta_imp_produzione~") COLUMN(NAME=~"riepilogo.qta_ord_produzione~") COLUMN(NAME=~"riepilogo.qta_cl_clienti~") COLUMN(NAME=~"riepilogo.qta_cl_fornitori~") COLUMN(NAME=~"riepilogo.qta_cl_terzi~") COLUMN(NAME=~"riepilogo.qta_gruppo_lib_1~") COLUMN(NAME=~"riepilogo.qta_gruppo_lib_2~") COLUMN(NAME=~"riepilogo.qta_gruppo_lib_3~") COLUMN(NAME=~"riepilogo.qta_gruppo_lib_4~") COLUMN(NAME=~"riepilogo.id_azienda~") COLUMN(NAME=~"riepilogo.data_ult_scarico~") COLUMN(NAME=~"riepilogo.ult_costo~") COLUMN(NAME=~"riepilogo.primo_costo~")    JOIN (LEFT=~"articolo.id_articolo~"    OP =~"=~"RIGHT=~"riepilogo.id_articolo~" )) " )
+text(band=header alignment="2" text="Articolo"border="0" color="0" x="9" y="8" height="112" width="443"  name=articolo_codice_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text=" Data 
+Primo Costo"border="0" color="0" x="1682" y="8" height="112" width="411"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Quantità Caricata"border="0" color="0" x="2103" y="8" height="112" width="576"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Quantità Scaricata"border="0" color="0" x="2688" y="8" height="112" width="512"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Valore Caricato"border="0" color="0" x="3209" y="8" height="112" width="576"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Valore Scaricato"border="0" color="0" x="3794" y="8" height="112" width="567"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Quantità
+ordinato Clienti"border="0" color="0" x="4370" y="8" height="112" width="562"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Quantità 
+oridnato Fornitori"border="0" color="0" x="4942" y="8" height="112" width="631"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Quantità 
+visione Clienti"border="0" color="0" x="5582" y="8" height="112" width="530"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Quantità
+visione Fornitori"border="0" color="0" x="6121" y="8" height="112" width="585"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Quantità 
+Impegnato produzione"border="0" color="0" x="6715" y="8" height="112" width="562"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Quantità 
+ordinato produzione"border="0" color="0" x="7287" y="8" height="112" width="594"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Quantità 
+c/l Clienti"border="0" color="0" x="7890" y="8" height="112" width="530"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Quantità 
+c/l Fornitori"border="0" color="0" x="8430" y="8" height="112" width="485"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Quantità 
+Gruppo 1"border="0" color="0" x="8923" y="8" height="112" width="622"  name=riepilogo_qta_gruppo_lib_1_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Quantità 
+Gruppo 2"border="0" color="0" x="9554" y="8" height="112" width="649"  name=riepilogo_qta_gruppo_lib_2_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Quantità 
+Gruppo 3"border="0" color="0" x="10213" y="8" height="112" width="640"  name=riepilogo_qta_gruppo_lib_3_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Quantità 
+Gruppo 4"border="0" color="0" x="10862" y="8" height="112" width="434"  name=riepilogo_qta_gruppo_lib_4_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="1682" y="4" height="68" width="411" format="[general]"  name=riepilogo_data_primo_costo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="2103" y="4" height="68" width="576" format="#,0.00"  name=riepilogo_qta_caricata edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="2688" y="4" height="68" width="512" format="#,0.00"  name=riepilogo_qta_scaricata edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="3209" y="4" height="68" width="576" format="#,0"  name=riepilogo_val_caricato edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="3794" y="4" height="68" width="567" format="#,0"  name=riepilogo_val_scaricato edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="0" x="4370" y="4" height="68" width="562" format="#,0"  name=riepilogo_qta_ord_clienti edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="0" x="4942" y="4" height="68" width="631" format="#,0.00"  name=riepilogo_qta_ord_fornitori edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="0" x="5582" y="4" height="68" width="530" format="#,0.00"  name=riepilogo_qta_vis_clienti edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="0" x="6121" y="4" height="68" width="585" format="#,0.00"  name=riepilogo_qta_vis_fornitori edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=20 alignment="0" tabsequence=32766 border="0" color="0" x="6715" y="4" height="68" width="562" format="#,0.00"  name=riepilogo_qta_imp_produzione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=21 alignment="0" tabsequence=32766 border="0" color="0" x="7287" y="4" height="68" width="594" format="#,0.00"  name=riepilogo_qta_ord_produzione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=22 alignment="0" tabsequence=32766 border="0" color="0" x="7890" y="4" height="68" width="530" format="#,0.00"  name=riepilogo_qta_cl_clienti edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=23 alignment="0" tabsequence=32766 border="0" color="0" x="8430" y="4" height="68" width="485" format="#,0.00"  name=riepilogo_qta_cl_fornitori edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=25 alignment="0" tabsequence=32766 border="0" color="0" x="8923" y="4" height="68" width="622" format="#,0.00"  name=riepilogo_qta_gruppo_lib_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=26 alignment="0" tabsequence=32766 border="0" color="0" x="9554" y="4" height="68" width="649" format="#,0.00"  name=riepilogo_qta_gruppo_lib_2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=27 alignment="0" tabsequence=32766 border="0" color="0" x="10213" y="4" height="68" width="640" format="#,0.00"  name=riepilogo_qta_gruppo_lib_3 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=28 alignment="0" tabsequence=32766 border="0" color="0" x="10862" y="4" height="68" width="434" format="#,0.00"  name=riepilogo_qta_gruppo_lib_4 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="4" height="68" width="443" format="[general]"  name=articolo_codice edit.limit=32 edit.case=upper edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="462" y="4" height="68" width="315" format=""  name=riepilogo_data_ult_costo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=31 alignment="0" tabsequence=32766 border="0" color="0" x="786" y="4" height="68" width="320" format="[general]"  name=riepilogo_ult_costo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=header alignment="2" text="Data 
+Ultimo Costo"border="0" color="0" x="462" y="8" height="112" width="315"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text=" Data Ult. Scarico"border="0" color="0" x="1115" y="8" height="112" width="283"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Ultimo 
+Costo"border="0" color="0" x="786" y="8" height="112" width="320"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Primo 
+Costo"border="0" color="0" x="1408" y="8" height="112" width="265"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+column(band=detail id=30 alignment="0" tabsequence=32766 border="0" color="0" x="1115" y="4" height="68" width="283" format="[general]"  name=riepilogo_data_ult_scarico edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=32 alignment="0" tabsequence=32766 border="0" color="0" x="1408" y="4" height="68" width="265" format="[general]"  name=riepilogo_primo_costo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

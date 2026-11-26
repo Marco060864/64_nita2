@@ -1,0 +1,5 @@
+﻿global type s_pagine from structure
+	long		l_pag_preparate
+	long		l_pag_usate
+end type
+

@@ -1,0 +1,8 @@
+﻿global type s_voice from structure
+	long		l_id_voice
+	string		s_voice_name
+	long		l_id_object
+	window		w_win_instance
+	string		s_parameters
+end type
+

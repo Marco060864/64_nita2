@@ -1,0 +1,36 @@
+﻿global type f_trova_note_destinazione from function_object
+end type
+
+forward prototypes
+global function string f_trova_note_destinazione (long al_id_articolo, long al_id_destinazione)
+end prototypes
+
+global function string f_trova_note_destinazione (long al_id_articolo, long al_id_destinazione);string ls_return=""
+string ls_nota, ls_bollo, ls_cod_articolo, ls_des_articolo
+long ll_id_riga_distinta, ll_id_art_sostitutivo
+
+select nota, bollo, id_riga_distinta, id_art_sostitutivo
+into :ls_nota, :ls_bollo, :ll_id_riga_distinta, :ll_id_art_sostitutivo
+from dba.art_destinazione
+where id_articolo=:al_id_articolo
+and id_destinazione=:al_id_destinazione
+;
+if sqlca.sqlcode=0 then
+	select codice, descrizione
+	into :ls_cod_articolo, :ls_des_articolo
+	from dba.articolo
+	where id_articolo=:ll_id_art_sostitutivo
+	;
+	if isnull(ls_des_articolo) then ls_des_articolo=""
+	if isnull(ls_cod_articolo) then ls_cod_articolo=""
+	if isnull(ls_nota) then ls_nota=""
+	if isnull(ls_bollo) then ls_bollo=""
+	
+	ls_return=ls_nota+"//B"+ls_bollo+"//D"+string(ll_id_riga_distinta)+"//CODICE"+ls_cod_articolo+"//DES"+ls_des_articolo
+	
+end if
+
+
+return ls_return
+end function
+

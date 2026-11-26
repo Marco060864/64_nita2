@@ -1,0 +1,22 @@
+﻿global type f_trova_derivato from function_object
+end type
+
+forward prototypes
+global function integer f_trova_derivato (long al_id_riga)
+end prototypes
+
+global function integer f_trova_derivato (long al_id_riga);long Ll_TROVATO	
+
+select id_riga_documento
+into :ll_trovato
+from dba.riga_documento
+where id_riga_doc_provenienza=:al_id_riga
+;
+
+if ll_trovato>0 then
+	return 1
+else
+	return 0
+end if	
+end function
+

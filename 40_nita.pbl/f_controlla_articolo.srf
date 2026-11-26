@@ -1,0 +1,77 @@
+﻿global type f_controlla_articolo from function_object
+end type
+
+forward prototypes
+global function long f_controlla_articolo (string as_code, long al_rule, ref string as_ref_value)
+end prototypes
+
+global function long f_controlla_articolo (string as_code, long al_rule, ref string as_ref_value);string ls_parti_regola[], ls_parte, ls_mask, ls_parti_tipo[], ls_tipo
+string ls_scelta_parte[], ls_in_elenco[], ls_elenco
+long ll_count, ll_size, ll_tot_lung, ll_id_cod_parte[], ll_id_parte[], ll_parte
+long ll_parte_id, ll_count_scelta,ll_size_scelta
+integer li_len, li_pos, li_parti_lunghezza[], li_lunghezza
+long ll_RetCode
+constant integer codice_ok = 0
+constant integer lunghezza_errata = 1
+constant integer parte_errata = 2
+
+DECLARE lcur_parti_regola CURSOR FOR
+SELECT cod_parte.mas_input, cod_parte.tipo_richiesta ,cod_parte.solo_in_elenco,cod_parte.id_cod_parte, parte_regola.lunghezza
+    FROM cod_parte, parte_regola, parte_regola
+	 WHERE cod_parte.id_cat_codifica = :al_rule AND cod_parte.id_parte_regola = parte_regola.id_parte_regola
+	 ORDER BY parte_regola.num_sezione;
+OPEN lcur_parti_regola;
+IF sqlca.sqlcode < 0 THEN
+	MessageBox ("DataBase Error!", sqlca.sqlerrtext, exclamation!)
+	RETURN 3
+END IF
+ll_count= 0
+do while sqlca.sqlcode = 0
+	fetch lcur_parti_regola into :ls_parte, :ls_tipo, :ls_elenco, :ll_parte_id, :li_lunghezza ;
+	if sqlca.sqlcode = 0 then
+		ll_count++
+		ls_parti_regola[ll_count] = ls_parte
+		ls_parti_tipo[ll_count] = ls_tipo
+		ls_in_elenco[ll_count] = ls_elenco
+		ll_id_cod_parte[ll_count] = ll_parte_id
+		li_parti_lunghezza[ll_count] = li_lunghezza
+	elseif sqlca.sqlcode < 0 then
+		MessageBox ("DataBase Error", sqlca.sqlerrtext, exclamation!)
+		return 3
+	else
+		exit
+	end if
+loop
+close lcur_parti_regola;
+ll_size = UpperBound(ls_parti_regola)
+for ll_count = 1 to ll_size -1
+	ll_tot_lung = ll_tot_lung + li_parti_lunghezza[ll_count]
+next
+if ls_parti_tipo[ll_size] = "F" then
+	
+	
+	if (Len(as_code) - ll_tot_lung >= 0) AND (Len(as_code) - ll_tot_lung <= li_parti_lunghezza[ll_size]) then
+		ll_RetCode = codice_ok
+	else
+		ll_RetCode= lunghezza_errata
+		as_ref_value = string(ll_tot_lung) + "-" + string(ll_tot_lung + li_parti_lunghezza[ll_size])
+	end if
+else
+	
+	if (Len(as_code) - ll_tot_lung = li_parti_lunghezza[ll_size]) then
+		ll_RetCode = codice_ok
+	else
+		ll_RetCode = lunghezza_errata
+		as_ref_value = string(ll_tot_lung + li_parti_lunghezza[ll_size])
+	end if
+end if
+if ll_RetCode = codice_ok then
+	
+	ll_RetCode = f_controlla_articolo_scelte(as_code, ll_id_cod_parte, ls_in_elenco, li_parti_lunghezza, as_ref_value)
+end if
+
+RETURN ll_RetCode
+
+
+end function
+

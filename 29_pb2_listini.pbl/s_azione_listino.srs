@@ -1,0 +1,14 @@
+﻿global type s_azione_listino from structure
+	string		s_azione
+	long		l_idlistino
+	long		l_idvar
+	decimal {2}	d_percento
+	decimal {4}	d_importo
+	decimal {4}	d_prmin
+	decimal {4}	d_arrot
+	string		s_tipoarr
+	string		s_crea
+	long		l_idvalu
+	long		d_cambio
+end type
+

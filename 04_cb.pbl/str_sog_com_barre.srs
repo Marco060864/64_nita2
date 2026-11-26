@@ -1,0 +1,5 @@
+﻿global type str_sog_com_barre from structure
+	string		da_sog_com
+	string		a_sog_com
+end type
+

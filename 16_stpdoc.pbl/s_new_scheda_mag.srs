@@ -1,0 +1,19 @@
+﻿global type s_new_scheda_mag from structure
+	date		da_data
+	date		a_data
+	long		id_sog_commerciale
+	string		tipo_stampa
+	string		filtro
+	long		id_caus_magazzino[]
+	string		sel_causali
+	string		metallo
+	string		tipo_sog
+	integer		fiscale
+	long		id_vettore[]
+	long		id_destinazione
+	long		id_articolo
+	long		id_titolo
+	long		id_sog_commerciale2
+	long		id_vettore2[]
+end type
+

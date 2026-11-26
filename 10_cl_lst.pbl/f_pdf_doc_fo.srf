@@ -1,0 +1,44 @@
+﻿global type f_pdf_doc_fo from function_object
+end type
+
+forward prototypes
+global subroutine f_pdf_doc_fo (long al_id_doc, string as_dataobject, string as_ordina)
+end prototypes
+
+global subroutine f_pdf_doc_fo (long al_id_doc, string as_dataobject, string as_ordina);datastore ds_stampa
+integer li_ret
+string ls_nome_file
+
+ds_stampa=create datastore
+ds_stampa.dataobject=as_dataobject
+ds_stampa.settransobject(sqlca)
+
+ds_stampa.retrieve(al_id_doc)
+
+select codice into :ls_nome_file from dba.prof_documento p, dba.documento d where p.id_prof_documento=d.id_prof_documento and d.id_documento=:al_id_doc;
+ls_nome_file="C:\nita\"+ls_nome_file+"\"
+if as_ordina> " " then
+	ds_stampa.setsort(as_ordina)
+	ds_stampa.sort()
+	ls_nome_file+="ART_"	
+end if
+
+
+ds_stampa.Modify("Export.PDF.Method = Distill!")
+ds_stampa.Modify("DataWindow.Print.printername = 'Sybase DataWindow PS'")
+ds_stampa.Modify("Export.PDF.Distill.CustomPostScript='Yes'")
+//ordino secondo il flag impostato nella finestra 13/10/2021 richiesta Samy per Karizia
+ls_nome_file+=string(today(), "dd_mm_yy hh_mm")+".pdf"
+li_ret=ds_stampa.SaveAs(ls_nome_file, PDF!, FALSE)
+ls_nome_file=right(ls_nome_file, len(ls_nome_file) - 2)
+//ls_nome_file="\\server2021"+ls_nome_file
+li_ret=ds_stampa.SaveAs(ls_nome_file, PDF!, FALSE)
+IF LI_RET<> 1 THEN
+	//ds_stampa.Modify("DataWindow.Print.printername = 'Acrobat PDFWriter'")
+	//ds_stampa.print()
+	//wf_crea_mail(ls_nome_file, ls_oggetto)
+	messagebox("Errore!", "File PDF non generato!")	
+end if
+destroy(ds_stampa)
+end subroutine
+

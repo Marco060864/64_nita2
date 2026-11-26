@@ -1,0 +1,41 @@
+﻿global type f_proponi_data_documento from function_object
+end type
+
+forward prototypes
+global function date f_proponi_data_documento (long al_id_registro, string as_prog_scritture)
+end prototypes
+
+global function date f_proponi_data_documento (long al_id_registro, string as_prog_scritture);
+
+date ld_Ultima_Data_Doc
+if as_prog_scritture='N' then
+		
+	SELECT MAX("dba"."reg_pd"."data_documento")
+		INTO :ld_Ultima_Data_Doc
+		FROM "dba"."reg_pd"   
+		WHERE "dba"."reg_pd"."id_registro" = :al_id_registro;
+		
+	CHOOSE CASE SQLCA.SQLCode
+		CASE -1
+			MessageBox("Errore sul DataBase", "f_proponi_data_documento / 1")
+			RETURN Date("")
+	END CHOOSE
+	
+	IF IsNull(ld_Ultima_Data_Doc) THEN ld_Ultima_Data_Doc = Today()
+else
+			
+	SELECT MAX("dba"."reg_pd"."data_documento")
+		INTO :ld_Ultima_Data_Doc
+		FROM "dba"."reg_pd";
+		
+	CHOOSE CASE SQLCA.SQLCode
+		CASE -1
+			MessageBox("Errore sul DataBase", "f_proponi_data_documento / 1")
+			RETURN Date("")
+	END CHOOSE
+	
+	IF IsNull(ld_Ultima_Data_Doc) THEN ld_Ultima_Data_Doc = Today()
+end if
+RETURN ld_Ultima_Data_Doc
+end function
+

@@ -1,0 +1,30 @@
+﻿global type f_calcola_saldo_conto from function_object
+end type
+
+forward prototypes
+global function decimal f_calcola_saldo_conto (long al_idconto)
+end prototypes
+
+global function decimal f_calcola_saldo_conto (long al_idconto);
+
+decimal ldc_saldo, ldc_tot_dare, ldc_tot_avere
+	  
+
+  SELECT sum(saldo_conto.dare) as tot_dare,   
+         sum(saldo_conto.avere) as tot_avere,   
+         tot_dare - tot_avere as saldo  
+    INTO :ldc_tot_dare,   
+         :ldc_tot_avere,   
+         :ldc_saldo  
+    FROM dba.saldo_conto
+	 WHERE saldo_conto.id_conto = :al_idconto;
+
+
+CHOOSE CASE SQLCA.SQLCode
+	CASE -1, 100
+		ldc_saldo = 0
+END CHOOSE
+
+RETURN ldc_saldo
+end function
+

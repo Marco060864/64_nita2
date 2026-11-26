@@ -1,0 +1,279 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=124 color="536870912" )
+summary(height=356 color="536870912" )
+footer(height=284 color="536870912" )
+detail(height=100 color="553648127" )
+table(column=(type=char(20) updatewhereclause=yes name=c_articolo_cod dbname="c_articolo_cod" )
+ column=(type=char(80) updatewhereclause=yes name=c_articolo_des dbname="c_articolo_des" )
+ column=(type=char(1) updatewhereclause=yes name=c_unita_conf_tipo_conversione dbname="c_unita_conf_tipo_conversione" initial="'M'" )
+ column=(type=decimal(4) updatewhereclause=yes name=c_unita_conf_molteplicita dbname="c_unita_conf_molteplicita" initial="1" )
+ column=(type=decimal(4) updatewhereclause=yes name=c_esistenza dbname="c_esistenza" )
+ column=(type=decimal(4) updatewhereclause=yes name=c_disponibilita dbname="c_disponibilita" )
+ column=(type=long updatewhereclause=yes name=c_arrot dbname="c_arrot" initial="0" )
+ column=(type=long update=yes updatewhereclause=yes key=yes identity=yes name=id_riga_documento dbname="locazione.id_riga_documento" )
+ column=(type=long update=yes updatewhereclause=yes name=id_documento dbname="locazione.id_documento" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=riga_documento_num_riga dbname="locazione.num_riga" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_articolo dbname="locazione.id_articolo" )
+ column=(type=char(32766) update=yes updatewhereclause=yes name=riga_documento_descrizione dbname="locazione.descrizione" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_des_articolo dbname="locazione.id_des_articolo" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_unita_confezione dbname="locazione.id_unita_confezione" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=quantita dbname="locazione.quantita" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=qta_sconto_merce dbname="locazione.qta_sconto_merce" initial="0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=qta_evasa dbname="locazione.qta_evasa" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_fat_con_unita_base dbname="locazione.fat_con_unita_base" initial="1" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=fat_con_globale dbname="locazione.fat_con_globale" initial="1" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=qta_un_base dbname="locazione.qta_un_base" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=qta_evasa_un_base dbname="locazione.qta_evasa_un_base" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_caus_magazzino dbname="locazione.id_caus_magazzino" )
+ column=(type=long update=yes updatewhereclause=yes name=id_locazione_1 dbname="locazione.id_locazione_1" )
+ column=(type=long update=yes updatewhereclause=yes name=id_locazione_2 dbname="locazione.id_locazione_2" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_valuta dbname="locazione.id_valuta" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_cambio dbname="locazione.cambio" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_listino dbname="locazione.id_listino" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_con_lis_articolo dbname="locazione.id_con_lis_articolo" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=prezzo dbname="locazione.prezzo" initial="0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=sconto dbname="locazione.sconto" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_prezzo_netto dbname="locazione.prezzo_netto" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_sconto_riga dbname="locazione.sconto_riga" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=date update=yes updatewhereclause=yes name=riga_documento_data_prevista_consegna dbname="locazione.data_prevista_consegna" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_peso_netto dbname="locazione.peso_netto" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_peso_lordo dbname="locazione.peso_lordo" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_dim_l dbname="locazione.dim_l" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_dim_h dbname="locazione.dim_h" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_dim_p dbname="locazione.dim_p" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=riga_documento_num_colli dbname="locazione.num_colli" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_tab_iva dbname="locazione.id_tab_iva" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=provv_agente dbname="locazione.provv_agente" validation=" real(gettext())  >= 0 AND  real(gettext())  <= 100" validationmsg="'Immettere un valore fra 0 e 100'" )
+ column=(type=long update=yes updatewhereclause=yes name=id_gruppo_agenti dbname="locazione.id_gruppo_agenti" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_val_attribuito dbname="locazione.val_attribuito" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_caus_trasporto dbname="locazione.id_caus_trasporto" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=riga_documento_forza_chius_evasione dbname="locazione.forza_chius_evasione" initial="N" values="Si	S/No	N/" validation=" gettext()  = 'S' OR  gettext()  = 'N'" validationmsg="'Immettere: S, N'" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=riga_documento_sospesa dbname="locazione.sospesa" initial="N" values="	S/	N" validation=" gettext()  = 'S' OR  gettext()  = 'N'" validationmsg="'Immettere: S, N'" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=riga_documento_da_stampare dbname="locazione.da_stampare" initial="N" values="	S/	N" validation=" gettext()  = 'S' OR  gettext()  = 'N'" validationmsg="'Immettere: S, N'" )
+ column=(type=date update=yes updatewhereclause=yes name=riga_documento_data_inizio_competenza dbname="locazione.data_inizio_competenza" )
+ column=(type=date update=yes updatewhereclause=yes name=riga_documento_data_fine_competenza dbname="locazione.data_fine_competenza" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=tot_riga_val_riga dbname="locazione.tot_riga_val_riga" initial="0" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=tot_riga_val_doc dbname="locazione.tot_riga_val_doc" initial="0" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=tot_riga_val_az dbname="locazione.tot_riga_val_az" initial="0" )
+ column=(type=long update=yes updatewhereclause=yes name=id_riga_doc_provenienza dbname="locazione.id_riga_doc_provenienza" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_conto dbname="locazione.id_conto" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_azienda dbname="locazione.id_azienda" initial="1" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=provv_subage dbname="locazione.provv_subage" validation=" real(gettext())  >= 0 AND  real(gettext())  <= 100" validationmsg="'Immettere un valore fra 0 e 100'" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=provv_carea dbname="locazione.provv_carea" validation=" real(gettext())  >= 0 AND  real(gettext())  <= 100" validationmsg="'Immettere un valore fra 0 e 100'" )
+ column=(type=char(5) updatewhereclause=yes name=usimbolo dbname="locazione.simbolo" )
+ column=(type=char(40) updatewhereclause=yes name=udescrizione dbname="locazione.descrizione" )
+ column=(type=char(1) updatewhereclause=yes name=articolo_stato dbname="locazione.stato" )
+ column=(type=decimal(4) updatewhereclause=yes name=cesistenza_fisica dbname="esistenza_fisica" )
+ column=(type=decimal(4) updatewhereclause=yes name=cmc dbname="cmc" )
+ column=(type=char(5) updatewhereclause=yes name=unita_misura_b_simbolo dbname="locazione.simbolo" )
+ column=(type=char(40) updatewhereclause=yes name=unita_misura_b_descrizione dbname="locazione.descrizione" )
+ column=(type=decimal(4) updatewhereclause=yes name=conversione_peso_comune dbname="locazione.conversione" )
+ column=(type=decimal(4) updatewhereclause=yes name=conversione_volume_comune dbname="locazione.conversione" )
+ column=(type=decimal(4) updatewhereclause=yes name=ccosto_ultimo dbname="costo_ultimo" )
+ column=(type=decimal(4) updatewhereclause=yes name=ccosto_medio dbname="costo_medio" )
+ column=(type=long updatewhereclause=yes name=cric1 dbname="ric1" )
+ column=(type=long updatewhereclause=yes name=cric2 dbname="ric2" )
+ column=(type=long update=yes updatewhereclause=yes name=id_riga_doc_padre dbname="locazione.id_riga_doc_padre" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=provv_imp_agente dbname="locazione.provv_imp_agente" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=provv_imp_subage dbname="locazione.provv_imp_subage" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=provv_imp_carea dbname="locazione.provv_imp_carea" )
+ column=(type=date updatewhereclause=yes name=data_scadenza dbname="locazione.data_scadenza" )
+ column=(type=char(30) updatewhereclause=yes name=cod_lotto dbname="locazione.cod_esterno" )
+ column=(type=long update=yes updatewhereclause=yes name=id_riga_lotto dbname="locazione.id_riga_lotto" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_um dbname="locazione.tipo" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_lotto dbname="locazione.tipo_lotto" )
+ column=(type=char(32) updatewhereclause=yes name=codice dbname="codice" )
+ column=(type=char(40) updatewhereclause=yes name=descrizione dbname="descrizione" )
+ column=(type=char(32767) updatewhereclause=yes name=des_estesa dbname="des_estesa" )
+ column=(type=char(32) updatewhereclause=yes name=des_articolo_codice dbname="locazione.codice" )
+ column=(type=char(40) updatewhereclause=yes name=des_articolo_descrizione dbname="locazione.descrizione" )
+ column=(type=char(32766) updatewhereclause=no name=des_articolo_des_estesa dbname="locazione.des_estesa" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_gruppo_agenti_2 dbname="locazione.id_gruppo_agenti_2" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=riga_documento_provv_agente_2 dbname="locazione.provv_agente_2" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=riga_documento_provv_subage_2 dbname="locazione.provv_subage_2" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=riga_documento_provv_carea_2 dbname="locazione.provv_carea_2" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_provv_imp_agente_2 dbname="locazione.provv_imp_agente_2" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_provv_imp_subage_2 dbname="locazione.provv_imp_subage_2" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_provv_imp_carea_2 dbname="locazione.provv_imp_carea_2" )
+ column=(type=char(30) updatewhereclause=yes name=c_ult_costo_data dbname="c_ult_costo_data" )
+ column=(type=char(30) updatewhereclause=yes name=c_cmc_data dbname="c_cmc_data" )
+ column=(type=char(10) updatewhereclause=yes name=data_costo_ultimo dbname="data_costo_ultimo" )
+ column=(type=char(10) updatewhereclause=yes name=data_cmc dbname="data_cmc" )
+ column=(type=char(60) updatewhereclause=yes name=c_esidisp dbname="c_esidisp" )
+ retrieve="  SELECT Cast(~"articolo~".~"codice~" as char(20)) As c_articolo_cod,
+         Cast(~"articolo~".~"descrizione~" as char(80)) As c_articolo_des,
+			Cast(~"unita_confezione~".~"tipo_conversione~" as char(1)) As c_unita_conf_tipo_conversione,
+         Cast(~"unita_confezione~".~"molteplicita~" as decimal) As c_unita_conf_molteplicita, 
+         CAST(SUBSTR( c_esidisp, 21, 20) as numeric(18,4)) As c_esistenza,   
+         CAST(SUBSTR(c_esidisp,  41, 20) as numeric(18,4)) As c_disponibilita,   
+         Cast(0 as integer) As c_arrot,   
+         ~"riga_documento~".~"id_riga_documento~",   
+         ~"riga_documento~".~"id_documento~",   
+         ~"riga_documento~".~"num_riga~",   
+         ~"riga_documento~".~"id_articolo~",   
+         ~"riga_documento~".~"descrizione~",   
+         ~"riga_documento~".~"id_des_articolo~",   
+         ~"riga_documento~".~"id_unita_confezione~",   
+         ~"riga_documento~".~"quantita~",   
+         ~"riga_documento~".~"qta_sconto_merce~",   
+         ~"riga_documento~".~"qta_evasa~",   
+         ~"riga_documento~".~"fat_con_unita_base~",   
+         ~"riga_documento~".~"fat_con_globale~",   
+         ~"riga_documento~".~"qta_un_base~",   
+         ~"riga_documento~".~"qta_evasa_un_base~",   
+         ~"riga_documento~".~"id_caus_magazzino~",   
+         ~"riga_documento~".~"id_locazione_1~",   
+         ~"riga_documento~".~"id_locazione_2~",   
+         ~"riga_documento~".~"id_valuta~",   
+         ~"riga_documento~".~"cambio~",   
+         ~"riga_documento~".~"id_listino~",   
+         ~"riga_documento~".~"id_con_lis_articolo~",   
+         ~"riga_documento~".~"prezzo~",   
+         ~"riga_documento~".~"sconto~",   
+         ~"riga_documento~".~"prezzo_netto~",   
+         ~"riga_documento~".~"sconto_riga~",   
+         ~"riga_documento~".~"data_prevista_consegna~",   
+         ~"riga_documento~".~"peso_netto~",   
+         ~"riga_documento~".~"peso_lordo~",   
+         ~"riga_documento~".~"dim_l~",   
+         ~"riga_documento~".~"dim_h~",   
+         ~"riga_documento~".~"dim_p~",   
+         ~"riga_documento~".~"num_colli~",   
+         ~"riga_documento~".~"id_tab_iva~",   
+         ~"riga_documento~".~"provv_agente~",   
+         ~"riga_documento~".~"id_gruppo_agenti~",   
+         ~"riga_documento~".~"val_attribuito~",   
+         ~"riga_documento~".~"id_caus_trasporto~",   
+         ~"riga_documento~".~"forza_chius_evasione~",   
+         ~"riga_documento~".~"sospesa~",   
+         ~"riga_documento~".~"da_stampare~",   
+         ~"riga_documento~".~"data_inizio_competenza~",   
+         ~"riga_documento~".~"data_fine_competenza~",   
+         ~"riga_documento~".~"tot_riga_val_riga~",   
+         ~"riga_documento~".~"tot_riga_val_doc~",   
+         ~"riga_documento~".~"tot_riga_val_az~",   
+         ~"riga_documento~".~"id_riga_doc_provenienza~",   
+         ~"riga_documento~".~"id_conto~",   
+         ~"riga_documento~".~"id_azienda~",   
+         ~"riga_documento~".~"provv_subage~",   
+         ~"riga_documento~".~"provv_carea~",   
+         ~"unita_misura_a~".~"simbolo~",   
+         ~"unita_misura_a~".~"descrizione~",   
+         ~"articolo~".~"stato~",   
+         CAST(SUBSTR(c_esidisp, 1, 20) as numeric(18,4)) as esistenza_fisica,   
+         CAST(SUBSTR(c_cmc_data, 1, 20) as numeric(18,4)) as cmc,   
+         ~"unita_misura_b~".~"simbolo~",   
+         ~"unita_misura_b~".~"descrizione~",   
+         ~"unita_misura_a~".~"conversione~",   
+         ~"unita_misura_b~".~"conversione~",   
+         CAST(SUBSTR(c_ult_costo_data, 1, 20) as numeric(18,4)) as costo_ultimo,   
+         CAST(FN_COSTO_MEDIO(1, ~"riga_documento~".~"id_articolo~", (SELECT id_magazzino FROM locazione WHERE id_locazione = ~"riga_documento~".~"id_locazione_1~"), YEAR(TODAY(*)), MONTH(TODAY(*)), ~"riga_documento~".~"id_valuta~")  AS DECIMAL(18,4) ) AS costo_medio,   
+         cast(null as integer) as ric1,   
+         cast(null as integer) as ric2,   
+         ~"riga_documento~".~"id_riga_doc_padre~",   
+         ~"riga_documento~".~"provv_imp_agente~",   
+         ~"riga_documento~".~"provv_imp_subage~",   
+         ~"riga_documento~".~"provv_imp_carea~",   
+         ~"lotto~".~"data_scadenza~",   
+         ~"lotto~".~"cod_esterno~",   
+         ~"riga_documento~".~"id_riga_lotto~",   
+         ~"unita_misura_c~".~"tipo~",   
+         ~"lotto~".~"tipo_lotto~",
+         cast(null as char(32)) as codice,   
+         cast(null as char(40)) as descrizione,   
+         cast(null as char)as des_estesa  ,   
+         ~"des_articolo~".~"codice~",   
+         ~"des_articolo~".~"descrizione~",   
+         ~"des_articolo~".~"des_estesa~",   
+         ~"riga_documento~".~"id_gruppo_agenti_2~",   
+         ~"riga_documento~".~"provv_agente_2~",   
+         ~"riga_documento~".~"provv_subage_2~",   
+         ~"riga_documento~".~"provv_carea_2~",   
+         ~"riga_documento~".~"provv_imp_agente_2~",   
+         ~"riga_documento~".~"provv_imp_subage_2~",   
+         ~"riga_documento~".~"provv_imp_carea_2~",
+		   CAST(FN_ULTIMO_COSTO_DATA(1, ~"riga_documento~".~"id_articolo~", (SELECT id_magazzino FROM locazione WHERE id_locazione = ~"riga_documento~".~"id_locazione_1~"), YEAR(TODAY(*)), MONTH(TODAY(*)) , ~"riga_documento~".~"id_valuta~")  AS CHAR(30) ) AS c_ult_costo_data,
+			CAST(FN_CMC_DATA(1, ~"riga_documento~".~"id_articolo~", (SELECT id_magazzino FROM locazione WHERE id_locazione = ~"riga_documento~".~"id_locazione_1~"), ~"riga_documento~".~"id_valuta~")  AS CHAR(30) ) AS c_cmc_data,
+			CAST(SUBSTR(c_ult_costo_data, 21, 10) as CHAR(10)) as data_costo_ultimo,
+			CAST(SUBSTR(c_cmc_data, 21, 10) as CHAR(10)) as data_cmc,
+			CAST(FN_ESI_DISP(1, ~"riga_documento~".~"id_articolo~", (SELECT id_magazzino FROM locazione WHERE id_locazione = ~"riga_documento~".~"id_locazione_1~"), YEAR(TODAY(*)), MONTH(TODAY(*)) , ~"riga_documento~".~"id_valuta~")  AS CHAR(60) ) AS c_esidisp			
+    FROM {oj {oj ~"unita_confezione~"  LEFT OUTER JOIN ~"unita_misura~" unita_misura_a  ON ~"unita_confezione~".~"id_unita_mis_peso~" = ~"unita_misura_a~".~"id_unita_misura~"} LEFT OUTER JOIN ~"unita_misura~" unita_misura_b  ON ~"unita_confezione~".~"id_unita_mis_volume~" = ~"unita_misura_b~".~"id_unita_misura~"}, {oj ~"riga_documento~"  LEFT OUTER JOIN ~"riga_doc_lotto~"  ON ~"riga_documento~".~"id_riga_lotto~" = ~"riga_doc_lotto~".~"id_riga_lotto~"}, {oj ~"unita_confezione~"  LEFT OUTER JOIN ~"unita_misura~" unita_misura_c  ON ~"unita_confezione~".~"id_unita_misura~" = ~"unita_misura_c~".~"id_unita_misura~"}, {oj ~"riga_doc_lotto~"  LEFT OUTER JOIN ~"lotto~"  ON ~"riga_doc_lotto~".~"id_lotto~" = ~"lotto~".~"id_lotto~"}, {oj ~"riga_documento~"  LEFT OUTER JOIN ~"articolo~"  ON ~"riga_documento~".~"id_articolo~" = ~"articolo~".~"id_articolo~"}, {oj ~"riga_documento~"  LEFT OUTER JOIN ~"unita_confezione~"  ON ~"riga_documento~".~"id_unita_confezione~" = ~"unita_confezione~".~"id_unita_confezione~"}, {oj ~"riga_documento~"  LEFT OUTER JOIN ~"des_articolo~"  ON ~"riga_documento~".~"id_des_articolo~" = ~"des_articolo~".~"id_des_articolo~"}
+   WHERE ( ~"riga_documento~".~"id_documento~" = :ra_id_documento ) AND  
+         ( ~"riga_documento~".~"id_azienda~" in (0,1) )    
+" update="riga_documento" updatewhere=1 updatekeyinplace=yes arguments=(("ra_id_documento", number)) )
+text(band=header alignment="0" text=""border="0" color="0" x="553" y="4" height="116" width="91"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Nr. Riga"border="0" color="33554432" x="9" y="4" height="116" width="128"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Prezzo"border="0" color="41943040" x="1847" y="4" height="116" width="402"  name=prezzo_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Sconto %"border="0" color="41943040" x="2258" y="4" height="116" width="160"  name=sconto_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Iva"border="0" color="33554432" x="2427" y="4" height="116" width="197"  name=riga_documento_id_tab_iva_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Codice
+Articolo"border="0" color="33554432" x="146" y="4" height="116" width="398"  name=c_articolo_cod_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Scadenza lotto"border="0" color="0" x="960" y="4" height="116" width="247"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Codice Lotto"border="0" color="0" x="654" y="4" height="116" width="297"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Quantità"border="0" color="41943040" x="1216" y="4" height="116" width="306"  name=quantita_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Peso Netto"border="0" color="0" x="1531" y="4" height="116" width="306"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="0" text="Id Gruppo Agenti 2"border="0" color="0" x="3515" y="4" height="76" width="978"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Provv Agente 2"border="0" color="0" x="4503" y="4" height="76" width="978"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Provv Subage 2"border="0" color="0" x="5490" y="4" height="76" width="978"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Provv Carea 2"border="0" color="0" x="6478" y="4" height="76" width="978"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Provv Imp Agente 2"border="0" color="0" x="7465" y="4" height="76" width="978"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Provv Imp Subage 2"border="0" color="0" x="8453" y="4" height="76" width="978"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Provv Imp Carea 2"border="0" color="0" x="9440" y="4" height="76" width="978"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Codice"border="0" color="0" x="10427" y="4" height="76" width="727"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Descrizione"border="0" color="0" x="11163" y="4" height="76" width="910"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Des Estesa"border="0" color="0" x="12082" y="4" height="76" width="2734"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="C Ult Costo Data"border="0" color="0" x="14825" y="4" height="76" width="681"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="C Cmc Data"border="0" color="0" x="15515" y="4" height="76" width="681"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Data Costo Ultimo"border="0" color="0" x="16206" y="4" height="76" width="219"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Data Cmc"border="0" color="0" x="16434" y="4" height="76" width="219"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="C Esidisp"border="0" color="0" x="16663" y="4" height="76" width="1371"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=10 alignment="1" tabsequence=10 border="0" color="33554432" x="9" y="4" height="80" width="128" format="[general]"  name=riga_documento_num_riga edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+rectangle(band=detail x="0" y="4" height="92" width="137~tLong ( Describe ( 'c_riga_valida.x' ) )" visible="1~tIf (  c_evasione='NE' ,0 ,1 )" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="255"  background.mode="2" background.color="0" )
+column(band=detail id=15 alignment="1" tabsequence=50 border="0" color="41943040" x="1216" y="4" height="80" width="306" format="#,0.00"  name=quantita  tag="Doppio Click X Dettaglio" edit.limit=18 edit.case=any edit.format="#,0.00" edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=30 alignment="1" tabsequence=80 border="0" color="41943040" x="2258" y="4" height="80" width="160" format=""  name=sconto  tag="Doppio Click X Dettaglio" edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=40 alignment="0" tabsequence=90 border="0" color="33554432" x="2427" y="4" height="80" width="197" format="#,0.00"  name=riga_documento_id_tab_iva  tag="Doppio Click X Dettaglio" dddw.name=d_tab_iva_lt dddw.displaycolumn=codice dddw.datacolumn=id_tab_iva dddw.percentwidth=900 dddw.lines=0 dddw.limit=0 dddw.allowedit=yes dddw.useasborder=yes dddw.case=any dddw.nilisnull=yes dddw.hscrollbar=yes dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+compute(band=detail alignment="0" expression="/*If ( ( (quantita <>0) OR ( qta_sconto_merce <>0) OR ( prezzo<>0) ) AND not (IsNull(  riga_documento_id_tab_iva  ) ),  'V', 'D')*/ If ( ( (quantita <>0) OR ( qta_sconto_merce <>0) OR ( prezzo<>0) ), If (IsNull(  riga_documento_id_tab_iva ) ,  'I', 'V'),'D')"border="0" color="33554432" x="2729" y="4" height="80" width="82" format="[general]"  name=c_riga_valida visible="1~t0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+compute(band=detail alignment="0" expression="If ( IsNull ( id_riga_doc_provenienza ) , If (  qta_evasa >0 , If (  qta_evasa = ( quantita +  qta_sconto_merce ) ,'TE', 'PE') , 'NE') , 'DE' )"border="0" color="33554432" x="2821" y="4" height="80" width="165" format="[general]"  name=c_evasione visible="1~t0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=65 alignment="0" tabsequence=32766 border="0" color="33554432" x="2994" y="4" height="80" width="174" format="[general]"  name=conversione_peso_comune visible="1~t0"  moveable=1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=29 alignment="1" tabsequence=70 border="0" color="41943040" x="1847" y="4" height="80" width="402" format="#,0.00~t/*f_valu_mask(  riga_documento_id_valuta )*/ 0" protect="0~t/*If ( c_evasione='NE' AND not ( Mid ( Describe( 'c_ric.text'), 14, 1 )='N' OR  Mid ( Describe( 'c_ric.text'), 14, 1 )='L' ) , 0 , 1 )*/0"  name=prezzo  tag="Doppio Click X Dettaglio" edit.limit=18 edit.case=any edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+compute(band=detail alignment="0" expression="~"~""border="0" color="0" x="2633" y="4" height="80" width="87" format="[general]"  name=obj_583788  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+bitmap(band=detail filename="S:\pb\commonframework\distinta.bmp" x="2633" y="4" height="80" width="87" border="6"  name=distinta )
+compute(band=detail alignment="0" expression="''"border="0" color="0" x="553" y="4" height="80" width="91" format="[general]"  name=c_articolo_cod_sp visible="1~t0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+bitmap(band=detail filename="S:\PB\CommonFrameWork\search.bmp" x="562" y="12" height="64" width="73" border="6"  name=c_articolo_cod_sw pointer="Arrow!" )
+column(band=detail id=66 alignment="0" tabsequence=32766 border="0" color="33554432" x="3177" y="4" height="80" width="206" format="[general]"  name=conversione_volume_comune visible="1~t0" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=71 alignment="0" tabsequence=32766 border="0" color="33554432" x="3392" y="4" height="80" width="114" format="[general]"  name=id_riga_doc_padre visible="1~t0" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=76 alignment="0" tabsequence=30 border="0" color="33554432" x="654" y="4" height="80" width="297" format="[general]"  name=cod_lotto edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=75 alignment="0" tabsequence=40 border="0" color="33554432" x="960" y="4" height="80" width="247" format="[general]"  name=data_scadenza edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=34 alignment="1" tabsequence=60 border="0" color="0" x="1531" y="4" height="80" width="306" format="#,0.00"  name=riga_documento_peso_netto edit.limit=0 edit.case=any edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=20 border="0" color="33554432" x="146" y="4" height="80" width="398" format="[general]" protect="0~tIf ( c_evasione='NE' , 0 , 1 )"  name=c_articolo_cod  tag="Doppio Click X Dettaglio" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tif ( not isnull(id_riga_doc_padre ) , 16777088,16777215)" )
+column(band=detail id=86 alignment="0" tabsequence=32766 border="0" color="33554432" x="3515" y="0" height="56" width="978" format="[general]"  name=riga_documento_id_gruppo_agenti_2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=87 alignment="0" tabsequence=32766 border="0" color="33554432" x="4503" y="0" height="56" width="978" format="[general]"  name=riga_documento_provv_agente_2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=88 alignment="0" tabsequence=32766 border="0" color="33554432" x="5490" y="0" height="56" width="978" format="[general]"  name=riga_documento_provv_subage_2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=89 alignment="0" tabsequence=32766 border="0" color="33554432" x="6478" y="0" height="56" width="978" format="[general]"  name=riga_documento_provv_carea_2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=90 alignment="0" tabsequence=32766 border="0" color="33554432" x="7465" y="0" height="56" width="978" format="[general]"  name=riga_documento_provv_imp_agente_2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=91 alignment="0" tabsequence=32766 border="0" color="33554432" x="8453" y="0" height="56" width="978" format="[general]"  name=riga_documento_provv_imp_subage_2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=92 alignment="0" tabsequence=32766 border="0" color="33554432" x="9440" y="0" height="56" width="978" format="[general]"  name=riga_documento_provv_imp_carea_2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=83 alignment="0" tabsequence=32766 border="0" color="33554432" x="10427" y="0" height="56" width="727" format="[general]"  name=des_articolo_codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=84 alignment="0" tabsequence=32766 border="0" color="33554432" x="11163" y="0" height="56" width="910" format="[general]"  name=des_articolo_descrizione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=85 alignment="0" tabsequence=32766 border="0" color="33554432" x="12082" y="0" height="56" width="2734" format="[general]"  name=des_articolo_des_estesa edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=93 alignment="0" tabsequence=32766 border="0" color="33554432" x="14825" y="0" height="56" width="681" format="[general]"  name=c_ult_costo_data edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=94 alignment="0" tabsequence=32766 border="0" color="33554432" x="15515" y="0" height="56" width="681" format="[general]"  name=c_cmc_data edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=95 alignment="0" tabsequence=32766 border="0" color="33554432" x="16206" y="0" height="56" width="219" format="[general]"  name=data_costo_ultimo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=96 alignment="0" tabsequence=32766 border="0" color="33554432" x="16434" y="0" height="56" width="219" format="[general]"  name=data_cmc edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=97 alignment="0" tabsequence=32766 border="0" color="33554432" x="16663" y="0" height="56" width="1371" format="[general]"  name=c_esidisp edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+rectangle(band=foreground x="32" y="656" height="208" width="2725"  name=linea brush.hatch="6" brush.color="79741120" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+text(band=foreground alignment="0" text=""border="0" color="0" x="0" y="368" height="64" width="119"  name=c_ric visible="1~t0"  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=foreground alignment="0" expression=" sum( if( isNull( riga_documento_peso_lordo),0,riga_documento_peso_lordo  * conversione_peso_comune )
+ ) "border="0" color="0" x="46" y="1840" height="80" width="1074" format="[general]"  name=somma_peso_lordo  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=foreground alignment="0" expression="sum( if( isNull(  riga_documento_num_colli  ),0,riga_documento_num_colli  ))"border="0" color="0" x="32" y="1936" height="80" width="1079" format="[general]"  name=somma_num_colli  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=foreground alignment="0" expression="max(  riga_documento_num_riga  for all )"border="0" color="41943040" x="32" y="1536" height="80" width="1093" format="#,0"  name=c_max_num visible="1~t0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+compute(band=foreground alignment="0" expression="sum( if( isNull( riga_documento_peso_netto ),0,riga_documento_peso_netto * conversione_peso_comune ) )   "border="0" color="0" x="46" y="1728" height="80" width="1079" format="[general]"  name=somma_peso_netto  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=foreground alignment="0" expression="sum( (if( isNull( riga_documento_dim_l ),0,riga_documento_dim_l   ) * 
+          if( isNull( riga_documento_dim_l ),0,riga_documento_dim_h  ) *
+         if( isNull( riga_documento_dim_l ),0,riga_documento_dim_p  ) *             ( conversione_volume_comune^3 )) *  quantita   ) "border="0" color="0" x="46" y="1744" height="76" width="1010" format="[general]"  name=c_volume_totale  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=foreground alignment="0" text="Tot. Righe Lire:"border="0" color="41943040" x="64" y="700" height="52" width="329"  name=c_tot_righe_lire_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=foreground alignment="1" expression="sum(   tot_riga_val_az  for all )"border="5" color="33554432" x="407" y="684" height="80" width="471" format="#,0"  name=c_tot_righe_lire  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=foreground alignment="0" text="Tot. Righe Valuta:"border="0" color="41943040" x="910" y="700" height="52" width="389"  name=c_tot_righe_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=foreground alignment="1" expression="sum(   tot_riga_val_doc  for all )"border="5" color="33554432" x="1321" y="684" height="80" width="494" format="#,0"  name=c_tot_righe  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

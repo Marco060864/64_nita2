@@ -1,0 +1,21 @@
+﻿global type f_trova_qta_padre from function_object
+end type
+
+forward prototypes
+global function decimal f_trova_qta_padre (long id_riga_prov)
+end prototypes
+
+global function decimal f_trova_qta_padre (long id_riga_prov);decimal ldc_qta_padre
+
+select quantita
+into :ldc_qta_padre
+from dba.riga_documento r, dba.documento d, dba.registro reg
+where id_riga_documento=:id_riga_prov
+and r.id_documento=d.id_documento
+and d.id_registro=reg.id_registro
+and reg.tipo_registro='OV'
+;
+if isnull(ldc_qta_padre) then ldc_qta_padre=0
+return ldc_qta_padre
+end function
+

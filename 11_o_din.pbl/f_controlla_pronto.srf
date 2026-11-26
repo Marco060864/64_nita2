@@ -1,0 +1,88 @@
+﻿global type f_controlla_pronto from function_object
+end type
+
+forward prototypes
+global function string f_controlla_pronto (long il_id_doc)
+end prototypes
+
+global function string f_controlla_pronto (long il_id_doc);string ls_prof_doc, ls_codice, ls_testo_mancanti
+long ll_id_prof, ll_id_riga_pronto, ll_id_ordine, ll_righe
+datastore ds_ordine
+long ll_id_art, ll_id_riga_trovata, ll_id_galvanica
+integer i
+decimal ldc_misura
+
+select id_prof_documento
+into :ll_id_prof
+from dba.documento
+where id_documento=:il_id_doc
+;
+
+
+select codice
+into :ls_prof_doc
+from dba.prof_documento
+where id_prof_documento=:ll_id_prof;
+if upper(ls_prof_doc)='PRONTO' then
+	//prendo un id riga del pronto
+	select min(id_riga_documento)
+	into :ll_id_riga_pronto
+	from dba.riga_documento
+	where id_documento=:il_id_doc
+	;
+	//trovo l'ordine legato al pronto
+	SELECT "riga_documento"."id_documento" 
+	into :ll_id_ordine
+    FROM "produzione_2011" "produzione_2011_a",   
+         "produzione_2011" "produzione_2011_b",   
+         "riga_documento",   
+         "caus_magazzino"  
+   WHERE ( "riga_documento"."id_riga_documento" = "produzione_2011_b"."id_doc_produzione" ) and  
+         ( "produzione_2011_a"."id_bollettina" = "produzione_2011_b"."id_bollettina" ) and  
+         ( "caus_magazzino"."id_caus_magazzino" = "riga_documento"."id_caus_magazzino" ) and  
+         ( ( "produzione_2011_a"."id_doc_produzione" = :ll_id_riga_pronto ) AND  
+         ( "caus_magazzino"."mp_ord_clienti" = '+' ) ) 
+			;
+			//lo scorro per trovare gli articoli ordinati e li confronto
+			//con quelli de pronto qui
+			ds_ordine=create datastore
+			ds_ordine.dataobject="ds_confronta_righe_ordine"
+			ds_ordine.settransobject(sqlca)
+			ll_righe=ds_ordine.retrieve(ll_id_ordine)
+			ls_testo_mancanti="Articoli mancanti per chiusura ordine: "
+				
+	for i= 1 to ll_righe
+		ll_id_riga_trovata=0
+		ll_id_art=-1  //azzero l'articolo (non si sa mai, ci son stati casi di perturbazioni celesti.... 20240216
+		ldc_misura=0
+		ll_id_art=ds_ordine.getitemnumber(i, "id_articolo")
+		ldc_misura=ds_ordine.getitemnumber(i, "dim_l")
+		ll_id_galvanica=ds_ordine.getitemnumber(i, "id_gruppo_agenti_2")
+		select id_riga_documento
+		into :ll_id_riga_trovata
+		from dba.riga_documento
+		where id_documento=:il_id_doc
+		and id_articolo=:ll_id_art
+		and dim_l=:ldc_misura
+		and id_gruppo_agenti_2= :ll_id_galvanica
+		;
+		if isnull(ldc_misura) then ldc_misura=0
+		
+		if isnull(ll_id_riga_trovata) or ll_id_riga_trovata=0 then
+			select codice
+			into :ls_codice
+			from dba.articolo
+			where id_articolo=:ll_id_art
+			;
+			ls_testo_mancanti+=" - "+ls_codice+" cm. "+string(ldc_misura,"#,0.00")
+		end if
+	next
+	
+	destroy ds_ordine
+	return ls_testo_mancanti
+else
+	return ""
+
+end if
+end function
+

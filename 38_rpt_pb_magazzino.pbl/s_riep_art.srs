@@ -1,0 +1,13 @@
+﻿global type s_riep_art from structure
+	string		da_articolo
+	string		a_articolo
+	string		da_soggetto
+	string		a_soggetto
+	string		da_magazzino
+	string		a_magazzino
+	long		tipo_registro
+	date		dalla_data
+	date		alla_data
+	string		filtro
+end type
+

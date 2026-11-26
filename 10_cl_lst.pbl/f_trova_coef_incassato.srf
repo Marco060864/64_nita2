@@ -1,0 +1,51 @@
+﻿global type f_trova_coef_incassato from function_object
+end type
+
+forward prototypes
+global function decimal f_trova_coef_incassato (long id_doc, string da_scadenza, string a_scadenza)
+end prototypes
+
+global function decimal f_trova_coef_incassato (long id_doc, string da_scadenza, string a_scadenza);decimal ldc_coef, ldc_imp_doc, ldc_imp_scad
+datastore ds_coef
+integer li_scadenze
+date  ldt_a_scadenza, ldt_da_scadenza
+
+ldt_da_scadenza=date(da_scadenza)
+ldt_a_scadenza=date(a_scadenza)
+//se la scadenza non è stata valorizzata allora il calcolo non è sull'incassato ma sul fatturato
+//quindi sul tot documento (coef incassato/tot-doc=1)
+if isnull(ldt_a_scadenza) then
+	ldc_coef=1
+else
+	select sum(val_tot_imp_l)+ sum(val_tot_iva_l)   
+	INTO :ldc_imp_doc
+	from cast_iva_documento 
+	where id_documento=  :id_doc
+	;
+	select sum(importo)
+	into :ldc_imp_scad
+	from scadenza
+	where id_documento=  :id_doc
+	and data_scadenza>= :ldt_da_scadenza
+	and data_scadenza<= :ldt_a_scadenza
+	;
+
+	ldc_coef=ldc_imp_scad/ldc_imp_doc
+	
+//	//se la scadenza c'è calcolo il tot delle scadenze incassate (scadute alla data fine scadenza)
+//	//e lo divido per il tot_doc (trovo la percentuale dell'incassato(scaduto) sul tot doc)
+//	//fa tutto la dw
+//	ds_coef=create datastore
+//	ds_coef.dataobject="d_trova_scadenze_documento"
+//	ds_coef.settransobject(sqlca)
+//	li_scadenze=ds_coef.retrieve(id_doc, ldt_da_scadenza, ldt_a_scadenza)
+//	if li_scadenze>0 then
+//		ldc_coef=ds_coef.getitemdecimal(1, "c_coef")
+//	else
+//		//se non ci sono scadenze cosa faccio????
+//		ldc_coef=0
+//	end if
+end if
+return ldc_coef
+end function
+

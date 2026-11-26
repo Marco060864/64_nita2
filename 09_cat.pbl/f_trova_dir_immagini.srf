@@ -1,0 +1,17 @@
+﻿global type f_trova_dir_immagini from function_object
+end type
+
+forward prototypes
+global function string f_trova_dir_immagini ()
+end prototypes
+
+global function string f_trova_dir_immagini ();string ls_path
+select dir_immagini
+into :ls_path
+from par_sistema;
+if isnull(ls_path) or ls_path <= " " then
+	messagebox("Attenzione!", "Non è stata specificata una cartella per le immagini nei parametri di sistema!")
+end if
+return ls_path
+end function
+

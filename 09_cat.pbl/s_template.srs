@@ -1,0 +1,15 @@
+﻿global type s_template from structure
+	integer		margine_sx
+	integer		margine_dx
+	integer		margine_top
+	integer		margine_bottom
+	integer		dim_x
+	integer		dim_y
+	integer		distanza
+	integer		art_x
+	integer		art_y
+	character		fronte_retro
+	character		riempi_riq
+	character		uno_a_uno
+end type
+

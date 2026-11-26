@@ -1,0 +1,4 @@
+﻿global type s_stringa_articolo from structure
+	string		ls_cod_art[]
+end type
+

@@ -1,0 +1,73 @@
+﻿global type f_trova_saldo_iniziale from function_object
+end type
+
+forward prototypes
+global function decimal f_trova_saldo_iniziale (long al_id_esercizio, long al_conto)
+end prototypes
+
+global function decimal f_trova_saldo_iniziale (long al_id_esercizio, long al_conto);//al_id_esercizio= id esercizio successivo a quello di cui devo trovare il saldo (es: 2008 allora devo cercare
+//il saldo del 2007)
+//al_conto= conto di cui devo trovare il saldo
+decimal ldc_saldo
+long ll_id_prof_apertura, ll_id_test
+date ldt_fine_es, ldt_inizio_es
+
+select id_prof_reg_apertura
+into :ll_id_prof_apertura
+from dba.par_sistema
+;
+if isnull(ll_id_prof_apertura) then
+	messagebox("Attenzione!", "Specificare profilo per aperture annuali in par. sistema")
+end if
+select data_inizio, data_fine
+into :ldt_inizio_es, :ldt_fine_es
+from esercizio
+where id_esercizio=:al_id_esercizio;
+
+select id_prof_registrazione
+into :ll_id_test
+from dba.reg_pd
+where id_prof_registrazione=:ll_id_prof_apertura
+and data_competenza>= :ldt_inizio_es
+and data_competenza<= :ldt_fine_es;
+
+if isnull(ll_id_test) or  ll_id_test=0 then
+	//non c'è apertura inizio anno faccio il saldo dei mov dell'anno precedente
+	ldt_inizio_es=relativedate(ldt_inizio_es, -1)
+
+	select data_inizio, data_fine
+	into :ldt_inizio_es, :ldt_fine_es
+	from esercizio
+	where data_fine= :ldt_inizio_es;
+	select ifnull(sum(dare), 0, sum(dare)) - ifnull(sum(avere), 0, sum(avere))
+	into :ldc_saldo
+	from dba.mov_contabile m, reg_pd r
+	where r.data_competenza>= :ldt_inizio_es
+	and r.data_competenza<= :ldt_fine_es
+	and m.id_conto=:al_conto
+	and m.id_reg_pd=r.id_reg_pd
+	;
+else
+	select ifnull(sum(dare), 0, sum(dare)) - ifnull(sum(avere), 0, sum(avere))
+	into :ldc_saldo
+	from dba.mov_contabile m, reg_pd r
+	where r.data_competenza>= :ldt_inizio_es
+	and r.data_competenza<= :ldt_fine_es
+	and m.id_conto=:al_conto
+	and m.id_reg_pd=r.id_reg_pd
+	and r.id_prof_registrazione=:ll_id_prof_apertura
+	;
+
+end if	
+
+
+
+
+
+
+
+
+
+return ldc_saldo
+end function
+

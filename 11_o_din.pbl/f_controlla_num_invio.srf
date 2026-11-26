@@ -1,0 +1,31 @@
+﻿global type f_controlla_num_invio from function_object
+end type
+
+forward prototypes
+global subroutine f_controlla_num_invio (long al_num_invio, long al_id_doc)
+end prototypes
+
+global subroutine f_controlla_num_invio (long al_num_invio, long al_id_doc);datetime ldt_data_ora_invio 
+long ll_id_invio
+
+select data_ora_invio
+into :ldt_data_ora_invio
+from dba.FE_invio
+where id_documento=:al_id_doc
+;
+if string(ldt_data_ora_invio, "yyyy-mm-dd hh:mm")> string(datetime("2018-12-01"),"yyyy-mm-dd hh:mm")   then
+	if messagebox("Attenzione!", "Il documento è stato già inviato una volta ("+ string(ldt_data_ora_invio, "yyyy-mm-dd hh:mm")+"). Vuoi inviarlo ancora lo stesso?", stopsign!, yesno!)=2 then
+		return
+	end if
+end if
+ldt_data_ora_invio=datetime(today(), now())
+select max(id_invio_fe)
+into :ll_id_invio
+from dba.fe_invio
+;
+if al_num_invio<=ll_id_invio then
+	 messagebox("Attenzione!", "Il Numero progressivo dell'invio è già stato usato!!! NON VA BENE! CONTATTARE ASSISTENZA", stopsign!, yesno!)
+end if
+	
+end subroutine
+

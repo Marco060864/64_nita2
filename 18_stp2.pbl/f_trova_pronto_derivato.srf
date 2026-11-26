@@ -1,0 +1,35 @@
+﻿global type f_trova_pronto_derivato from function_object
+end type
+
+forward prototypes
+global function integer f_trova_pronto_derivato (long al_id_bollettina, long al_id_articolo)
+end prototypes
+
+global function integer f_trova_pronto_derivato (long al_id_bollettina, long al_id_articolo);//la datastore ricerca i doc PRONTO (ovvero quelli segnati con la "X" sulla causale nel campo "step_produzione"
+//020612
+
+datastore ds_cerca_pronto
+long ll_righe, ll_id_cat_codifica
+integer li_return
+
+select id_cat_codifica
+into :ll_id_cat_codifica
+from dba.articolo
+where id_articolo=:al_id_articolo
+;
+if ll_id_cat_codifica=18 or ll_id_cat_codifica=57 then
+
+	ds_cerca_pronto=create datastore
+	ds_cerca_pronto.dataobject="d_produzione_2011_cerca_pronto_gd"
+	ds_cerca_pronto.settransobject(sqlca)
+	
+	
+	ll_righe=ds_cerca_pronto.retrieve(al_id_bollettina)
+	if ll_righe>0 then
+		li_return=1
+	end if
+	destroy ds_cerca_pronto
+end if
+return li_return
+end function
+

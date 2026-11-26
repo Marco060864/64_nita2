@@ -1,0 +1,24 @@
+﻿global type f_trova_bol_da_riga_ordine from function_object
+end type
+
+forward prototypes
+global function string f_trova_bol_da_riga_ordine (long al_id_riga_ordine)
+end prototypes
+
+global function string f_trova_bol_da_riga_ordine (long al_id_riga_ordine);string ls_num_bollettina
+DATASTORE ds_trova_bol
+long ll_riga_trovata
+
+ds_trova_bol=create datastore
+ds_trova_bol.dataobject="d_trova_bol_da_riga_ordine"
+ds_trova_bol.settransobject(sqlca)
+ll_riga_trovata=ds_trova_bol.retrieve(al_id_riga_ordine)
+if ll_riga_trovata>0 then
+	ls_num_bollettina=string(ds_trova_bol.getitemnumber(ll_riga_trovata, "documento_num_progressivo"))
+end if
+
+
+
+return ls_num_bollettina
+end function
+

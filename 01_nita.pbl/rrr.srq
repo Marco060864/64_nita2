@@ -1,0 +1,1 @@
+﻿PBSELECT( VERSION(400) TABLE(NAME="articolo" ) COLUMN(NAME="articolo.id_articolo") COLUMN(NAME="articolo.codice") COLUMN(NAME="articolo.descrizione") COMPUTE(NAME="0 as c_scegli")) 

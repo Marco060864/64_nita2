@@ -1,0 +1,14 @@
+﻿global type s_anticipi from structure
+	decimal {4}	s_ld_imp_acconto
+	long		s_ll_id_val_acconto
+	long		s_ll_id_iva_acconto
+	long		s_ll_id_tipo_pagamento
+	decimal {4}	s_ld_cambio_doc
+	long		s_ll_id_doc_anticipi[]
+	datastore		sds_anticipi
+	long		s_ll_id_doc
+	decimal {4}	s_ld_imp_val_doc
+	decimal {4}	s_ld_avanzo_cambio
+	long		s_id_valuta
+end type
+

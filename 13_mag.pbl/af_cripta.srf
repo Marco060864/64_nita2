@@ -1,0 +1,34 @@
+﻿global type af_cripta from function_object
+end type
+
+forward prototypes
+global function string af_cripta (string as_valore, boolean ab_cripta)
+end prototypes
+
+global function string af_cripta (string as_valore, boolean ab_cripta);
+
+
+integer li_lun, i, li_asc
+string ls_code, ls_temp
+
+li_lun = Len(as_valore)
+ls_code = ''
+for i = 1 to li_lun
+	ls_temp= Left(as_valore,i)
+	ls_temp=Right(ls_temp,1)
+	if ls_temp<>',' then
+		if ab_cripta then
+			li_asc=asc(ls_temp)+20
+			if mod(i,2)=0 then li_asc=li_asc+32
+		else
+			li_asc=asc(ls_temp) - 20
+			if mod(i,2)=0 then li_asc=li_asc - 32
+		end if
+		ls_code=ls_code+char(li_asc)			
+	else
+		ls_code=ls_code+ls_temp
+	end if
+next
+return ls_code
+end function
+

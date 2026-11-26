@@ -1,0 +1,88 @@
+﻿//objectcomments usata in con_lis_articolo_cx tab1_tabpage1
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=3336 color="536870912" )
+table(column=(type=long update=yes updatewhereclause=yes key=yes identity=yes name=id_con_lis_articolo dbname="id_con_lis_articolo" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=applicazione dbname="applicazione" initial="V" values="Acquisto	A/Vendita	V/" )
+ column=(type=long update=yes updatewhereclause=yes name=id_unita_confezione dbname="id_unita_confezione" )
+ column=(type=long update=yes updatewhereclause=yes name=id_sog_commerciale dbname="id_sog_commerciale" )
+ column=(type=long update=yes updatewhereclause=yes name=id_cat_com_sc dbname="id_cat_com_sc" )
+ column=(type=long update=yes updatewhereclause=yes name=id_art_da dbname="id_art_da" )
+ column=(type=long update=yes updatewhereclause=yes name=id_cat_com_articolo dbname="id_cat_com_articolo" )
+ column=(type=long update=yes updatewhereclause=yes name=id_sog_commerciale_fornitore dbname="id_sog_commerciale_fornitore" )
+ column=(type=long update=yes updatewhereclause=yes name=id_anagrafica dbname="id_anagrafica" )
+ column=(type=long update=yes updatewhereclause=yes name=id_listino dbname="id_listino" )
+ column=(type=date update=yes updatewhereclause=yes name=data_inizio dbname="data_inizio" initial="'01/01/' || year(today())" )
+ column=(type=date update=yes updatewhereclause=yes name=data_fine dbname="data_fine" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=qta_minima dbname="qta_minima" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=qta_massima dbname="qta_massima" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=tipo_applicazione dbname="tipo_applicazione" initial="P" )
+ column=(type=long update=yes updatewhereclause=yes name=id_valuta dbname="id_valuta" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=cambio dbname="cambio" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=percentuali dbname="percentuali" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=spesa dbname="spesa" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=spesa_fissa dbname="spesa_fissa" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=priorita dbname="priorita" )
+ column=(type=long update=yes updatewhereclause=yes name=id_azienda dbname="id_azienda" initial="1" )
+ column=(type=long update=yes updatewhereclause=yes name=id_art_a dbname="id_art_a" )
+ column=(type=long update=yes updatewhereclause=yes name=id_destinazione dbname="id_destinazione" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=tras_mezzo dbname="tras_mezzo" values="Mittente	M/Destinatario	D/Vettore	V/" )
+ column=(type=char(10) updatewhereclause=yes name=s_c_codice_1 dbname="s_c_codice_1" )
+ column=(type=char(40) updatewhereclause=yes name=rag_soc_1 dbname="rag_soc_1" )
+ column=(type=char(10) updatewhereclause=yes name=u_c_codice dbname="u_c_codice" )
+ column=(type=char(40) updatewhereclause=yes name=u_c_descrizione dbname="u_c_descrizione" )
+ column=(type=char(32) updatewhereclause=yes name=art_da_codice dbname="art_da_codice" )
+ column=(type=char(40) updatewhereclause=yes name=art_da_descrizione dbname="art_da_descrizione" )
+ column=(type=char(32) updatewhereclause=yes name=art_a_codice dbname="art_a_codice" )
+ column=(type=char(40) updatewhereclause=yes name=art_a_descrizione dbname="art_a_descrizione" )
+ column=(type=char(10) updatewhereclause=yes name=codice_fornitore dbname="codice_fornitore" )
+ column=(type=char(40) updatewhereclause=yes name=descrizione_fornitore dbname="descrizione_fornitore" )
+ column=(type=char(40) updatewhereclause=yes name=produttore dbname="produttore" )
+ column=(type=char(50) updatewhereclause=yes name=c_destinazione_des dbname="c_destinazione_des" )
+ column=(type=long update=yes updatewhereclause=yes name=id_tipo_trasporto dbname="id_tipo_trasporto" )
+ column=(type=long update=yes updatewhereclause=yes name=id_cat_merceologica dbname="id_cat_merceologica" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=stato dbname="stato" )
+ column=(type=decimal(6) update=yes updatewhereclause=yes name=importo dbname="importo" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=ultimo_sconto dbname="ultimo_sconto" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"con_lis_articolo~" )  TABLE(NAME=~"destinazione~" )  TABLE(NAME=~"sog_commerciale_gen~" ALIAS=~"sog_commerciale_gen_a~" )  TABLE(NAME=~"sog_commerciale_gen~" ALIAS=~"sog_commerciale_gen_b~" )  TABLE(NAME=~"unita_confezione~" )  TABLE(NAME=~"articolo~" ALIAS=~"articolo_a~" )  TABLE(NAME=~"articolo~" ALIAS=~"articolo_b~" )  TABLE(NAME=~"sog_commerciale_gen~" ALIAS=~"sog_commerciale_gen_c~" )  TABLE(NAME=~"anagrafica~" ) COLUMN(NAME=~"con_lis_articolo.id_con_lis_articolo~") COLUMN(NAME=~"con_lis_articolo.applicazione~") COLUMN(NAME=~"con_lis_articolo.id_unita_confezione~") COLUMN(NAME=~"con_lis_articolo.id_sog_commerciale~") COLUMN(NAME=~"con_lis_articolo.id_cat_com_sc~") COLUMN(NAME=~"con_lis_articolo.id_art_da~") COLUMN(NAME=~"con_lis_articolo.id_cat_com_articolo~") COLUMN(NAME=~"con_lis_articolo.id_sog_commerciale_fornitore~") COLUMN(NAME=~"con_lis_articolo.id_anagrafica~") COLUMN(NAME=~"con_lis_articolo.id_listino~") COLUMN(NAME=~"con_lis_articolo.data_inizio~") COLUMN(NAME=~"con_lis_articolo.data_fine~") COLUMN(NAME=~"con_lis_articolo.qta_minima~") COLUMN(NAME=~"con_lis_articolo.qta_massima~") COLUMN(NAME=~"con_lis_articolo.tipo_applicazione~") COLUMN(NAME=~"con_lis_articolo.id_valuta~") COLUMN(NAME=~"con_lis_articolo.cambio~") COLUMN(NAME=~"con_lis_articolo.percentuali~") COLUMN(NAME=~"con_lis_articolo.spesa~") COLUMN(NAME=~"con_lis_articolo.spesa_fissa~") COLUMN(NAME=~"con_lis_articolo.priorita~") COLUMN(NAME=~"con_lis_articolo.id_azienda~") COLUMN(NAME=~"con_lis_articolo.id_art_a~") COLUMN(NAME=~"con_lis_articolo.id_destinazione~") COLUMN(NAME=~"con_lis_articolo.tras_mezzo~") COMPUTE(NAME=~"CAST( ~~~"sog_commerciale_gen_b~~~".~~~"codice~~~" AS CHAR(10) ) AS s_c_codice_1~") COMPUTE(NAME=~"CAST( ~~~"sog_commerciale_gen_b~~~".~~~"rag_soc_1~~~" AS CHAR(40) ) AS rag_soc_1~") COMPUTE(NAME=~"CAST(~~~"unita_confezione~~~".~~~"codice~~~" AS CHAR(10) ) AS u_c_codice~") COMPUTE(NAME=~"CAST(~~~"unita_confezione~~~".~~~"descrizione~~~" AS CHAR(40) ) AS u_c_descrizione~") COMPUTE(NAME=~"CAST(~~~"articolo_a~~~".~~~"codice~~~" AS CHAR(32) ) AS art_da_codice~") COMPUTE(NAME=~"CAST(~~~"articolo_a~~~".~~~"descrizione~~~" AS CHAR(40) ) AS art_da_descrizione~") COMPUTE(NAME=~"CAST(~~~"articolo_b~~~".~~~"codice~~~" AS CHAR(32) ) AS art_a_codice~") COMPUTE(NAME=~"CAST(~~~"articolo_b~~~".~~~"descrizione~~~" AS CHAR(40) ) AS art_a_descrizione~") COMPUTE(NAME=~"CAST(~~~"sog_commerciale_gen_c~~~".~~~"codice~~~" AS CHAR(10) ) AS codice_fornitore~") COMPUTE(NAME=~"CAST(~~~"sog_commerciale_gen_c~~~".~~~"rag_soc_1~~~" AS CHAR(40) ) AS descrizione_fornitore~") COMPUTE(NAME=~"CAST(~~~"anagrafica~~~".~~~"rag_soc_1~~~" AS CHAR(40) ) AS produttore~") COMPUTE(NAME=~"CAST( (~~~"sog_commerciale_gen_a~~~".~~~"rag_soc_1~~~" || ' - ' || ~~~"destinazione~~~".~~~"rag_soc_1~~~" || ' - ' || ~~~"destinazione~~~".~~~"indirizzo~~~") AS CHAR(50)) AS c_destinazione_des~") COLUMN(NAME=~"con_lis_articolo.id_tipo_trasporto~") COLUMN(NAME=~"con_lis_articolo.id_cat_merceologica~") COLUMN(NAME=~"con_lis_articolo.stato~") COLUMN(NAME=~"con_lis_articolo.importo~") COLUMN(NAME=~"con_lis_articolo.ultimo_sconto~")    JOIN (LEFT=~"destinazione.id_destinazione~"    OP =~"=~"RIGHT=~"con_lis_articolo.id_destinazione~"    OUTER2 =~"con_lis_articolo.id_destinazione~" )    JOIN (LEFT=~"sog_commerciale_gen_a.id_sog_commerciale~"    OP =~"=~"RIGHT=~"destinazione.id_sog_commerciale~"    OUTER2 =~"destinazione.id_sog_commerciale~" )    JOIN (LEFT=~"sog_commerciale_gen_b.id_sog_commerciale~"    OP =~"=~"RIGHT=~"con_lis_articolo.id_sog_commerciale~"    OUTER2 =~"con_lis_articolo.id_sog_commerciale~" )    JOIN (LEFT=~"unita_confezione.id_unita_confezione~"    OP =~"=~"RIGHT=~"con_lis_articolo.id_unita_confezione~"    OUTER2 =~"con_lis_articolo.id_unita_confezione~" )    JOIN (LEFT=~"articolo_a.id_articolo~"    OP =~"=~"RIGHT=~"con_lis_articolo.id_art_da~"    OUTER2 =~"con_lis_articolo.id_art_da~" )    JOIN (LEFT=~"articolo_b.id_articolo~"    OP =~"=~"RIGHT=~"con_lis_articolo.id_art_a~"    OUTER2 =~"con_lis_articolo.id_art_a~" )    JOIN (LEFT=~"sog_commerciale_gen_c.id_sog_commerciale~"    OP =~"=~"RIGHT=~"con_lis_articolo.id_sog_commerciale_fornitore~"    OUTER2 =~"con_lis_articolo.id_sog_commerciale_fornitore~" )    JOIN (LEFT=~"anagrafica.id_anagrafica~"    OP =~"=~"RIGHT=~"con_lis_articolo.id_anagrafica~"    OUTER2 =~"con_lis_articolo.id_anagrafica~" )WHERE(    EXP1 =~"~~~"con_lis_articolo~~~".~~~"id_con_lis_articolo~~~"~"   OP =~"=~"    EXP2 =~":rn_id_con_lis_articolo~" ) ) ARG(NAME = ~"rn_id_con_lis_articolo~" TYPE = number) " update="con_lis_articolo" updatewhere=1 updatekeyinplace=yes arguments=(("rn_id_con_lis_articolo", number)) )
+text(band=detail alignment="1" text="Tipo:"border="0" color="0" x="69" y="64" height="56" width="146"  name=applicazione_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=10 border="5" color="33554432" x="233" y="64" height="68" width="384" format="[general]"  name=applicazione ddlb.limit=0 ddlb.allowedit=yes ddlb.case=any ddlb.nilisnull=yes ddlb.autohscroll=yes ddlb.useasborder=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Destinazione:"border="0" color="0" x="73" y="240" height="68" width="411"  name=c_destinazione_des_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=37 alignment="0" tabsequence=20 border="5" color="33554432" x="503" y="240" height="68" width="1856" format="[general]" protect="0~tif ( not isNull( s_c_codice_1 ), 1, 
+   if (not isNull(id_cat_com_sc), 1, 0)
+)"  name=c_destinazione_des edit.limit=0 edit.case=any edit.autoselect=yes edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tif ( not isNull(  s_c_codice_1  ), 12632256 , 
+if ( not isNull(   rag_soc_1 ), 12632256 , 
+   if (not isNull(id_cat_com_sc), 12632256, 16777215 ) )
+)" )
+bitmap(band=detail filename="S:\PB\CommonFrameWork\search.bmp" x="2377" y="240" height="68" width="78" border="6"  name=c_destinazione_des_sw )
+text(band=detail alignment="1" text="Sog. Commerciale:"border="0" color="0" x="78" y="344" height="56" width="407"  name=s_c_codice_1_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="0" tabsequence=30 border="5" color="33554432" x="507" y="344" height="68" width="590" format="[general]" protect="0~tif ( not isNull(  id_destinazione ), 1, 
+   if (not isNull(id_cat_com_sc), 1, 0)
+)"  name=s_c_codice_1 visible="1~t1" edit.limit=0 edit.case=any edit.autoselect=yes edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tif ( not isNull(  id_destinazione   ), 12632256 , 
+   if (not isNull(id_cat_com_sc), 12632256, 16777215 ) 
+)" )
+bitmap(band=detail filename="S:\pb\CommonFramework\search.bmp" x="1115" y="344" height="68" width="69" border="6"  name=s_c_codice_1_sw )
+column(band=detail id=27 alignment="0" tabsequence=40 border="5" color="33554432" x="1216" y="344" height="68" width="1143" format="[general]" protect="0~tif ( not isNull(  id_destinazione ), 1, 
+   if (not isNull(id_cat_com_sc), 1, 0)
+)"  name=rag_soc_1 edit.limit=0 edit.case=any edit.autoselect=yes edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tif ( not isNull(  id_destinazione ), 12632256 , 
+   if (not isNull(id_cat_com_sc), 12632256, 16777215 ) 
+)" )
+bitmap(band=detail filename="S:\pb\CommonFramework\search.bmp" x="2377" y="344" height="68" width="69" border="6"  name=rag_soc_1_sw )
+text(band=detail alignment="1" text="Cat. Comm. Sog.:"border="0" color="0" x="110" y="448" height="56" width="375"  name=id_cat_com_sc_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=50 border="5" color="33554432" x="503" y="448" height="68" width="681" format="[general]" protect="0~tif ( not isNull(s_c_codice_1), 1 , 
+   if ( not isNull(rag_soc_1), 1 ,  
+      if (not isNull(id_destinazione ), 1, 0 )  )
+)"  name=id_cat_com_sc dddw.name=d_cat_com_sc_cod_sl dddw.displaycolumn=codice dddw.datacolumn=id_cat_com_sc dddw.percentwidth=300 dddw.lines=0 dddw.limit=0 dddw.allowedit=yes dddw.useasborder=yes dddw.case=any dddw.nilisnull=yes dddw.autohscroll=yes dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tif ( not isNull(s_c_codice_1), 12632256 , 
+   if ( not isNull(rag_soc_1), 12632256 ,  
+      if (not isNull(  id_destinazione ), 12632256, 16777215 )  )
+)" )
+column(band=detail id=5 alignment="0" tabsequence=60 border="5" color="33554432" x="1216" y="448" height="68" width="1234" format="[general]" protect="0~tif ( not isNull(s_c_codice_1), 1 , 
+   if ( not isNull(rag_soc_1), 1 ,  
+      if (not isNull( id_destinazione ), 1, 0 )  )
+)" dddw.name=d_cat_com_sc_des_sl dddw.displaycolumn=descrizione dddw.datacolumn=id_cat_com_sc dddw.percentwidth=150 dddw.lines=0 dddw.limit=0 dddw.allowedit=yes dddw.useasborder=yes dddw.case=any dddw.nilisnull=yes dddw.autohscroll=yes dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tif ( not isNull(s_c_codice_1), 12632256 , 
+   if ( not isNull(rag_soc_1), 12632256 ,  
+      if (not isNull( id_destinazione ), 12632256, 16777215 )  )
+)" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

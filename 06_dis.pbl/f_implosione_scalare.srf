@@ -1,0 +1,199 @@
+﻿global type f_implosione_scalare from function_object
+end type
+
+forward prototypes
+global function integer f_implosione_scalare (u_tv_distinta tv_dis, long ll_root, boolean lb_con, long id, date data_inizio, date data_fine, long id_testa, string tipo_calcolo, string tipo_applicazione, boolean lb_distinta, datawindow dw_esplodi, decimal quantita, integer livello, long id_articolo_find, boolean riepilogativa)
+end prototypes
+
+global function integer f_implosione_scalare (u_tv_distinta tv_dis, long ll_root, boolean lb_con, long id, date data_inizio, date data_fine, long id_testa, string tipo_calcolo, string tipo_applicazione, boolean lb_distinta, datawindow dw_esplodi, decimal quantita, integer livello, long id_articolo_find, boolean riepilogativa);
+long id_base,id_f,ll_child,id_art,id_var,ll_app,ll_id_riga,ll_num_riga,ll_figlio,ll_id_componente
+long ll_riga_trovata,ll_padre,ll_before_row,ll_livello,id_articolo_padre,ll_livello_app
+boolean controllo
+decimal{4} cs,app,qt,ld_quantita,ld_costo,ld_qt_app,ld_calo
+string cod,tg,pt,testa,path,des,ls_cod_app
+treeviewitem tvi ,ltvi_app,ltvi_livello
+dati dat,dat_app,dat_livello
+controllo=false
+string ls_fine,ls_inizio
+date ld_inizio,ld_fine
+ls_fine=string(data_fine,'yy/mm/dd')
+ls_inizio=string(data_inizio,'yy/mm/dd')
+livello++
+DECLARE recupera CURSOR FOR
+  SELECT "articolo"."codice", 
+  			"articolo"."descrizione", 
+  			"articolo"."id_articolo",	
+			"articolo"."immagine",
+			"riga_distinta"."tipo_riga",            
+         "riga_distinta"."quantita",   
+         "riga_distinta"."costo",    
+			"riga_distinta"."id_dis_figlio",
+			"riga_distinta"."id_riga_distinta",
+			"riga_distinta"."num_riga",
+			"riga_distinta"."calo",
+			"riga_distinta"."data_inizio",
+			"riga_distinta"."data_fine",
+			"riga_distinta"."id_componente"
+    FROM "articolo",   
+         "riga_distinta",   
+       	"distinta"  ,
+   WHERE ( "articolo"."id_articolo" = "riga_distinta"."id_articolo" ) and  
+         ( "distinta"."id_distinta" = "riga_distinta"."id_distinta" ) and 
+			(( dateformat("riga_distinta"."data_fine",'yy/mm/dd')>=:ls_inizio )and 
+			( dateformat("riga_distinta"."data_fine",'yy/mm/dd')<=:ls_fine ) OR
+			("riga_distinta"."data_fine"  is null) and ("riga_distinta"."data_fine" is null )) and
+			(("riga_distinta"."id_distinta" =  :id_base )  or
+          ("riga_distinta"."id_distinta" = :id_var and  "riga_distinta"."id_dis_var"=null) or
+			 ("riga_distinta"."id_dis_var"=:id_var) and ("riga_distinta"."id_distinta" =:id_testa))  and
+			("riga_distinta"."id_riga_distinta" not in (select "var_riga_distinta"."id_riga_distinta"
+			from "var_riga_distinta" where "var_riga_distinta"."id_dis_variante"=:id_testa))
+	ORDER BY "riga_distinta"."num_riga" ;
+ll_app=ll_root
+if lb_con=true then
+	select articolo.id_articolo,articolo.codice,articolo.immagine
+	into:id_art,:testa,:path
+	from articolo,distinta
+	where distinta.id_distinta=:id
+	and articolo.id_articolo=distinta.id_articolo;
+	dat.quantita=1
+	dat.path=path
+	dat.id_dis_figlio=id
+	dat.id_articolo=id_art
+	dat.id_distinta=id
+	tvi.data=dat
+	tvi.label=testa
+	tvi.pictureindex=4
+	tvi.selectedpictureindex=4
+	tvi.Expanded=true
+	ll_root=tv_dis.insertitemfirst(0,tvi)
+	ll_app=ll_root
+end if
+if ll_root<> -1 then
+	tv_dis.getitem(ll_root,tvi)
+	dat=tvi.data
+	id_var=dat.id_dis_figlio
+	select id_dis_base
+	into :id_base
+	from distinta
+	where id_distinta=:id_var;
+	if isnull(id_base) then id_base=id_var
+end if
+
+open recupera;
+fetch recupera into :cod,:des,:id_art,:pt,:tg,:qt,:cs,:id_f,:ll_id_riga,:ll_num_riga,:ld_calo,:ld_inizio,:ld_fine,:ll_id_componente;
+do while sqlca.sqlcode=0
+	if sqlca.sqlcode=0 then 
+		if id_f>0 then controllo=true
+		if ll_id_componente>0 and not isnull(ll_id_componente) then
+			long ll_art_comp,ll_comp,i
+			for i=1 to upperbound(tv_dis.is_comp) 
+				ll_comp=tv_dis.is_comp[i].id_componente
+				if ll_comp=ll_id_componente then
+					ll_art_comp=tv_dis.is_comp[i].id_articolo					
+					select codice,descrizione
+					into :cod,:des
+					from articolo
+					where id_articolo=:ll_art_comp;
+					select id_distinta
+					into :id_f
+					from distinta
+					where id_articolo=:ll_art_comp;
+					if sqlca.sqlcode=0 then 
+						controllo=true
+					else
+						setnull(id_f)
+					end if
+					exit
+				end if				
+			next
+		end if
+		dat.path=pt
+		dat.id_articolo=id_art
+		dat.id_dis_figlio=id_f
+		dat.id_distinta=id_f
+		dat.id_riga=ll_id_riga
+		dat.quantita=qt
+		dat.costo=cs
+		dat.codice=cod
+		dat.descrizione=des
+		dat.tipo_riga=tg
+		dat.num_riga=ll_num_riga
+		dat.livello=livello
+		dat.calo=ld_calo
+		dat.data_inizio=ld_inizio
+		dat.data_fine=ld_fine
+		if isnull(cs) then cs=0			
+		if id_f>0 then
+			tvi.Expanded=true
+		else	
+			tvi.Expanded=false
+		end if
+		tvi.data=dat
+		ll_padre=ll_root
+		do while ll_padre<> -1
+			tv_dis.getitem(ll_padre,ltvi_app)
+			dat_app=ltvi_app.data
+			ld_qt_app=dat_app.quantita
+			qt=qt*ld_qt_app
+			ll_padre=tv_dis.finditem(parenttreeitem!,ll_padre)
+		loop
+
+		ll_child=tv_dis.insertitemlast(ll_root,tvi)
+		if id_art=id_articolo_find then
+			ll_livello=tv_dis.finditem(parenttreeitem!,ll_child)
+			tv_dis.getitem(ll_livello,ltvi_livello)
+			dat_livello=ltvi_livello.data
+			id_articolo_padre=dat_livello.id_articolo
+			ll_livello=dat_livello.livello
+			ll_before_row=dw_esplodi.find("id_articolo="+string(id_articolo_padre)+" and livello="+string(ll_livello),1,dw_esplodi.rowcount())
+			if ll_before_row>0 then
+				ll_before_row++
+			else
+				ll_before_row=0
+			end if
+			if riepilogativa=false then
+				ll_riga_trovata=dw_esplodi.insertrow(0)
+				dw_esplodi.setitem(ll_riga_trovata,"consumo",(qt*quantita))
+				dw_esplodi.setitem(ll_riga_trovata,"codice",dat_livello.codice)
+				dw_esplodi.setitem(ll_riga_trovata,"descrizione",dat_livello.descrizione)
+				dw_esplodi.setitem(ll_riga_trovata,"id_articolo",dat_livello.id_articolo)
+				dw_esplodi.setitem(ll_riga_trovata,"livello",dat_livello.livello)
+				dw_esplodi.setitem(ll_riga_trovata,"tipo_riga",dat_livello.tipo_riga)
+				dw_esplodi.setitem(ll_riga_trovata,"scarto",dat_livello.calo)
+				dw_esplodi.setitem(ll_riga_trovata,"data_inizio",dat_livello.data_inizio)
+				dw_esplodi.setitem(ll_riga_trovata,"data_fine",dat_livello.data_fine)		
+				dw_esplodi.setitem(ll_riga_trovata,"livello",dat_livello.livello+1)		
+			else
+				ll_riga_trovata=dw_esplodi.find("id_articolo="+string(id_articolo_padre),1,dw_esplodi.rowcount())
+				if ll_riga_trovata>0 then
+					ld_quantita=dw_esplodi.getitemnumber(ll_riga_trovata,"consumo")
+					ld_quantita=ld_quantita+(qt*quantita)
+					dw_esplodi.setitem(ll_riga_trovata,"consumo",ld_quantita)
+				else
+					ll_riga_trovata=dw_esplodi.insertrow(0)
+					dw_esplodi.setitem(ll_riga_trovata,"consumo",(qt*quantita))
+					dw_esplodi.setitem(ll_riga_trovata,"codice",dat_livello.codice)
+					dw_esplodi.setitem(ll_riga_trovata,"descrizione",dat_livello.descrizione)
+					dw_esplodi.setitem(ll_riga_trovata,"id_articolo",dat_livello.id_articolo)
+				end if
+			end if			
+		end if
+	end if
+	fetch recupera into :cod,:des,:id_art,:pt,:tg,:qt,:cs,:id_f,:ll_id_riga,:ll_num_riga,:ld_calo,:ld_inizio,:ld_fine,:ll_id_componente;
+loop
+close recupera;
+
+ll_root=ll_app
+ll_root=tv_dis.finditem(childtreeitem!,ll_root)
+do while ll_root<> -1 
+	livello=f_implosione_scalare(tv_dis,ll_root,false,0,data_inizio,data_fine,id_testa,tipo_calcolo,tipo_applicazione,lb_distinta,dw_esplodi,quantita,livello,id_articolo_find,riepilogativa)
+	ll_root=tv_dis.finditem(Nexttreeitem!,ll_root)
+loop
+livello=livello - 1
+return livello
+
+
+
+
+end function
+

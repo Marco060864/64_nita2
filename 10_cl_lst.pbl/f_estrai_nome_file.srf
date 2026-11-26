@@ -1,0 +1,19 @@
+﻿global type f_estrai_nome_file from function_object
+end type
+
+forward prototypes
+global function string f_estrai_nome_file (string as_path)
+end prototypes
+
+global function string f_estrai_nome_file (string as_path);string ls_nome_file
+integer li_pos
+
+li_pos=lastpos(as_path, "\")
+if li_pos>0 then
+	ls_nome_file=right(as_path, len(as_path) - li_pos)
+else
+	ls_nome_file=as_path
+end if
+return ls_nome_file
+end function
+

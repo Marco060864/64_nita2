@@ -1,0 +1,14 @@
+﻿global type f_close from function_object
+end type
+
+forward prototypes
+global subroutine f_close ()
+end prototypes
+
+global subroutine f_close ();
+
+u_freddie.dbconnect(false,"")
+DESTROY u_freddie
+DESTROY u_debug
+end subroutine
+

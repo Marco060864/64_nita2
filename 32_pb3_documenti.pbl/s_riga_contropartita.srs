@@ -1,0 +1,8 @@
+﻿global type s_riga_contropartita from structure
+	string		s_rigadoc_spesa
+	long		l_nr_riga
+	string		s_codice
+	string		s_descrizione
+	long		l_id_conto
+end type
+

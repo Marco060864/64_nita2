@@ -1,0 +1,6 @@
+﻿global type s_scar_lotto from structure
+	long		id_lotto[]
+	decimal {4}	val_da_sca[]
+	string		tipo_mov
+end type
+

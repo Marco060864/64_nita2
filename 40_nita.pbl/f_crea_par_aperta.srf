@@ -1,0 +1,49 @@
+﻿global type f_crea_par_aperta from function_object
+end type
+
+forward prototypes
+global function long f_crea_par_aperta (long al_id_conto, long al_id_reg_pd, long al_num_partita, date ad_data_partita, date ad_data_creazione, date ad_data_scadenza, string as_note, decimal adc_importo, character ac_chiusa, long al_id_azienda)
+end prototypes
+
+global function long f_crea_par_aperta (long al_id_conto, long al_id_reg_pd, long al_num_partita, date ad_data_partita, date ad_data_creazione, date ad_data_scadenza, string as_note, decimal adc_importo, character ac_chiusa, long al_id_azienda);
+
+long ll_id_par_aperta, ll_id_azienda
+ll_id_par_aperta = 0
+
+IF IsNull(al_id_azienda) THEN
+	ll_id_azienda = 1
+ELSE
+	ll_id_azienda = al_id_azienda
+END IF
+
+  INSERT INTO "par_aperta"  
+         ( "id_conto",   
+           "id_reg_pd",   
+           "num_partita",   
+           "data_partita",   
+           "data_creazione",   
+           "data_scadenza",   
+           "note",   
+           "importo",   
+           "chiusa_forzatamente",   
+           "id_azienda" )  
+  VALUES ( :al_id_conto,
+           :al_id_reg_pd,
+           :al_num_partita,
+           :ad_data_partita,
+           :ad_data_creazione,
+           :ad_data_scadenza,
+           :as_note,
+           :adc_importo,   
+           :ac_chiusa,   
+           :ll_id_azienda)  ;
+
+IF SQLCA.SQLCode = 0 THEN
+	SELECT @@identity 
+		INTO :ll_id_par_aperta
+		FROM "dba"."par_aperta";
+END IF
+
+RETURN ll_id_par_aperta
+end function
+

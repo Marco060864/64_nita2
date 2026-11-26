@@ -1,0 +1,89 @@
+﻿global type f_partite_automatiche from function_object
+end type
+
+forward prototypes
+global subroutine f_partite_automatiche (long al_id_doc, string as_ges_partita)
+end prototypes
+
+global subroutine f_partite_automatiche (long al_id_doc, string as_ges_partita);date ldt_da_data, ldt_a_data
+long ll_di_sog_comm, ll_di_riga, ll_righe, ll_id_riga_scar,ll_riga_trovata,ll_righe_2, ll_id_riga_car
+integer i, a
+decimal ldc_qta_da_scaricare, ldc_qta_carico, ldc_qta_da_memorizzare
+string ls_test, ls_metallo
+datastore ds_carichi, ds_righe, ds_par_automatiche	
+
+
+select ges_partite_orafe
+into :ls_test
+from dba.prof_documento p, dba.documento d
+where d.id_documento=:al_id_doc and d.id_prof_documento=p.id_prof_documento
+;
+if ls_test='S' or as_ges_partita='S' then
+	ds_carichi=create datastore
+	ds_carichi.dataobject="d_car_per_par_automatiche"
+	ds_carichi.settransobject(sqlca)
+	
+	ds_par_automatiche=create datastore
+	ds_par_automatiche.dataobject="d_par_automatiche"
+	ds_par_automatiche.settransobject(sqlca)
+	
+	ldt_da_data=date("01-01-"+string(year(today())))
+	
+	ds_righe=create datastore
+
+	ds_righe.dataobject="d_car_scarico_par_aut_singolo_doc"
+	ds_righe.settransobject(sqlca)
+	ll_righe=ds_righe.retrieve(al_id_doc)
+	if ll_righe>0 then 
+		ldt_a_Data=ds_righe.getitemdate(1, "documento_data_documento")
+	
+		ll_righe_2=ds_carichi.retrieve(ldt_da_data, ldt_a_Data)
+		
+		for i= 1 to ll_righe
+		
+			ldc_qta_da_scaricare=ds_righe.getitemdecimal(i, "c_fino_calo")
+			ll_id_riga_scar=ds_righe.getitemnumber(i, "id_riga_documento")
+			ll_di_sog_comm=ds_righe.getitemnumber(i, "id_sog_commerciale")
+			ls_metallo=ds_righe.getitemstring(i, "cod_metallo")
+			if ldc_qta_da_scaricare> 1 then
+				do while ldc_qta_da_scaricare>0
+					ll_riga_trovata=ds_carichi.find("id_sog_commerciale="+string(ll_di_sog_comm)+" and c_fino_calo > 0 "+&
+														" and cod_metallo='"+ls_metallo+"'", &
+														1, ll_righe_2)
+					if ll_riga_trovata <=0 then
+						//messagebox("Attenzione!", "Carichi insufficienti!")
+						exit	
+					end if
+					ll_id_riga_car=ds_carichi.getitemnumber(ll_riga_trovata, "id_riga_documento")
+					if ll_id_riga_car= 0 then continue
+					ldc_qta_carico=ds_carichi.getitemnumber(ll_riga_trovata, "c_fino_calo")
+					if ldc_qta_carico >= ldc_qta_da_scaricare then
+						ldc_qta_da_memorizzare=ldc_qta_da_scaricare
+						ldc_qta_carico -= ldc_qta_da_scaricare
+						//ds_carichi.setitem(ll_riga_trovata, "c_fino_calo", ldc_qta_carico )
+						ldc_qta_da_scaricare=0
+					else //il carico non basta devo fare un altro giro e trovare un altro carico
+						ldc_qta_da_scaricare -= ldc_qta_carico
+						ldc_qta_da_memorizzare= ldc_qta_carico
+						ldc_qta_carico=0
+						
+					end if
+					ds_carichi.setitem(ll_riga_trovata, "c_fino_calo", ldc_qta_carico )
+					//scrivo nella tabella partite_automatiche
+					a=ds_par_automatiche.insertrow(0)
+					ds_par_automatiche.setitem(a, "id_riga_doc_carico", ll_id_riga_car)
+					ds_par_automatiche.setitem(a, "id_riga_doc_scarico", ll_id_riga_scar)
+					ds_par_automatiche.setitem(a, "qta_scaricata", ldc_qta_da_memorizzare)
+					if ds_par_automatiche.update()=1 then
+						commit;
+					else
+						rollback;
+						messagebox("Attenzione!", "Partite Orafe NON salvate!")
+					end if
+				loop
+			end if
+		next
+	end if
+end if
+end subroutine
+

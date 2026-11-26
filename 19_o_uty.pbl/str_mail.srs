@@ -1,0 +1,6 @@
+﻿global type str_mail from structure
+	string		s_mail
+	string		s_sog
+	string		s_testo
+end type
+

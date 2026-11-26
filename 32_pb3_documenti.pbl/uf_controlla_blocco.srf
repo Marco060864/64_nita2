@@ -1,0 +1,38 @@
+﻿global type uf_controlla_blocco from function_object
+end type
+
+forward prototypes
+global function integer uf_controlla_blocco (readonly long id_mag_scelto, readonly date data_corrente)
+end prototypes
+
+global function integer uf_controlla_blocco (readonly long id_mag_scelto, readonly date data_corrente);
+date ldt_data_inizio, ldt_data_fine
+integer error_number
+
+
+error_number = 2														 
+if id_mag_scelto<> 0 and not (isnull(id_mag_scelto)) then 
+	error_number = 3													 
+	if string(data_corrente) <> "" and not (isnull(data_corrente)) then							
+		error_number = 0												 
+		declare trova_blocco cursor for
+		select data_inizio, data_fine
+			from per_blocco_magazzino
+		where id_magazzino=:id_mag_scelto;
+		open trova_blocco;
+		fetch trova_blocco into :ldt_data_inizio, :ldt_data_fine;
+		do while sqlca.sqlcode=0
+			if ldt_data_inizio 	<= data_corrente and & 
+				ldt_data_fine 		>=  data_corrente then
+					error_number = 1									
+																			
+			end if
+			fetch trova_blocco into :ldt_data_inizio, :ldt_data_fine;
+		loop
+		close trova_blocco;
+	end if	
+end if		
+
+return error_number
+end function
+

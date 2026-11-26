@@ -1,0 +1,21 @@
+﻿global type f_stato_provvigioni from function_object
+end type
+
+forward prototypes
+global function integer f_stato_provvigioni (long al_id_documento)
+end prototypes
+
+global function integer f_stato_provvigioni (long al_id_documento);
+
+integer li_i
+
+SELECT count(*)
+INTO	 :li_i
+FROM	 riep_provvigioni
+WHERE  id_documento = :al_id_documento
+AND	 stato_provvigioni = 'C'
+;
+
+return li_i
+end function
+

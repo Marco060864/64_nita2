@@ -1,0 +1,107 @@
+﻿//objectcomments LaBella (solo Binder): scrive (o riscrive) in fondo a documento.note_intestazione della fattura c/lav il riepilogo scarichi per proforma.
+global type f_agg_note_riep_proforma_labella from function_object
+end type
+
+forward prototypes
+global function integer f_agg_note_riep_proforma_labella (long al_id_documento, ref string as_note_nuove)
+end prototypes
+
+global function integer f_agg_note_riep_proforma_labella (long al_id_documento, ref string as_note_nuove);//==========================================================================================
+// f_agg_note_riep_proforma_labella  -  20261015
+//
+// Solo per i documenti con profilo FATLAV (FATTURA C/LAVORAZIONE):
+//   - toglie dalle note l'eventuale riepilogo precedente (righe che iniziano con
+//     "scarico totale vs proforma", "scarico parziale vs proforma", "totale valore metallo euro"),
+//     sia quello generato da qui sia quello scritto a mano dal cliente;
+//   - lascia INTATTO il resto delle note (es. "operazione non soggetta ... guidelines.");
+//   - accoda il riepilogo nuovo calcolato da f_riep_proforma_labella, separato da una riga vuota;
+//   - salva direttamente su dba.documento.note_intestazione (commit).
+//
+// 20261023 SOLO per le fatture di BINDER (id_sog_commerciale 441, cliente o cliente fattura):
+//          prima il riepilogo veniva scritto in TUTTE le FATLAV che scaricano partite, quindi anche
+//          in quelle degli altri clienti in conto lavoro. Per gli altri clienti la funzione ora esce
+//          SENZA toccare le note (le FATLAV gia' sporcate si puliscono con pulizia_riep_altri_clienti_20261023.sql).
+//
+// Ritorna:  1 = note aggiornate (as_note_nuove = testo nuovo completo)
+//           0 = niente da fare (profilo diverso, cliente non Binder o note gia' uguali)
+//          -1 = errore SQL (rollback, messaggio gia' dato)
+//==========================================================================================
+string ls_cod_prof, ls_note, ls_blocco, ls_nuove, ls_riga, ls_test, ls_resto
+long   ll_pos
+long   ll_sog, ll_sog_fatt   //20261023
+constant long LL_ID_SOG_BINDER=441   //20261023 Binder: unico cliente con il riepilogo proforma
+
+as_note_nuove=""
+if isnull(al_id_documento) or al_id_documento<=0 then return 0
+
+//solo fattura c/lavorazione
+select p.codice into :ls_cod_prof
+from dba.documento d, dba.prof_documento p
+where d.id_prof_documento=p.id_prof_documento and d.id_documento=:al_id_documento;
+if sqlca.sqlcode<>0 then return 0
+if upper(trim(ls_cod_prof))<>"FATLAV" then return 0
+
+//20261023 solo Binder (cliente del documento o cliente di fatturazione)
+select id_sog_commerciale, id_sog_commerciale_fattura into :ll_sog, :ll_sog_fatt
+from dba.documento where id_documento=:al_id_documento;
+if sqlca.sqlcode<>0 then return 0
+if isnull(ll_sog) then ll_sog=0
+if isnull(ll_sog_fatt) then ll_sog_fatt=0
+if ll_sog<>LL_ID_SOG_BINDER and ll_sog_fatt<>LL_ID_SOG_BINDER then return 0
+
+select note_intestazione into :ls_note from dba.documento where id_documento=:al_id_documento;
+if isnull(ls_note) then ls_note=""
+
+ls_blocco=f_riep_proforma_labella(al_id_documento)
+
+//------------------------------------------------------------------------------------------
+// tolgo dalle note il riepilogo vecchio, riga per riga (le righe sono separate da ~r~n o ~n)
+//------------------------------------------------------------------------------------------
+ls_nuove=""
+ls_resto=ls_note
+do while len(ls_resto)>0
+	ll_pos=pos(ls_resto, "~n")
+	if ll_pos>0 then
+		ls_riga=left(ls_resto, ll_pos - 1)
+		ls_resto=mid(ls_resto, ll_pos+1)
+	else
+		ls_riga=ls_resto
+		ls_resto=""
+	end if
+	if right(ls_riga, 1)="~r" then ls_riga=left(ls_riga, len(ls_riga) - 1)
+	ls_test=lower(trim(ls_riga))
+	if left(ls_test, 26)="scarico totale vs proforma" or left(ls_test, 28)="scarico parziale vs proforma" &
+		or left(ls_test, 26)="totale valore metallo euro" then
+		continue   //riga del riepilogo vecchio: la butto
+	end if
+	if ls_nuove<>"" then ls_nuove+="~r~n"
+	ls_nuove+=ls_riga
+loop
+
+//tolgo le righe vuote rimaste in coda
+do while right(ls_nuove, 2)="~r~n"
+	ls_nuove=left(ls_nuove, len(ls_nuove) - 2)
+loop
+ls_nuove=righttrim(ls_nuove)
+
+//accodo il riepilogo nuovo (se il documento scarica qualcosa)
+if ls_blocco<>"" then
+	if ls_nuove<>"" then ls_nuove+="~r~n~r~n"
+	ls_nuove+=ls_blocco
+end if
+
+if ls_nuove=ls_note then return 0
+
+update dba.documento set note_intestazione=:ls_nuove where id_documento=:al_id_documento;
+if sqlca.sqlcode<>0 then
+	ls_test=sqlca.sqlerrtext
+	rollback;
+	messagebox("Attenzione!", "Riepilogo proforma NON salvato nelle note!~r~n"+ls_test)
+	return -1
+end if
+commit;
+
+as_note_nuove=ls_nuove
+return 1
+end function
+

@@ -1,0 +1,87 @@
+﻿release 5;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=977 color="536870912" )
+table(column=(type=long update=yes updatewhereclause=yes key=yes identity=yes name=fabbisogno_id_fabbisogno dbname="fabbisogno.id_fabbisogno" )
+ column=(type=long update=yes updatewhereclause=yes name=fabbisogno_id_sog_commerciale dbname="fabbisogno.id_sog_commerciale" )
+ column=(type=long update=yes updatewhereclause=yes name=fabbisogno_id_magazzino_des dbname="fabbisogno.id_magazzino" )
+ column=(type=long update=yes updatewhereclause=yes name=fabbisogno_id_unita_confezione dbname="fabbisogno.id_unita_confezione" )
+ column=(type=long update=yes updatewhereclause=yes name=fabbisogno_id_articolo dbname="fabbisogno.id_articolo" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fabbisogno_data_generazione dbname="fabbisogno.data_generazione" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=fabbisogno_qta_riordino dbname="fabbisogno.qta_riordino" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=fabbisogno_disponibilita dbname="fabbisogno.disponibilita" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=fabbisogno_esistenza dbname="fabbisogno.esistenza" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=fabbisogno_qta_ord_fornitore dbname="fabbisogno.qta_ord_fornitore" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=fabbisogno_qta_ord_cliente dbname="fabbisogno.qta_ord_cliente" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=fabbisogno_disp_globale dbname="fabbisogno.disp_globale" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=fabbisogno_esist_globale dbname="fabbisogno.esist_globale" )
+ column=(type=char(20) updatewhereclause=yes name=articolo_codice dbname="articolo.codice" )
+ column=(type=char(80) updatewhereclause=yes name=articolo_descrizione dbname="articolo.descrizione" )
+ column=(type=char(8) updatewhereclause=yes name=sog_commerciale_gen_codice dbname="sog_commerciale_gen.codice" )
+ column=(type=char(40) updatewhereclause=yes name=sog_commerciale_gen_rag_soc_1 dbname="sog_commerciale_gen.rag_soc_1" )
+ column=(type=char(8) updatewhereclause=yes name=unita_confezione_codice dbname="unita_confezione.codice" )
+ column=(type=char(40) updatewhereclause=yes name=unita_confezione_descrizione dbname="unita_confezione.descrizione" )
+ column=(type=char(8) updatewhereclause=yes name=magazzino_codice dbname="magazzino.codice" )
+ column=(type=char(40) updatewhereclause=yes name=magazzino_descrizione dbname="magazzino.descrizione" )
+ retrieve="  SELECT ~"fabbisogno~".~"id_fabbisogno~",   
+         ~"fabbisogno~".~"id_sog_commerciale~",   
+         ~"fabbisogno~".~"id_magazzino~",   
+         ~"fabbisogno~".~"id_unita_confezione~",   
+         ~"fabbisogno~".~"id_articolo~",   
+         ~"fabbisogno~".~"data_generazione~",   
+         ~"fabbisogno~".~"qta_riordino~",   
+         ~"fabbisogno~".~"disponibilita~",   
+         ~"fabbisogno~".~"esistenza~",   
+         ~"fabbisogno~".~"qta_ord_fornitore~",   
+         ~"fabbisogno~".~"qta_ord_cliente~",   
+         ~"fabbisogno~".~"disp_globale~",   
+         ~"fabbisogno~".~"esist_globale~",   
+         ~"articolo~".~"codice~",   
+         ~"articolo~".~"descrizione~",   
+         ~"sog_commerciale_gen~".~"codice~",   
+         ~"sog_commerciale_gen~".~"rag_soc_1~",   
+         ~"unita_confezione~".~"codice~",   
+         ~"unita_confezione~".~"descrizione~",   
+         ~"magazzino~".~"codice~",   
+         ~"magazzino~".~"descrizione~"  
+    FROM {oj ~"fabbisogno~"  LEFT OUTER JOIN ~"sog_commerciale_gen~"  ON ~"fabbisogno~".~"id_sog_commerciale~" = ~"sog_commerciale_gen~".~"id_sog_commerciale~"},   
+         ~"articolo~",   
+         ~"unita_confezione~",   
+         ~"magazzino~"  
+   WHERE ( ~"articolo~".~"id_articolo~" = ~"fabbisogno~".~"id_articolo~" ) and  
+         ( ~"unita_confezione~".~"id_unita_confezione~" = ~"fabbisogno~".~"id_unita_confezione~" ) and  
+         ( ~"magazzino~".~"id_magazzino~" = ~"fabbisogno~".~"id_magazzino~" )    
+" update="fabbisogno" updatewhere=1 updatekeyinplace=yes )
+text(band=detail alignment="1" text="Alla data:"border="0" color="0" x="284" y="24" height="57" width="206"  name=fabbisogno_data_generazione_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="5" color="0" x="526" y="24" height="65" width="526" format="[shortdate] [time]"  name=fabbisogno_data_generazione edit.limit=10 edit.case=any edit.format="dd/mm/yyyy" edit.autoselect=yes edit.nilisnull=yes edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="1" text="Qta Riordino:"border="0" color="0" x="46" y="764" height="57" width="444"  name=fabbisogno_qta_riordino_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=30 border="5" color="0" x="526" y="764" height="65" width="343" format="[general]"  name=fabbisogno_qta_riordino edit.limit=0 edit.case=any edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Disponibilita:"border="0" color="0" x="46" y="664" height="57" width="444"  name=fabbisogno_disponibilita_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="5" color="0" x="526" y="664" height="65" width="343" format="[general]"  name=fabbisogno_disponibilita edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Esistenza:"border="0" color="0" x="46" y="564" height="57" width="444"  name=fabbisogno_esistenza_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="5" color="0" x="526" y="564" height="65" width="343" format="[general]"  name=fabbisogno_esistenza edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="1" text="Qta Ord Fornitore:"border="0" color="0" x="938" y="764" height="57" width="444"  name=fabbisogno_qta_ord_fornitore_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="5" color="0" x="1418" y="764" height="65" width="343" format="[general]"  name=fabbisogno_qta_ord_fornitore edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="1" text="Qta Ord Cliente:"border="0" color="0" x="938" y="864" height="57" width="444"  name=fabbisogno_qta_ord_cliente_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="5" color="0" x="1418" y="864" height="65" width="343" format="[general]"  name=fabbisogno_qta_ord_cliente edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="1" text="Disponibilità Globale:"border="0" color="0" x="933" y="664" height="57" width="449"  name=fabbisogno_disp_globale_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="1" tabsequence=32766 border="5" color="0" x="1418" y="664" height="65" width="343" format="[general]"  name=fabbisogno_disp_globale edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="1" text="Esistenza Globale:"border="0" color="0" x="974" y="564" height="57" width="407"  name=fabbisogno_esist_globale_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="1" tabsequence=32766 border="5" color="0" x="1418" y="564" height="65" width="343" format="[general]"  name=fabbisogno_esist_globale edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="1" text="Articolo:"border="0" color="0" x="298" y="224" height="57" width="183"  name=articolo_codice_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="5" color="0" x="526" y="224" height="65" width="526" format="[general]"  name=articolo_codice edit.limit=20 edit.case=upper edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="5" color="0" x="1121" y="224" height="65" width="1189" format="[general]"  name=articolo_descrizione edit.limit=80 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=16 alignment="0" tabsequence=10 border="5" color="0" x="526" y="124" height="65" width="439" format="[general]"  name=sog_commerciale_gen_codice edit.name="es_Cod_A8" edit.limit=8 edit.case=upper edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Sog. Commerciale:"border="0" color="0" x="69" y="124" height="57" width="412"  name=sog_commerciale_gen_rag_soc_1_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="0" tabsequence=20 border="5" color="0" x="1121" y="124" height="65" width="1098" format="[general]"  name=sog_commerciale_gen_rag_soc_1 edit.name="es_Descrizione" edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Unità Confezione:"border="0" color="0" x="101" y="324" height="57" width="389"  name=unita_confezione_codice_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="5" color="0" x="526" y="324" height="65" width="526" format="[general]"  name=unita_confezione_codice edit.limit=8 edit.case=upper edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="5" color="0" x="1121" y="324" height="65" width="1189" format="[general]"  name=unita_confezione_descrizione edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="1" text="Magazzino:"border="0" color="0" x="238" y="424" height="57" width="252"  name=fabbisogno_id_magazzino_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+bitmap(band=detail filename="S:\PB\CommonFrameWork\Search.bmp" x="983" y="124" height="65" width="74" border="6"  name=sog_commerciale_gen_codice_sw )
+bitmap(band=detail filename="S:\PB\CommonFrameWork\Search.bmp" x="2241" y="124" height="65" width="74" border="6"  name=sog_commerciale_gen_rag_soc_1_sw )
+column(band=detail id=20 alignment="0" tabsequence=32766 border="5" color="0" x="526" y="424" height="65" width="526" format="[general]"  name=magazzino_codice edit.limit=8 edit.case=upper edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=21 alignment="0" tabsequence=32766 border="5" color="0" x="1121" y="424" height="65" width="1189" format="[general]"  name=magazzino_descrizione edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+  

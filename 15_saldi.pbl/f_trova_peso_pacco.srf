@@ -1,0 +1,19 @@
+﻿global type f_trova_peso_pacco from function_object
+end type
+
+forward prototypes
+global function decimal f_trova_peso_pacco (long al_id_pacco)
+end prototypes
+
+global function decimal f_trova_peso_pacco (long al_id_pacco);decimal ldc_sum_peso
+
+select sum(r.peso_netto) into :ldc_sum_peso 
+from riga_documento r, pacco_bollettina pa
+where pa.id_bollettina=r.id_riga_documento and pa.id_pacco=:al_id_pacco;
+
+if isnull(ldc_sum_peso) then ldc_sum_peso=0
+
+
+return ldc_sum_peso
+end function
+

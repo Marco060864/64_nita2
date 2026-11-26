@@ -1,0 +1,12 @@
+﻿global type s_testo from structure
+	character		campo
+	integer		riga
+	string		note
+	string		font
+	integer		altezza
+	integer		red
+	integer		green
+	integer		blue
+	integer		x
+end type
+

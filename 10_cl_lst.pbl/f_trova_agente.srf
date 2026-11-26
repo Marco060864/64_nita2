@@ -1,0 +1,17 @@
+﻿global type f_trova_agente from function_object
+end type
+
+forward prototypes
+global function string f_trova_agente (long al_id_gruppo_agenti)
+end prototypes
+
+global function string f_trova_agente (long al_id_gruppo_agenti);string ls_agente
+
+select descrizione
+into :ls_agente
+from gruppo_agenti 
+where id_gruppo_agenti= :al_id_gruppo_agenti
+;
+return ls_agente
+end function
+

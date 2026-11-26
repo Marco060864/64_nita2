@@ -1,0 +1,12 @@
+﻿global type f_bilancia from function_object
+end type
+
+forward prototypes
+global function decimal f_bilancia ()
+end prototypes
+
+global function decimal f_bilancia ();decimal ldc_peso
+
+return ldc_peso
+end function
+

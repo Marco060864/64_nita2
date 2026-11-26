@@ -1,0 +1,23 @@
+﻿global type s_ricostruisci_saldi from structure
+	long		id_sog
+	long		id_metallo
+	decimal { 2 }		calo
+	decimal { 2 }		fino
+	decimal { 4 }		imp_man
+	decimal { 4 }		imp_met
+	decimal { 4 }		totale_lire_az
+	string		tipo_partita
+	long		id_doc
+	long		id_caus_magazzino
+	decimal { 4 }		qta
+	string		contabilizzati
+	integer		num_riga
+	string		articolo
+	long		id_mag_1
+	long		id_mag_2
+	long		id_loc_1
+	long		id_loc_2
+	string		num_doc
+	date		data_doc
+end type
+

@@ -1,0 +1,9 @@
+﻿//objectcomments OLD CDC
+global type s_par_grafico from structure
+	string		codice
+	long		id_azienda
+	long		cod_esercizio
+	date		data_in
+	date		data_fin
+end type
+

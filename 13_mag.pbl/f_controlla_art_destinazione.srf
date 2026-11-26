@@ -1,0 +1,40 @@
+﻿global type f_controlla_art_destinazione from function_object
+end type
+
+forward prototypes
+global subroutine f_controlla_art_destinazione (string as_cod_articolo, long al_id_prof_documento, long al_id_destinazione)
+end prototypes
+
+global subroutine f_controlla_art_destinazione (string as_cod_articolo, long al_id_prof_documento, long al_id_destinazione);string ls_cod, ls_controllo
+long ll_id_art
+
+if as_cod_articolo> " " and al_id_destinazione>0 then
+	select id_articolo
+	into :ll_id_art
+	from dba.articolo
+	where codice=:as_cod_articolo
+	;
+	if ll_id_art>0 then
+
+		select No_in_art_destinazione
+		into :ls_controllo
+		from dba.prof_documento
+		where id_prof_documento= :al_id_prof_documento
+		;
+		if ls_controllo="S" then
+			select a.codice
+			into :ls_cod
+			from dba.articolo a, dba.art_destinazione d
+			where a.codice=:as_cod_articolo
+			and a.id_articolo=d.id_articolo
+			and d.id_destinazione=:al_id_destinazione
+			;
+		
+			if isnull(ls_cod) or ls_cod <" " then
+				messagebox("Attenzione!", "Articolo: "+ as_cod_articolo+ " NON è associato a questa destinazione!")
+			end if
+		end if
+	end if
+end if
+end subroutine
+

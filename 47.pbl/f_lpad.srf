@@ -1,0 +1,22 @@
+﻿global type f_lpad from function_object
+end type
+
+forward prototypes
+global function string f_lpad (string as_base, character ac_filler, integer ai_lung)
+end prototypes
+
+global function string f_lpad (string as_base, character ac_filler, integer ai_lung);string ls_retval, ls_fill
+integer li_lung0
+
+as_base = trim (as_base)
+li_lung0 = len (as_base)
+if (li_lung0<ai_lung) then
+	ls_retval=fill(ac_filler,ai_lung - li_lung0)+as_base
+else
+	ls_retval = as_base
+end if
+
+return ls_retval
+
+end function
+

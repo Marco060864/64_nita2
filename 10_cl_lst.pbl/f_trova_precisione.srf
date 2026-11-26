@@ -1,0 +1,22 @@
+﻿global type f_trova_precisione from function_object
+end type
+
+forward prototypes
+global function integer f_trova_precisione (long ll_id_prezzi_crea)
+end prototypes
+
+global function integer f_trova_precisione (long ll_id_prezzi_crea);integer li_prec
+
+select num_dec_prezzo
+into :li_prec
+FROM DBA.PREZZI_CREA
+where id_crea_prezzi=:ll_id_prezzi_crea
+;
+IF ISNULL(li_prec) THEN
+	li_prec=2
+END IF
+
+
+return li_prec
+end function
+

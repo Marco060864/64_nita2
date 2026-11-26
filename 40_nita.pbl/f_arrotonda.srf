@@ -1,0 +1,39 @@
+﻿global type f_arrotonda from function_object
+end type
+
+forward prototypes
+global function decimal f_arrotonda (decimal adc_in, string as_tipo, decimal adc_val)
+end prototypes
+
+global function decimal f_arrotonda (decimal adc_in, string as_tipo, decimal adc_val);
+
+decimal			ldc_ret, ldc_1
+
+if (isNull(adc_in)) or (isNull(as_tipo)) or (isNull(adc_val)) or (adc_val=0) then
+	return adc_in
+end if
+
+ldc_ret = adc_in
+
+if as_tipo = 'X' then
+	return ldc_ret
+else
+	ldc_1 = adc_in / adc_val
+	choose case as_tipo
+		case 'D','I'
+			
+		case 'M'
+			
+			ldc_1 = ldc_1 + 0.499999
+		case 'E','S'
+			
+			ldc_1 = ldc_1 + 0.999999
+	end choose
+	
+	ldc_1 = truncate (ldc_1, 0)
+	ldc_1 = ldc_1 * adc_val
+end if
+
+return ldc_1
+end function
+

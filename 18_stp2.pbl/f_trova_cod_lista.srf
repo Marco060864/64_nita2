@@ -1,0 +1,18 @@
+﻿global type f_trova_cod_lista from function_object
+end type
+
+forward prototypes
+global function string f_trova_cod_lista (long ad_lista)
+end prototypes
+
+global function string f_trova_cod_lista (long ad_lista);string ls_lista
+
+
+select cod_lista_articoli
+into :ls_lista
+from dba.lista_art_def 
+where id_lista_articoli=:ad_lista;
+
+return ls_lista
+end function
+

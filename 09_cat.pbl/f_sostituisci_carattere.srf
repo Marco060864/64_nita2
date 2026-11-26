@@ -1,0 +1,38 @@
+﻿global type f_sostituisci_carattere from function_object
+end type
+
+forward prototypes
+global function string f_sostituisci_carattere (string as_des, string as_car_da_sostituire, string as_car_sostituto)
+end prototypes
+
+global function string f_sostituisci_carattere (string as_des, string as_car_da_sostituire, string as_car_sostituto);long start_pos=1
+
+string old_str, new_str, mystring
+
+mystring = as_des
+
+old_str = as_car_da_sostituire
+
+new_str = as_car_sostituto
+
+// Find the first occurrence of old_str.
+
+start_pos = Pos(mystring, old_str, start_pos)
+
+// Only enter the loop if you find old_str.
+
+DO WHILE start_pos > 0
+
+    // Replace old_str with new_str.
+
+    mystring = Replace(mystring, start_pos, Len(old_str), new_str)
+
+    // Find the next occurrence of old_str.
+
+    start_pos = Pos(mystring, old_str, start_pos+Len(new_str))
+
+LOOP
+
+return mystring
+end function
+

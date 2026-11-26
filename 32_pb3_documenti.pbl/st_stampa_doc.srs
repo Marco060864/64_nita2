@@ -1,0 +1,7 @@
+﻿global type st_stampa_doc from structure
+	string		s_nome_report
+	integer		i_num_copie
+	string		ordina_per
+	string		fat_da_contabilizzare
+end type
+

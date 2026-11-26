@@ -1,0 +1,35 @@
+﻿global type s_devmode_rpt from structure
+	character		dmdevicename[32]
+	integer		dmspecversion
+	integer		dmdriverversion
+	integer		dmsize
+	integer		dmdriverextra
+	long		dmfields
+	integer		dmorientation
+	integer		dmpapersize
+	integer		dmpaperlength
+	integer		dmpaperwidth
+	integer		dmscale
+	integer		dmcopies
+	integer		dmdefaultsource
+	integer		dmprintquality
+	integer		dmcolor
+	integer		dmduplex
+	integer		dmyresolution
+	integer		dmttoption
+	integer		dmcollate
+	character		dmformname[32]
+	integer		dmunusedpadding
+	long		dmbitsperpel
+	long		dmpelswidth
+	long		dmpelsheight
+	long		dmdisplayflags
+	long		dmdisplayfrequency
+	long		dmicmmethod
+	long		dmicmintent
+	long		dmmediatype
+	long		dmdithertype
+	long		dmReserved1
+	long		dmReserved2
+end type
+

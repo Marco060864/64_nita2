@@ -1,0 +1,1335 @@
+﻿global type f_crea_fat_e from function_object
+end type
+
+forward prototypes
+global function string f_crea_fat_e (long al_id_doc)
+end prototypes
+
+global function string f_crea_fat_e (long al_id_doc);PBDOM_BUILDER pbdom_bldr
+PBDOM_DOCUMENT pbdom_doc
+pbdom_doctype pbdom_doctype_1
+pbdom_element pbdom_elem_1
+pbdom_element pbdom_elem_root
+//
+pbdom_bldr = Create PBDOM_Builder
+//long ll_id_reg_pd, ll_id_reg_pd_old=0, ll_id_ana, ll_id_ana_OLD=0
+//integer li_pos, i, li_pos_1, li_pos_2, a
+//date ldt_data
+decimal{6} ldc_prezzo_unitario[]
+decimal{4} ldc_cambio,ldc_sconto_fin_incondizionato
+decimal{6} ldc_prezzo_metallo[]
+decimal{2} ldc_imp, ldc_iva, ldc_aliq, ldc_detraibile, ldc_capitale_sociale, ldc_imp_tot_documento, ldc_orafo_titolo, ldc_spese_bollo, ldc_qta_beni[], ldc_prezzo_totale[]
+decimal{2} ldc_imp_metallo[], ldc_fino_calo[], ldc_imp_tot_doc_valuta, ldc_imp_acconto, ldc_perc_ali_acconto
+blob lblb_UTF8
+string Xml_str, strFileName, strXML, ls_riferimento_testo[], ls_natura_iva_acconto,ls_des_riga_acconto
+string ls_id_num_fat_collegata[], ls_data_fat_collegata[], ls_rif_linea_fat_collegata[],  ls_num_item_fat_collegata[], ls_cod_commessa_fat_collegata[], ls_cod_CUP_fat_collegata[], ls_cod_CIG_fat_collegata[]
+integer li_FileNum, li_test, li_ret, li_righe, i, li_elementi, a, b, c, e, f, m, li_righe_castelletto, li_num_linea, li_num_righe_effettive
+integer d, li_num_scadenze, li_num_allegati=0, li_pos, li_righe_spese, h, li_id_galvanica
+long  ll_id_riga_documento, ll_id_riga_doc_provenienza, ll_id_sog_com_vettore, ll_id_con_pagamento, ll_num_invio, ll_id_anagrafica, ll_id_articolo,li_num_riga_vuota, ll_id_tab_iva_acconto
+datastore ds_riga_doc, ds_cast_iva , ds_pagamento, ds_spese_bollo
+
+string ls_num_telefono, ls_email, ls_id_trasmittente, ls_pec_destinatario, ls_cod_destinatario, ls_rag_sociale, ls_divisa_euro
+string ls_cognome, ls_nome, ls_codeori, ls_indirizzo, ls_cap, ls_comune, ls_provincia, ls_titolo, ls_nazione, ls_rif_amministrazione, ls_rif_amministrazione_cassa_prev
+string ls_albo, ls_pr_albo, ls_num_albo, ls_data_albo, ls_reg_fiscale, ls_cod_fisc_rappr_fiscale
+string ls_ind_stab_org="", ls_civico_stab_org="",  ls_cap_stab_org="", ls_comune_stab_org="", ls_prov_stab_org="", ls_naz_stab_org=""
+string ls_ind_stab_org_cessionario="",ls_civico_stab_org_cessionario="",  ls_cap_stab_org_cessionario="", ls_comune_stab_org_cessionario="", ls_prov_stab_org_cessionario="", ls_naz_stab_org_cessionario=""
+string ls_email_contatti, ls_fax_contatti, ls_tel_contatti, ls_ordine_fattura
+string ls_cod_fiscale_committente, ls_rag_soc_committente, ls_id_committente, ls_nome_committente, ls_cognome_committente, ls_titolo_committente
+string ls_codeori_committente, ls_indirizzo_committente, ls_cap_committente, ls_comune_committente, ls_provincia_committente, ls_nazione_committente
+string ll_id_rap_fisc_cc, ls_rag_sociale_rappr_fisc_cc, ls_nome_rap_fisc_cc, ls_cognome_rap_fisc_cc, ls_id_rap_fisc_cc, ls_rag_sociale_rappr_fisc
+string ls_cognome_ti, ls_nome_ti, ls_cod_fiscale_ti, ls_rag_soc_ti, ls_titolo_ti, ls_codeori_ti, ls_id_ti, ls_sog_emittente
+string ls_tipo_doc, ls_divisa, ls_data, ls_num_fattura, ls_tipo_ritenuta, ls_importo_ritenuta, ls_aliq_ritenuta, ls_caus_pagamento, ls_bollo_virtuale, ls_importo_bollo
+string ls_tipo_cassa, ls_alcassa, ls_imp_contr_cassa, ls_imponibile_cassa, ls_aliq_iva[], ls_ritenuta[], ls_natura[], ls_tipo_maggiorazione, ls_perc_maggiorazione, ls_importo_maggiorazione
+string ls_imp_tot_documento, ls_arrotondamento, ls_causale, ls_art_73, ls_rif_linea_doc, ls_id_doc, ls_data_doc, ls_num_item, ls_cod_commessa, ls_cod_CUP, ls_cod_CIG
+string ls_dati_contratto, ls_dati_convenzione, ls_dati_ricezione, ls_fat_collegate, ls_rif_fase
+string ls_num_ddt[], ls_data_ddt[], ls_rif_linea_ddt[], ls_lettera_anno, ls_fat_senza_ddt, ls_appoggio
+string ls_id_vettore, ls_cod_fiscale_vettore, ls_rag_soc_vettore, ls_des_stampa, ls_dich_intento, ls_dich_int[], ls_trovata
+string ls_nome_vettore, ls_cognome_vettore, ls_titolo_vettore, ls_codeori_vettore, ls_num_bollettina
+string ls_mezzo_trasporto, ls_caus_trasporto, ls_num_colli, ls_des_aspetto_beni, ls_unita_peso, ls_peso_lordo, ls_peso_netto, ls_data_ora_ritiro, ls_num_lic_guida
+string ls_data_inizio_trasporto, ls_ind_resa, ls_num_civico, ls_cap_resa, ls_comune_resa, ls_prov_resa, ls_data_ora_consegna, ls_nazione_resa
+string ls_fat_principale, ls_data_fat_principale, ls_num_linea[], ls_tipo_ces_prestazione[], ls_imponibile_riepilogo[], ls_es_iva_riepilogo[], ls_rif_norm_riepilogo[]
+string ls_cod_articolo[], ls_cod_valore[], ls_des_beni_servizi[], ls_qta_beni[], ls_u_misura[], ls_data_inizio_periodo[], ls_data_fine_periodo[], ls_prezzo_unitario[], ls_imp_maggiorazione[], ls_prezzo_totale[]
+string ls_aliq_iva_cassa_prev, ls_ritenuta_cassa_prev, ls_natura_cassa_prev, ls_tipo_dato[], ls_rif_testo[], ls_rif_numero[], ls_rif_data[], ls_spese_accessorie_riep[], ls_data_veicoli, ls_tot_percorso
+
+string  ls_cognome_quietanziante, ls_nome_quietanziante, ls_cf_quietanziante, ls_titolo_quietanziante, ls_ist_finanziario, ls_iban, ls_abi, ls_bic, ls_sconto_pag_anticipato, ls_cab
+string ls_data_lim_pag_anticipato, ls_penalita, ls_data_dec_penale, ls_cod_pagamento, ls_nome_allegato[], ls_alg_compressione[], ls_formato_allegato[], ls_allegato[], ls_des_allegato[]
+string ls_des_registro, ls_hub_scelto //mi serve per mandare via PEC la FAttura al provider scelto dal cliente (di default è sdi01@pec.fatturapa.it)
+string ls_uff_REA, ls_num_REA, ls_capitale_sociale, ls_socio_unico, ls_stato_liquidazione, ls_nat_giuridica, ls_num_civico_committente, ls_perc_maggiorazione_riga[]
+string ls_id_num_doc_ordine, ls_rif_linea_doc_ordine, ls_data_doc_ordine, ls_num_item_ordine, ls_cod_commessa_ordine, ls_tipo_maggiorazione_riga[] 
+string ls_imp_maggiorazione_riga[], ls_aliq_iva_riep[], ls_natura_riep[], ls_arrotondamento_riep[], ls_imposta_riepilogo[], ls_rif_amministrazione_riga[], ls_tipo_um
+string ls_tipo_pagamento,ls_mod_pagamento[], ls_termini_pagamento[], ls_giorni_pagamento[], ls_data_scadenza_pagamento[], ls_imp_pagamento[], ls_cod_uff_postale[], ls_benef_pagamento[]
+string ls_iban_naz,ls_iban_controllo, ls_iban_cin, ls_cod_abi, ls_cod_cab, ls_cc_bancario, ls_iban_committente, ls_file_ok, ls_naz_vettore, ls_azzera[], ls_coef_calo, ls_tit_metallo
+
+date ldt_data_trasporto, ldt_data_scadenza , ldt_data_dich
+datetime ldt_data_ora
+//boolean lb_esente=false
+//setnull(ls_null)
+
+// ll_id_doc deve essere il paramentro della funzione sarà quindi passata da chi richiama da ritoccare!!!!
+//al_id_doc=149585
+//ds_doc=create datastore
+//ds_doc.dataobject="ds_documento_2016"
+//ds_doc.settransobject(sqlca)
+//li_ret=ds_doc.retrieve(al_id_doc)
+select codice into :ls_ordine_fattura from dba.azienda;
+
+ds_riga_doc=create datastore
+if upper(ls_ordine_fattura)= "LABELLA" then 
+	ds_riga_doc.dataobject="ds_riga_doc_ae_bella"  //inserito per la bella vuole XML in ordine per data
+else
+	ds_riga_doc.dataobject="ds_riga_doc_ae"
+end if
+ds_riga_doc.settransobject(sqlca)
+
+ds_pagamento=create datastore
+ds_pagamento.dataobject="d_scadenze_pag_ae"
+ds_pagamento.settransobject(sqlca)
+
+ds_cast_iva=create datastore
+ds_cast_iva.dataobject="d_cast_iva_doc_ae_ds"
+ds_cast_iva.settransobject(sqlca)
+
+ds_spese_bollo=create datastore
+ds_spese_bollo.dataobject="d_spesa_documento_bollo_gd"
+ds_spese_bollo.settransobject(sqlca)
+
+//recupero dati fattura
+ select a.cod_interscambio_ae,  az.par_iva, documento.num_documento, string(documento.data_documento), az.rag_soc_1, a.pec,   az.reg_fiscale, se.indirizzo, se.num_civico,
+		se.cap, se.localita, se.provincia, se.nazione, p.tipo_documento_ae, documento.id_sog_commerciale_vettore, az.hub_ae, 
+		az.rea_provincia, az.rea_numero, az.rea_cap_sociale, az.rea_socio_unico, az.rea_stato_liquidazione,
+	
+		a.par_iva, a.cod_fiscale, a.rag_soc_1, a.nat_giuridica, a.cog_ritenute, a.nome_ritenute, 
+		a.codeori, a.indirizzo, a.cap, a.localita, a.provincia, a.nazione, 
+		documento.tras_mezzo, caus_trasporto.descrizione, string(documento.num_colli), documento.asp_beni, 
+unita_misura.simbolo, documento.data_trasporto, documento.id_con_pagamento, a.id_anagrafica, p.des_stampa,
+p.fat_senza_ddt, documento.sconto_fin_incondizionato
+//aggiunto sultak
+
+into :ls_cod_destinatario, :ls_id_trasmittente, :ls_num_fattura, :ls_data, :ls_rag_sociale,  :ls_pec_destinatario, :ls_reg_fiscale, :ls_indirizzo, :ls_num_civico,
+		:ls_cap, :ls_comune, :ls_provincia, :ls_nazione, :ls_tipo_doc, :ll_id_sog_com_vettore, :ls_hub_scelto,
+		 :ls_uff_REA, :ls_num_REA, :ldc_capitale_sociale, :ls_socio_unico, :ls_stato_liquidazione,
+		:ls_id_committente, :ls_cod_fiscale_committente, :ls_rag_soc_committente, :ls_nat_giuridica, :ls_cognome_committente, :ls_nome_committente,
+		 :ls_codeori_committente, :ls_indirizzo_committente, :ls_cap_committente, :ls_comune_committente, :ls_provincia_committente, :ls_nazione_committente,
+		 :ls_mezzo_trasporto, :ls_caus_trasporto, :ls_num_colli, :ls_des_aspetto_beni, :ls_unita_peso, :ldt_data_trasporto, :ll_id_con_pagamento, :ll_id_anagrafica, :ls_des_stampa,
+		 :ls_fat_senza_ddt, :ldc_sconto_fin_incondizionato
+		 //aggiungere a sultak
+		 
+from dba.documento "documento" LEFT OUTER JOIN dba.unita_misura "unita_misura" ON "documento"."id_unita_misura_peso" = "unita_misura"."id_unita_misura",
+dba.documento "documento" LEFT OUTER JOIN dba.caus_trasporto "caus_trasporto" ON "documento"."id_caus_trasporto" = "caus_trasporto"."id_caus_trasporto",
+dba.sog_commerciale s, dba.anagrafica a,  dba.azienda az, dba.sede se, dba.prof_documento p
+
+where s.id_sog_commerciale=documento.id_sog_commerciale
+and a.id_anagrafica=s.id_anagrafica
+and documento.id_documento=:al_id_doc
+and documento.id_prof_documento=p.id_prof_documento
+and az.id_azienda=se.id_azienda
+;
+//se nel registro utilizzato, la descrizione contiene "$$" allora è un /B /C ecc-.. prendo l'ultima lettera (il"B" o "C" ...) e la aggiungo al numero
+
+select r.descrizione
+into :ls_des_registro
+from registro r, documento d
+where d.id_documento=:al_id_doc and d.id_registro=r.id_registro
+;
+if pos(ls_des_registro, "$$")>0 then
+	ls_num_fattura+=right(ls_des_registro, 1)
+end if
+//fine gestione numeri barrati b-c-ecc...
+//12/02/22 il numero fattura avrà da ora anche l'anno ed eventualmente il sezionale:"143A/2022". il sezionale sarà la lettera della descrizione registro posta subito dopo "$$".
+ls_num_fattura+="/"+string(year(date(ls_data)))
+//12/02/2022 fine
+ls_divisa_euro="EUR"
+//controllo valori
+ls_capitale_sociale=f_cambia_virgola_in_punto(string(ldc_capitale_sociale))
+if isnull(ls_uff_REA + ls_num_REA + ls_capitale_sociale + ls_socio_unico + ls_stato_liquidazione) then
+	if messagebox("Attenzione!", "Tabella AZIENDA: non è valorizzato un campo dei valori 'ISCRIZIONE REA!' SE NON HAI OBBLIGO DI REGISTRAZIONE PREMI 'SI' e vai avanti altrimenti 'NO' e riempi i campi", stopsign! , yesno! )<>1 then	return ""
+end if
+if ls_uff_REA> " " then //sultak
+	if isnull(ls_num_REA) or isnull(ls_stato_liquidazione) then
+		 messagebox("Attenzione!", "Tabella AZIENDA: è valorizzato un campo UFFICIO REA ma non lo STATO LIQUIDAZIONE O NUMERO REA")
+		return ""
+	end if
+end if
+
+if isnull(ls_id_trasmittente+ls_num_fattura+ls_data+ls_indirizzo +ls_cap + ls_comune +ls_provincia+ls_nazione) then
+	messagebox("Attenzione!", "Tabella DOC-AZIENDA: non è valorizzato un campo fra: P.IVA, NUM_FATTURA, DATA FATTURA, INDIRIZZO, CAP, COMUNE, PROVINCIA, NAZIONE!")
+	return ""
+end if
+
+ if isnull(ls_nazione_committente) then 
+	messagebox("Attenzione!", "Tabella anagrafica: non è valorizzato il campo 'NAZIONE'!")
+	return ""
+end if
+if isnull(ls_indirizzo_committente + ls_cap_committente + ls_comune_committente + ls_provincia_committente+ls_nazione_committente) then
+	messagebox("Attenzione!", "Tabella anagrafica: non è valorizzato un campo fra: INDIRIZZO, CAP, COMUNE, PROVINCIA, NAZIONE!")
+	return ""
+end if
+
+if ldt_data_trasporto> date("01-01-1900") then
+	ls_data_inizio_trasporto=string(ldt_data_trasporto, "YYYY-MM-DD")
+end if
+
+if isnull(ls_tipo_doc) then 
+	messagebox("Attenzione!", "Tabella Prof_documento: non è valorizzato il campo 'TIPO_DOCUMENTO'!")
+	return ""
+end if 
+if ls_mezzo_trasporto= "V" then 
+	if isnull(ll_id_sog_com_vettore) then
+		messagebox("Attenzione!", "Tabella DOCUMENTO: non è valorizzato il campo 'VETTORE', contrariamente a quanto indicato nel campo TRASPORTO A MEZZO!")
+		return ""
+	end if
+end if 
+
+li_pos=pos(ls_rag_sociale, "&")
+if li_pos>0 then
+	ls_rag_sociale=replace(ls_rag_sociale, li_pos, 1, "&amp;")
+end if	
+li_pos=pos(ls_rag_soc_committente, "&")
+if li_pos>0 then
+	ls_rag_soc_committente=replace(ls_rag_soc_committente, li_pos, 1, "&amp;")
+end if	
+
+if ls_des_stampa> " " then ls_causale=ls_des_stampa
+
+//se è autofattura occore cambiare i posti fra committente e cessionario
+if  ls_tipo_doc="TD16" or  ls_tipo_doc="TD17" or  ls_tipo_doc="TD18" or  ls_tipo_doc="TD19" then 
+	ls_uff_REA=""  //tolgo l'iscrizione al rea
+	//ls_reg_fiscale="" //e anche il regime fiscale NOOOO non lo tolgo lo vuole comunque, NON ho capito perché... 24-02-2022
+	ls_appoggio=ls_rag_sociale
+	if ls_nat_giuridica="G" then
+		ls_rag_sociale=ls_rag_soc_committente
+		ls_rag_soc_committente=ls_appoggio
+	else
+		ls_rag_sociale=ls_cognome_committente +" "+ls_nome_committente
+		ls_rag_soc_committente=ls_appoggio
+	end if
+	ls_appoggio=""
+	ls_appoggio=	ls_indirizzo
+	ls_indirizzo=ls_indirizzo_committente
+	ls_indirizzo_committente=ls_appoggio
+	ls_appoggio=""
+	//ls_num_civico
+	ls_appoggio=ls_cap
+	ls_cap=ls_cap_committente
+	ls_cap_committente=ls_appoggio
+	ls_appoggio=""
+	ls_appoggio=ls_comune 
+	ls_comune=ls_comune_committente
+	ls_comune_committente=ls_appoggio
+	ls_appoggio=""
+	ls_appoggio=ls_provincia 
+	ls_provincia=ls_provincia_committente
+	ls_provincia_committente=ls_appoggio
+	ls_appoggio=""
+	ls_appoggio=ls_nazione
+	ls_nazione=ls_nazione_committente
+	ls_nazione_committente=ls_appoggio
+	ls_appoggio=""
+	ls_cod_fiscale_committente=ls_id_trasmittente
+	ls_appoggio=ls_id_trasmittente
+	if ls_id_committente> " " then //c'è l'iva prendo quella
+		ls_id_trasmittente=ls_id_committente
+		ls_id_committente=ls_appoggio
+	else  //altrimenti codice fiscale
+		ls_id_trasmittente=ls_cod_fiscale_committente
+		ls_cod_fiscale_committente=ls_appoggio
+	end if
+	ls_appoggio=""
+	select codice_interscambio_ae into :ls_cod_destinatario from dba.azienda;
+	if isnull(ls_cod_destinatario) or ls_cod_destinatario<="" then ls_cod_destinatario="0000000"
+	
+end if
+
+//riepiloghi
+li_righe_castelletto=ds_cast_iva.retrieve(al_id_doc)
+for b=1 to li_righe_castelletto //spostato sotto alla select che recupera data doc e id_nagrafica
+	ls_aliq_iva_riep[b]  =f_cambia_virgola_in_punto(string(ds_cast_iva.getitemdecimal(b, "per_aliquota"), "#0.00") )
+	if isnull(ls_aliq_iva_riep[b]) or ls_aliq_iva_riep[b]<="" then 
+		messagebox("Attenzione!", "Tabella TAB_IVA: non è valorizzato il campo 'ALIQUOTA'! Se è esente o non imponibile deve essere '0' non vuoto!") //
+		return ""
+	end if
+//	if ls_aliq_iva_riep[b]="0" then lb_esente=true
+	ls_es_iva_riepilogo[b] =ds_cast_iva.getitemstring(b, "esigibilita")
+	ls_rif_norm_riepilogo[b]=ds_cast_iva.getitemstring(b, "des_estesa")
+	if isnull(ls_rif_norm_riepilogo[b]) or ls_rif_norm_riepilogo[b]<="" then //
+		messagebox("Attenzione!", "Tabella TAB_IVA: non è valorizzato il campo 'DES_ESTESA'! Il valore del campo è il riferimento normativo riportato in fattura.") //
+		return ""
+	end if
+	ls_natura_riep[b]  =ds_cast_iva.getitemstring(b, "natura")
+	if ls_natura_riep[b]> " " and ls_tipo_doc<>"TD04" and ls_tipo_doc<>"TD05" then
+		//controllo se c'è dichiarazioen intento e la metto eventualmente sul campo causale 2.1.1.11
+		ls_dich_int[1]= f_dich_intento_2017(ll_id_anagrafica, date(ls_data), "",al_id_doc )
+		if ls_dich_int[1]> " " then
+			//ls_causale+=" DICH. INT. n. "+ ls_dich_intento //se la dich intento non c'è la ls_causale viene annullata (il ritorno della funzione  è nullo) quindi questa riga viene saltata
+		else
+			if not(pos(ls_causale, "DICH. INT") > 0) then
+			//controllo: questo tizio ha un'esenzione chiedo se si vuole annullare la procedura e inserire la dich intento
+				if messagebox("Attenzione!", "Sembra che il cliente abbia un'esenzione IVA, tuttavia NON è stata inserita la dichiarazione d'intento! Vuoi continuare lo stesso?", stopsign!, yesno!)<>1 then
+					return ""
+				end if
+			end if
+		end if
+	end if
+//	if if ls_tipo_doc="TD04" then //sperando che le uniche spese che si possono mettere in una nota credito siano quelle di bollo .... 21-03-2019
+			
+	ls_spese_accessorie_riep[b] =f_cambia_virgola_in_punto(string(ds_cast_iva.getitemdecimal(b, "val_spese"), "#0.00") )
+	ls_arrotondamento_riep[b] =""
+	ls_imponibile_riepilogo[b]  = f_cambia_virgola_in_punto(string(ds_cast_iva.getitemdecimal(b, "val_tot_imp_l"), "#0.00"))
+	ls_imposta_riepilogo[b]=f_cambia_virgola_in_punto(string(ds_cast_iva.getitemdecimal(b, "val_tot_iva_l"), "#0.00"))
+
+next
+destroy ds_cast_iva
+
+//recupero la valuta (divisa)
+select v.iso_4217_a3_201, d.cambio
+into :ls_divisa, :ldc_cambio
+from dba.valuta v, dba.documento d
+where d.id_documento=:al_id_doc
+and d.id_valuta=v.id_valuta
+;
+IF ISNULL(ls_divisa) THEN
+	messagebox("Attenzione!", "Tabella VALUTA: non è valorizzato il campo 'iso_4217_a3_201'!")
+	return ""
+end if
+//totale documento (fattura)
+select sum(val_tot_imp_l)+sum(val_tot_iva_l),  sum(val_tot_imp_v)+sum(val_tot_iva_v)  // ldc_imponibile_riep_valuta[b] ldc_imposta_riep_valuta[b]=
+into :ldc_imp_tot_documento, :ldc_imp_tot_doc_valuta
+from dba.cast_iva_documento
+where id_documento=:al_id_doc
+;
+ls_imp_tot_documento=f_cambia_virgola_in_punto(string(ldc_imp_tot_documento, "#0.00"))
+if ls_divisa<>"EUR" then
+	if ls_causale> " " then
+		ls_causale+= " --" +"Fat. in: "+ls_divisa+". Cambio: "+f_cambia_virgola_in_punto(string(ldc_cambio, "#0.0000"))+ "  - TOT. in Valuta: "+&
+							+f_cambia_virgola_in_punto(string(ldc_imp_tot_doc_valuta, "#0.00"))
+	else
+		ls_causale="Fat. in: "+ls_divisa+". Cambio: "+f_cambia_virgola_in_punto(string(ldc_cambio, "#0.0000"))+ "  - TOT. in Valuta: "+&
+							+f_cambia_virgola_in_punto(string(ldc_imp_tot_doc_valuta, "#0.00"))
+	end if
+end if
+if len(ls_causale)>200 then 
+	messagebox("Attenzione!", "Campo causale eccede i 200 caratteri: è un problemone ... Contattare Assistenza!.") //
+	return ""
+end if
+
+li_righe=ds_riga_doc.retrieve(al_id_doc)
+SELECT COUNT(*) 
+into :li_num_righe_effettive
+from dba.riga_documento
+where id_documento=:al_id_doc
+//and tot_riga_val_az >0
+;
+//da rimettere subito a posto
+//if li_num_righe_effettive<>li_righe then
+//	messagebox("Attenzione!", "Le righe fattura caricate NON sono uguali a quelle de documento (anche escluse quelle a prezzo=0). Controllare se esitono righe, ad esempio, senza UNità confezione!!!") //
+//	return ""
+//end if
+ls_num_ddt=ls_azzera //
+ls_data_ddt=ls_azzera //
+for i= 1 to li_righe
+	ldc_prezzo_totale[i] = ds_riga_doc.getitemdecimal(i, "tot_riga_val_az")
+	if ldc_prezzo_totale[i]> 0 then
+		h++
+		ls_tipo_um=""
+		//dalle righe ricavo prima di tutto i ddt collegati (derivati) e li inserisco in dei vettori
+		ls_num_linea[h]=string(ds_riga_doc.getitemnumber(i, "num_riga"))//
+		ll_id_riga_documento=ds_riga_doc.getitemnumber(i, "id_riga_documento")
+		if ls_fat_senza_ddt='N' or isnull(ls_fat_senza_ddt) then //aggiunto dopo problema con Elisa: derivava la fatimmediata dal pronto e vevniva in xml una fat imm con i ddt ... 11-03-2019
+			ll_id_riga_doc_provenienza=ds_riga_doc.getitemnumber(i, "id_riga_doc_provenienza")
+			if ll_id_riga_doc_provenienza> 0 then
+				select d.num_documento, d.data_documento//
+				into :ls_num_ddt[h] , :ls_data_ddt[h]
+				from dba.riga_documento r, dba.documento d
+				where r.id_documento=d.id_documento
+				and id_riga_documento=:ll_id_riga_doc_provenienza	
+				;
+				ls_rif_linea_ddt[h]=trim(ls_num_linea[h]) //
+			end if
+		end if
+		ls_tipo_ces_prestazione[h]="" 
+		ls_cod_articolo[h] =""
+		ls_data_inizio_periodo[h]=""
+		ls_data_fine_periodo[h]=""
+		ls_tipo_maggiorazione_riga[h]=""
+		ls_tipo_dato[h]=""
+	//ls_cod_valore[h]  
+		ls_coef_calo=""
+		ls_coef_calo=string(ds_riga_doc.getitemdecimal(i, "coef_calo"), "#,0.00") 
+		ll_id_articolo=0
+		ll_id_articolo=ds_riga_doc.getitemnumber(i, "id_articolo")
+		ls_tit_metallo=""
+		select m.codice, t.titolo
+		into :ls_tit_metallo, :ldc_orafo_titolo
+		from dba.articolo a, dba.orafo_metallo m, dba.orafo_titolo t
+		where m.id_metallo=t.id_metallo and
+		a.id_titolo=t.id_titolo and
+		a.id_articolo=:ll_id_articolo
+		;
+		if ls_tit_metallo> "  " then
+			ls_tit_metallo= ls_tit_metallo+ string(ldc_orafo_titolo, "#,0.00")
+			if ls_coef_calo> " " then ls_tit_metallo+= " - C.CALO: "+ls_coef_calo
+		else
+			ls_tit_metallo=""
+		end if
+		//articolo codice
+		//tipo codice articolo Codice Art. fornitore
+		//ls_cod_articolo[h]="Codice Art. fornitore"
+		//ls_cod_valore[h]=ds_riga_doc.getitemstring(i, "articolo_codice")
+		if pos(upper(ls_rag_sociale), "SILVER D")>0 then
+			ls_num_bollettina=f_cerca_bol_fe(ll_id_riga_documento)
+			ls_des_beni_servizi[h] =string(ll_id_articolo)+"_"+ls_num_bollettina+" - "
+		end if
+		ls_des_beni_servizi[h] +=ds_riga_doc.getitemstring(i, "articolo_codice")+"  "
+		if ls_des_beni_servizi[h]>" " then
+			ls_des_beni_servizi[h] +=ds_riga_doc.getitemstring(i, "descrizione")
+		else
+			ls_des_beni_servizi[h] =ds_riga_doc.getitemstring(i, "descrizione")
+		end if
+		if len(ls_des_beni_servizi[h] )> 1000 then //controllo la lunghezza (<60)
+			//messagebox("Attenzione!", "des_originale: "+ls_des_beni_servizi[h]+" DES tagliata: "+left(ls_des_beni_servizi[h] , 60))
+			ls_des_beni_servizi[h] =left(ls_des_beni_servizi[h] , 1000)
+		end if
+		if isnull(ls_des_beni_servizi[h]) then 
+			messagebox("Attenzione!", "La descrizione della riga"+string(i)+" è NULLA: questo campo è obbligatorio!! Elaborazione interrotta!")
+			return ""
+		end if
+		//creare funzione e spostare tutto lì ... farlo anche per la rag sociale su in cima
+		li_pos=pos(ls_des_beni_servizi[h], "&")
+		do while li_pos>0 
+			ls_des_beni_servizi[h]=replace(ls_des_beni_servizi[h], li_pos, 1, "&amp;")
+			li_pos=pos(ls_des_beni_servizi[h], "&", li_pos+1)
+		loop
+		li_pos=pos(ls_des_beni_servizi[h], "<")
+		do while li_pos>0 
+			ls_des_beni_servizi[h]=replace(ls_des_beni_servizi[h], li_pos, 1, "&lt;")
+			li_pos=pos(ls_des_beni_servizi[h], "<", li_pos+1)
+		loop
+		li_pos=pos(ls_des_beni_servizi[h], ">")
+		do while li_pos>0 
+			ls_des_beni_servizi[h]=replace(ls_des_beni_servizi[h], li_pos, 1, "&gt;;")
+			li_pos=pos(ls_des_beni_servizi[h], ">", li_pos+1)
+		loop
+		li_pos=pos(ls_des_beni_servizi[h], '"')
+		do while li_pos>0 
+			ls_des_beni_servizi[h]=replace(ls_des_beni_servizi[h], li_pos, 1, "&quot;")
+			li_pos=pos(ls_des_beni_servizi[h], '"', li_pos+1)
+		loop
+		li_pos=pos(ls_des_beni_servizi[h], "'")
+		do while li_pos>0 
+			ls_des_beni_servizi[h]=replace(ls_des_beni_servizi[h], li_pos, 1, "&apos;")
+			li_pos=pos(ls_des_beni_servizi[h], "'", li_pos+1)
+		loop
+			li_pos=pos(ls_des_beni_servizi[h], "€")
+		do while li_pos>0 
+			ls_des_beni_servizi[h]=replace(ls_des_beni_servizi[h], li_pos, 1, "E.")
+			li_pos=pos(ls_des_beni_servizi[h], "€", li_pos+1)
+		loop
+		
+		if ls_tit_metallo> " " then
+			ls_tipo_dato[h]='Nota'
+			ls_rif_testo[h]=ls_tit_metallo+" "
+			ls_rif_numero[h]=""
+			ls_rif_data[h]=""
+		end if
+			
+		ls_u_misura[h] =ds_riga_doc.getitemstring(i, "unita_misura_descrizione")
+		ls_tipo_um=ds_riga_doc.getitemstring(i, "unita_misura_tipo")
+		if  ls_tipo_um="N" then
+			ldc_qta_beni[h] = ds_riga_doc.getitemdecimal(i, "quantita")
+			ls_qta_beni[h] =f_cambia_virgola_in_punto(string(ldc_qta_beni[h] , "#0.00")) //f_cambia_virgola_in_punto(string(ds_riga_doc.getitemdecimal(i, "qta"), "#0.00"))
+		//	ls_prezzo_unitario[h]=string(ds_riga_doc.getitemdecimal(i, "prezzo_complessivo"), "#0.00") //f_cambia_virgola_in_punto(string(ds_riga_doc.getitemdecimal(i, "pr_pezzo"), "#0.00"))	
+		else
+			ldc_qta_beni[h] = ds_riga_doc.getitemdecimal(i, "peso_netto")
+			ls_qta_beni[h] =string(ldc_qta_beni[h], "#0.00")//f_cambia_virgola_in_punto(string(ds_riga_doc.getitemdecimal(i, "peso"), "#0.00"))
+		//	ls_prezzo_unitario[h]=string(ds_riga_doc.getitemdecimal(i, "prezzo_manifattura"), "#0.00") //f_cambia_virgola_in_punto(string(ds_riga_doc.getitemdecimal(i, "pr_man"), "#0.00"))
+		end if
+		//20201013
+//		if isnull(ldc_qta_beni[h]) or 	ldc_qta_beni[h]=0 then //controllo se qta beni è valorizzato
+//			
+//			if messagebox("Attenzione!", "Quantita dei beni (grammi o pezzi) non valorizzata: riga n."+ls_num_linea[h]+". Vuoi inserirla manualmente?", stopsign!, yesno!) =1 then
+//				//da fare occhio ricorda!!!!!
+//			else
+//				return ""
+//			end if
+//		end if
+	// ls_tipo_maggiorazione_riga[a]  ls_perc_maggiorazione_riga[a]  ls_imp_maggiorazione_riga[a]  
+		//ls_prezzo_totale[h] =f_cambia_virgola_in_punto(string(dec(ls_qta_beni[h])*dec(ls_prezzo_unitario[h]), "#0.00"))
+		ldc_prezzo_totale[h] = ds_riga_doc.getitemdecimal(i, "tot_riga_val_az") //sempre il valore in euro
+		ls_prezzo_totale[h]=f_cambia_virgola_in_punto(string(ldc_prezzo_totale[h], "#0.00"))	
+		//fatto
+		//altri dati gestionali: inserisco l'eventuale importo del metallo
+		ldc_prezzo_metallo[h]=ds_riga_doc.getitemdecimal(i, "prezzo_metallo")
+		//prezzo unitario recupero
+		//controllo  se la qta beni è >0, se non lo è potrebbe esserci solo il metallo allora il movimento, anche se indicato a pezzi, è sempre sui grammi!!!
+		if ldc_prezzo_metallo[h]>0 and  ls_tipo_um="N" and   (ldc_qta_beni[h]=0 or isnull(ldc_qta_beni[h])) then 
+			ldc_qta_beni[h] = ds_riga_doc.getitemdecimal(i, "peso_netto")
+			ls_qta_beni[h] =string(ldc_qta_beni[h], "#0.00")
+		end if 
+		//fine controllo
+		if ldc_prezzo_totale[h]>0 and ldc_qta_beni[h]>0  then
+			ldc_prezzo_unitario[h]=ldc_prezzo_totale[h]/ldc_qta_beni[h]
+			ls_prezzo_unitario[h]=string(ldc_prezzo_unitario[h], "#0.000000") //f_cambia_virgola_in_punto(string(ds_riga_doc.getitemdecimal(i, "pr_man"), "#0.00"))
+		else
+			messagebox("Attenzione!", "Importo riga o quantita dei beni (grammi o pezzi) non valorizzato") 
+			return ""
+		end if
+//		if  ls_tipo_um="N" then
+//			ls_prezzo_unitario[h]=string(ds_riga_doc.getitemdecimal(i, "prezzo_complessivo"), "#0.000") //f_cambia_virgola_in_punto(string(ds_riga_doc.getitemdecimal(i, "pr_pezzo"), "#0.00"))	
+//		else
+//			ls_prezzo_unitario[h]=string(ds_riga_doc.getitemdecimal(i, "prezzo_manifattura"), "#0.000") //f_cambia_virgola_in_punto(string(ds_riga_doc.getitemdecimal(i, "pr_man"), "#0.00"))
+//		end if
+		//
+		if ldc_prezzo_metallo[h]> 0 then
+		
+			ldc_fino_calo[h]=ds_riga_doc.getitemdecimal(i, "fino")
+			if not isnull(ds_riga_doc.getitemdecimal(i, "calo")) then
+				ldc_fino_calo[h]+=ds_riga_doc.getitemdecimal(i, "calo")
+			end if
+			ldc_imp_metallo[h]=ldc_prezzo_metallo[h]*ldc_fino_calo[h]
+			//se c'è un cambio lo converto in euro (perché la quotazion che ho preso era in valuta)
+			if ldc_cambio<>1 then 
+				ldc_imp_metallo[h] /=ldc_cambio
+			end if
+			//ora inserisco la nota
+			if isnull(ls_tipo_dato[h]) or ls_tipo_dato[h]="" then
+				ls_tipo_dato[h]='Nota'
+			end if
+			
+			li_id_galvanica=ds_riga_doc.getitemdecimal(i, "id_gruppo_agenti_2")
+			if li_id_galvanica>0 then
+				ls_rif_testo[h]+="Imp. galv.: "
+			else
+				ls_rif_testo[h]+="Imp. met.: "
+			end if	
+			ls_rif_testo[h]+= f_cambia_virgola_in_punto(string(ldc_imp_metallo[h], "#0.00"))
+			
+			ls_rif_data[h]=""
+			ls_rif_numero[h]=""
+			ls_rif_data[h]=""
+		end if		
+		if isnull(ls_tipo_dato[h]) or ls_tipo_dato[h]="" then
+			ls_tipo_dato[h]=""
+			ls_rif_testo[h]=""
+			ls_rif_data[h]=""
+			ls_rif_numero[h]=""
+		end if
+		//fine altri dati gestionali
+		
+		//ora metto il punto al posto della virgola
+		ls_qta_beni[h]=f_cambia_virgola_in_punto(ls_qta_beni[h])
+		ls_prezzo_unitario[h]=f_cambia_virgola_in_punto(ls_prezzo_unitario[h])
+		ls_aliq_iva[h] =f_cambia_virgola_in_punto(string(ds_riga_doc.getitemdecimal(i, "tab_iva_per_aliquota"), "#0.00"))
+		if isnull(ls_aliq_iva[h]) then
+			messagebox("Attenzione!", "Tabella TAB_IVA: non è valorizzato il campo 'ALIQUOTA'! Se è esente o non imponibile deve essere '0' non vuoto!") //
+			return ""
+		end if
+		ls_ritenuta[h]="" 
+		if not(integer(ls_aliq_iva[h])) > 0 then
+			ls_natura[h]=ds_riga_doc.getitemstring(i, "tab_iva_natura")
+			ls_natura[h]=trim(ls_natura[h])
+			if isnull(ls_natura[h]) then
+				messagebox("Attenzione!", "Tabella TAB_IVA: non è valorizzato il campo 'NATURA'!")
+				return ""
+			end if
+		else
+			ls_natura[h]=""
+		end if
+		ls_rif_amministrazione_riga[h]=""
+	
+		if ls_tipo_doc="TD04" or  ls_tipo_doc="TD05" or ls_tipo_doc="TD16" or  ls_tipo_doc="TD17" or  ls_tipo_doc="TD18" or  ls_tipo_doc="TD19" then //autofatture e nota credito 2.1.6
+			//cerco eventualmente riferimenti a fatture collegate
+			e++
+			if pos(upper(ls_rag_sociale), "SILVER D")>0 then
+				//id_riga_documento della fattura sull'id_riga_doc_provenienza del pronc-prond
+								select num_documento, data_documento, r.num_riga into :ls_id_num_fat_collegata[e], :ls_data_fat_collegata[e], :ls_rif_linea_fat_collegata[e]
+				from riga_documento r, documento d, riga_documento r2, riga_documento r3
+				where r3.id_riga_documento=:ll_id_riga_documento and  r2.id_riga_documento=r3.id_riga_doc_provenienza and r2.id_riga_doc_provenienza=r.id_riga_documento
+				and r.id_documento=d.id_documento;
+
+				//questo per le prime 6 silver nc che NON hanno id_riga_documento della fattura sull'id_riga_doc_provenienza del pronc-prond
+//				select num_documento, data_documento, rfat.num_riga into :ls_id_num_fat_collegata[e], :ls_data_fat_collegata[e], :ls_rif_linea_fat_collegata[e]
+//				from riga_documento rnc, documento d, riga_documento rpro, riga_documento rdv, riga_documento rfat
+//				where rnc.id_riga_documento=:ll_id_riga_documento and  rpro.id_riga_documento=rnc.id_riga_doc_provenienza and rdv.id_riga_documento= rpro.id_riga_doc_provenienza and  rdv.id_riga_documento =rfat.id_riga_doc_provenienza
+//				and rfat.id_documento=d.id_documento;
+				if ls_id_num_fat_collegata[e]<="" or isnull(ls_id_num_fat_collegata[e]) then
+					select num_doc_rif, data_doc_rif, num_riga_doc_rif
+					into :ls_id_num_fat_collegata[e], :ls_data_fat_collegata[e], :ls_rif_linea_fat_collegata[e]
+					from dba.riga_documento_2 where id_riga_Documento=:ll_id_riga_documento;	
+				end if
+			else
+				select num_doc_rif, data_doc_rif, num_riga_doc_rif
+				into :ls_id_num_fat_collegata[e], :ls_data_fat_collegata[e], :ls_rif_linea_fat_collegata[e]
+				from dba.riga_documento_2 where id_riga_Documento=:ll_id_riga_documento;
+			end if
+			if isnull(ls_id_num_fat_collegata[e]) or isnull(ls_data_fat_collegata[e]) or ls_data_fat_collegata[e]<="" or ls_id_num_fat_collegata[e]<="" then
+				select num_riga into :li_num_riga_vuota from dba.riga_documento where id_riga_documento=:ll_id_riga_documento; //20240311 il num_riga che dava era sbagliato, ora dà il vero num_riga
+				IF messagebox("ATTENZIONE!","La riga "+string(li_num_riga_vuota)+" è SENZA COLLEGAMENTI alla fattura!!! SE non è un 'buono sconto merce' devi bloccare tutto e controllare il file XML, altrimenti, SE VUOI INVIARLA COMUNQUE PREMI 'SI'",  STOPSIGN!, YESNO!)<>1 then
+					return ""
+				end if
+			end if
+			ls_num_item_fat_collegata[e]=ls_num_linea[h]
+			if upperbound(ls_rif_linea_fat_collegata)<e or  isnull(upperbound(ls_rif_linea_fat_collegata)) then ls_rif_linea_fat_collegata[e]=""
+			if upperbound(ls_num_item_fat_collegata)<e or  isnull(upperbound(ls_num_item_fat_collegata)) then ls_num_item_fat_collegata[e]=""
+			if upperbound(ls_cod_commessa_fat_collegata)<e or  isnull(upperbound(ls_cod_commessa_fat_collegata)) then ls_cod_commessa_fat_collegata[e]=""
+			if upperbound(ls_cod_cup_fat_collegata)<e or  isnull(upperbound(ls_cod_cup_fat_collegata)) then ls_cod_cup_fat_collegata[e]=""
+			if upperbound(ls_cod_cig_fat_collegata)<e or  isnull(upperbound(ls_cod_cig_fat_collegata)) then ls_cod_cig_fat_collegata[e]=""
+			//vedere se è il caso inserire controllo sui riferimenti (se ci sono sempre) 20220115
+			//ora controlliamo le dichiarazioni d'intento eventuali che c'erano nella fattura collegata ...   							DICHIARAZIONI INTENTO TD04 TD05
+			ls_dich_intento=""
+			ls_dich_intento= f_dich_intento_2017(ll_id_anagrafica, date(ls_data_fat_collegata[e]), "TD04", al_id_doc)
+			if upperbound(ls_dich_int)<=0 then
+				ls_dich_int[1]=ls_dich_intento
+			else
+				ls_trovata=""
+				for m=1 to upperbound(ls_dich_int)
+					if ls_dich_int[m]=ls_dich_intento then 
+						ls_trovata="S"
+						exit
+					end if
+				next
+				if ls_trovata<>'S' then
+					ls_dich_int[upperbound(ls_dich_int)+1]=ls_dich_intento
+				end if
+			end if
+		end if
+	end if
+next
+
+destroy ds_riga_doc
+//20240903: gestione fattura acconto: va stornata in quella di saldo: l'acconto è sul campo acconto della testa del documento
+//quindi veifico che ci sia l'acconto e in caso creo una riga negativa (con prezzo unitario negativo e qta=1)
+select imp_acconto, id_tab_iva_acconto, mezzo_trasporto into :ldc_imp_acconto, :ll_id_tab_iva_acconto, :ls_des_riga_acconto from dba.documento where id_documento=:al_id_doc;
+if ldc_imp_acconto>0 then
+	h=upperbound(ls_num_linea) 
+	if h=0 then  //questo si potrebbe togliere perché una riga deve esserci per forza altrimenti NON posso stornare l'acconto....
+		li_num_linea=0
+	else
+		li_num_linea=integer(ls_num_linea[h])
+	end if
+	h++
+	li_num_linea++
+	ls_num_linea[h]=string(li_num_linea)
+	ls_qta_beni[h]="1.00"
+	ls_prezzo_unitario[h]=f_cambia_virgola_in_punto(string(ldc_imp_acconto * -1, "#0.00")) 
+	ls_prezzo_totale[h] =ls_prezzo_unitario[h]
+	select per_aliquota, natura into :ldc_perc_ali_acconto, :ls_natura_iva_acconto from dba.tab_iva where id_tab_iva=:ll_id_tab_iva_acconto;
+	ls_aliq_iva[h] =f_cambia_virgola_in_punto(string(ldc_perc_ali_acconto, "#0.00"))
+	if isnull(ls_aliq_iva[h]) then
+		messagebox("Attenzione!", "Tabella TAB_IVA: non è valorizzato il campo 'ALIQUOTA per l'acconto'!") //
+		return ""
+	end if 
+	if not(integer(ls_aliq_iva[h])) > 0 then
+		ls_natura[h]=ls_natura_iva_acconto
+		ls_natura[h]=trim(ls_natura[h])
+		if isnull(ls_natura[h]) then
+			messagebox("Attenzione!", "Tabella TAB_IVA: non è valorizzato il campo 'NATURA' per l'acconto, aliquota: "+ls_aliq_iva[h])
+			return ""
+		end if
+	else
+		ls_natura[h]=""
+	end if
+	if isnull(ls_des_riga_acconto) then ls_des_riga_acconto=""
+	ls_des_beni_servizi[h]="ACCONTO - "+ls_des_riga_acconto
+	ls_u_misura[h]=""
+	ls_tipo_ces_prestazione[h]=""
+	ls_cod_articolo[h]=""
+	ls_cod_valore[h]=""
+	ls_data_inizio_periodo[h]=""
+	ls_data_fine_periodo[h]=""
+	ls_tipo_maggiorazione_riga[h]=""
+	ls_ritenuta[h]=""
+	ls_rif_amministrazione_riga[h]=""
+	ls_tipo_dato[h]=""
+	ls_cod_valore[h]=""
+end if
+//20240903 FINE
+//recupero dati spese bollo (per spese anche di bollo)
+li_righe_spese=ds_spese_bollo.retrieve(al_id_doc)
+h=upperbound(ls_num_linea)
+if h=0 then 
+	li_num_linea=0
+else
+	li_num_linea=integer(ls_num_linea[h])
+end if
+if li_righe_spese>0 then
+	for d= 1 to li_righe_spese
+		if ls_tipo_doc="TD04" then //è una nota di credito: metto la spesa di bollo ma non la calcolo nel totale del doc! Anche perché deve essere impostata a importo bollo =0
+			if ds_spese_bollo.getitemstring(d, "spesa_codice") = "B" then 
+				ls_bollo_virtuale="SI"
+				ls_importo_bollo="2.00"
+				if isnull(ls_causale) then ls_causale=""
+				ls_causale+="-Imp. bollo assolta in modo virtuale DM 17/06/14"  //f_cambia_virgola_in_punto(string(ds_spese_bollo.getitemdecimal(d , "c_importo_lire"), "#0.00"))
+				continue //la spesa di bollo della nota di credito la paga il fornitore
+			end if
+		end if
+		h++
+		li_num_linea++
+		ls_num_linea[h]=string(li_num_linea)
+		ls_tipo_ces_prestazione[h]='AC'
+		ls_des_beni_servizi[h] =ds_spese_bollo.getitemstring(d, "spesa_descrizione")
+		ls_qta_beni[h]="1.00"
+		ls_prezzo_unitario[h]=f_cambia_virgola_in_punto(string(ds_spese_bollo.getitemdecimal(d , "c_importo_lire"), "#0.00"))
+		ls_prezzo_totale[h] =ls_prezzo_unitario[h]
+		ls_aliq_iva[h] =f_cambia_virgola_in_punto(string(ds_spese_bollo.getitemdecimal(d, "tab_iva_per_aliquota"), "#0.00"))
+		if isnull(ls_aliq_iva[h]) then
+			messagebox("Attenzione!", "Tabella TAB_IVA: non è valorizzato il campo 'ALIQUOTA'! Se è esente o non imponibile deve essere '0' non vuoto!") //
+			return ""
+		end if 
+		if not(integer(ls_aliq_iva[h])) > 0 then
+			ls_natura[h]=ds_spese_bollo.getitemstring(d , "tab_iva_natura")
+			ls_natura[h]=trim(ls_natura[h])
+			if isnull(ls_natura[h]) then
+				messagebox("Attenzione!", "Tabella TAB_IVA: non è valorizzato il campo 'NATURA', aliquota: "+ls_aliq_iva[h])
+				return ""
+			end if
+		else
+			ls_natura[h]=""
+		end if
+		if ds_spese_bollo.getitemstring(d, "spesa_codice") = "B" then
+			ls_bollo_virtuale="SI"
+			ls_causale+="-Imp. bollo assolta in modo virtuale DM 17/06/14"
+//			if len(ls_causale)>200 then 
+//				messagebox("Attenzione!", "Campo causale eccede i 200 caratteri: è un problemone ... Contattare Assistenza!.") //
+//				messagebox("ECCO LA CAUSALE", ls_causale+" e questo è ciò che resterebbe (primi 200 caratteri): "+left(ls_causale, 200))
+//				return ""
+//			end if
+			if dec(ls_prezzo_unitario[h])> 0 then
+				ls_importo_bollo=ls_prezzo_unitario[h]
+			else
+				messagebox("Attenzione!", "SPESE BOLLO: non è valorizzato il campo IMPORTO!")
+				return ""
+			end if
+		end if
+		ls_u_misura[h]=""
+		ls_data_inizio_periodo[h]=""
+		ls_data_fine_periodo[h]=""
+		ls_tipo_maggiorazione_riga[h]=""
+		ls_ritenuta[h]=""
+		ls_rif_amministrazione_riga[h]=""
+		ls_tipo_dato[h]=""
+	next
+end if
+//fine spese
+
+//recupero DATI PAGAMENTO
+li_num_scadenze=ds_pagamento.retrieve(al_id_doc)
+for c=1 to li_num_scadenze
+	if c=1 then 	
+		ls_tipo_pagamento=ds_pagamento.getitemstring(c, "tipo_pagamento")
+		if isnull(ls_tipo_pagamento) then
+			messagebox("Attenzione!", "Tabella CON_PAGAMENTO: non è valorizzato il campo 'TIPO PAGAMENTO'!")
+			return ""
+		end if 
+		ls_iban_naz=ds_pagamento.getitemstring(c, "iban_nazione")
+		ls_iban_controllo=ds_pagamento.getitemstring(c, "iban_contr_internazionale")
+		ls_iban_cin=ds_pagamento.getitemstring(c, "cin")
+		ls_cod_abi=ds_pagamento.getitemstring(c, "cod_abi")
+		ls_cod_abi=ds_pagamento.getitemstring(c, "cod_cab")
+		ls_cc_bancario=ds_pagamento.getitemstring(c, "conto_corrente")
+		ls_iban_committente=ls_iban_naz+ls_iban_controllo+ls_iban_cin+ls_cod_abi+ls_cod_cab+ls_cc_bancario
+		//ls_giorni_pagamento[c]=string(ds_pagamento.getitemnumber(c, "giorni_data_decorrenza"), "0")
+		ls_giorni_pagamento[c]=string(ds_pagamento.getitemnumber(c, "giorni_data_decorrenza"), "#")
+	
+		ls_cognome_quietanziante="" 
+		ls_titolo_quietanziante="" 
+		ls_cf_quietanziante="" 
+		
+	else
+		//ls_giorni_pagamento[c]=ls_giorni_pagamento[c - 1]+string(ds_pagamento.getitemstring(c, "giorni_rate"), "0")
+		ls_giorni_pagamento[c]=string(integer(ls_giorni_pagamento[c - 1])+ds_pagamento.getitemnumber(c, "giorni_rate"), "#")
+	end if
+	ls_benef_pagamento[c]=""
+	ls_termini_pagamento[c]=""
+	ls_mod_pagamento[c]=ds_pagamento.getitemstring(c, "mod_pagamento") 
+	ls_data_scadenza_pagamento[c]=string(ds_pagamento.getitemdate(c, "data_scadenza"), "YYYY-MM-DD") 
+
+	ls_imp_pagamento[c]=f_cambia_virgola_in_punto(string(ds_pagamento.getitemdecimal(c, "importo"), "#0.00"))
+	ls_cod_uff_postale[c]=""
+	
+next
+destroy ds_pagamento
+//fine dati pagamento
+
+
+
+
+
+//recupero dati del vettore eventuale
+if ll_id_sog_com_vettore>0 then
+	select a.par_iva, a.codeori, a.rag_soc_1, a.cod_fiscale, a.num_lic_guida, a.nazione
+	into :ls_id_vettore, :ls_codeori_vettore, :ls_rag_soc_vettore, :ls_cod_fiscale_vettore, :ls_num_lic_guida, :ls_naz_vettore
+	from dba.sog_commerciale s, dba.anagrafica a,
+	where  a.id_anagrafica=s.id_anagrafica
+	and id_sog_commerciale=:ll_id_sog_com_vettore
+	//controllo dati vettore
+	;
+	if isnull(ls_id_vettore) then
+		messagebox("Attenzione!", "Tabella ANAGRAFICA: non è valorizzato il campo 'partita iva' del vettore!")
+		return ""
+	end if
+	if isnull(ls_naz_vettore) then
+		messagebox("Attenzione!", "Tabella ANAGRAFICA: non è valorizzato il campo NAZIONE' del vettore!")
+		return ""
+	end if
+end if
+
+if isnull(ls_cod_destinatario) or ls_cod_destinatario<" " or  ls_cod_destinatario='0000000' then
+	ls_cod_destinatario='0000000' //uso la pec
+	if isnull(ls_pec_destinatario) then 
+		if messagebox("Attenzione!", "Tabella ANAGRAFICA: Pec destinatario non è valorizzato e neppure COD_DESTINATARIO'! Vuoi continuare lo stesso?", stopsign!, yesno!)=0 then return ""
+	end if
+else
+	setnull(ls_pec_destinatario)  //annullo l'eventuale pec perché non serve: c'è
+end if
+//poi faccio una tabella con dataora e numero di ogni invio e numero della fattura inviata FE_invio (id_invio, dataora_invio, id_documento)
+select max(id_invio_fe) 
+into :ll_num_invio
+from dba.fe_invio
+;
+if isnull(ll_num_invio) then ll_num_invio=0
+ll_num_invio++
+f_controlla_num_invio(ll_num_invio, al_id_doc)
+//<?xml version="1.0" encoding="UTF-8" ?> 
+//<?xml-stylesheet type=”text/xsl” href=”fatturaordinaria_v1.2.1.xsl” ?>
+//<p:FatturaElettronica versione="FPR12" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" 
+//  xmlns:p="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2" 
+// xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+// xsi:schemaLocation="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2 
+//http://www.fatturapa.gov.it/export/fatturazione/sdi/fatturapa/v1.2/Schema_del_file_xml_FatturaPA_versione_1.2.xsd">
+
+
+//intestazione file XML
+
+Xml_str ='<?xml version="1.0" encoding="UTF-8" ?>' 
+Xml_str += '<?xml-stylesheet type=”text/xsl” href=”fatturaordinaria_v1.2.1.xsl” ?> ~r~n' 
+Xml_str +='<p:FatturaElettronica versione="FPR12" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" ~r~n' 
+Xml_str += ' xmlns:p="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2"~r~n' 
+Xml_str +=' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ~r~n' 
+Xml_str +=' xsi:schemaLocation="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2 ~r~n' 
+Xml_str +='http://www.fatturapa.gov.it/export/fatturazione/sdi/fatturapa/v1.2/Schema_del_file_xml_FatturaPA_versione_1.2.xsd">'
+
+//ls_id_trasmittente=
+////primo elemento
+Xml_str += "<FatturaElettronicaHeader>~n" //1.
+	Xml_str +="<DatiTrasmissione>~n" //1.1
+		Xml_str +="<IdTrasmittente>~n"
+		if  ls_tipo_doc="TD16" or  ls_tipo_doc="TD17" or  ls_tipo_doc="TD18" or  ls_tipo_doc="TD19" then 
+			Xml_str +="<IdPaese>IT</IdPaese> <IdCodice>"+ls_id_committente+"</IdCodice> "  //che in realtà è di fatto l'id_trasmittente, ma li ho incrociati sopra per metterli nei dati del cessionaro e committente
+		else
+			Xml_str +="<IdPaese>IT</IdPaese> <IdCodice>"+ls_id_trasmittente+"</IdCodice> "
+		end if
+		Xml_str +="</IdTrasmittente>~n" 
+		Xml_str +="<ProgressivoInvio>"+string(ll_num_invio)+"</ProgressivoInvio>  ~n"
+		Xml_str +="<FormatoTrasmissione>FPR12</FormatoTrasmissione>~n"  
+		Xml_str +="<CodiceDestinatario>"+ls_cod_destinatario+"</CodiceDestinatario> ~n" 
+		if ls_num_telefono+ls_email> "  " then
+			Xml_str +="<ContattiTrasmittente> ~n"  
+			Xml_str +="<Telefono>"+ls_num_telefono+"</Telefono> ~n"
+			Xml_str +="<Email>"+ls_email+"</Email> ~n"
+			Xml_str +="</ContattiTrasmittente> ~n"
+		end if
+		if ls_pec_destinatario> "  " then  Xml_str +="<PECDestinatario>"+ls_pec_destinatario+"</PECDestinatario>~n"  
+	
+	Xml_str +="</DatiTrasmissione> ~n"  //fine 1.1
+	//dati di chi emette fattura (cedente prestatore) 1.2
+	Xml_str +="<CedentePrestatore>  ~n"
+		Xml_str +="<DatiAnagrafici>  ~n"
+			Xml_str +="<IdFiscaleIVA>  ~n"
+			Xml_str +="<IdPaese>"+ls_nazione+"</IdPaese>   ~n"
+			Xml_str +="<IdCodice>"+ls_id_trasmittente+"</IdCodice>   ~n"
+			Xml_str +="</IdFiscaleIVA>  ~n"
+			Xml_str +="<Anagrafica> ~n"
+				if ls_rag_sociale> "  " then 	Xml_str +="   <Denominazione>"+ ls_rag_sociale+"</Denominazione> ~n"
+				if ls_cognome> "  " then 
+					Xml_str +=" <Nome>"+ls_nome+"</Nome> ~n"
+					Xml_str +="  <Cognome>"+ls_cognome +"</Cognome>~n"
+					Xml_str +="   <Titolo>"+ls_titolo+"</Titolo> ~n"
+				end if
+				if ls_codeori> "  " then Xml_str +="   <CodEORI>"+ls_codeori+"</CodEORI>~n"
+			Xml_str +="</Anagrafica> ~n"
+			if ls_num_albo> " " then
+				Xml_str +="<AlboProfessionale>"+ls_albo+"</AlboProfessionale> ~n"
+				Xml_str +="   <ProvinciaAlbo>"+ls_pr_albo+"<ProvinciaAlbo> ~n"
+				Xml_str +="  <NumeroIscrizioneAlbo>"+ls_num_albo+"<NumeroIscrizioneAlbo> ~n"
+				Xml_str +="  <DataIscrizioneAlbo>"+ls_data_albo+"<DataIscrizioneAlbo>  ~n"
+			end if
+		if ls_reg_fiscale> " " then Xml_str +=" <RegimeFiscale>"+ls_reg_fiscale+"</RegimeFiscale>~n"
+		Xml_str +="</DatiAnagrafici>  ~n"
+		Xml_str +="<Sede>  ~n"
+		Xml_str +="<Indirizzo>"+ls_indirizzo+"</Indirizzo>   ~n"
+		Xml_str +="<CAP>"+ls_cap+"</CAP>   ~n"
+		Xml_str +="<Comune>"+ls_comune+"</Comune>   ~n"
+		//metto la provincia SOLO se NON è un TD16, TD17, TD18, TD19
+		if ls_tipo_doc<>'TD16' and ls_tipo_doc<>'TD17' and ls_tipo_doc<>'TD18' and ls_tipo_doc<>'TD19' then Xml_str +="<Provincia>"+ls_provincia+"</Provincia>   ~n"
+		Xml_str +="<Nazione>"+ls_nazione+"</Nazione>   ~n"
+		Xml_str +="</Sede>  ~n"
+	
+		if ls_ind_stab_org> " " then
+			Xml_str +="<StabileOrganizzazione>		  ~n"
+				Xml_str +="  <Indirizzo>"+ls_ind_stab_org+"</Indirizzo>  ~n"
+				Xml_str +="  <NumeroCivico>ls_civico_stab_org</NumeroCivico>  ~n"
+				Xml_str +="   <CAP>ls_cap_stab_org</CAP>  ~n"
+				Xml_str +="<Comune>"+ls_comune_stab_org+"</Comune>   ~n"
+				Xml_str +="<Provincia>"+ls_prov_stab_org+"</Provincia>   ~n"
+				Xml_str +="<Nazione>"+ls_naz_stab_org+"</Nazione>   ~n"
+			Xml_str +="</StabileOrganizzazione>  ~n"
+		end if
+		if ls_uff_REA> " " then
+			Xml_str +="  <IscrizioneREA>	  ~n"
+				Xml_str +="   <Ufficio>" +ls_uff_REA+"</Ufficio>~n"
+				Xml_str +="  <NumeroREA>"+ls_num_REA+"</NumeroREA>~n"
+				if ls_capitale_sociale>"0" then  Xml_str +="<CapitaleSociale>"+ls_capitale_sociale+"</CapitaleSociale>~n"
+				if ls_socio_unico> " " then Xml_str +="<SocioUnico>"+ls_socio_unico+"</SocioUnico>~n"
+				Xml_str +="<StatoLiquidazione>"+ls_stato_liquidazione+"</StatoLiquidazione>~n"
+			Xml_str +=" </IscrizioneREA>	  ~n"
+		end if
+		if ls_tel_contatti+ls_fax_contatti+ls_email_contatti+ls_rif_amministrazione> " " then
+			Xml_str +="   <Contatti>	~n"
+				if  ls_tel_contatti> " " then Xml_str +="<Telefono>"+ls_tel_contatti+"</Telefono> ~n"
+				if ls_fax_contatti >" " then Xml_str +="  <Fax>"+  ls_fax_contatti +"</Fax> ~n"
+				if ls_email_contatti >" " then Xml_str +="<Email>"+ls_email_contatti +"<Email>  ~n"
+				if ls_rif_amministrazione> " " then Xml_str +=" <RiferimentoAmministrazione>"+  ls_rif_amministrazione+"</RiferimentoAmministrazione>  ~n"
+			Xml_str +=" </Contatti>~n"
+		end if
+	Xml_str +="</CedentePrestatore>  ~n"  //fine 1.2
+	if ls_cod_fisc_rappr_fiscale> " " then
+		Xml_str +="<RappresentanteFiscale>  ~n"  //1.3
+				Xml_str +="	<DatiAnagrafici>		 ~n"
+				Xml_str +="<IdFiscaleIVA>  ~n"
+					Xml_str +="<IdPaese>IT</IdPaese>   ~n"
+					Xml_str +="<IdCodice>"+ls_id_trasmittente+"</IdCodice>   ~n"
+				Xml_str +="</IdFiscaleIVA>  ~n"
+				Xml_str +="  <CodiceFiscale>ls_cod_fisc_rappr_fiscale</CodiceFiscale> ~n"
+				Xml_str +="<Anagrafica> ~n"
+					Xml_str +="   <Denominazione>"+ ls_rag_sociale_rappr_fisc+"</Denominazione> ~n"
+					Xml_str +=" <Nome>"+ls_nome+"</Nome> ~n"
+					 Xml_str +="  <Cognome> "+ls_cognome +"</Cognome>~n"
+					Xml_str +="   <Titolo>"+ls_titolo+"</Titolo> ~n"
+					Xml_str +="   <CodEORI>"+ls_codeori+"</CodEORI>~n"
+				Xml_str +="</Anagrafica> ~n"
+			Xml_str +="</DatiAnagrafici>  ~n"
+		Xml_str +="</RappresentanteFiscale>  ~n"
+	end if
+	
+	Xml_str +="<CessionarioCommittente>  ~n" //1.4  Dati di chi acquista il bene/servizio (di chi paga, insomma)
+		Xml_str +="<DatiAnagrafici>  ~n"
+			Xml_str +="<IdFiscaleIVA>  ~n"  //1.4.1
+				Xml_str +="<IdPaese>"+ls_nazione_committente+"</IdPaese>   ~n"
+				Xml_str +="<IdCodice>"+ls_id_committente+"</IdCodice>   ~n"
+			Xml_str +="</IdFiscaleIVA>  ~n"
+			if ls_cod_fiscale_committente> " " then Xml_str +="<CodiceFiscale>"+ls_cod_fiscale_committente+"</CodiceFiscale> ~n"  //1.4.1.2
+			Xml_str +="<Anagrafica> ~n"  //1.4.1.3
+			if  ls_nat_giuridica='G' then 
+				Xml_str +="   <Denominazione>"+ ls_rag_soc_committente+"</Denominazione> ~n"
+			else  // è persona fisica (ls_nat_giuridica='F')
+				if ls_nome_committente> " "  then 	Xml_str +=" <Nome>"+ls_nome_committente+"</Nome> ~n"
+				if ls_cognome_committente> " " then
+					Xml_str +="  <Cognome>"+ls_cognome_committente +"</Cognome>~n"
+				else
+					messagebox("Attenzione!", "Non è valorizzato il cognome del cessionario, né l'eventuale ragione sociale!!! L'elaborazione sarà interrotta! ")
+					return ""
+				end if
+			end if
+			if ls_titolo_committente> " " then Xml_str +="   <Titolo>"+ls_titolo_committente+"</Titolo> ~n"
+			if ls_codeori_committente> " " then Xml_str +="   <CodEORI>"+ls_codeori_committente+"</CodEORI>~n"
+			Xml_str +="</Anagrafica> ~n"
+		Xml_str +="</DatiAnagrafici>  ~n"
+		Xml_str +="<Sede>  ~n"   // 1.4.2
+			Xml_str +="<Indirizzo>"+ls_indirizzo_committente+"</Indirizzo>   ~n"
+			if ls_num_civico_committente> " " then Xml_str +="<NumeroCivico>"+ls_num_civico_committente+"</NumeroCivico>   ~n"
+			if ls_nazione_committente<>'IT'  then ls_cap_committente="00000"
+			Xml_str +="<CAP>"+ls_cap_committente+"</CAP>   ~n"
+			Xml_str +="<Comune>"+ls_comune_committente+"</Comune>   ~n"
+			if ls_nazione_committente='IT'  then Xml_str +="<Provincia>"+ls_provincia_committente+"</Provincia>   ~n"
+			Xml_str +="<Nazione>"+ls_nazione_committente+"</Nazione>   ~n"
+		Xml_str +="</Sede>  ~n"
+		if ls_ind_stab_org_cessionario> " " then   //1.4.3
+			Xml_str +="<StabileOrganizzazione>		  ~n"
+				Xml_str +="  <Indirizzo>"+ls_ind_stab_org_cessionario+"</Indirizzo>  ~n"
+				Xml_str +="  <NumeroCivico>"+ls_civico_stab_org_cessionario+"</NumeroCivico>  ~n"
+				Xml_str +="   <CAP>ls_cap_stab_org_cessionario</CAP>  ~n"
+				Xml_str +="<Comune>"+ls_comune_stab_org_cessionario+"</Comune>   ~n"
+				Xml_str +="<Provincia>"+ls_prov_stab_org_cessionario+"</Provincia>   ~n"
+				Xml_str +="<Nazione>"+ls_naz_stab_org_cessionario+"</Nazione>   ~n"
+			Xml_str +="</StabileOrganizzazione>  ~n"
+		end if
+		if ls_id_rap_fisc_cc> " " then
+			Xml_str +="<RappresentanteFiscale>  ~n" //1.4.4
+					Xml_str +="<IdFiscaleIVA>  ~n"
+					Xml_str +="<IdPaese>IT</IdPaese>   ~n"
+					Xml_str +="<IdCodice>"+ls_id_rap_fisc_cc+"</IdCodice>   ~n"
+				Xml_str +="</IdFiscaleIVA>  ~n"
+				Xml_str +="   <Denominazione>"+ ls_rag_sociale_rappr_fisc_cc+"</Denominazione> ~n"
+				Xml_str +=" <Nome>"+ls_nome_rap_fisc_cc+"  </Nome> ~n"
+				Xml_str +="  <Cognome>"+ls_cognome_rap_fisc_cc +"</Cognome>~n"
+			Xml_str +="</RappresentanteFiscale>  ~n"
+		end if
+	Xml_str +="</CessionarioCommittente>  ~n" //1.4 fine
+	if ls_id_ti> " " then
+		Xml_str +="<TerzoIntermediarioOSoggettoEmittente>  ~n" //1.5
+			Xml_str +="<DatiAnagrafici>  ~n"
+				Xml_str +="<IdFiscaleIVA>  ~n"
+					Xml_str +="<IdPaese>IT</IdPaese>   ~n"
+					Xml_str +="<IdCodice>"+ls_id_ti+"</IdCodice>   ~n"
+				Xml_str +="</IdFiscaleIVA>  ~n"
+				Xml_str +="  <CodiceFiscale>"+ls_cod_fiscale_ti+"</CodiceFiscale> ~n"
+				Xml_str +="<Anagrafica> ~n"
+				Xml_str +="   <Denominazione>"+ ls_rag_soc_ti+"</Denominazione> ~n"
+				Xml_str +=" <Nome>"+ls_nome_ti+"</Nome> ~n"
+				 Xml_str +="  <Cognome>"+ls_cognome_ti +"</Cognome>~n"
+				Xml_str +="   <Titolo>"+ls_titolo_ti+"</Titolo> ~n"
+				Xml_str +="   <CodEORI>"+ls_codeori_Ti+"</CodEORI>~n"
+				Xml_str +="</Anagrafica> ~n"
+			Xml_str +="</DatiAnagrafici>  ~n"
+		Xml_str +="</TerzoIntermediarioOSoggettoEmittente>  ~n" //1.5
+	end if
+	
+	if ls_sog_emittente> " " then  Xml_str +="<SoggettoEmittente>"+ls_sog_emittente+"</SoggettoEmittente> ~n" //1.6
+	
+Xml_str += "</FatturaElettronicaHeader>~n" //1. fine
+
+//qui comincia il corpo fattura
+Xml_str +="<FatturaElettronicaBody>		 ~n"			//2
+	Xml_str +="<DatiGenerali>	 ~n"	//2.1		
+		Xml_str +="<DatiGeneraliDocumento>	 ~n"	//2.1.1	
+			Xml_str +=" <TipoDocumento>"+ls_tipo_doc	+"</TipoDocumento> ~n"	
+			Xml_str +=" <Divisa>"+	ls_divisa_euro+"</Divisa>	 ~n"
+			Xml_str +=" <Data>"+ls_data+"</Data> ~n"	
+			Xml_str +="<Numero>"+ls_num_fattura+"</Numero> ~n"	
+			if ls_importo_ritenuta> " " then
+				Xml_str +=" <DatiRitenuta>	 ~n"	//2.1.1.5
+					Xml_str +="<TipoRitenuta>"+ ls_tipo_ritenuta +"</TipoRitenuta>~n"	
+					Xml_str +=" <ImportoRitenuta>"+ls_importo_ritenuta	+"</ImportoRitenuta> ~n"
+					Xml_str +="<AliquotaRitenuta>"+ ls_aliq_ritenuta+"</AliquotaRitenuta> ~n"
+					Xml_str +="<CausalePagamento>"+	ls_caus_pagamento+"</CausalePagamento> ~n"
+				Xml_str +=" </DatiRitenuta>	 ~n" //2.1.1.5 fine
+			end if
+			if ls_bollo_virtuale> " " then
+				Xml_str +=" <DatiBollo>		 ~n" //2.1.1.6
+					Xml_str +="<BolloVirtuale>"+ls_bollo_virtuale+"</BolloVirtuale> ~n"
+					Xml_str +=" <ImportoBollo>"+ls_importo_bollo+"</ImportoBollo> ~n"
+				Xml_str +=" </DatiBollo>		 ~n" //2.1.1.6
+			end if
+			if ls_tipo_cassa> " " then
+				Xml_str +="<DatiCassaPrevidenziale>	 ~n"	//2.1.1.7
+					Xml_str +="<TipoCassa>"+ls_tipo_cassa +"</TipoCassa>	 ~n"
+					Xml_str +=" <AlCassa>"+ls_alCassa+"</AlCassa>	 ~n"
+					Xml_str +=" <ImportoContributoCassa>"+ ls_imp_contr_cassa+"</ImportoContributoCassa> ~n"	
+					Xml_str +="<ImponibileCassa>"+ls_imponibile_cassa +"</ImponibileCassa>	 ~n"
+					Xml_str +=" <AliquotaIVA>"+ls_aliq_iva_cassa_prev+"</AliquotaIVA> ~n"
+					Xml_str +="<Ritenuta>"+ ls_ritenuta_cassa_prev+"</Ritenuta>~n"	
+					Xml_str +="<Natura>"+ls_natura_cassa_prev	+"</Natura>~n"
+					Xml_str +=" <RiferimentoAmministrazione>"+ls_rif_amministrazione_cassa_prev+"</RiferimentoAmministrazione> ~n"
+				Xml_str +="</DatiCassaPrevidenziale>	 ~n"	//2.1.1.7 fine
+			end if
+			//sconto fin incondizionato 03-03-2020
+//if ldc_sconto_fin_incondizionato>0 then // non è corretto perché quando c'è uno sconto di questo tipo occorre, pare, assoggettarlo all'aliquota esente art. 15
+//													// poi stornare l'imponibile soltanto dopo aver calcolato l'IVA sul totale fattura senza sconto!!!!
+//	ls_tipo_maggiorazione="SC"
+//	ls_importo_maggiorazione=f_cambia_virgola_in_punto(string(ldc_sconto_fin_incondizionato, "#0.00") )
+//	//ldc_imp_tot_documento -= ldc_sconto_fin_incondizionato
+//	//ls_imp_tot_documento=f_cambia_virgola_in_punto(string(ldc_imp_tot_documento , "#0.00"))
+//	if ls_tipo_maggiorazione> " " then
+//		Xml_str +="<ScontoMaggiorazione>	 ~n"	//2.1.1.8
+//		 Xml_str +=" <Tipo>"+ls_tipo_maggiorazione	 +"</Tipo> ~n"
+//		if ls_perc_maggiorazione>"0" then  Xml_str +=" <Percentuale>"+ls_perc_maggiorazione  +"</Percentuale>	 ~n"
+//		if ls_importo_maggiorazione> "0" then Xml_str +="<Importo>"+ ls_importo_maggiorazione +"</Importo>~n"
+//		Xml_str +="</ScontoMaggiorazione>	 ~n"	//2.1.1.8 FINE
+//	end if
+//end if
+//fine sconto fin inc
+//if ls_tipo_maggiorazione> " " then
+//	Xml_str +="<ScontoMaggiorazione>	 ~n"	//2.1.1.8
+//	  Xml_str +=" <Tipo>"+ls_tipo_maggiorazione	 +"</Tipo> ~n"
+//	  Xml_str +=" <Percentuale>"+ls_perc_maggiorazione  +"</Percentuale>	 ~n"
+//	  Xml_str +="<Importo>"+	 ls_importo_maggiorazione +"</Importo>~n"
+//	Xml_str +="</ScontoMaggiorazione>	 ~n"	//2.1.1.8 FINE
+//end if
+			//per ora lo ometto: NON è obbligatorio, poi trovo come calcolarlo esattamente ma mettiamolo, va ....
+		Xml_str +=" <ImportoTotaleDocumento>"+ls_imp_tot_documento+"</ImportoTotaleDocumento>	 ~n"	//2.1.1.9
+		if ls_arrotondamento> " " then Xml_str +="<Arrotondamento>"+ ls_arrotondamento+"</Arrotondamento>~n"		//2.1.1.10
+		if ls_causale> " " then  Xml_str +=" <Causale>"+ls_causale+"</Causale> ~n"
+		if ls_art_73>" " then Xml_str +=" <Art73>"+ ls_art_73+"</Art73>	 ~n" //2.1.1.12
+	Xml_str +="</DatiGeneraliDocumento>	 ~n"	//2.1.1 fine
+	if ls_id_num_doc_ordine> " " then
+		Xml_str +="<DatiOrdineAcquisto> ~n"		//2.1.2	
+			Xml_str +="<RiferimentoNumeroLinea>"+ls_rif_linea_doc_ordine+"</RiferimentoNumeroLinea>	 ~n"	
+			Xml_str +="<IdDocumento>"+ls_id_num_doc_ordine+"</IdDocumento>	 ~n"
+			Xml_str +="<Data>"+ls_data_doc_ordine	+"</Data> ~n"	
+			Xml_str +="<NumItem>"+ls_num_item_ordine+"</NumItem> ~n"		
+			Xml_str +="<CodiceCommessaConvenzione>"+ls_cod_commessa_ordine+"</CodiceCommessaConvenzione>	 ~n"	
+			Xml_str +=" <CodiceCUP>"+ls_cod_CUP+"</CodiceCUP>~n"		
+			Xml_str +="<CodiceCIG>"+ls_cod_CIG	+"</CodiceCIG> ~n"	
+		Xml_str +="</DatiOrdineAcquisto> ~n"		//2.1.2		fine
+	end if
+	for f=1 to e 
+		Xml_str +="<DatiFattureCollegate> ~n"	//2.1.6
+		if ls_rif_linea_fat_collegata[f]> "0" then Xml_str +="<RiferimentoNumeroLinea>"+ls_rif_linea_fat_collegata[f]+"</RiferimentoNumeroLinea>	 ~n"	
+		Xml_str +="<IdDocumento>"+ls_id_num_fat_collegata[f]+"</IdDocumento>	 ~n"
+		Xml_str +="<Data>"+ls_data_fat_collegata[f]	+"</Data> ~n"	
+		Xml_str +="<NumItem>"+ls_num_item_fat_collegata[f]+"</NumItem> ~n"		
+		if ls_cod_commessa_fat_collegata[f]> " " then Xml_str +="<CodiceCommessaConvenzione>"+ls_cod_commessa_fat_collegata[f]+"</CodiceCommessaConvenzione>	 ~n"	 
+		if ls_cod_CUP_fat_collegata[f]> " " then Xml_str +=" <CodiceCUP>"+ls_cod_CUP_fat_collegata[f]+"</CodiceCUP>~n"		
+		if ls_cod_CIG_fat_collegata[f]> " " then Xml_str +="<CodiceCIG>"+ls_cod_CIG_fat_collegata[f]+"</CodiceCIG> ~n"	
+		Xml_str +="</DatiFattureCollegate> ~n"	//fine 2.1.6	
+	next
+	//fine 2.1.6	
+	
+	if ls_dati_contratto> " " then Xml_str +=" <DatiContratto>"+ls_dati_contratto+"</DatiContratto> ~n"		//2.1.3
+	if ls_dati_convenzione> " " then Xml_str +=" <DatiConvenzione>"+ls_dati_convenzione+"</DatiConvenzione>~n"			
+	if ls_dati_ricezione> " " then Xml_str +=" <DatiRicezione>"+ls_dati_ricezione+"</DatiRicezione> ~n"			
+	if ls_fat_collegate>" " then Xml_str +=" <DatiFattureCollegate>"+ls_fat_collegate+"</DatiFattureCollegate> ~n"			
+	if ls_rif_fase> " " then
+		Xml_str +="<DatiSAL> ~n"			//2.1.7
+			Xml_str +=" <RiferimentoFase>"+ls_rif_fase+"</RiferimentoFase>	 ~n"
+		Xml_str +="</DatiSAL> ~n"			//2.1.7 fine
+	end if
+	//rif ai ddt di origine delle varie riga fattura
+	li_elementi=upperbound(ls_num_ddt)
+	for i=1 to li_elementi
+		 if i>1 then
+			 if ls_num_ddt[i]=ls_num_ddt[i - 1] then
+				Xml_str +=" <RiferimentoNumeroLinea>"+ls_rif_linea_ddt[i]+"</RiferimentoNumeroLinea> ~n"
+			else
+				if i> 1 then Xml_str +="</DatiDDT>		 ~n"	//2.1.8 fine blocco
+				Xml_str +="<DatiDDT>		 ~n"	//2.1.8
+				Xml_str +="<NumeroDDT>"+ls_num_ddt[i]+"</NumeroDDT>		 ~n"
+				Xml_str +="<DataDDT>"+	ls_data_ddt[i]+"</DataDDT>	 ~n"
+				Xml_str +="<RiferimentoNumeroLinea>"+ls_rif_linea_ddt[i]+"</RiferimentoNumeroLinea> ~n"
+			end if
+		else
+			Xml_str +="<DatiDDT>		 ~n"	//2.1.8
+			Xml_str +=" <NumeroDDT>"+ls_num_ddt[i]+"</NumeroDDT>		 ~n"
+			Xml_str +=" <DataDDT>"+	ls_data_ddt[i]+"</DataDDT>	 ~n"
+			Xml_str +=" <RiferimentoNumeroLinea>"+ls_rif_linea_ddt[i]+"</RiferimentoNumeroLinea> ~n"
+		end if
+	next
+	if li_elementi> 0 then Xml_str +="</DatiDDT>		 ~n"	//2.1.8 fine
+	
+	if ls_mezzo_trasporto> " " then
+		Xml_str +=" <DatiTrasporto>		 ~n"	//2.1.9 
+		//SE C?é VETTORE LO INSERISCO
+			if ls_id_vettore> " " then
+				Xml_str +=" <DatiAnagraficiVettore> ~n"		//2.1.9.1
+					Xml_str +=" <IdFiscaleIVA> ~n"	//2.1.9.1.1
+						Xml_str +="<IdPaese>"+ls_naz_vettore+"</IdPaese>   ~n"  
+						Xml_str +="<IdCodice>"+ls_id_vettore+"</IdCodice>   ~n"
+					Xml_str +="</IdFiscaleIVA>  ~n"
+					if ls_cod_fiscale_vettore> " " then Xml_str +="  <CodiceFiscale>"+ls_cod_fiscale_vettore+"</CodiceFiscale> ~n"
+					Xml_str +="<Anagrafica> ~n" //2.1.9.1.3
+						if ls_rag_soc_vettore> " " then 	Xml_str +="   <Denominazione>"+ ls_rag_soc_vettore+"</Denominazione> ~n"
+						if ls_nome_vettore> " " then 		Xml_str +=" <Nome>"+ls_nome_vettore+"</Nome> ~n"
+						if ls_cognome_vettore> " " then Xml_str +="  <Cognome>"+ls_cognome_vettore +"</Cognome>~n"
+						
+						if ls_titolo_vettore> " " then Xml_str +="   <Titolo>"+ls_titolo_vettore+"</Titolo> ~n"
+						if ls_codeori_vettore> " " then Xml_str +="   <CodEORI>"+ls_codeori_vettore+"</CodEORI>~n"
+					Xml_str +="</Anagrafica> ~n"  //2.1.9.1.3
+					if ls_num_lic_guida> " " then Xml_str +="<NumeroLicenzaGuida>"+ls_num_lic_guida+"</NumeroLicenzaGuida>	 ~n"  //2.1.9.1.4
+					Xml_str +=" </DatiAnagraficiVettore> ~n"
+			end if
+			if ls_mezzo_trasporto> " " then		Xml_str +="<MezzoTrasporto>"+ls_mezzo_trasporto+"</MezzoTrasporto>		 ~n"  //2.1.9.2  
+			if ls_caus_trasporto> " " then		Xml_str +="<CausaleTrasporto>"+ ls_caus_trasporto+"</CausaleTrasporto> ~n"	
+			if ls_num_colli> " " then				Xml_str +=" <NumeroColli>"+ls_num_colli+"</NumeroColli> ~n"
+			if ls_des_aspetto_beni> " " then	Xml_str +=" <Descrizione>"+	ls_des_aspetto_beni	+"</Descrizione>	 ~n"
+			if ls_unita_peso	> " " then 	 		Xml_str +=" <UnitaMisuraPeso>"+ls_unita_peso+"</UnitaMisuraPeso> ~n"	//2.1.9.6 
+			if ls_peso_lordo> " " then			Xml_str +=" <PesoLordo>"+ls_peso_lordo+"</PesoLordo> ~n"	
+			if ls_peso_netto>" " then				Xml_str +=" <PesoNetto>"+ls_peso_netto+"</PesoNetto>	 ~n"
+			if ls_data_ora_ritiro> " " then		Xml_str +="<DataOraRitiro>"+ ls_data_ora_ritiro+"</DataOraRitiro>	 ~n"	
+			if ls_data_inizio_trasporto> " " then		Xml_str +=" <DataInizioTrasporto>"+ls_data_inizio_trasporto+"</DataInizioTrasporto> ~n"	//	2.1.9.10
+			if ls_ind_resa> " " then
+				Xml_str +="<TipoResa>	 ~n"	
+					Xml_str +="<IndirizzoResa>	 ~n"	//2.1.9.12
+					Xml_str +="  <Indirizzo>"+ls_ind_resa+"</Indirizzo> ~n"	
+					Xml_str +=" <NumeroCivico>"+ls_num_civico+"</NumeroCivico>~n"	
+					Xml_str +=" <CAP>"+ls_cap_resa+"</CAP> ~n"
+					Xml_str +=" <Comune>"+ls_comune_resa+"</Comune>	 ~n"
+					Xml_str +=" <Provincia>"+ls_prov_resa+"</Provincia> ~n"
+					Xml_str +=" <Nazione>"+ls_nazione_resa+"</Nazione> ~n"
+				Xml_str +="</IndirizzoResa>	 ~n"	//2.1.9.12 fine
+			end if
+			if ls_data_ora_consegna> " " then Xml_str +="<DataOraConsegna>"+ls_data_ora_consegna+"</DataOraConsegna>	 ~n"   //2.1.9.13
+			Xml_str +=" </DatiTrasporto>		 ~n"	//2.1.9 fine	
+		end if
+		if ls_fat_principale> " " then
+			Xml_str +=" <FatturaPrincipale>		 ~n"	//2.1.10
+				Xml_str +="<NumeroFatturaPrincipale>"+ls_fat_principale+"</NumeroFatturaPrincipale> ~n"	
+				Xml_str +="<DataFatturaPrincipale>"+ls_data_fat_principale+"</DataFatturaPrincipale>	 ~n"	
+			Xml_str +=" </FatturaPrincipale>		 ~n"	//2.1.10 fine
+		end if
+		Xml_str +="</DatiGenerali>	 ~n"	//2.1  fine
+		//righe 
+		Xml_str +="<DatiBeniServizi>	~n"		//2.2 
+		for a= 1 to upperbound(ls_num_linea)
+			Xml_str +="<DettaglioLinee>	~n"	//2.2.1
+			Xml_str +="<NumeroLinea>"+ls_num_linea[a]+"</NumeroLinea>	~n" //ls_num_linea[a] 
+			if ls_tipo_ces_prestazione[a]> "  " then 
+				Xml_str +="<TipoCessionePrestazione>"+ls_tipo_ces_prestazione[a]+"</TipoCessionePrestazione>	~n"   
+			else
+				if ls_cod_articolo[a]> " " then  
+					Xml_str +="<CodiceArticolo>	~n"  //2.2.1.3  
+						Xml_str +="<CodiceTipo>"+ls_cod_articolo[a]+"</CodiceTipo>~n"
+						Xml_str +="<CodiceValore>"+ls_cod_valore[a]+"</CodiceValore>~n"
+					Xml_str +="</CodiceArticolo>	~n"  //2.2.1.3  fine
+				end if
+			end if
+			Xml_str +="<Descrizione>"+ls_des_beni_servizi[a]+"</Descrizione>	~n"  //	2.2.1.4
+			if ls_qta_beni[a] > " " then Xml_str +="<Quantita>"+ls_qta_beni[a]+"</Quantita>	~n"
+			if ls_u_misura[a]> " " then  Xml_str +="<UnitaMisura>"+ls_u_misura[a]+"</UnitaMisura>	~n"
+			if ls_data_inizio_periodo[a]> " " then Xml_str +="<DataInizioPeriodo>"+ls_data_inizio_periodo[a]+"</DataInizioPeriodo>	~n"
+			if ls_data_fine_periodo[a]> " " then Xml_str +="<DataFinePeriodo>"+ls_data_fine_periodo[a]+"</DataFinePeriodo>	~n"  //2.2.1.8
+			Xml_str +="<PrezzoUnitario>"+ls_prezzo_unitario[a]+"</PrezzoUnitario>~n"
+			if ls_tipo_maggiorazione_riga[a]> " " then //qui c'è un errore concettuale: la maggiorazioen può essere multipla (13+4+2) e prevede, nel caso, 3 righe (comunque anche + di una) provvederemo appena avremo tempo
+				Xml_str +=" <ScontoMaggiorazione>	~n"  //2.2.1.10
+					Xml_str +="<Tipo>"+ls_tipo_maggiorazione_riga[a]+"</Tipo>~n"
+					Xml_str +="<Percentuale>"+ls_perc_maggiorazione_riga[a]+"</Percentuale>~n"
+					Xml_str +="<Importo>"+ls_imp_maggiorazione_riga[a]+"</Importo>~n"
+				Xml_str +=" </ScontoMaggiorazione>	~n"  //2.2.1.10 fine
+			end if
+			Xml_str +="<PrezzoTotale>"+ls_prezzo_totale[a]+"</PrezzoTotale>	~n"
+			Xml_str +="<AliquotaIVA>"+ls_aliq_iva[a]+"</AliquotaIVA>~n"
+			if ls_ritenuta[a]> " " then Xml_str +="<Ritenuta>"+ls_ritenuta[a]	+"</Ritenuta>~n"  //2.2.1.13
+			if ls_natura[a]>" " then Xml_str +="<Natura>"+ls_natura[a]+"</Natura>~n"
+			if ls_rif_amministrazione_riga[a]> " " then Xml_str +="<RiferimentoAmministrazione>"+ls_rif_amministrazione_riga[a]+"</RiferimentoAmministrazione>	~n"
+			//se la quotazione c'è allora specifico l'importo del metallo in nota
+			if ls_tipo_dato[a]> " " then
+				Xml_str +="<AltriDatiGestionali>	~n"   //2.2.1.16 
+					Xml_str +="<TipoDato>"+ls_tipo_dato[a]+"</TipoDato>~n"
+					if ls_rif_testo[a]> "" then  Xml_str +="<RiferimentoTesto>"+ls_rif_testo[a]+"</RiferimentoTesto>~n"
+					if ls_rif_numero[a]> "" then Xml_str +="<RiferimentoNumero>"+ls_rif_numero[a]+"</RiferimentoNumero> ~n"
+					if ls_rif_data[a]> "" then Xml_str +="<RiferimentoData>"+ls_rif_data[a]+"</RiferimentoData>~n"
+				Xml_str +="</AltriDatiGestionali>	~n"   //2.2.1.16 fine
+			end if
+			//01-01-2022 : cambiano le regole, ora la dich intento va su altri dati gestionali
+			if a=1 then
+				for m=1 to upperbound(ls_dich_int)
+					li_pos=pos(ls_dich_int[m], "@") 
+					if li_pos>0 then
+						Xml_str +="<AltriDatiGestionali>	~n"   //2.2.1.16 
+						Xml_str +="<TipoDato>INTENTO</TipoDato>~n"
+						Xml_str +="<RiferimentoTesto>"+left(ls_dich_int[m], li_pos - 1) +"</RiferimentoTesto>~n"
+						ls_dich_int[m]=right(ls_dich_int[m], len(ls_dich_int[m]) -  li_pos)
+						ldt_data_dich=date(ls_dich_int[m])
+						ls_dich_int[m]=string(ldt_data_dich, "YYYY-MM-DD")
+						 Xml_str +="<RiferimentoData>"+ls_dich_int[m]+"</RiferimentoData>~n"
+						Xml_str +="</AltriDatiGestionali>	~n"   //2.2.1.16 fine
+					end if
+				next
+			end if
+			Xml_str +="</DettaglioLinee>	~n"	//2.2.1
+		next
+		//giriamo sul castelletto iva del documento
+		b=0 //
+		for b= 1 to li_righe_castelletto
+			Xml_str +="<DatiRiepilogo>~n"  //2.2.2  
+				ls_aliq_iva_riep[b]=trim(ls_aliq_iva_riep[b])
+				Xml_str +="<AliquotaIVA>"+ls_aliq_iva_riep[b]+"</AliquotaIVA>	~n" 
+				if ls_natura_riep[b]>" " then Xml_str +="<Natura>"+ls_natura_riep[b] +"</Natura>	~n"
+				if ls_spese_accessorie_riep[b]> " " then Xml_str +="<SpeseAccessorie>"+ls_spese_accessorie_riep[b]+"	</SpeseAccessorie>~n"
+				if ls_arrotondamento_riep[b]>" " then Xml_str +="<Arrotondamento>"+ls_arrotondamento_riep[b]+"</Arrotondamento>~n"
+				Xml_str +="<ImponibileImporto>"+ls_imponibile_riepilogo[b]+"</ImponibileImporto>~n"   //2.2.2.5 
+				Xml_str +="<Imposta>"+ls_imposta_riepilogo[b]+"</Imposta>	~n"
+				if ls_es_iva_riepilogo[b]> " " then Xml_str +="<EsigibilitaIVA>"+ls_es_iva_riepilogo[b] +"</EsigibilitaIVA>~n"  
+				if  ls_rif_norm_riepilogo[b] > " " then Xml_str +="<RiferimentoNormativo>"+ls_rif_norm_riepilogo[b]+"</RiferimentoNormativo>	~n" 
+			Xml_str +="</DatiRiepilogo>		~n"  //2.2.2  fine
+		next	
+		Xml_str +="</DatiBeniServizi>	~n"		//2.2 fine
+		if ls_data_veicoli> " " then
+			Xml_str +="<DatiVeicoli>	~n"	//2.3  
+				Xml_str +="<Data>"+ls_data_veicoli+"</Data>	~n"
+				Xml_str +="<TotalePercorso>"+ls_tot_percorso+"</TotalePercorso>	~n"
+			Xml_str +="</DatiVeicoli>	~n"	//2.3  fine
+		end if
+		//dati pagamento
+		if ls_tipo_pagamento> " " then
+			Xml_str +="<DatiPagamento>		~n"   //2.4 
+				Xml_str +="<CondizioniPagamento>"+	ls_tipo_pagamento+"</CondizioniPagamento>~n"  //2.4.1  
+				for c=1 to li_num_scadenze
+					Xml_str +="<DettaglioPagamento>	~n" //2.4.2
+						if ls_benef_pagamento[c]> " " then  Xml_str +=" <Beneficiario>"+ls_benef_pagamento[c]+"</Beneficiario> ~n"
+						Xml_str +="<ModalitaPagamento>"+ls_mod_pagamento[c]+"</ModalitaPagamento>   ~n"
+						if ls_termini_pagamento[c]> " " then Xml_str +="<DataRiferimentoTerminiPagamento>"+ls_termini_pagamento[c]+"</DataRiferimentoTerminiPagamento>   ~n"
+						if  ls_giorni_pagamento[c]> " " then Xml_str +="<GiorniTerminiPagamento> "+ls_giorni_pagamento[c]+"</GiorniTerminiPagamento>  ~n"
+						if ls_data_scadenza_pagamento[c]> " " then Xml_str +=" <DataScadenzaPagamento>"+ls_data_scadenza_pagamento[c]+"</DataScadenzaPagamento>~n"  //2.4.2.5
+						Xml_str +="<ImportoPagamento>"+ls_imp_pagamento[c]+"</ImportoPagamento>		~n"
+						if ls_cod_uff_postale[c]> " " then Xml_str +="<CodUfficioPostale>"+ls_cod_uff_postale[c]+"</CodUfficioPostale>	~n"
+						if ls_cognome_quietanziante> " " then Xml_str +="<CognomeQuietanzante>"+ls_cognome_quietanziante+"</CognomeQuietanzante>	~n"
+						if ls_nome_quietanziante> " " then Xml_str +="<NomeQuietanzante>"+ls_nome_quietanziante+"</NomeQuietanzante>	~n"
+						if ls_cf_quietanziante>" " then Xml_str +="  <CFQuietanzante>"+ls_cf_quietanziante+"</CFQuietanzante>	~n"  //2.4.2.10
+						if ls_titolo_quietanziante> " " then Xml_str +=" <TitoloQuietanzante>"+ls_titolo_quietanziante+"</TitoloQuietanzante>	~n"
+						if ls_ist_finanziario> " " then Xml_str +=" <IstitutoFinanziario>"+ls_ist_finanziario+"	</IstitutoFinanziario>~n"
+						if ls_iban> " " then Xml_str +=" <IBAN>"+ls_iban+"</IBAN>~n"
+						if ls_abi> " " then Xml_str +=" <ABI>"+ls_abi+"</ABI>	~n" 
+						if ls_cab>" " then Xml_str +=" <CAB>"+ls_cab+"</CAB>	~n"  //2.4.2.15 
+						if ls_bic> " " then Xml_str +=" <BIC>"+ls_bic+"</BIC>	~n"
+						if ls_sconto_pag_anticipato> " " then Xml_str +=" <ScontoPagamentoAnticipato>"+ls_sconto_pag_anticipato+"</ScontoPagamentoAnticipato>~n"
+						if ls_data_lim_pag_anticipato> " " then Xml_str +=" <DataLimitePagamentoAnticipato>"+ls_data_lim_pag_anticipato+"</DataLimitePagamentoAnticipato>	~n"
+						if ls_penalita> " " then Xml_str +=" <PenalitaPagamentiRitardati>"+ls_penalita+"</PenalitaPagamentiRitardati>~n"
+						if ls_data_dec_penale> " " then Xml_str +=" <DataDecorrenzaPenale>"+ls_data_dec_penale+"</DataDecorrenzaPenale>  ~n"  //2.4.2.20
+						if ls_cod_pagamento> " " then Xml_str +=" <CodicePagamento>"+ls_cod_pagamento+"</CodicePagamento>	~n"
+					Xml_str +="</DettaglioPagamento>	~n" //2.4.2 fine
+				next
+			Xml_str +="</DatiPagamento>		~n"   //2.4 fine
+		end if
+		//fine dati pagamento
+		for a=1 to li_num_allegati
+			Xml_str +="<Allegati>		~n"  //2.5 
+				Xml_str +="<NomeAttachment>"+ls_nome_allegato[a]+"</NomeAttachment>	~n"
+				Xml_str +="<AlgoritmoCompressione>"+ls_alg_compressione[a]+"</AlgoritmoCompressione>	~n"
+				Xml_str +=" <FormatoAttachment>"+ls_formato_allegato[a]+"</FormatoAttachment>	~n"
+				Xml_str +="<DescrizioneAttachment>"+ls_des_allegato[a]+"</DescrizioneAttachment>	~n"
+				Xml_str +=" <Attachment>"+ls_allegato[a]+"</Attachment>	~n"
+			Xml_str +="</Allegati>		~n"  //2.5 fine
+		next
+	Xml_str +="</FatturaElettronicaBody>		 ~n"			//2 fine
+Xml_str +="</p:FatturaElettronica> ~n"
+
+if isnull(Xml_str) then 	
+	messagebox("Attenzione!", "STRINGA XML annullata. c'è qualche dato che non è stato inserito Correttamente!")
+	return ""
+end if
+
+
+lblb_UTF8=blob(Xml_str, encodingUTF8!)
+//string( EncodingANSI!, Xml_str)
+if pos(ls_num_fattura, "/")>0 then ls_num_fattura=left(ls_num_fattura, pos(ls_num_fattura, "/") - 1)
+
+li_ret=len(ls_num_fattura)
+if li_ret> 4 then
+	messagebox("Attenzione!", "Numero fattura troppo grande per questo standard!")
+else
+	ls_num_fattura="00000"+ls_num_fattura
+	ls_num_fattura=right(ls_num_fattura, 4)
+end if
+ls_lettera_anno=f_lettera_anno(date(ls_data))
+if  ls_tipo_doc="TD16" or  ls_tipo_doc="TD17" or  ls_tipo_doc="TD18" or  ls_tipo_doc="TD19" then 
+	ls_id_trasmittente=ls_id_committente //che in realtà è di fatto l'id_trasmittente, ma li ho incrociati sopra per metterli nei dati del cessionaro e committente
+end if
+ls_file_ok="C:\nita\fat_elettronica\"+"IT"+ls_id_trasmittente+"_"+ls_lettera_anno+ls_num_fattura+".XML"                              //"C:\nita\fat_elettronica\Fat_"+ls_num_fattura+"_"+ls_data+"txt.XML"
+li_FileNum = FileOpen(ls_file_ok, streamMode!, Write!, LockWrite!, Replace!, EncodingANSI! ) //EncodingUTF8!
+
+li_test=FileWriteEx(li_FileNum, lblb_UTF8)
+fileclose(li_FileNum)
+destroy pbdom_bldr
+//PER ORA LO COMMENTO, PERCHé L'INVIO LO SI FA DALLA MAIL, QUINDI DALLA W_ST_PROV_DEF_WZ
+//ldt_data_ora=datetime(today(), now())
+//insert into dba.fe_invio (id_invio_fe, data_ora_invio, id_documento)
+//values (:ll_num_invio, :ldt_data_ora,  :al_id_doc)
+//;
+//if sqlca.sqlcode=0 then
+//	commit;
+//else
+//	rollback;
+//		messagebox("Attenzione!", "Numero Progressivo INVIO NON aggiornato!")
+//end if
+
+//pbdom_doc = pbdom_bldr.BuildFromString (string(lblb_UTF8))
+////pbdom_doc = pbdom_bldr.BuildFromString (Xml_str)
+//
+////
+//////SALVIAMOLO
+//strFileName="C:\nita\fat_elettronica\Fat_"+ls_num_fattura+"_"+ls_data+"blob.XML"
+//pbdom_doc.SaveDocument(strFileName)
+
+return ls_file_ok
+end function
+

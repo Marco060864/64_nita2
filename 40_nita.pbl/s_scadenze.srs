@@ -1,0 +1,9 @@
+﻿global type s_scadenze from structure
+	decimal {4}	dc_imp_out[]
+	decimal {4}	dc_iva_out[]
+	date		d_date[]
+	decimal {4}	dc_bollo[]
+	decimal {4}	dc_bollo_tot
+	long		l_id_tipo_pagamento[]
+end type
+

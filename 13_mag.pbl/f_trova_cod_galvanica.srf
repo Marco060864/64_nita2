@@ -1,0 +1,21 @@
+﻿global type f_trova_cod_galvanica from function_object
+end type
+
+forward prototypes
+global function string f_trova_cod_galvanica (long al_id_galvanica)
+end prototypes
+
+global function string f_trova_cod_galvanica (long al_id_galvanica);string ls_return
+
+if al_id_galvanica> 0 then
+	select lavorazione
+	into :ls_return
+	from dba.galvanica
+	where id_galvanica=:al_id_galvanica
+	;
+	return ls_return
+else
+	return ""
+end if
+end function
+

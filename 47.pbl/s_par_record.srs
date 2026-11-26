@@ -1,0 +1,9 @@
+﻿global type s_par_record from structure
+	string		nome_tabella
+	string		nome_id_tabella
+	long		id_tabella
+	boolean		visible
+	datastore		s_dw_aper_partita
+	datastore		s_dw_scar_partita
+end type
+

@@ -1,0 +1,34 @@
+﻿global type f_trova_metallo from function_object
+end type
+
+forward prototypes
+global function string wf_trova_metallo (long al_id_articolo)
+global function string f_trova_metallo (long al_id_articolo)
+end prototypes
+
+global function string wf_trova_metallo (long al_id_articolo);string ls_metallo
+
+select m.codice
+into :ls_metallo
+from orafo_metallo m, orafo_titolo t, articolo a
+where a.id_articolo=:al_id_articolo
+and a.id_titolo=t.id_TITOLO
+and t.id_metallo=m.id_metallo
+;
+if isnull(ls_metallo) then ls_metallo=""
+return ls_metallo
+end function
+
+global function string f_trova_metallo (long al_id_articolo);string ls_metallo
+
+select m.codice
+into :ls_metallo
+from orafo_metallo m, orafo_titolo t, articolo a
+where a.id_articolo=:al_id_articolo
+and a.id_titolo=t.id_TITOLO
+and t.id_metallo=m.id_metallo
+;
+if isnull(ls_metallo) then ls_metallo=""
+return ls_metallo
+end function
+

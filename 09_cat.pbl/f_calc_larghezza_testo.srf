@@ -1,0 +1,38 @@
+﻿global type f_calc_larghezza_testo from function_object
+end type
+
+forward prototypes
+global function integer f_calc_larghezza_testo (long al_job, string as_font, long ai_altezza, string as_stringa)
+end prototypes
+
+global function integer f_calc_larghezza_testo (long al_job, string as_font, long ai_altezza, string as_stringa);integer li_ret, li_altezza
+decimal ld_altezza
+
+ld_altezza=ai_altezza
+ld_altezza=ld_altezza/100		
+ld_altezza=ld_altezza/2.54		
+li_altezza=ld_altezza*1000
+li_ret=PrintDefineFont(al_job,1,as_font,li_altezza,400, Variable!, Decorative!, FALSE, FALSE)
+if li_ret=-1 then 
+	return li_ret
+end if
+li_ret=PrintSetFont(al_job,1)
+if li_ret=-1 then 
+	return li_ret
+end if
+ld_altezza=(li_ret)/1000	
+ld_altezza=ld_altezza*2.54		
+ai_altezza=int(ld_altezza*100)
+
+li_ret=PrintWidth(al_job,as_stringa)
+if li_ret=-1 then 
+	return li_ret
+end if
+
+ld_altezza=li_ret/1000			
+ld_altezza=ld_altezza*2.54		
+li_ret=ld_altezza*100
+
+return li_ret
+end function
+

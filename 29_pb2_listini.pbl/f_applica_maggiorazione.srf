@@ -1,0 +1,36 @@
+﻿global type f_applica_maggiorazione from function_object
+end type
+
+forward prototypes
+global function decimal f_applica_maggiorazione (long al_id_art, long al_id_cliente, decimal adc_qta)
+end prototypes
+
+global function decimal f_applica_maggiorazione (long al_id_art, long al_id_cliente, decimal adc_qta);long ll_id_cat_comm, ll_id_magg_qta_merce, ll_test
+decimal ldc_qta_min,ldc_variazione
+
+ldc_variazione=0
+
+select id_cat_com_articolo
+into :ll_id_cat_comm
+from dba.articolo 
+where id_articolo= :al_id_art
+;
+if u_freddie.ii_ID_Utenti=39 then 
+	if ll_id_cat_comm=21 then ll_id_cat_comm=8
+end if
+select qta_minima, variazione, m.id_magg_qta_merce
+into :ldc_qta_min, :ldc_variazione, :ll_id_magg_qta_merce
+from dba.magg_qta_merce m, dba.magg_per_sog_commerciale s
+where id_CAT_COMMerciale=:ll_id_cat_comm and m.id_magg_qta_merce=s.id_magg_qta_merce and s.id_sog_commerciale=:al_id_cliente 
+and qta_minima<=:adc_qta and qta_massima>=:adc_qta  //aggiunta il 20221218 Samy vuole che esistano diversi aumenti a seconda della qta (0-249 =10%, 250-499= 5%)
+;
+//if ldc_qta_min>adc_qta then
+if ll_id_magg_qta_merce>0 then //cambio 20221218 perché inserito intervalli di qta vedi sopra
+	return ldc_variazione
+else
+	ldc_variazione=0
+end if
+
+return ldc_variazione
+end function
+

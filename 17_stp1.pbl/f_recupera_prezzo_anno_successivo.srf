@@ -1,0 +1,39 @@
+﻿global type f_recupera_prezzo_anno_successivo from function_object
+end type
+
+forward prototypes
+global function decimal f_recupera_prezzo_anno_successivo (long al_id_uc, long al_variazione_attuale)
+end prototypes
+
+global function decimal f_recupera_prezzo_anno_successivo (long al_id_uc, long al_variazione_attuale);decimal ldc_prezzo
+date ldt_data_fine, ldt_data_nuova
+long ll_id_listino, ll_id_var
+
+select id_listino, data_fine
+into :ll_id_listino, :ldt_data_fine
+from dba.variazione
+where id_variazione=:al_variazione_attuale;
+
+ldt_data_nuova=relativedate(ldt_data_fine, 1)
+select id_variazione
+into :ll_id_var
+from dba.variazione
+where data_inizio<= :ldt_data_nuova
+and data_fine>=:ldt_data_nuova
+and id_listino=:ll_id_listino
+;
+if ll_id_var>0 then
+	select prezzo_manifattura 
+	into :ldc_prezzo
+	from dba.prezzo
+	where id_variazione=:ll_id_var
+	and id_unita_confezione=:al_id_uc
+	;
+	if isnull(ldc_prezzo) then ldc_prezzo=0
+	
+end if
+
+
+return ldc_prezzo
+end function
+

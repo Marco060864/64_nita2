@@ -1,0 +1,18 @@
+﻿global type f_trova_tot_gr_doc from function_object
+end type
+
+forward prototypes
+global function decimal f_trova_tot_gr_doc (long al_id_doc)
+end prototypes
+
+global function decimal f_trova_tot_gr_doc (long al_id_doc);decimal ldc_tot_grammi
+
+select sum(riga_documento.peso_netto)
+into :ldc_tot_grammi
+from dba.riga_documento
+where id_documento=:al_id_doc
+;
+
+return ldc_tot_grammi
+end function
+

@@ -1,0 +1,11 @@
+﻿global type str_sottoscorta from structure
+	string		a_articolo
+	long		id_esercizio
+	long		id_attivita
+	long		data_anno
+	long		locazione
+	string		da_articolo
+	long		data_mese
+	long		data_giorno
+end type
+

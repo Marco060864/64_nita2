@@ -1,0 +1,16 @@
+﻿global type f_par_oggetto from function_object
+end type
+
+forward prototypes
+global function string f_par_oggetto (string nome_oggetto, string nome_variabile)
+end prototypes
+
+global function string f_par_oggetto (string nome_oggetto, string nome_variabile);string ls_ret
+select val_variabile
+into :ls_ret
+from par_oggetto
+where nome_oggetto=:nome_oggetto
+and nome_variabile=:nome_variabile;
+return ls_ret
+end function
+

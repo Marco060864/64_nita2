@@ -1,0 +1,31 @@
+﻿global type f_crea_ds_bol_urgenti from function_object
+end type
+
+forward prototypes
+global function integer f_crea_ds_bol_urgenti ()
+end prototypes
+
+global function integer f_crea_ds_bol_urgenti ();integer li_rtn
+
+
+
+oleobject lole_excel, lole_workbook, lole_worksheet, lole_range
+
+lole_excel = create oleobject
+li_rtn = lole_excel.ConnectToNewObject("excel.application")
+if li_rtn <> 0 then
+      MessageBox( "Error", 'Error running MS Excel api.')
+      destroy lole_Excel
+else
+  lole_excel.WorkBooks.Open("C:\nita\xlsurgenti\bol_urgenti.xls") 
+   lole_excel.WorkBooks(1).SaveAs("C:\nita\xlsurgenti\bol_urgenti.txt", 6)  //xlCSV=	6
+ lole_excel.WorkBooks.Close("C:\nita\xlsurgenti\bol_urgenti.xls") 
+ 
+
+
+end if	 
+
+
+return 1
+end function
+

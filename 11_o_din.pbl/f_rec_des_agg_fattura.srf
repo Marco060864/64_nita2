@@ -1,0 +1,31 @@
+﻿global type f_rec_des_agg_fattura from function_object
+end type
+
+forward prototypes
+global function string f_rec_des_agg_fattura (long al_id_riga)
+end prototypes
+
+global function string f_rec_des_agg_fattura (long al_id_riga);string ls_des_aggiuntiva
+integer li_num_riga
+long ll_id_doc
+
+IF al_id_riga>0 THEN
+
+	select num_riga, id_documento
+	into :li_num_riga, :ll_id_doc
+	from dba.riga_documento
+	where id_riga_documento=:al_id_riga;
+	
+	select des_aggiuntiva
+	into :ls_des_aggiuntiva
+	from dba.riga_documento_2
+	where id_documento=:ll_id_doc
+	and num_riga=:li_num_riga
+	;
+	if isnull(ls_des_aggiuntiva) then ls_des_aggiuntiva=""
+	return ls_des_aggiuntiva
+ELSE
+	return ""
+END IF
+end function
+

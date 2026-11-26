@@ -1,0 +1,5 @@
+﻿global type s_recupera_classe from structure
+	string		cod_classe[]
+	long		id_classe[]
+end type
+

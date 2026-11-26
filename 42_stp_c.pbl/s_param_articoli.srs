@@ -1,0 +1,32 @@
+﻿global type s_param_articoli from structure
+	string		da_sog_comm
+	string		a_sog_comm
+	string		filtro
+	string		da_cod_art
+	string		a_cod_art
+	date		da_data
+	date		a_data
+	string		da_categoria
+	string		a_categoria
+	date		inizio_es
+	string		totali_doc
+	string		legato_fino
+	string		solo_preziosi
+	long		ll_magazzino
+	integer		li_fiscale
+	string		tipo_stampa
+	long		li_titolo[]
+	decimal { 6 }		cambio
+	string		ordinamento
+	date		da_scadenza
+	date		a_scadenza
+	string		bollo
+	long		id_cat_codifica
+	string		par_stampa
+	string		segno_coef_calo
+	decimal { 2 }		coef_calo
+	decimal { 4 }		prov_incassato
+	decimal { 4 }		provvigione
+	long		id_variazione
+end type
+

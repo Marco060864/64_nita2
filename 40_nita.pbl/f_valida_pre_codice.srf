@@ -1,0 +1,53 @@
+﻿global type f_valida_pre_codice from function_object
+end type
+
+forward prototypes
+global function integer f_valida_pre_codice (string as_pre_codice, string as_sog_tipo)
+end prototypes
+
+global function integer f_valida_pre_codice (string as_pre_codice, string as_sog_tipo);
+
+long 		ll_id_sottomastro, ll_id_mastro, ll_ret_value
+string 	ls_mastro, ls_sottomastro
+
+ll_ret_value = 0
+If Not (IsNull(as_pre_codice) OR Len(as_pre_codice) < 4) then
+	ls_mastro= Mid(as_pre_codice, 1,2)
+	ls_sottomastro= Mid(as_pre_codice, 3, 2)
+	
+   SELECT "dba"."mastro"."id_mastro"  
+    INTO :ll_id_mastro  
+    FROM "dba"."mastro"
+	 WHERE "dba"."mastro"."codice" = :ls_mastro ;
+	CHOOSE CASE SQLCA.SQLCode
+	 CASE 100, -1
+		 
+		MessageBox("Attenzione - errore DB numero " +string(SQLCA.SQLCode), &
+				"Il mastro con codice " + ls_mastro + &
+				" non esiste.~r" + SQLCA.SQLErrText, Exclamation!)
+		ll_ret_value = -2
+	 CASE 0
+		
+		SELECT MAX("dba"."sottomastro"."id_sottomastro" )
+		 INTO :ll_id_sottomastro  
+		 FROM "dba"."mastro",   
+				"dba"."sottomastro"  
+		 WHERE ( "dba"."sottomastro"."id_mastro" = "dba"."mastro"."id_mastro" ) and  
+				( ( "dba"."mastro"."codice" = :ls_mastro ) AND  
+				( "dba"."sottomastro"."codice" = :ls_sottomastro ) AND  
+				( "dba"."sottomastro"."uso" = :as_sog_tipo ) )   ;
+		If (IsNull(ll_id_sottomastro) OR ll_id_sottomastro=0) then
+			MessageBox("Attenzione", "Il sottomastro con codice " + ls_sottomastro +&
+				" non esiste.", Exclamation!)
+			ll_ret_value = -3
+		else
+			ll_ret_value = ll_id_sottomastro
+		end if
+	END CHOOSE
+else
+	
+	ll_ret_value = -4
+end if
+return ll_ret_value
+end function
+

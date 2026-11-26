@@ -1,0 +1,85 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=72 color="536870912" )
+summary(height=0 color="553648127" )
+footer(height=0 color="553648127" )
+detail(height=72 color="536870912" )
+table(column=(type=char(16) updatewhereclause=yes name=documento_num_documento dbname="documento.num_documento" )
+ column=(type=date updatewhereclause=yes name=documento_data_documento dbname="documento.data_documento" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=orafo_aper_partita_val_apertura dbname="orafo_aper_partita.val_apertura" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=orafo_aper_partita_val_scarico dbname="orafo_aper_partita.val_scarico" initial="0" )
+ column=(type=long updatewhereclause=yes name=sog_commerciale_gen_id_sog_commerciale dbname="sog_commerciale_gen.id_sog_commerciale" )
+ column=(type=char(40) updatewhereclause=yes name=sog_commerciale_gen_rag_soc_1 dbname="sog_commerciale_gen.rag_soc_1" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=orafo_aper_partita_stato dbname="orafo_aper_partita.stato" )
+ column=(type=long update=yes updatewhereclause=yes name=orafo_aper_partita_id_titolo dbname="orafo_aper_partita.id_titolo" )
+ column=(type=long update=yes updatewhereclause=yes key=yes identity=yes name=orafo_aper_partita_id_partita dbname="orafo_aper_partita.id_partita" )
+ column=(type=char(4) updatewhereclause=yes name=orafo_tipo_partita_cod_tipo_partita dbname="orafo_tipo_partita.cod_tipo_partita" )
+ column=(type=char(2) updatewhereclause=yes name=orafo_metallo_codice dbname="orafo_metallo.codice" )
+ column=(type=char(3) updatewhereclause=yes name=tipo dbname="tipo" )
+ retrieve="  SELECT ~"documento~".~"num_documento~",   
+         ~"documento~".~"data_documento~",   
+         ~"orafo_aper_partita~".~"val_apertura~",   
+         ~"orafo_aper_partita~".~"val_scarico~",   
+         ~"sog_commerciale_gen~".~"id_sog_commerciale~",   
+         ~"sog_commerciale_gen~".~"rag_soc_1~",   
+         ~"orafo_aper_partita~".~"stato~",   
+         ~"orafo_aper_partita~".~"id_titolo~",   
+         ~"orafo_aper_partita~".~"id_partita~",   
+         ~"orafo_tipo_partita~".~"cod_tipo_partita~",   
+         ~"orafo_metallo~".~"codice~",   
+         
+			cast(substr( orafo_tipo_partita.cod_tipo_partita ,2,3) as char(3)) as tipo
+    FROM ~"documento~",   
+         ~"orafo_aper_partita~",   
+         ~"sog_commerciale_gen~",   
+         ~"orafo_tipo_partita~",   
+         ~"orafo_metallo~",   
+         ~"orafo_titolo~"  
+   WHERE ( ~"orafo_aper_partita~".~"id_documento~" = ~"documento~".~"id_documento~" ) and  
+         ( ~"documento~".~"id_sog_commerciale~" = ~"sog_commerciale_gen~".~"id_sog_commerciale~" ) and  
+         ( ~"orafo_tipo_partita~".~"id_tipo_partita~" = ~"orafo_aper_partita~".~"id_tipo_partita~" ) and  
+         ( ~"orafo_titolo~".~"id_metallo~" = ~"orafo_metallo~".~"id_metallo~" ) and  
+         ( ~"orafo_titolo~".~"id_titolo~" = ~"orafo_aper_partita~".~"id_titolo~" ) and  
+         ( ~"sog_commerciale_gen~".~"id_sog_commerciale~" >= :rn_id_sogg1 ) AND  
+         ( ~"sog_commerciale_gen~".~"id_sog_commerciale~" <= :rn_id_sogg2 )    
+" update="orafo_aper_partita" updatewhere=1 updatekeyinplace=yes arguments=(("rn_id_sogg1", number),("rn_id_sogg2", number))  sort="orafo_metallo_codice A orafo_tipo_partita_cod_tipo_partita A documento_data_documento A documento_num_documento A " )
+group(level=1 header.height=0 trailer.height=64 by=("orafo_metallo_codice" ) header.color="536870912" trailer.color="12639424" )
+group(level=2 header.height=0 trailer.height=68 by=("orafo_metallo_codice" , "orafo_tipo_partita_cod_tipo_partita" ) header.color="536870912" trailer.color="16776960" )
+text(band=header alignment="2" text="Ragione Sociale"border="0" color="0" x="9" y="12" height="52" width="498"  name=sog_commerciale_gen_rag_soc_1_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Num Doc"border="0" color="0" x="517" y="12" height="52" width="219"  name=documento_num_documento_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Data Doc"border="0" color="0" x="745" y="12" height="52" width="224"  name=documento_data_documento_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Met. Titolo"border="0" color="0" x="978" y="12" height="56" width="229"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Val Apertura"border="0" color="0" x="1216" y="12" height="52" width="393"  name=orafo_aper_partita_val_apertura_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Val Scarico"border="0" color="0" x="1618" y="12" height="56" width="389"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Saldo"border="0" color="0" x="2016" y="12" height="56" width="384"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Tipo"border="0" color="0" x="2528" y="12" height="56" width="96"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="S"border="0" color="0" x="2633" y="12" height="56" width="55"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Arr."border="0" color="0" x="2409" y="12" height="56" width="110"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=6 alignment="0" tabsequence=10 border="0" color="0" x="9" y="4" height="64" width="498" format="[general]"  name=sog_commerciale_gen_rag_soc_1 edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="2" tabsequence=20 border="0" color="0" x="517" y="4" height="64" width="219" format="[general]"  name=documento_num_documento edit.limit=16 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=30 border="0" color="0" x="745" y="4" height="64" width="224" format="[general]"  name=documento_data_documento edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="0" tabsequence=40 border="0" color="0" x="983" y="4" height="64" width="224" format="[general]"  name=orafo_aper_partita_id_titolo dddw.name=d_orafo_tit_des_sl dddw.displaycolumn=cmetallo_titolo dddw.datacolumn=id_titolo dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=yes dddw.useasborder=no dddw.case=any dddw.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="0" tabsequence=80 border="0" color="0" x="2633" y="4" height="64" width="55" format="[general]"  name=orafo_aper_partita_stato edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="1" tabsequence=50 border="0" color="0" x="1216" y="4" height="64" width="393" format="#,0.00"  name=orafo_aper_partita_val_apertura edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="1" expression=" if(isnull(orafo_aper_partita_val_scarico), 0, orafo_aper_partita_val_scarico )"border="0" color="0" x="2697" y="4" height="64" width="14" format="#,0.00"  name=val_scarico visible="1~t0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="1" tabsequence=60 border="0" color="0" x="1618" y="4" height="60" width="389" format="#,0.00"  name=orafo_aper_partita_val_scarico edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=12 alignment="2" tabsequence=70 border="0" color="0" x="2528" y="4" height="64" width="96" format="[general]"  name=tipo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="1" expression="if(isNull( orafo_aper_partita_val_scarico  ),orafo_aper_partita_val_apertura, orafo_aper_partita_val_apertura - orafo_aper_partita_val_scarico  ) + if(isnull(resto), 0,  - resto) "border="0" color="0" x="2016" y="4" height="64" width="384" format="#,0.00"  name=c_saldo  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tif(resto <>0, 255, rgb(255,255,255))" )
+compute(band=detail alignment="1" expression="if( (isnull( orafo_aper_partita_val_scarico )) or ( orafo_aper_partita_val_apertura  -  orafo_aper_partita_val_scarico >=0.1)  ,0,  orafo_aper_partita_val_apertura  -  orafo_aper_partita_val_scarico )"border="0" color="0" x="2409" y="4" height="64" width="110" format="#,0.00"  name=resto  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.2 alignment="0" expression="~"Totale ~"+ mid(orafo_tipo_partita_cod_tipo_partita , 2,3)+~" di ~" +  orafo_metallo_codice  + ~":~""border="0" color="0" x="9" y="0" height="68" width="498" format="[general]"  name=rr  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.2 alignment="1" expression="sum( val_scarico for group 2) "border="0" color="0" x="9" y="100" height="64" width="498" format="#,0.00"  name=somma_scarico visible="1~t0"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.2 alignment="1" expression="sum( orafo_aper_partita_val_apertura for group 2) "border="0" color="0" x="1216" y="0" height="64" width="393" format="#,0.00"  name=somma_aper_2  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.2 alignment="1" expression="sum( val_scarico for group 2) "border="0" color="0" x="1618" y="0" height="64" width="389" format="#,0.00"  name=s_val_sc  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.2 alignment="1" expression="sum( c_saldo for group 2)"border="0" color="0" x="2016" y="0" height="64" width="384" format="#,0.00"  name=saldo_tipo_partita  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.2 alignment="1" expression="sum(resto for group 2)"border="0" color="0" x="2409" y="0" height="64" width="110" format="#,0.00"  name=sum_resto_2  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="0" expression="~"Totale ~"+ orafo_metallo_codice +~":~""border="0" color="0" x="9" y="0" height="68" width="498" format="[general]"  name=rer  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum( val_scarico for group 1) "border="0" color="0" x="9" y="0" height="64" width="498" format="#,0.00"  name=somma_scarico_1 visible="1~t0"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum( orafo_aper_partita_val_apertura for group 1) "border="0" color="0" x="1216" y="0" height="64" width="393" format="#,0.00"  name=somma_aper_1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum( val_scarico for group 1) "border="0" color="0" x="1618" y="0" height="64" width="389" format="#,0.00"  name=ss_scarico  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum( c_saldo for group 1)"border="0" color="0" x="2016" y="0" height="72" width="384" format="#,0.00"  name=saldo_per_metallo  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum(resto for group 1)"border="0" color="0" x="2409" y="0" height="72" width="110" format="#,0.00"  name=sum_resto_1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="1" expression="sum( orafo_aper_partita_val_apertura for all) "border="0" color="0" x="1216" y="76" height="56" width="393" format="[general]"  name=totale_apertura  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=footer alignment="2" text="Tot. Apertura"border="0" color="0" x="1216" y="8" height="60" width="393"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=footer alignment="2" text="Tot. Saldo"border="0" color="0" x="2016" y="8" height="60" width="384"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="1" expression="sum(c_saldo for all) "border="0" color="0" x="2016" y="76" height="56" width="384" format="#,0.00"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

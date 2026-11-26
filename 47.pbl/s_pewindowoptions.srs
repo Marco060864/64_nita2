@@ -1,0 +1,16 @@
+﻿global type s_pewindowoptions from structure
+	integer		li_struct_size
+	integer		li_hasgrouptree
+	integer		li_candrilldown
+	integer		li_hasnavigationcontrols
+	integer		li_hascancelbutton
+	integer		li_hasprintbutton
+	integer		li_hasexportbutton
+	integer		li_haszoomcontrol
+	integer		li_hasclosebutton
+	integer		li_hasprogresscontrols
+	integer		li_hassearchbutton
+	integer		li_hasprintsetupbutton
+	integer		li_hasrefreshbutton
+end type
+

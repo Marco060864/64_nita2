@@ -1,0 +1,10 @@
+﻿global type s_peenableeventinfo from structure
+	unsignedlong		StructSize
+	integer		startStopEngine
+	integer		readingRecordEvent
+	integer		PrintWindowButtonEvent
+	integer		drillEvent
+	integer		closePrintWindowEvent
+	integer		activatePrintWindowEvent
+end type
+

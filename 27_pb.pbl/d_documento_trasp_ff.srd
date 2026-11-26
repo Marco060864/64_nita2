@@ -1,0 +1,197 @@
+﻿//objectcomments DW FreeForm Documento Trasporto Shared Cometa
+release 5;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=1117 color="536870912" )
+table(column=(type=char(8) updatewhereclause=yes name=c_prof_documento_cod dbname="c_prof_documento_cod" )
+ column=(type=long updatewhereclause=yes identity=yes name=id_documento dbname="documento.id_documento" )
+ column=(type=long updatewhereclause=yes name=id_prof_documento dbname="documento.id_prof_documento" )
+ column=(type=long updatewhereclause=yes key=yes name=id_registro dbname="documento.id_registro" )
+ column=(type=decimal(0) updatewhereclause=yes key=yes name=num_progressivo dbname="documento.num_progressivo" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=date updatewhereclause=yes key=yes name=data_registrazione dbname="documento.data_registrazione" )
+ column=(type=char(16) updatewhereclause=yes name=num_documento dbname="documento.num_documento" )
+ column=(type=date updatewhereclause=yes name=data_documento dbname="documento.data_documento" )
+ column=(type=date updatewhereclause=yes name=data_competenza dbname="documento.data_competenza" )
+ column=(type=long updatewhereclause=yes name=id_sog_commerciale dbname="documento.id_sog_commerciale" )
+ column=(type=long updatewhereclause=yes name=id_destinazione dbname="documento.id_destinazione" )
+ column=(type=long updatewhereclause=yes name=id_caus_magazzino dbname="documento.id_caus_magazzino" )
+ column=(type=long updatewhereclause=yes name=id_magazzino dbname="documento.id_magazzino" )
+ column=(type=long updatewhereclause=yes name=id_magazzino_2 dbname="documento.id_magazzino_2" )
+ column=(type=long updatewhereclause=yes name=id_sog_commerciale_fattura dbname="documento.id_sog_commerciale_fattura" )
+ column=(type=long updatewhereclause=yes name=id_linguaggio dbname="documento.id_linguaggio" )
+ column=(type=long updatewhereclause=yes name=id_valuta dbname="documento.id_valuta" )
+ column=(type=decimal(4) updatewhereclause=yes name=cambio dbname="documento.cambio" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=long updatewhereclause=yes name=id_listino dbname="documento.id_listino" )
+ column=(type=long updatewhereclause=yes name=id_con_pagamento dbname="documento.id_con_pagamento" )
+ column=(type=long updatewhereclause=yes name=id_banca_appoggio dbname="documento.id_banca_appoggio" )
+ column=(type=long updatewhereclause=yes identity=yes name=id_gruppo_agenti dbname="documento.id_gruppo_agenti" )
+ column=(type=char(40) updatewhereclause=yes name=origine dbname="documento.origine" )
+ column=(type=char(40) updatewhereclause=yes name=interlocutore dbname="documento.interlocutore" )
+ column=(type=date updatewhereclause=yes name=data_prev_consegna dbname="documento.data_prev_consegna" )
+ column=(type=char(32766) updatewhereclause=no name=note_intestazione dbname="documento.note_intestazione" )
+ column=(type=decimal(0) updatewhereclause=yes name=num_colli dbname="documento.num_colli" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=long updatewhereclause=yes name=id_unita_misura_peso_cod dbname="documento.id_unita_misura_peso" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso_netto dbname="documento.peso_netto" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso_lordo dbname="documento.peso_lordo" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=long updatewhereclause=yes name=id_unita_misura_volume dbname="documento.id_unita_misura_volume" )
+ column=(type=decimal(4) updatewhereclause=yes name=volume dbname="documento.volume" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=long updatewhereclause=yes name=id_tipo_trasporto_des dbname="documento.id_tipo_trasporto" )
+ column=(type=long updatewhereclause=yes name=id_caus_trasporto_des dbname="documento.id_caus_trasporto" )
+ column=(type=char(40) updatewhereclause=yes name=asp_beni dbname="documento.asp_beni" )
+ column=(type=char(1) updatewhereclause=yes name=tras_mezzo dbname="documento.tras_mezzo" values="Mittente	M/Destinatario	D/Vettore	V/" validation=" gettext()  = 'M' OR  gettext()  = 'D' OR  gettext()  = 'V'" validationmsg="'Immettere: M, D, V'" )
+ column=(type=long updatewhereclause=yes name=id_sog_commerciale_vettore dbname="documento.id_sog_commerciale_vettore" )
+ column=(type=long updatewhereclause=yes name=id_sog_commerciale_vettore_2 dbname="documento.id_sog_commerciale_vettore_2" )
+ column=(type=char(40) updatewhereclause=yes name=mezzo_trasporto dbname="documento.mezzo_trasporto" )
+ column=(type=char(40) updatewhereclause=yes name=targa_mezzo_trasporto dbname="documento.targa_mezzo_trasporto" )
+ column=(type=date updatewhereclause=yes name=data_trasporto dbname="documento.data_trasporto" )
+ column=(type=datetime updatewhereclause=yes name=ora_trasporto dbname="documento.ora_trasporto" initial="Today" )
+ column=(type=char(40) updatewhereclause=yes name=sconto_finanziario dbname="documento.sconto_finanziario" )
+ column=(type=decimal(0) updatewhereclause=yes name=sconto_fin_incondizionato dbname="documento.sconto_fin_incondizionato" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(2) updatewhereclause=yes name=sconto_fin_cassa dbname="documento.sconto_fin_cassa" validation=" real(gettext())  >= 0 AND  real(gettext())  <= 100" validationmsg="'Immettere un valore fra 0 e 100'" )
+ column=(type=date updatewhereclause=yes name=data_dec_pagamento dbname="documento.data_dec_pagamento" )
+ column=(type=decimal(0) updatewhereclause=yes name=imp_acconto dbname="documento.imp_acconto" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=long updatewhereclause=yes name=id_tipo_pagamento dbname="documento.id_tipo_pagamento" )
+ column=(type=char(1) updatewhereclause=yes name=stampato dbname="documento.stampato" values="	S/	N" validation=" gettext()  = 'S' OR  gettext()  = 'N'" validationmsg="'Immettere: S, N'" )
+ column=(type=char(1) updatewhereclause=yes name=contabilizzato dbname="documento.contabilizzato" values="	S/	N" validation=" gettext()  = 'S' OR  gettext()  = 'N'" validationmsg="'Immettere: S, N'" )
+ column=(type=char(1) updatewhereclause=yes name=evaso_totalmente dbname="documento.evaso_totalmente" values="	S/	N" validation=" gettext()  = 'S' OR  gettext()  = 'N'" validationmsg="'Immettere: S, N'" )
+ column=(type=char(1) updatewhereclause=yes name=chius_forzata dbname="documento.chius_forzata" values="	S/	N" validation=" gettext()  = 'S' OR  gettext()  = 'N'" validationmsg="'Immettere: S, N'" )
+ column=(type=char(1) updatewhereclause=yes name=sospeso dbname="documento.sospeso" values="	S/	N" validation=" gettext()  = 'S' OR  gettext()  = 'N'" validationmsg="'Immettere: S, N'" )
+ column=(type=date updatewhereclause=yes name=data_scadenza dbname="documento.data_scadenza" )
+ column=(type=char(1) updatewhereclause=yes name=creato_in_esenzione dbname="documento.creato_in_esenzione" )
+ column=(type=long updatewhereclause=yes name=id_azienda dbname="documento.id_azienda" initial="1" )
+ column=(type=long updatewhereclause=yes name=id_lingua dbname="documento.id_lingua" )
+ column=(type=char(40) updatewhereclause=yes name=c_registro_cod dbname="c_registro_cod" )
+ column=(type=char(40) updatewhereclause=yes name=c_registro_des dbname="c_registro_des" )
+ column=(type=char(40) updatewhereclause=yes name=c_intestatario_des dbname="c_intestatario_des" )
+ column=(type=char(8) updatewhereclause=yes name=c_mag_partenza_cod dbname="c_mag_partenza_cod" )
+ column=(type=char(40) updatewhereclause=yes name=c_mag_partenza_des dbname="c_mag_partenza_des" )
+ column=(type=char(8) updatewhereclause=yes name=c_mag_dest_cod dbname="c_mag_dest_cod" )
+ column=(type=char(40) updatewhereclause=yes name=c_mag_dest_des dbname="c_mag_dest_des" )
+ column=(type=char(8) updatewhereclause=yes name=c_intestatario_cod dbname="c_intestatario_cod" )
+ column=(type=char(40) updatewhereclause=yes name=c_destinazione_des dbname="c_destinazione_des" )
+ column=(type=char(40) updatewhereclause=yes name=c_prof_documento_des dbname="c_prof_documento_des" )
+ column=(type=char(8) updatewhereclause=yes name=c_vettore_cod dbname="c_vettore_cod" )
+ column=(type=char(40) updatewhereclause=yes name=c_vettore_des dbname="c_vettore_des" )
+ column=(type=char(40) updatewhereclause=yes name=c_vettore_2_des dbname="c_vettore_2_des" )
+ column=(type=char(8) updatewhereclause=yes name=c_vettore_2_cod dbname="c_vettore_2_cod" )
+ column=(type=char(8) updatewhereclause=yes name=c_agente_cod dbname="c_agente_cod" )
+ column=(type=char(40) updatewhereclause=yes name=c_agente_des dbname="c_agente_des" )
+ column=(type=char(8) updatewhereclause=yes name=c_fattura_cod dbname="c_fattura_cod" )
+ column=(type=char(40) updatewhereclause=yes name=c_fattura_des dbname="c_fattura_des" )
+ column=(type=char(1) updatewhereclause=yes name=bloccato dbname="documento.bloccato" initial="N" values="	S/	N" validation=" gettext()  = 'S' OR  gettext()  = 'N'" validationmsg="'Immettere: S, N'" )
+ retrieve="  SELECT Cast ('' as char(8))  As c_prof_documento_cod,   
+         ~"documento~".~"id_documento~",   
+         ~"documento~".~"id_prof_documento~",   
+         ~"documento~".~"id_registro~",   
+         ~"documento~".~"num_progressivo~",   
+         ~"documento~".~"data_registrazione~",   
+         ~"documento~".~"num_documento~",   
+         ~"documento~".~"data_documento~",   
+         ~"documento~".~"data_competenza~",   
+         ~"documento~".~"id_sog_commerciale~",   
+         ~"documento~".~"id_destinazione~",   
+         ~"documento~".~"id_caus_magazzino~",   
+         ~"documento~".~"id_magazzino~",   
+         ~"documento~".~"id_magazzino_2~",   
+         ~"documento~".~"id_sog_commerciale_fattura~",   
+         ~"documento~".~"id_linguaggio~",   
+         ~"documento~".~"id_valuta~",   
+         ~"documento~".~"cambio~",   
+         ~"documento~".~"id_listino~",   
+         ~"documento~".~"id_con_pagamento~",   
+         ~"documento~".~"id_banca_appoggio~",   
+         ~"documento~".~"id_gruppo_agenti~",   
+         ~"documento~".~"origine~",   
+         ~"documento~".~"interlocutore~",   
+         ~"documento~".~"data_prev_consegna~",   
+         ~"documento~".~"note_intestazione~",   
+         ~"documento~".~"num_colli~",   
+         ~"documento~".~"id_unita_misura_peso~",   
+         ~"documento~".~"peso_netto~",   
+         ~"documento~".~"peso_lordo~",   
+         ~"documento~".~"id_unita_misura_volume~",   
+         ~"documento~".~"volume~",   
+         ~"documento~".~"id_tipo_trasporto~",   
+         ~"documento~".~"id_caus_trasporto~",   
+         ~"documento~".~"asp_beni~",   
+         ~"documento~".~"tras_mezzo~",   
+         ~"documento~".~"id_sog_commerciale_vettore~",   
+         ~"documento~".~"id_sog_commerciale_vettore_2~",   
+         ~"documento~".~"mezzo_trasporto~",   
+         ~"documento~".~"targa_mezzo_trasporto~",   
+         ~"documento~".~"data_trasporto~",   
+         ~"documento~".~"ora_trasporto~",   
+         ~"documento~".~"sconto_finanziario~",   
+         ~"documento~".~"sconto_fin_incondizionato~",   
+         ~"documento~".~"sconto_fin_cassa~",   
+         ~"documento~".~"data_dec_pagamento~",   
+         ~"documento~".~"imp_acconto~",   
+         ~"documento~".~"id_tipo_pagamento~",   
+         ~"documento~".~"stampato~",   
+         ~"documento~".~"contabilizzato~",   
+         ~"documento~".~"evaso_totalmente~",   
+         ~"documento~".~"chius_forzata~",   
+         ~"documento~".~"sospeso~",   
+         ~"documento~".~"data_scadenza~",   
+         ~"documento~".~"creato_in_esenzione~",   
+         ~"documento~".~"id_azienda~",   
+         ~"documento~".~"id_lingua~",   
+         Cast ('' as char(40))  As c_registro_cod,   
+         Cast ('' as char(40))  As c_registro_des,   
+         Cast ('' as char(40))  As c_intestatario_des,   
+         Cast ('' as char(8))  As c_mag_partenza_cod,   
+         Cast ('' as char(40))  As c_mag_partenza_des,   
+         Cast ('' as char(8))  As c_mag_dest_cod,   
+         Cast ('' as char(40))  As c_mag_dest_des,   
+         Cast ('' as char(8))   As c_intestatario_cod,   
+         Cast ('' as char(40))  As c_destinazione_des,   
+         Cast ('' as char(40))  As c_prof_documento_des,   
+         Cast ('' as char(8))  As c_vettore_cod,   
+         Cast ('' as char(40))  As c_vettore_des,   
+         Cast ('' as char(40))  As c_vettore_2_des,   
+         Cast ('' as char(8))  As c_vettore_2_cod,   
+         Cast ('' as char(8))  As c_agente_cod,   
+         Cast ('' as char(40))  As c_agente_des,   
+         Cast ('' as char(8))  As c_fattura_cod,   
+         Cast ('' as char(40))  As c_fattura_des,   
+         ~"documento~".~"bloccato~"  
+    FROM ~"documento~"   
+" update="documento" updatewhere=0 updatekeyinplace=no )
+text(band=detail alignment="1" text="Numero Colli:"border="0" color="41943040" x="23" y="24" height="57" width="453"  name=num_colli_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="1" text="U. M.:"border="0" color="41943040" x="343" y="124" height="57" width="124"  name=id_unita_misura_peso_cod_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Causale Trasporto:"border="0" color="41943040" x="23" y="324" height="57" width="453"  name=id_caus_trasporto_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Aspetto dei Beni:"border="0" color="41943040" x="23" y="424" height="57" width="453"  name=asp_beni_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Secondo Vettore:"border="0" color="41943040" x="23" y="724" height="57" width="453"  name=c_vettore_2_cod_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Mezzo Trasporto:"border="0" color="41943040" x="23" y="824" height="57" width="453"  name=mezzo_trasporto_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Targa:"border="0" color="41943040" x="23" y="924" height="57" width="453"  name=targa_mezzo_trasporto_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Data Trasporto:"border="0" color="41943040" x="23" y="1024" height="57" width="453"  name=data_trasporto_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Vettore:"border="0" color="41943040" x="23" y="624" height="57" width="453"  name=c_vettore_cod_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Trasporto a Mezzo:"border="0" color="41943040" x="23" y="524" height="57" width="453"  name=tras_mezzo_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Tipo Trasporto:"border="0" color="41943040" x="23" y="224" height="57" width="453"  name=id_tipo_trasporto_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Peso: "border="0" color="41943040" x="23" y="124" height="57" width="293"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=28 alignment="0" tabsequence=20 border="5" color="41943040" x="503" y="124" height="65" width="275" format="[general]"  name=id_unita_misura_peso_cod dddw.name=d_unita_misura_peso_cod_sl dddw.displaycolumn=simbolo dddw.datacolumn=id_unita_misura dddw.percentwidth=544 dddw.lines=0 dddw.limit=5 dddw.allowedit=yes dddw.useasborder=yes dddw.case=upper dddw.nilisnull=yes dddw.autohscroll=yes dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=35 alignment="0" tabsequence=90 border="5" color="41943040" x="503" y="424" height="65" width="1079" format="[general]"  name=asp_beni edit.name="es_Descrizione" edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=36 alignment="0" tabsequence=100 border="5" color="41943040" x="503" y="524" height="65" width="531" format="[general]"  name=tras_mezzo edit.name="es_Trasporto_Mezzo" ddlb.limit=0 ddlb.allowedit=no ddlb.case=any ddlb.nilisnull=yes ddlb.useasborder=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=40 alignment="0" tabsequence=160 border="5" color="41943040" x="503" y="924" height="65" width="1079" format="[general]"  name=targa_mezzo_trasporto edit.name="es_Descrizione" edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=41 alignment="0" tabsequence=170 border="5" color="41943040" x="503" y="1024" height="65" width="266" format="dd/mm/yyyy"  name=data_trasporto edit.name="es_Data" edit.limit=10 edit.case=any edit.format="dd/mm/yyyy " edit.autoselect=yes edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=33 alignment="0" tabsequence=60 border="5" color="41943040" x="1075" y="224" height="65" width="1281" format="[general]"  name=id_tipo_trasporto_des edit.name="es_Tipo_Trasporto_Des_SL" dddw.name=d_tipo_trasporto_des_sl dddw.displaycolumn=descrizione dddw.datacolumn=id_tipo_trasporto dddw.percentwidth=115 dddw.lines=0 dddw.limit=40 dddw.allowedit=yes dddw.useasborder=yes dddw.case=any dddw.nilisnull=yes dddw.autohscroll=yes dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+bitmap(band=detail filename="S:\PB\CommonFrameWork\search.bmp" x="961" y="624" height="65" width="74" border="6"  name=c_vettore_cod_sw )
+column(band=detail id=39 alignment="0" tabsequence=150 border="5" color="41943040" x="503" y="824" height="65" width="1079" format="[general]"  name=mezzo_trasporto edit.name="es_Descrizione" edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+bitmap(band=detail filename="S:\PB\CommonFrameWork\search.bmp" x="961" y="724" height="65" width="74" border="6"  name=c_vettore_2_cod_sw )
+column(band=detail id=69 alignment="0" tabsequence=120 border="5" color="41943040" x="1075" y="624" height="57" width="1194" format="[general]"  name=c_vettore_des edit.name="es_Descrizione" edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=70 alignment="0" tabsequence=140 border="5" color="41943040" x="1075" y="724" height="57" width="1194" format="[general]"  name=c_vettore_2_des edit.name="es_Descrizione" edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=34 alignment="0" tabsequence=80 border="5" color="41943040" x="1075" y="324" height="65" width="1281" format="[general]"  name=id_caus_trasporto_des edit.name="es_Caus_Trasporto_Des_SL" dddw.name=d_caus_trasporto_des_sl dddw.displaycolumn=descrizione dddw.datacolumn=id_caus_trasporto dddw.percentwidth=111 dddw.lines=0 dddw.limit=40 dddw.allowedit=yes dddw.useasborder=yes dddw.case=any dddw.nilisnull=yes dddw.autohscroll=yes dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=34 alignment="0" tabsequence=70 border="5" color="41943040" x="503" y="324" height="65" width="526" format="[general]"  name=id_caus_trasporto dddw.name=d_caus_trasporto_cod_sl dddw.displaycolumn=codice dddw.datacolumn=id_caus_trasporto dddw.percentwidth=273 dddw.lines=0 dddw.limit=4 dddw.allowedit=yes dddw.useasborder=yes dddw.case=upper dddw.nilisnull=yes dddw.autohscroll=yes dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=33 alignment="0" tabsequence=50 border="5" color="41943040" x="503" y="224" height="65" width="526" format="[general]"  name=id_tipo_trasporto dddw.name=d_tipo_trasporto_cod_sl dddw.displaycolumn=codice dddw.datacolumn=id_tipo_trasporto dddw.percentwidth=280 dddw.lines=0 dddw.limit=4 dddw.allowedit=yes dddw.useasborder=yes dddw.case=upper dddw.nilisnull=yes dddw.autohscroll=yes dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=68 alignment="0" tabsequence=110 border="5" color="41943040" x="503" y="624" height="57" width="435" format="[general]"  name=c_vettore_cod edit.name="es_Cod_A8" edit.limit=8 edit.case=upper edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=71 alignment="0" tabsequence=130 border="5" color="41943040" x="503" y="724" height="57" width="435" format="[general]"  name=c_vettore_2_cod edit.name="es_Cod_A8" edit.limit=8 edit.case=upper edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+bitmap(band=detail filename="S:\PB\CommonFrameWork\search.bmp" x="2286" y="624" height="65" width="74" border="6"  name=c_vettore_des_sw )
+bitmap(band=detail filename="S:\PB\CommonFrameWork\search.bmp" x="2286" y="724" height="65" width="74" border="6"  name=c_vettore_2_des_sw )
+column(band=detail id=27 alignment="1" tabsequence=10 border="5" color="41943040" x="503" y="24" height="65" width="522" format="#,0"  name=num_colli edit.name="es_Pos_8" edit.limit=8 edit.case=any edit.format="#0 " edit.autoselect=yes edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=29 alignment="1" tabsequence=30 border="5" color="41943040" x="1006" y="124" height="65" width="567" format="#,0.0000"  name=peso_netto edit.name="es_Quantita" edit.limit=18 edit.case=any edit.format="#,0.0000 " edit.autoselect=yes edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Lordo:"border="0" color="41943040" x="1623" y="124" height="57" width="142"  name=peso_lordo_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=30 alignment="1" tabsequence=40 border="5" color="41943040" x="1783" y="124" height="65" width="567" format="#,0.0000"  name=peso_lordo edit.name="es_Quantita" edit.limit=18 edit.case=any edit.format="#,0.0000 " edit.autoselect=yes edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Netto:"border="0" color="41943040" x="846" y="124" height="57" width="129"  name=peso_netto_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+  

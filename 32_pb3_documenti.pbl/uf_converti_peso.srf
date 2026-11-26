@@ -1,0 +1,68 @@
+﻿global type uf_converti_peso from function_object
+end type
+
+forward prototypes
+global function decimal uf_converti_peso (long al_id_unita_confezione, decimal ad_peso)
+end prototypes
+
+global function decimal uf_converti_peso (long al_id_unita_confezione, decimal ad_peso);
+long 		ll_id_unita_mis_peso, ll_id_unita_misura, ll_rows, ll_id_unita_misura_riferimento
+decimal 	ld_peso, ld_coef_conversione
+string	ls_filtro
+datastore lds_unita_misura
+
+ld_peso = ad_peso
+
+SELECT id_unita_mis_peso, id_unita_misura
+INTO	 :ll_id_unita_mis_peso, :ll_id_unita_misura
+FROM	 unita_confezione
+WHERE	 id_unita_confezione = :al_id_unita_confezione
+;
+if isnull(ll_id_unita_mis_peso) then return ad_peso
+
+if (SQLCA.SQLCODE = 0) and (ll_id_unita_mis_peso <> ll_id_unita_misura) then
+	lds_unita_misura=create datastore
+	lds_unita_misura.dataobject='ds_unita_misura_gd'
+	lds_unita_misura.settransobject(sqlca)		
+	ll_rows = lds_unita_misura.retrieve()
+	ls_filtro = "id_unita_misura = " + string(ll_id_unita_mis_peso)
+	lds_unita_misura.setfilter(ls_filtro)
+	ll_rows = lds_unita_misura.retrieve()
+	
+	ll_rows = lds_unita_misura.rowcount()
+
+	if (ll_rows > 0) then
+		
+		
+		ld_coef_conversione=lds_unita_misura.getitemnumber(1, "conversione")
+		if ld_coef_conversione=0 or isnull(ld_coef_conversione) then ld_coef_conversione=1
+		ld_peso = ld_peso / ld_coef_conversione
+		
+		ll_id_unita_misura_riferimento = lds_unita_misura.getitemnumber(1, "id_unita_misura_riferimento")
+	else 
+		return ad_peso
+	end if
+	
+	ls_filtro = "id_unita_misura = " + string(ll_id_unita_misura) + " and id_unita_misura_riferimento = " + string(ll_id_unita_misura_riferimento)
+	lds_unita_misura.setfilter(ls_filtro)
+	ll_rows = lds_unita_misura.retrieve()
+	ll_rows = lds_unita_misura.rowcount()
+
+	if (ll_rows > 0) then
+		
+		ld_coef_conversione=lds_unita_misura.getitemnumber(1, "conversione")
+		if ld_coef_conversione=0 or isnull(ld_coef_conversione) then ld_coef_conversione=1
+		
+		ld_peso = ld_peso / ld_coef_conversione
+		
+	else 
+		return ad_peso
+	end if
+	
+		
+	destroy lds_unita_misura
+end if
+
+return ld_peso
+end function
+

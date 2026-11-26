@@ -1,0 +1,20 @@
+﻿global type f_rag_soc_fo from function_object
+end type
+
+forward prototypes
+global function string f_rag_soc_fo (long al_id_sog_com, integer ai_num_lettere)
+end prototypes
+
+global function string f_rag_soc_fo (long al_id_sog_com, integer ai_num_lettere);string ls_fornitore
+
+select rag_soc_1
+into :ls_fornitore
+from dba.sog_commerciale_gen
+where id_sog_commerciale=:al_id_sog_com
+;
+if ai_num_lettere>0 then
+	ls_fornitore=left(ls_fornitore, ai_num_lettere)
+end if
+return ls_fornitore
+end function
+

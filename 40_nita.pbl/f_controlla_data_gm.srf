@@ -1,0 +1,21 @@
+﻿global type f_controlla_data_gm from function_object
+end type
+
+forward prototypes
+global function boolean f_controlla_data_gm (integer li_giorno, integer li_mese)
+end prototypes
+
+global function boolean f_controlla_data_gm (integer li_giorno, integer li_mese);
+
+CONSTANT String ls_Anno_Fittizio = "1080-"
+Boolean lb_Data_Valida
+String ls_Data
+
+ls_Data = ls_Anno_Fittizio+String(li_mese)+"-"+String(li_giorno)
+
+lb_Data_Valida = IsDate(ls_Data)
+
+RETURN lb_Data_Valida
+
+end function
+

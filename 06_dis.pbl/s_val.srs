@@ -1,0 +1,5 @@
+﻿global type s_val from structure
+	decimal {4}	costo_componenti
+	decimal {4}	altri_costi
+end type
+

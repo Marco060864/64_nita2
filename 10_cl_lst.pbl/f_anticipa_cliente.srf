@@ -1,0 +1,42 @@
+﻿global type f_anticipa_cliente from function_object
+end type
+
+forward prototypes
+global function date f_anticipa_cliente (date adt_data_scadenza, string as_cliente, string as_num_bollettina)
+end prototypes
+
+global function date f_anticipa_cliente (date adt_data_scadenza, string as_cliente, string as_num_bollettina);date ldt_ret_data, ldt_oggi, ldt_anticipa_da_data, ldt_data_anticipo, ldt_data_sped_k
+string ls_cliente_ordine, ls_ordine
+integer li_pos, li_test
+
+ldt_oggi=today()
+ldt_ret_data=adt_data_scadenza
+select  cliente, fino_a_tutto, anticipa_a_tutto into :ls_cliente_ordine, :ldt_data_anticipo, :ldt_anticipa_da_data
+	from dba.anticipa_scadenza_k
+	where cliente  like :as_cliente+'%' and anticipa_a_tutto <=:ldt_oggi and fino_a_tutto>=:ldt_oggi;
+	li_pos=pos(ls_cliente_ordine, "-")
+	if li_pos>0 then
+		ls_ordine=right(ls_cliente_ordine, len(ls_cliente_ordine) - li_pos)
+		if ldt_data_anticipo>date("1900-01-01") and ldt_data_anticipo>=adt_data_scadenza and ldt_anticipa_da_data<=adt_data_scadenza then
+			select 1 into :li_test from dba.bollettine_excel where cod_barre=:as_num_bollettina and num_ordine=:ls_ordine;
+			if li_test=1 then
+				select  s_data  into  :ldt_data_sped_k from dba.sped_lista_k
+				where cliente=:as_cliente;
+				if ldt_data_sped_k> date("1900-01-01")  then 
+					ldt_ret_data=ldt_data_sped_k
+				end if
+			end if
+		end if
+	else
+		if ldt_data_anticipo>date("1900-01-01") and ldt_data_anticipo>=adt_data_scadenza and ldt_anticipa_da_data<=adt_data_scadenza then
+			select  s_data  into  :ldt_data_sped_k from dba.sped_lista_k
+			where cliente=:as_cliente;
+			if ldt_data_sped_k> date("1900-01-01")  then 
+				ldt_ret_data=ldt_data_sped_k
+			end if
+		end if
+	end if
+
+return ldt_ret_data
+end function
+

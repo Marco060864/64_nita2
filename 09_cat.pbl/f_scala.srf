@@ -1,0 +1,20 @@
+﻿global type f_scala from function_object
+end type
+
+forward prototypes
+global subroutine f_scala (ref integer al_dim_x, ref integer al_dim_y, integer al_max_x, integer al_max_y)
+end prototypes
+
+global subroutine f_scala (ref integer al_dim_x, ref integer al_dim_y, integer al_max_x, integer al_max_y);
+
+decimal rapp_x, rapp_y, rapporto_finale
+
+rapp_x=al_max_x/al_dim_x
+rapp_y=al_max_y/al_dim_y
+
+rapporto_finale=Min(rapp_x, rapp_y)
+
+al_dim_x=al_dim_x*rapporto_finale
+al_dim_y=al_dim_y*rapporto_finale
+end subroutine
+

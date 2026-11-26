@@ -1,0 +1,10 @@
+﻿global type s_stampa from structure
+	datawindow		dw_s_carico
+	datawindow		dw_caus_car
+	datawindow		dw_caus_scar
+	datawindow		dw_s_scarico
+	string		s_tit_caus
+	date		data_inizio
+	date		data_fine
+end type
+

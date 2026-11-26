@@ -1,0 +1,1 @@
+﻿PBSELECT( VERSION(400) TABLE(NAME="cat_merceologica" ) COLUMN(NAME="cat_merceologica.id_cat_merceologica") COLUMN(NAME="cat_merceologica.codice") COLUMN(NAME="cat_merceologica.descrizione")WHERE(    EXP1 ="~"cat_merceologica~".~"id_cat_mer_superiore~""   OP ="is not"    EXP2 =">0" ) ) 

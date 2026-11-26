@@ -1,0 +1,137 @@
+﻿release 6;
+datawindow(units=3 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 635 print.margin.right = 635 print.margin.top = 635 print.margin.bottom = 635 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=6006 color="536870912" )
+summary(height=5715 color="536870912" )
+footer(height=0 color="553648127" )
+detail(height=502 color="553648127"  height.autosize=yes)
+table(column=(type=char(32) updatewhereclause=yes name=codice dbname="codice" )
+ column=(type=char(32766) updatewhereclause=no name=descrizione dbname="descrizione" )
+ column=(type=decimal(4) updatewhereclause=yes name=quantita dbname="quantita" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso_netto dbname="peso_netto" )
+ column=(type=decimal(4) updatewhereclause=yes name=lunghezza_riga dbname="lunghezza_riga" )
+ column=(type=decimal(2) updatewhereclause=yes name=coef_calo dbname="coef_calo" )
+ column=(type=decimal(4) updatewhereclause=yes name=fino dbname="fino" )
+ column=(type=decimal(6) updatewhereclause=yes name=prezzo_manifattura dbname="prezzo_manifattura" )
+ column=(type=decimal(4) updatewhereclause=yes name=calo dbname="calo" )
+ column=(type=decimal(4) updatewhereclause=yes name=dim_l dbname="dim_l" )
+ column=(type=decimal(4) updatewhereclause=yes name=uc_peso_netto dbname="peso_netto" )
+ column=(type=long updatewhereclause=yes identity=yes name=id_documento dbname="id_documento" )
+ column=(type=char(16) updatewhereclause=yes name=num_documento dbname="num_documento" )
+ column=(type=date updatewhereclause=yes name=data_documento dbname="data_documento" )
+ column=(type=date updatewhereclause=yes name=data_prev_consegna dbname="data_prev_consegna" )
+ column=(type=char(32766) updatewhereclause=no name=note_intestazione dbname="note_intestazione" )
+ column=(type=char(20) updatewhereclause=yes name=bollo dbname="bollo" )
+ column=(type=char(40) updatewhereclause=yes name=rag_soc_1 dbname="rag_soc_1" )
+ column=(type=char(40) updatewhereclause=yes name=indirizzo dbname="indirizzo" )
+ column=(type=char(40) updatewhereclause=yes name=localita dbname="localita" )
+ column=(type=char(10) updatewhereclause=yes name=cap dbname="cap" )
+ column=(type=char(5) updatewhereclause=yes name=provincia dbname="provincia" )
+ column=(type=char(5) updatewhereclause=yes name=nazione dbname="nazione" )
+ column=(type=char(40) updatewhereclause=yes name=az_rag_1 dbname="az_rag_1" )
+ column=(type=char(40) updatewhereclause=yes name=rag_soc_2 dbname="rag_soc_2" )
+ column=(type=char(20) updatewhereclause=yes name=bollo dbname="bollo" )
+ column=(type=long updatewhereclause=yes name=id_valuta dbname="id_valuta" )
+ column=(type=decimal(6) updatewhereclause=yes name=prezzo_complessivo dbname="prezzo_complessivo" )
+ column=(type=long updatewhereclause=yes name=id_riga_ord_cliente dbname="id_riga_ord_cliente" )
+ column=(type=long updatewhereclause=yes identity=yes name=id_articolo dbname="id_articolo" )
+ column=(type=char(5) updatewhereclause=yes name=simbolo dbname="simbolo" )
+ column=(type=char(32766) updatewhereclause=no name=nota_ord_cliente dbname="nota_ord_cliente" )
+ column=(type=char(1) updatewhereclause=yes name=cfg_pezzi dbname="cfg_pezzi" )
+ column=(type=char(1) updatewhereclause=yes name=cfg_mis dbname="cfg_mis" )
+ column=(type=char(1) updatewhereclause=yes name=cfg_p_uni dbname="cfg_p_uni" )
+ column=(type=char(1) updatewhereclause=yes name=cfg_p_tot dbname="cfg_p_tot" )
+ column=(type=char(1) updatewhereclause=yes name=cfg_prezzo dbname="cfg_prezzo" )
+ column=(type=char(2) updatewhereclause=yes name=sigla_prezzo dbname="sigla_prezzo" )
+ retrieve="SELECT
+    articolo.~"codice~", 
+    riga_documento.~"descrizione~", riga_documento.~"quantita~", riga_documento.~"peso_netto~",
+ riga_documento.~"dim_l~" as lunghezza_riga, riga_documento.~"coef_calo~", riga_documento.~"fino~", riga_documento.~"prezzo_manifattura~",
+riga_documento.~"calo~", unita_confezione.dim_l, unita_confezione.peso_netto,
+    documento.~"id_documento~", documento.~"num_documento~", documento.~"data_documento~", documento.~"data_prev_consegna~", documento.~"note_intestazione~", documento.~"bollo~",
+    sog_commerciale_gen.~"rag_soc_1~", sede.indirizzo, sede.localita, sede.cap, sede.provincia, 
+	sede.nazione, azienda.rag_soc_1 as az_rag_1, azienda.rag_soc_2, documento.~"bollo~",
+documento.~"id_valuta~", riga_documento.prezzo_complessivo, ord_cli_fornitore.id_riga_ord_cliente, 
+articolo.id_articolo, unita_misura.simbolo, oc_documento.note_intestazione as nota_ord_cliente,
+
+art_cfg_stampa.pezzi as cfg_pezzi, art_cfg_stampa.misura as cfg_mis, 
+art_cfg_stampa.peso_unitario as cfg_p_uni, 
+art_cfg_stampa.peso_totale as cfg_p_tot, art_cfg_stampa.prezzo as cfg_prezzo,
+riga_documento.~"sigla_prezzo~"
+FROM
+    ~"DBA~".~"riga_documento~" riga_documento LEFT OUTER JOIN ~"DBA~".~"articolo~" articolo ON
+         riga_documento.~"id_articolo~"=articolo.~"id_articolo~",
+ ~"DBA~".~"riga_documento~" riga_documento LEFT OUTER JOIN ~"DBA~".~"unita_confezione~" unita_confezione ON
+         riga_documento.~"id_unita_confezione~"=unita_confezione.~"id_unita_confezione~",
+
+~"DBA~".~"unita_confezione~" unita_confezione LEFT OUTER JOIN ~"DBA~".~"unita_misura~" unita_misura ON
+         unita_confezione.~"id_unita_misura~"=unita_misura.~"id_unita_misura~",
+
+ ~"DBA~".~"riga_documento~" riga_documento LEFT OUTER JOIN ~"DBA~".~"ord_cli_fornitore~" ord_cli_fornitore ON
+         riga_documento.~"id_riga_documento~"=ord_cli_fornitore.~"id_riga_ord_fornitore~",
+
+~"DBA~".~"ord_cli_fornitore~" ord_cli_fornitore LEFT OUTER JOIN ~"DBA~".~"riga_documento~" oc_riga_documento ON
+         ord_cli_fornitore.~"id_riga_ord_cliente~"=oc_riga_documento.~"id_riga_documento~",
+~"DBA~".~"riga_documento~" oc_riga_documento LEFT OUTER JOIN ~"DBA~".~"documento~" oc_documento ON
+         oc_riga_documento.~"id_documento~"=oc_documento.~"id_documento~",
+~"DBA~".~"articolo~" articolo LEFT OUTER JOIN ~"DBA~".~"art_cfg_stampa~" art_cfg_stampa ON
+         upper(left(articolo.~"codice~",2))=upper(art_cfg_stampa.~"prime_2_lettere~"),
+
+    ~"DBA~".~"documento~" documento,
+    ~"DBA~".~"sog_commerciale_gen~" sog_commerciale_gen ,
+azienda, sede
+WHERE
+    riga_documento.~"id_documento~" = documento.~"id_documento~" AND
+    documento.~"id_sog_commerciale~" = sog_commerciale_gen.~"id_sog_commerciale~" and
+documento.id_azienda=azienda.id_azienda and sede.id_azienda=azienda.id_azienda
+
+and documento.id_documento=:rn_id_doc" arguments=(("rn_id_doc", number)) )
+column(band=header id=19 alignment="0" tabsequence=32766 border="0" color="0" x="158" y="873" height="396" width="5767" format="[general]"  name=indirizzo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="'Page ' + page() + ' of ' + pageCount()"border="0" color="0" x="158" y="4418" height="423" width="2540" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="CODICE/VAR."border="0" color="0" x="132" y="5529" height="423" width="2354"  name=codice_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="~"ORDINE  del ~"+string( data_documento )"border="0" color="0" x="6693" y="926" height="502" width="6826" format="[general]"  name=num_ord  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="~"SCADENZA: ~"+ data_prev_consegna "border="0" color="0" x="13890" y="926" height="423" width="4577" format="[general]"  name=scadenza  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=header x1="52" y1="5979" x2="18758" y2="5979" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="105" y1="5503" x2="18758" y2="5503" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+column(band=header id=24 alignment="0" tabsequence=32766 border="0" color="0" x="185" y="343" height="423" width="7884" format="[general]"  name=az_rag_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression=" cap +~" - ~"+ localita + ~" - ~"+ provincia +~" - ~" +nazione "border="0" color="0" x="158" y="1375" height="423" width="6402" format="[general]"  name=cap_pr_it  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="SPETT.LE"border="0" color="0" x="9710" y="1957" height="423" width="1693"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=18 alignment="0" tabsequence=32766 border="0" color="0" x="9763" y="2540" height="449" width="8863" format="[general]"  name=rag_soc_1 edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=16 alignment="0" tabsequence=32766 border="0" color="0" x="423" y="2143" height="1746" width="8890" format="[general]"  name=note_intestazione visible="1~t0" edit.limit=0 edit.case=any edit.autoselect=yes edit.autovscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="BOLLO:"border="0" color="0" x="9763" y="4868" height="423" width="1322" visible="1~tif(bollo>'', 1,0)"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=26 alignment="0" tabsequence=32766 border="0" color="0" x="11165" y="4868" height="423" width="6535" format="[general]"  name=bollo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="PREZZO"border="0" color="0" x="8837" y="5529" height="423" width="1799"  name=prezzo_manifattura_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="MISURA"border="0" color="0" x="10715" y="5529" height="423" width="2037"  name=dim_l_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="PEZZI"border="0" color="0" x="12832" y="5529" height="423" width="1746"  name=quantita_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="PESO TOT."border="0" color="0" x="14657" y="5529" height="423" width="1957"  name=peso_netto_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="PESO UNIT."border="0" color="0" x="16695" y="5529" height="423" width="2037"  name=id_documento_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="DESCRIZIONE/NOTE"border="0" color="0" x="2592" y="5529" height="423" width="6164"  name=descrizione_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="right(note_intestazione, len(note_intestazione) - 15)"border="0" color="0" x="9763" y="3095" height="1693" width="8863" format="[general]"  name=c_nota  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="2" color="0" x="132" y="27" height="423" width="2354" format="[general]"  name=codice edit.limit=32 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0"font.underline="0~tif(f_trova_imm_personalizzata( codice , left( note_intestazione , 8))>~"~", 1, 0)"  background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="2" color="0" x="2540" y="27" height="423" width="6191" format="[general]"  name=descrizione height.autosize=yes edit.limit=32000 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="2" color="0" x="12858" y="27" height="423" width="1746" format="#,0"  name=quantita visible="1~tif  (cfg_pezzi ='N', 0, 1)" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="2" color="0" x="14605" y="27" height="423" width="2063" format="#,0.00"  name=peso_netto visible="1~tif  (cfg_p_tot ='N', 0, 1)" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="//if( dim_l >0, dim_l*uc_peso_netto/uc_dim_l, uc_peso_netto)
+if( quantita >0 ,  peso_netto / quantita , uc_peso_netto)"border="2" color="0" x="16695" y="27" height="423" width="2037" format="#,0.00"  name=peso_unit visible="1~tif  (cfg_p_uni ='N', 0, 1)"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression=" if  (prezzo_manifattura >0,  prezzo_manifattura ,   prezzo_complessivo ) "border="2" color="0" x="8731" y="27" height="423" width="1905" format="[general]~tf_valu_EDIT(id_valuta)"  name=c_prezzo visible="1~tif  (cfg_prezzo ='N', 0, 1)"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="2" color="0" x="10689" y="27" height="423" width="2116" format="#,0.00"  name=lunghezza_riga visible="1~tif  (cfg_mis ='N', 0, 1)" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=summary alignment="1" text="TOT PESO GR.:"border="0" color="0" x="105" y="529" height="423" width="2619"  name=coef_calo_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="0" expression="SUM( peso_netto FOR ALL)"border="0" color="0" x="2910" y="529" height="423" width="2169" format="#,0.00"  name=tot_peso  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=summary alignment="1" text="TOT. FINO"border="0" color="0" x="5582" y="529" height="423" width="1746"  name=fino_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="0" expression="sum(fino for all)"border="0" color="0" x="7487" y="529" height="423" width="1719" format="[general]"  name=totfino  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=summary alignment="1" text="TOT CALO:"border="0" color="0" x="9683" y="529" height="423" width="1825"  name=num_documento_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="0" expression="sum(calo for all)"border="0" color="0" x="11668" y="529" height="423" width="1852" format="[general]"  name=totcalo  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=summary alignment="1" text="TOT FINO+CALO:"border="0" color="0" x="13811" y="529" height="423" width="2883"  name=data_documento_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="0" expression="sum(fino for all) + sum(calo for all)"border="0" color="0" x="16801" y="529" height="423" width="1957" format="#,0.00"  name=totfc  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=summary id=32 alignment="0" tabsequence=32766 border="0" color="0" x="79" y="4419" height="1243" width="18653" format="[general]"  name=nota_ord_cliente visible="1~tif(sigla_prezzo='F', 1, 0)" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-14" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=summary alignment="2" text="TITOLO GARANTITO NO NIKEL"border="0" color="0" x="105" y="2937" height="423" width="18653"  name=t_no_nikel  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="0" expression="~"Tolleranza Peso: ~"+string(f_trova_tolleranza(left( note_intestazione , 8)))+~"%~""border="0" color="255" x="105" y="1588" height="555" width="13890" format="[general]"  name=c_tolleranza visible="1~tif(f_trova_tolleranza(left( note_intestazione , 8))>0, 1, 0)"  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=summary alignment="0" text="Pezzi Precisi"border="0" color="0" x="14181" y="1588" height="555" width="4497"  name=pezzi_precisi_t visible="1~tif(sigla_prezzo='F' and  f_pezzi_precisi( left(note_intestazione,8) )='S', 1, 0)"  font.face="Arial" font.height="-14" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=foreground x1="2540" y1="5503" x2="2540" y2="6006" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=foreground x1="52" y1="5503" x2="52" y2="6006" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=foreground x1="8784" y1="5503" x2="8784" y2="6006" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=foreground x1="10662" y1="5503" x2="10662" y2="6006" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=foreground x1="12779" y1="5503" x2="12779" y2="6006" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=foreground x1="14605" y1="5503" x2="14605" y2="6006" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=foreground x1="16642" y1="5503" x2="16642" y2="6006" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=foreground x1="18758" y1="5503" x2="18758" y2="6006" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

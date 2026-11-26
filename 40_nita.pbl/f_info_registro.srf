@@ -1,0 +1,31 @@
+﻿global type f_info_registro from function_object
+end type
+
+forward prototypes
+global function string f_info_registro (long al_id_registro)
+end prototypes
+
+global function string f_info_registro (long al_id_registro);
+
+string ls_RetVal, ls_cod_esercizio, ls_Tipo_Registro 
+long ll_Num_Registro
+
+  SELECT "esercizio"."codice",   
+         "registro"."tipo_registro",   
+         "registro"."numero"  
+    INTO :ls_cod_esercizio,   
+         :ls_Tipo_Registro,   
+         :ll_Num_Registro  
+    FROM "esercizio",   
+         "registro"  
+   WHERE ( "registro"."id_esercizio" = "esercizio"."id_esercizio" ) and  
+         ( ( "registro"."id_registro" = al_id_registro ) )   ;
+
+
+ls_RetVal = ("Esercizio: " + ls_cod_esercizio + " - " + &
+				 "Tipo: " + ls_Tipo_Registro + " - " + &
+				 "Numero: " + string(ll_Num_Registro))
+
+RETURN ls_RetVal
+end function
+

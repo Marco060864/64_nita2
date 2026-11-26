@@ -1,0 +1,65 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=80133307 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=340 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=88 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=prog_riga dbname="intra_1bis_dogana.prog_riga" )
+ column=(type=char(2) updatewhereclause=yes name=cod_stato dbname="intra_1bis_dogana.cod_stato" )
+ column=(type=char(12) updatewhereclause=yes name=iva_operatore dbname="intra_1bis_dogana.iva_operatore" )
+ column=(type=char(13) updatewhereclause=yes name=ammontare dbname="intra_1bis_dogana.ammontare" )
+ column=(type=char(1) updatewhereclause=yes name=cod_nat_transaz dbname="intra_1bis_dogana.cod_nat_transaz" )
+ column=(type=char(10) updatewhereclause=yes name=massa_netta dbname="intra_1bis_dogana.massa_netta" )
+ column=(type=char(10) updatewhereclause=yes name=unita_sup dbname="intra_1bis_dogana.unita_sup" )
+ column=(type=char(13) updatewhereclause=yes name=val_statistico dbname="intra_1bis_dogana.val_statistico" )
+ column=(type=char(1) updatewhereclause=yes name=cond_consegna dbname="intra_1bis_dogana.cond_consegna" )
+ column=(type=char(1) updatewhereclause=yes name=modo_trasp dbname="intra_1bis_dogana.modo_trasp" )
+ column=(type=char(2) updatewhereclause=yes name=paese_dest dbname="intra_1bis_dogana.paese_dest" )
+ column=(type=char(2) updatewhereclause=yes name=prov_dest dbname="intra_1bis_dogana.prov_dest" )
+ column=(type=char(5) updatewhereclause=yes name=intra dbname="intra_1bis_dogana.intra" )
+ column=(type=char(11) updatewhereclause=yes name=iva dbname="intra_1bis_dogana.iva" )
+ column=(type=char(6) updatewhereclause=yes name=num_prog_ele dbname="intra_1bis_dogana.num_prog_ele" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_rec dbname="intra_1bis_dogana.tipo_rec" )
+ column=(type=char(8) updatewhereclause=yes name=cod_nomenclatura dbname="intra_1bis_dogana.cod_nomenclatura" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"intra_1bis_dogana~" ) COLUMN(NAME=~"intra_1bis_dogana.prog_riga~") COLUMN(NAME=~"intra_1bis_dogana.cod_stato~") COLUMN(NAME=~"intra_1bis_dogana.iva_operatore~") COLUMN(NAME=~"intra_1bis_dogana.ammontare~") COLUMN(NAME=~"intra_1bis_dogana.cod_nat_transaz~") COLUMN(NAME=~"intra_1bis_dogana.massa_netta~") COLUMN(NAME=~"intra_1bis_dogana.unita_sup~") COLUMN(NAME=~"intra_1bis_dogana.val_statistico~") COLUMN(NAME=~"intra_1bis_dogana.cond_consegna~") COLUMN(NAME=~"intra_1bis_dogana.modo_trasp~") COLUMN(NAME=~"intra_1bis_dogana.paese_dest~") COLUMN(NAME=~"intra_1bis_dogana.prov_dest~") COLUMN(NAME=~"intra_1bis_dogana.intra~") COLUMN(NAME=~"intra_1bis_dogana.iva~") COLUMN(NAME=~"intra_1bis_dogana.num_prog_ele~") COLUMN(NAME=~"intra_1bis_dogana.tipo_rec~") COLUMN(NAME=~"intra_1bis_dogana.cod_nomenclatura~")) "  sort="prog_riga A " )
+text(band=header alignment="2" text="Prog
+riga"border="0" color="32768" x="18" y="216" height="112" width="137"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80133307" )
+text(band=header alignment="2" text="Stato"border="0" color="32768" x="192" y="272" height="56" width="151"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80133307" )
+text(band=header alignment="2" text="Acquirente
+Partita IVA"border="0" color="32768" x="398" y="216" height="112" width="302"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80133307" )
+text(band=header alignment="2" text="Natura
+trans."border="0" color="32768" x="1097" y="216" height="112" width="187"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80133307" )
+text(band=header alignment="2" text="Nomenclatura
+Combinata"border="0" color="32768" x="1317" y="216" height="112" width="315"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80133307" )
+text(band=header alignment="2" text="Massa
+Netta"border="0" color="32768" x="1687" y="216" height="112" width="201"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80133307" )
+text(band=header alignment="2" text="Unità
+Suppl."border="0" color="32768" x="1979" y="216" height="112" width="187"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80133307" )
+text(band=header alignment="2" text="Valore
+Statistico"border="0" color="32768" x="2249" y="216" height="112" width="274"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80133307" )
+text(band=header alignment="2" text="Cond.
+Consegna"border="0" color="32768" x="2574" y="216" height="112" width="233"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80133307" )
+text(band=header alignment="2" text="Modo
+Trasporto"border="0" color="32768" x="2834" y="216" height="112" width="219"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80133307" )
+text(band=header alignment="2" text="Paese
+Dest."border="0" color="32768" x="3081" y="216" height="112" width="151"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80133307" )
+text(band=header alignment="2" text="Prov.
+Orig."border="0" color="32768" x="3259" y="216" height="112" width="128"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80133307" )
+text(band=header alignment="2" text="RIEPILOGO DELLE CESSIONI INTRACOMUNITARIE DEI BENI"border="0" color="32768" x="78" y="20" height="80" width="3291"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="SEZIONE 1. CESSIONI REGISTRATE NEL PERIODO"border="0" color="32768" x="82" y="112" height="64" width="3287"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="32768" x="5" y="8" height="72" width="155" format="[general]"  name=prog_riga edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090387453" )
+column(band=detail id=2 alignment="2" tabsequence=32766 border="0" color="32768" x="174" y="8" height="72" width="183" format="[general]"  name=cod_stato edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090387453" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="32768" x="370" y="8" height="72" width="329" format="[general]"  name=iva_operatore edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090387453" )
+column(band=detail id=5 alignment="2" tabsequence=32766 border="0" color="32768" x="1093" y="8" height="72" width="197" format="[general]"  name=cod_nat_transaz edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090387453" )
+column(band=detail id=17 alignment="2" tabsequence=32766 border="0" color="32768" x="1303" y="8" height="72" width="338" format="[general]"  name=cod_nomenclatura edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090387453" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="32768" x="1655" y="8" height="72" width="265" format="[general]"  name=massa_netta edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090387453" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="32768" x="1934" y="8" height="72" width="274" format="[general]"  name=unita_sup edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090387453" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="32768" x="2222" y="8" height="72" width="325" format="[general]"  name=val_statistico edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090387453" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="32768" x="2560" y="8" height="72" width="261" format="[general]"  name=cond_consegna edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090387453" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="0" color="32768" x="2834" y="8" height="72" width="224" format="[general]"  name=modo_trasp edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090387453" )
+column(band=detail id=11 alignment="2" tabsequence=32766 border="0" color="32768" x="3072" y="8" height="72" width="178" format="[general]"  name=paese_dest edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090387453" )
+column(band=detail id=12 alignment="2" tabsequence=32766 border="0" color="32768" x="3264" y="8" height="72" width="133" format="[general]"  name=prov_dest edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090387453" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="32768" x="713" y="8" height="72" width="366" format="[general]"  name=ammontare edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090387453" )
+text(band=header alignment="2" text="Ammontare
+in EURO"border="0" color="32768" x="713" y="216" height="112" width="366"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80133307" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

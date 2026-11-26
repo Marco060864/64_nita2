@@ -1,0 +1,7 @@
+﻿global type s_der_riga from structure
+	long		l_idprov
+	decimal {4}	d_qta
+	decimal {4}	d_qtasm
+	long		l_idcaus
+end type
+

@@ -1,0 +1,6 @@
+﻿global type s_support from structure
+	string		s_nome_colonna
+	datawindow		dw_datawindow
+	datawindow		s_in
+end type
+

@@ -1,0 +1,15 @@
+﻿global type f_system_error from function_object
+end type
+
+forward prototypes
+global subroutine f_system_error ()
+end prototypes
+
+global subroutine f_system_error ();
+
+Messagebox("Errore Critico","L'applicazione ha incontrato un errore irreversibile e terminerà immediatamente.~n" &
+	+"Se l'errore persiste contattare il supporto tecnico.",Exclamation!)
+	
+HALT CLOSE
+end subroutine
+

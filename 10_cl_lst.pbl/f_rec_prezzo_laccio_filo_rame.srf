@@ -1,0 +1,24 @@
+﻿global type f_rec_prezzo_laccio_filo_rame from function_object
+end type
+
+forward prototypes
+global function decimal f_rec_prezzo_laccio_filo_rame (string as_codice, date ad_data_doc)
+end prototypes
+
+global function decimal f_rec_prezzo_laccio_filo_rame (string as_codice, date ad_data_doc);decimal ldc_prezzo
+
+select prezzo
+into :ldc_prezzo
+from dba.laccio_filo_rame
+where codice=:as_codice
+and da_data<= :ad_data_doc
+and a_data>=:ad_data_doc
+;
+if ldc_prezzo>0 then
+	return ldc_prezzo
+else
+	//messagebox("Attenzione!", "Prezzo Laccio o filo rame NON valorizzato per questo periodo: controllare in IMPOSTAZIONI!")
+	return 0
+end if
+end function
+

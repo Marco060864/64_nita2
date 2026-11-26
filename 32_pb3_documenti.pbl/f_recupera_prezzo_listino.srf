@@ -1,0 +1,827 @@
+﻿global type f_recupera_prezzo_listino from function_object
+end type
+
+forward prototypes
+global function string f_recupera_prezzo_listino (string ls_app, long ll_id_u_c_in_esame, long ll_sog_com, long ll_id_cat_com_sc, string ls_cod_art_in_esame, long ll_id_cat_com_articolo, long ll_sog_com_fornitore, long ll_id_produttore, decimal ld_qta, string ls_tipo_applicazione, long al_id_articolo, long al_id_magazzino, long al_id_valuta, long al_id_listino_doc, long al_variazione_doc, long al_id_destinazione, string as_tras_mezzo, date adt_data_documento, long al_id_tipo_trasporto)
+end prototypes
+
+global function string f_recupera_prezzo_listino (string ls_app, long ll_id_u_c_in_esame, long ll_sog_com, long ll_id_cat_com_sc, string ls_cod_art_in_esame, long ll_id_cat_com_articolo, long ll_sog_com_fornitore, long ll_id_produttore, decimal ld_qta, string ls_tipo_applicazione, long al_id_articolo, long al_id_magazzino, long al_id_valuta, long al_id_listino_doc, long al_variazione_doc, long al_id_destinazione, string as_tras_mezzo, date adt_data_documento, long al_id_tipo_trasporto);
+
+string ls_ritorno,ls_filtro,ls_percentuali,ls_spesa,ls_tipo, ls_lis_variazione, ls_con_listino
+
+decimal ld_prezzo,ld_importo,ld_spesa_fissa
+decimal ld_percentuali,ld_spesa
+decimal ld_cambio_doc, ld_cambio
+
+date ldt_data_attuale
+integer li_ret, li_rows
+long ll_listino,ll_variazione,ll_valuta,ll_attivita, ll_con_listino, ll_rows
+
+integer li_i
+long ll_id_conf_prezzo
+integer li_molteplicita
+long ll_id_cat_merceologica 
+string ls_select 
+
+string 	ls_filtro_offerta
+string	ls_select_offerta 
+decimal ld_qta_sconto_merce		
+datastore ds_ult_prz_ven_cliente		
+string	 ls_cod_listino	
+boolean	 lb_rec_prezzo_listini = false 
+boolean 	 lb_solo_filtro = false 
+
+ldt_data_attuale = adt_data_documento
+
+
+
+ls_tipo=ls_app
+
+if (pos(ls_app, '?') > 0) then
+	ls_app = left(ls_app, 1)
+	lb_solo_filtro = true
+end if
+
+datastore lds_rec_prezzo
+lds_rec_prezzo=create datastore	
+lds_rec_prezzo.dataobject="d_recupera_prezzo_gd"
+lds_rec_prezzo.settransobject(sqlca)
+
+ls_select = lds_rec_prezzo.Object.DataWindow.Table.select
+
+
+If isnull(al_id_destinazione) then al_id_destinazione = 0 
+If isnull(as_tras_mezzo) then as_tras_mezzo = ' '
+
+if isnull(ll_id_u_c_in_esame) then ll_id_u_c_in_esame = 0
+if isnull(ls_cod_art_in_esame) then ls_cod_art_in_esame = ""
+if isnull(ll_id_cat_com_articolo) then ll_id_cat_com_articolo = 0
+if isnull(ll_sog_com_fornitore) then ll_sog_com_fornitore = 0
+if isnull(ll_id_produttore) then ll_id_produttore = 0
+
+if isnull(al_id_tipo_trasporto) then al_id_tipo_trasporto = 0 
+if isnull(ll_id_cat_com_sc) then ll_id_cat_com_sc = 0 
+
+if (string(adt_data_documento) = '' or isnull(adt_data_documento)) then
+	adt_data_documento = today()
+end if
+
+SELECT id_cat_merceologica
+INTO	 :ll_id_cat_merceologica
+FROM	 articolo
+WHERE  id_articolo = :al_id_articolo
+;
+
+if isnull(ll_id_cat_merceologica) then ll_id_cat_merceologica = 0
+
+
+ls_filtro = " AND (con_lis_articolo.id_sog_commerciale = "+string(ll_sog_com)+" OR con_lis_articolo.id_sog_commerciale IS NULL)"+&
+" AND (con_lis_articolo.id_unita_confezione = "+string(ll_id_u_c_in_esame)+" OR con_lis_articolo.id_unita_confezione IS NULL)"+&
+" AND (con_lis_articolo.id_destinazione = "+string(al_id_destinazione)+" OR con_lis_articolo.id_destinazione IS NULL)"+&	
+" AND (con_lis_articolo.id_cat_com_sc = "+ string(ll_id_cat_com_sc)+" OR con_lis_articolo.id_cat_com_sc IS NULL)"+&
+" AND ((articolo_a.codice <= '"+string(ls_cod_art_in_esame)+"' AND articolo_b.codice >= '"+string(ls_cod_art_in_esame)+"') OR (articolo_a.codice IS NULL AND articolo_b.codice IS NULL))"+&
+" AND (con_lis_articolo.id_cat_com_articolo = "+string(ll_id_cat_com_articolo)+" OR con_lis_articolo.id_cat_com_articolo IS NULL)"+&
+" AND (con_lis_articolo.id_sog_commerciale_fornitore = "+string(ll_sog_com_fornitore)+" OR con_lis_articolo.id_sog_commerciale_fornitore IS NULL)"+&
+" AND	(con_lis_articolo.id_anagrafica = "+string(ll_id_produttore)+" OR con_lis_articolo.id_anagrafica IS NULL)"+&
+" AND	((con_lis_articolo.qta_minima <= CONVERT(NUMERIC(18,4),"+string(ld_qta)+") OR con_lis_articolo.qta_minima IS NULL) AND (con_lis_articolo.qta_massima >= CONVERT(NUMERIC(18,4),"+string(ld_qta)+") OR con_lis_articolo.qta_massima IS NULL))"+&
+" AND (con_lis_articolo.tras_mezzo = '"+string(as_tras_mezzo)+"' OR con_lis_articolo.tras_mezzo IS NULL)" +&
+" AND (con_lis_articolo.data_inizio <= '" + string(adt_data_documento, 'yyyy-mm-dd') + "')"+&
+" AND (con_lis_articolo.data_fine >= '" + string(adt_data_documento, 'yyyy-mm-dd') + "' OR con_lis_articolo.data_fine IS NULL)"+&
+" AND (con_lis_articolo.id_tipo_trasporto = "+string(al_id_tipo_trasporto)+" OR con_lis_articolo.id_tipo_trasporto IS NULL)"+&		
+" AND (con_lis_articolo.id_cat_merceologica = "+string(ll_id_cat_merceologica)+" OR con_lis_articolo.id_cat_merceologica IS NULL)"		
+
+
+CHOOSE CASE ls_tipo_applicazione
+	CASE 'P','I','C'		
+		
+		if (lb_solo_filtro) then return ls_filtro	
+
+		
+		
+		ls_filtro = "WHERE applicazione ='" + ls_app + "' " + &
+						"AND   tipo_applicazione IN ('P', 'I', 'C') " + &
+						ls_filtro
+		
+
+		
+		
+		
+		
+		ls_filtro_offerta=ls_filtro + " AND (con_lis_articolo.stato = 'O') ORDER BY con_lis_articolo.priorita DESC"
+		ls_select_offerta = ls_select + ls_filtro_offerta
+		lds_rec_prezzo.Object.DataWindow.Table.select = ls_select_offerta
+		li_rows=lds_rec_prezzo.retrieve(ldt_data_attuale)
+		
+		ld_prezzo = 0
+		if (li_rows > 0) then
+			ll_con_listino=lds_rec_prezzo.getitemnumber(1,"con_lis_articolo_id_con_lis_articolo")			
+			ls_con_listino=string(ll_con_listino)
+			SELECT p.prezzo, p.id_variazione, l.id_valuta, va.cambio
+			INTO	 :ld_prezzo, :ll_variazione, :ll_valuta, :ld_cambio
+			FROM	 sog_commerciale s, variazione v, prezzo p, listino l, valuta va
+			WHERE  s.id_sog_commerciale = :ll_sog_com
+			AND	 v.id_listino = s.id_listino
+			AND	 v.data_inizio <= :adt_data_documento
+			AND	 (v.data_fine >= :adt_data_documento OR v.data_fine IS NULL)
+			AND	 p.id_variazione = v.id_variazione
+			AND	 p.id_unita_confezione = :ll_id_u_c_in_esame
+			AND	 l.id_listino = v.id_listino
+			AND	 va.id_valuta = l.id_valuta
+			;
+			
+			if (SQLCA.SQLCODE = -1) then messagebox("DBError", SQLCA.SQLERRTEXT)
+			
+			if (ld_prezzo > 0) then
+				ls_lis_variazione=string(ll_variazione)
+				if (ll_valuta <> al_id_valuta) then
+					SELECT fn_conv_valuta(:ll_valuta, :ld_prezzo, :al_id_valuta)
+					INTO	 :ld_prezzo
+					FROM	 SYS.DUMMY;
+					if (sqlca.sqlcode = -1) then 	messagebox("f_rec_prezzo_listino/conversione prezzo", sqlca.sqlerrtext)	
+				end if
+				ls_ritorno=string(ld_prezzo)
+			end if
+		else
+			
+			ls_select = ls_select + ls_filtro + " ORDER BY con_lis_articolo.priorita DESC "
+			lds_rec_prezzo.Object.DataWindow.Table.select = ls_select
+			ls_select = lds_rec_prezzo.Object.DataWindow.Table.select
+			li_rows=lds_rec_prezzo.retrieve(ldt_data_attuale)
+			
+		end if
+		
+		li_ret=1
+		if li_rows>0 and ld_prezzo = 0 then
+			
+			ls_spesa=lds_rec_prezzo.getitemstring(1,"spesa")
+			ls_percentuali=lds_rec_prezzo.getitemstring(1,"percentuali")
+			ld_spesa_fissa=lds_rec_prezzo.getitemnumber(1,"spesa_fissa")
+			ls_tipo_applicazione=lds_rec_prezzo.getitemstring(1,"tipo_applicazione")
+			if li_ret=1 then
+				if lds_rec_prezzo.rowcount()>0 then
+					if ls_tipo_applicazione='P' then
+					
+						ld_importo=lds_rec_prezzo.getitemdecimal(1,"importo")					
+						if ld_importo>0 then
+							ld_prezzo=ld_importo
+							
+							if ls_spesa <> "" and not isnull(ls_spesa) then 
+								ld_prezzo=f_string_dec_prezzo(ls_spesa,ld_prezzo)
+							end if
+							if ls_percentuali<>"" and not isnull(ls_percentuali) then
+								ld_prezzo=f_string_dec_prezzo(ls_percentuali,ld_prezzo)
+							end if
+							if not isnull(ld_spesa_fissa) then ld_prezzo=ld_prezzo+ld_spesa_fissa
+							ll_valuta=lds_rec_prezzo.getitemnumber(1,"id_valuta")
+							if ll_valuta<>al_id_valuta then			
+								SELECT fn_conv_valuta(:ll_valuta, :ld_importo, :al_id_valuta)
+								INTO	 :ld_importo
+								FROM	 SYS.DUMMY;
+
+								if (sqlca.sqlcode = -1) then 	messagebox("f_rec_prezzo_listino/conversione prezzo", sqlca.sqlerrtext)
+							end if
+							ls_ritorno=string(ld_prezzo)
+						else
+							ll_listino=lds_rec_prezzo.getitemnumber(1,"id_listino")
+							ls_cod_listino=lds_rec_prezzo.getitemstring(1,"listino_codice")		
+							ll_con_listino=lds_rec_prezzo.getitemnumber(1,"con_lis_articolo_id_con_lis_articolo")
+							if ll_listino>0 then
+								select id_variazione
+								into   :ll_variazione
+								from   variazione
+								where  id_listino=:ll_listino
+								AND 	 (data_inizio <= :ldt_data_attuale 
+								AND    (data_fine >=   :ldt_data_attuale 
+								OR 	 data_fine IS NULL))
+								;
+								if sqlca.sqlcode=0 then
+									select prezzo
+									into :ld_prezzo
+									from prezzo
+									where id_variazione=:ll_variazione
+									and id_unita_confezione=:ll_id_u_c_in_esame;
+								
+									
+									if ls_spesa<>"" and not isnull(ls_spesa) then 
+										ld_prezzo=f_string_dec_prezzo(ls_spesa,ld_prezzo)
+									end if
+									if ls_percentuali<>"" and not isnull(ls_percentuali) then
+										ld_prezzo=f_string_dec_prezzo(ls_percentuali,ld_prezzo)
+									end if
+									
+									
+									select id_valuta
+									into 	 :ll_valuta
+									from   listino
+									where  id_listino=:ll_listino
+									;
+									
+									
+									
+									if ll_valuta<>al_id_valuta then
+										
+										
+										
+										SELECT fn_conv_valuta(:ll_valuta, :ld_prezzo, :al_id_valuta)
+										INTO	 :ld_prezzo
+										FROM	 SYS.DUMMY;
+		
+										if (sqlca.sqlcode = -1) then &
+											messagebox("f_rec_prezzo_listino/conversione prezzo", sqlca.sqlerrtext)
+										
+
+										
+									end if
+									
+									
+									
+									
+
+									if not isnull(ld_spesa_fissa) then 
+										ll_valuta = lds_rec_prezzo.getitemnumber(1,"id_valuta")
+										SELECT fn_conv_valuta(:ll_valuta, :ld_spesa_fissa, :al_id_valuta)
+										INTO	 :ld_spesa_fissa
+										FROM	 SYS.DUMMY;
+		
+										if (sqlca.sqlcode = -1) then &
+											messagebox("f_rec_prezzo_listino/conversione spesa_fissa", sqlca.sqlerrtext)
+										
+										ld_prezzo=ld_prezzo+ld_spesa_fissa
+									end if									
+									
+									
+									ls_ritorno=string(ld_prezzo)
+										
+									
+									
+									ls_lis_variazione=string(ll_variazione)
+									
+
+									
+									ls_con_listino=string(ll_con_listino)
+									
+									
+								else
+									
+									if (sqlca.sqlcode = -1) then
+										messagebox("f_recupera_prezzo_listino / recupero della variazione", sqlca.sqlerrtext)
+									else
+										messagebox("Errore!","Non è possibile recuperare una variazione valida per il listino " + ls_cod_listino,stopsign!)
+									end if
+								end if
+						end if
+						end if
+					elseif ls_tipo_applicazione='I' then
+						
+						
+						
+						ll_listino=lds_rec_prezzo.getitemnumber(1,"id_listino")
+						ls_cod_listino=lds_rec_prezzo.getitemstring(1,"listino_codice")	
+						
+						
+						ll_con_listino=lds_rec_prezzo.getitemnumber(1,"con_lis_articolo_id_con_lis_articolo")
+						
+						
+						if ll_listino>0 then
+							select id_variazione
+							into   :ll_variazione
+							from   variazione
+							where  id_listino=:ll_listino
+							AND 	 (data_inizio <= :ldt_data_attuale AND (data_fine >= :ldt_data_attuale OR data_fine IS NULL));
+							if sqlca.sqlcode=0 then
+								select prezzo
+								into   :ld_prezzo
+								from   prezzo
+								where  id_variazione=:ll_variazione
+								and    id_unita_confezione=:ll_id_u_c_in_esame;
+								
+								
+								
+								if ls_spesa<>"" and not isnull(ls_spesa) then 
+									ld_prezzo=f_string_dec_prezzo(ls_spesa,ld_prezzo)
+								end if
+								if ls_percentuali<>"" and not isnull(ls_percentuali) then
+									ld_prezzo=f_string_dec_prezzo(ls_percentuali,ld_prezzo)
+								end if
+								
+								select id_valuta
+								into   :ll_valuta
+								from   listino
+								where  id_listino=:ll_listino;
+								
+								
+								if ll_valuta <> al_id_valuta then
+									
+									
+									
+									SELECT fn_conv_valuta(:ll_valuta, :ld_prezzo, :al_id_valuta)
+									INTO	 :ld_prezzo
+									FROM	 SYS.DUMMY;
+		
+									if (sqlca.sqlcode = -1) then &
+										messagebox("f_rec_prezzo_listino/conversione prezzo", sqlca.sqlerrtext)
+										
+										
+									
+
+								end if
+
+								
+								
+								
+								
+
+								if not isnull(ld_spesa_fissa) then 
+									ll_valuta = lds_rec_prezzo.getitemnumber(1,"id_valuta")
+									SELECT fn_conv_valuta(:ll_valuta, :ld_spesa_fissa, :al_id_valuta)
+									INTO	 :ld_spesa_fissa
+									FROM	 SYS.DUMMY;
+		
+									if (sqlca.sqlcode = -1) then &
+										messagebox("f_rec_prezzo_listino/conversione spesa_fissa", sqlca.sqlerrtext)
+										
+									ld_prezzo=ld_prezzo+ld_spesa_fissa
+								end if									
+								
+								
+
+								ls_ritorno=string(ld_prezzo)
+								
+									
+									
+									ls_lis_variazione=string(ll_variazione)
+								
+								
+								
+								
+								ls_con_listino=string(ll_con_listino)
+								
+								
+							else
+								
+								if (sqlca.sqlcode = -1) then
+									messagebox("f_recupera_prezzo_listino / recupero della variazione", sqlca.sqlerrtext)
+								else								
+									messagebox("Errore!","Non è possibile recuperare una variazione valida per il listino " + ls_cod_listino,stopsign!)
+								end if
+							end if
+						end if
+					else
+						
+						
+						select id_attivita
+						into :ll_attivita
+						from azienda
+						where id_azienda=1;
+						
+						select cmc
+						into   :ld_prezzo
+						from   cmc
+						where  id_magazzino=:al_id_magazzino
+						and    id_articolo=:al_id_articolo
+						and    id_attivita=:ll_attivita;
+						
+						if (sqlca.sqlcode=0) then
+							
+							
+							if ld_cambio_doc<>1 then
+								
+								ld_prezzo=ld_prezzo / ld_cambio_doc								
+							end if
+							ls_ritorno=string(ld_prezzo)
+						elseif (sqlca.sqlcode = -1) then
+							
+							messagebox("f_recupera_prezzo_listino/Costo Medio Continuo", SQLCA.SQLERRTEXT)
+						end if
+					end if
+				end if
+			else
+				messagebox("Errore!","Errore applicando il filtro!",stopsign!)
+			end if
+		else
+			
+			lb_rec_prezzo_listini = true
+			
+		end if
+	CASE 'S'
+		ls_lis_variazione=""
+		
+		
+		ls_con_listino=""
+		
+		
+		
+		
+		
+		
+		ls_filtro = "WHERE applicazione ='" + ls_app + "' " + &
+						"AND	 tipo_applicazione = 'S' " + &
+						ls_filtro
+		
+		
+		
+		ls_select = ls_select + ls_filtro
+		lds_rec_prezzo.Object.DataWindow.Table.select = ls_select
+		lds_rec_prezzo.retrieve(ldt_data_attuale)
+		
+		
+		if lds_rec_prezzo.rowcount()>0 then
+			ls_percentuali=lds_rec_prezzo.getitemstring(1,"percentuali")
+			
+			char lc_ultimo_sconto
+			lc_ultimo_sconto = lds_rec_prezzo.getitemstring(1, "ultimo_sconto")
+			if (lc_ultimo_sconto = 'S') then
+				
+				ds_ult_prz_ven_cliente = CREATE datastore
+				ds_ult_prz_ven_cliente.dataobject = "d_ultimo_prezzo_vendita_gd"
+				ds_ult_prz_ven_cliente.settransobject(SQLCA)
+				ll_rows = ds_ult_prz_ven_cliente.retrieve(ll_sog_com, ll_id_u_c_in_esame)
+				if ll_rows > 0 then
+					ls_percentuali = ds_ult_prz_ven_cliente.object.riga_documento_sconto[1]
+				end if
+			end if
+			
+			DESTROY ds_ult_prz_ven_cliente
+			
+			ls_ritorno=ls_percentuali
+		end if
+	CASE 'R'
+		ls_lis_variazione=""
+		
+		
+		ls_con_listino=""
+		
+		
+		
+		
+		
+		ls_filtro = "WHERE applicazione ='" + ls_app + "' " + &
+						"AND	tipo_applicazione = 'R' " + &
+						ls_filtro
+		
+		
+		
+		
+		ls_select = ls_select + ls_filtro
+		lds_rec_prezzo.Object.DataWindow.Table.select = ls_select
+		lds_rec_prezzo.retrieve(ldt_data_attuale)
+		
+		
+		if lds_rec_prezzo.rowcount()>0 then
+			ld_importo=lds_rec_prezzo.getitemdecimal(1,"importo")
+			ld_importo=ld_importo*ld_qta
+			
+			
+			
+			ll_valuta = lds_rec_prezzo.getitemnumber(1,"id_valuta")
+			
+			
+			
+			if ll_valuta <> al_id_valuta then							
+				
+				
+				
+				SELECT fn_conv_valuta(:ll_valuta, :ld_importo, :al_id_valuta)
+				INTO	 :ld_importo
+				FROM	 SYS.DUMMY;
+				if (sqlca.sqlcode = -1) then &
+					messagebox("f_rec_prezzo_listino/conversione prezzo", sqlca.sqlerrtext)
+						
+				
+			end if
+			
+			
+			ls_ritorno=string(ld_importo)
+		end if
+	CASE 'D'
+		ls_lis_variazione=""
+		
+		
+		ls_con_listino=""
+		
+		
+		
+		
+		
+		ls_filtro = "WHERE applicazione ='" + ls_app + "' " + &
+						"AND	tipo_applicazione = 'D' " + &
+						ls_filtro
+		
+		
+		
+		
+		ls_select = ls_select + ls_filtro
+		lds_rec_prezzo.Object.DataWindow.Table.select = ls_select
+		lds_rec_prezzo.retrieve(ldt_data_attuale)
+		
+		
+		if lds_rec_prezzo.rowcount()>0 then
+			ls_percentuali=lds_rec_prezzo.getitemstring(1,"percentuali")
+			ls_ritorno=ls_percentuali
+		end if
+		
+	CASE 'U'
+		
+		ls_lis_variazione=""
+		
+		
+		
+		ls_filtro = "WHERE applicazione ='" + ls_app + "' " + &
+						"AND	tipo_applicazione = 'U' " + &
+						ls_filtro
+		
+		
+		
+		
+		ls_select = ls_select + ls_filtro
+		lds_rec_prezzo.Object.DataWindow.Table.select = ls_select
+		lds_rec_prezzo.retrieve(ldt_data_attuale)
+		
+			
+		if lds_rec_prezzo.rowcount()>0 then
+			
+			
+			ds_ult_prz_ven_cliente = CREATE datastore
+			ds_ult_prz_ven_cliente.dataobject = "d_ultimo_prezzo_vendita_gd"
+			ds_ult_prz_ven_cliente.settransobject(SQLCA)
+			ll_rows = ds_ult_prz_ven_cliente.retrieve(ll_sog_com, ll_id_u_c_in_esame)
+			
+			if ll_rows > 0 then
+				ld_prezzo = ds_ult_prz_ven_cliente.object.riga_documento_prezzo[1]
+				
+				ll_valuta = ds_ult_prz_ven_cliente.object.riga_documento_id_valuta[1]
+				
+				if ll_valuta <> al_id_valuta then
+					SELECT fn_conv_valuta(:ll_valuta, :ld_prezzo, :al_id_valuta)
+					INTO	 :ld_prezzo
+					FROM	 SYS.DUMMY;
+					if (sqlca.sqlcode = -1) then &
+						messagebox("f_rec_prezzo_listino/conversione ultimo prezzo fatto al Cliente", sqlca.sqlerrtext)
+				end if
+				
+				ls_ritorno=string(ld_prezzo)
+				ls_con_listino=string(lds_rec_prezzo.object.con_lis_articolo_id_con_lis_articolo[1])
+			else
+				lb_rec_prezzo_listini = true	
+			end if
+			
+			DESTROY ds_ult_prz_ven_cliente
+		end if
+	
+	CASE 'T'
+		
+
+		
+		
+		ls_filtro = "WHERE applicazione ='" + ls_app + "' " + &
+						"AND	tipo_applicazione = 'T' " + &
+						ls_filtro
+		
+		
+		
+		
+		ls_select = ls_select + ls_filtro
+		lds_rec_prezzo.Object.DataWindow.Table.select = ls_select
+		li_ret=lds_rec_prezzo.retrieve(ldt_data_attuale)
+		
+		ld_spesa_fissa = 0
+		if li_ret > 0 then
+			ld_spesa_fissa=lds_rec_prezzo.getitemnumber(1,"spesa_fissa")
+			ll_valuta=lds_rec_prezzo.getitemnumber(1,"id_valuta")
+			
+			
+			if ll_valuta<>al_id_valuta then
+				
+				
+				
+				SELECT fn_conv_valuta(:ll_valuta, :ld_spesa_fissa, :al_id_valuta)
+				INTO	 :ld_spesa_fissa
+				FROM	 SYS.DUMMY;
+				if (sqlca.sqlcode = -1) then &
+					messagebox("f_rec_prezzo_listino/conversione prezzo", sqlca.sqlerrtext)
+						
+				
+			end if
+		end if
+		ls_ritorno=string(ld_spesa_fissa)		
+	
+	
+	
+	CASE 'M'
+		
+		
+		
+		ls_filtro = "WHERE applicazione ='" + ls_app + "' " + &
+						"AND	tipo_applicazione = 'M' " + &
+						ls_filtro
+		
+		ls_select = ls_select + ls_filtro
+		lds_rec_prezzo.Object.DataWindow.Table.select = ls_select
+		li_ret=lds_rec_prezzo.retrieve(ldt_data_attuale)
+		ld_importo = 0
+		if li_ret > 0 then 
+			ld_importo = lds_rec_prezzo.getitemnumber(1,"importo")
+			ld_qta_sconto_merce = 0
+			
+			ld_spesa_fissa = lds_rec_prezzo.getitemnumber(1,"spesa_fissa")
+			if (ld_qta > 1) and (ld_spesa_fissa > 1) then 
+				ld_qta_sconto_merce = Truncate(ld_qta / ld_spesa_fissa * ld_importo, 0)
+			end if
+			
+		end if
+		ls_ritorno=string(ld_qta_sconto_merce)
+	
+		
+END CHOOSE
+
+if (lb_rec_prezzo_listini) then
+	
+	
+	for li_i = 1 to 2		
+		ll_listino = 0
+		ll_variazione = 0		
+		ll_con_listino = 0	
+				
+		
+		if Not(IsNull(al_id_listino_doc)) and Not(IsNull(al_variazione_doc)) then
+			select prezzo
+			into :ld_prezzo
+			from prezzo
+			where id_variazione=:al_variazione_doc
+			and id_unita_confezione=:ll_id_u_c_in_esame;
+			
+			ll_listino=al_id_listino_doc
+			ll_variazione=al_variazione_doc	
+		else
+		
+					
+			
+			select id_listino
+			into :ll_listino
+			from sog_commerciale
+			where id_sog_commerciale=:ll_sog_com;
+					
+			
+			select id_variazione
+			into :ll_variazione
+			from variazione
+			where id_listino=:ll_listino
+			AND 	(data_inizio <= :ldt_data_attuale 
+			AND (data_fine >= :ldt_data_attuale OR data_fine IS NULL)); 
+			
+			select prezzo
+			into :ld_prezzo
+			from prezzo
+			where id_variazione=:ll_variazione
+			and id_unita_confezione=:ll_id_u_c_in_esame;
+		end if
+		
+		if ld_prezzo>0 and not isnull(ld_prezzo) then
+			
+			
+			
+			ls_lis_variazione=string(ll_variazione)
+			
+			
+			
+			ls_con_listino=string(ll_con_listino)
+			
+			
+			
+			select id_valuta
+			into :ll_valuta
+			from listino
+			where id_listino=:ll_listino;
+			
+			
+			if ll_valuta<>al_id_valuta then
+				
+				
+				
+				SELECT fn_conv_valuta(:ll_valuta, :ld_prezzo, :al_id_valuta)
+				INTO	 :ld_prezzo
+				FROM	 SYS.DUMMY;
+				if (sqlca.sqlcode = -1) then &
+					messagebox("f_rec_prezzo_listino/conversione prezzo", sqlca.sqlerrtext)
+						
+						
+				end if
+				ls_ritorno=string(ld_prezzo)
+			else
+				
+				
+				
+					
+				
+				select  id_listino
+				into    :ll_listino
+				from    listino
+				where   lis_base = 'S'
+				and 	  tipo=:ls_tipo
+				;
+					
+				if (ld_prezzo=0 or isnull(ld_prezzo)) and sqlca.sqlcode=0 then
+					
+					select id_variazione
+					into :ll_variazione
+					from variazione
+					where id_listino=:ll_listino
+					AND 	(data_inizio <= :ldt_data_attuale 
+					AND   (data_fine >= :ldt_data_attuale OR data_fine IS NULL)); 
+					
+					select prezzo
+					into :ld_prezzo
+					from prezzo
+					where id_variazione=:ll_variazione
+					and id_unita_confezione=:ll_id_u_c_in_esame;
+					
+			if ld_prezzo>0 and not isnull(ld_prezzo) then
+				
+				
+				
+				ls_lis_variazione=string(ll_variazione)
+				
+
+				
+				ls_con_listino = string(ll_con_listino)
+				
+							
+				
+				select id_valuta
+				into :ll_valuta
+				from listino
+				where id_listino=:ll_listino;
+				
+				
+				if ll_valuta<>al_id_valuta then
+					
+					
+					
+					SELECT fn_conv_valuta(:ll_valuta, :ld_prezzo, :al_id_valuta)
+					INTO	 :ld_prezzo
+					FROM	 SYS.DUMMY;
+					if (sqlca.sqlcode = -1) then &
+								messagebox("f_rec_prezzo_listino/conversione prezzo", sqlca.sqlerrtext)
+					
+								
+					end if
+					ls_ritorno=string(ld_prezzo)
+				end if
+			end if
+		end if
+				
+		
+				
+		
+		if (ld_prezzo = 0 or isnull(ld_prezzo)) and li_i = 1 then
+			
+			SELECT molteplicita
+			INTO   :li_molteplicita
+			FROM	 unita_confezione
+			WHERE  id_unita_confezione = :ll_id_u_c_in_esame
+			;
+
+			ll_id_conf_prezzo = 0
+				
+			SELECT id_unita_confezione
+			INTO   :ll_id_conf_prezzo
+			FROM	 unita_confezione
+			WHERE  id_articolo = :al_id_articolo
+			AND	 id_unita_confezione <> :ll_id_u_c_in_esame
+			AND    unita_prezzo = 'S'
+			;
+					
+			if (SQLCA.SQLCODE = -1) then messagebox("Dberror", SQLCA.SQLERRTEXT)
+					
+			if (ll_id_conf_prezzo > 0 ) then ll_id_u_c_in_esame = ll_id_conf_prezzo
+		else
+			exit
+		end if
+	next
+			
+	if (ll_id_conf_prezzo > 0 ) and (li_molteplicita > 0) then 
+		ld_prezzo = ld_prezzo * li_molteplicita
+		ls_ritorno=string(ld_prezzo)
+	end if
+	
+end if
+
+
+destroy lds_rec_prezzo;
+
+if ls_ritorno = "" or isnull(ls_ritorno) then 
+	ls_ritorno = "0"
+else
+	if not isnull(ls_lis_variazione) and ls_lis_variazione>"" and not ls_ritorno="0" then
+		ls_ritorno=ls_ritorno+"!"+ls_lis_variazione
+	else
+		ls_ritorno=ls_ritorno+"!"
+	end if
+	if not isnull(ls_con_listino) and ls_con_listino>"" and not ls_ritorno="0" then
+		ls_ritorno=ls_ritorno+"!"+ls_con_listino
+	end if	
+end if
+
+return ls_ritorno
+end function
+

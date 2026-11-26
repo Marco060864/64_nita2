@@ -1,0 +1,10 @@
+﻿//objectcomments Struttura usata per la costruzione del treeview(sostituita da s_voice)
+global type s_voce from structure
+	integer		is_voce
+	integer		is_padre
+	integer		is_menu
+	string		ss_nome
+	integer		is_oggetto
+	string		ss_parametri
+end type
+

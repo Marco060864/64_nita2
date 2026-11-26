@@ -1,0 +1,17 @@
+﻿global type f_trova_tolleranza from function_object
+end type
+
+forward prototypes
+global function decimal f_trova_tolleranza (string codice)
+end prototypes
+
+global function decimal f_trova_tolleranza (string codice);decimal{2} ld_tolleranza
+select tolleranza
+into :ld_tolleranza
+from sog_commerciale
+where codice=:codice;
+
+return ld_tolleranza
+	
+end function
+

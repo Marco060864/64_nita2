@@ -1,0 +1,67 @@
+﻿global type calcola_priorita from function_object
+end type
+
+forward prototypes
+global function long calcola_priorita (datawindow dw_1)
+end prototypes
+
+global function long calcola_priorita (datawindow dw_1);long ll_priorita, ll_riga_corrente, id_cat_com_sc, id_cat_com_articolo, ll_id_destinazione
+string s_c_codice_1,  u_c_codice, art_da_codice, art_a_codice, codice_fornitore
+string produttore, ls_tras_mezzo
+date data_inizio, data_fine
+decimal{4} qta_minima, qta_massima
+long ll_id_tipo_trasporto 
+
+dw_1.accepttext()
+ll_riga_corrente=dw_1.getrow()
+
+s_c_codice_1=dw_1.getitemstring(ll_riga_corrente, "s_c_codice_1")
+id_cat_com_sc=dw_1.getitemnumber(ll_riga_corrente, "id_cat_com_sc")
+u_c_codice=dw_1.getitemstring(ll_riga_corrente, "u_c_codice")
+art_da_codice=dw_1.getitemstring(ll_riga_corrente, "art_da_codice")
+art_a_codice=dw_1.getitemstring(ll_riga_corrente, "art_a_codice")
+id_cat_com_articolo=dw_1.getitemnumber(ll_riga_corrente, "id_cat_com_articolo")
+data_inizio=date(dw_1.object.data_inizio[ll_riga_corrente])
+data_fine=dw_1.getitemdate(ll_riga_corrente, "data_fine")
+codice_fornitore=dw_1.getitemstring(ll_riga_corrente, "codice_fornitore")
+qta_minima=dw_1.getitemdecimal(ll_riga_corrente, "qta_minima")
+qta_massima=dw_1.getitemdecimal(ll_riga_corrente, "qta_massima")
+produttore=dw_1.getitemstring(ll_riga_corrente, "produttore")
+
+ll_id_destinazione = dw_1.getitemnumber(ll_riga_corrente, "id_destinazione")	
+ls_tras_mezzo = dw_1.getitemstring(ll_riga_corrente, "tras_mezzo")	
+
+ll_id_tipo_trasporto = dw_1.getitemnumber(ll_riga_corrente, "id_tipo_trasporto")	
+
+ll_priorita = 0
+
+if not isnull(ll_id_destinazione) then ll_priorita+=3000000	
+
+if not isnull(s_c_codice_1) then ll_priorita+=2000000
+if not isnull(id_cat_com_sc) then ll_priorita+=1000000
+
+if not isnull(u_c_codice) then ll_priorita+=300000
+if not isnull(art_da_codice) and (art_a_codice = art_da_codice) then 
+	ll_priorita+=200000
+else
+		if not isnull(art_da_codice) or not isnull(art_a_codice) then	ll_priorita+=100000
+end if
+
+if not isnull(id_cat_com_articolo) then ll_priorita+=100000
+
+if not isnull(codice_fornitore) then ll_priorita+=10000
+
+if not isnull(produttore) then ll_priorita+=1000
+
+if not isnull(data_inizio) and not isnull(data_fine) then ll_priorita+=200
+if not isnull(data_inizio) and isnull(data_fine) then ll_priorita+=100
+
+if not isnull(qta_minima) and not isnull(qta_massima) then ll_priorita+=10
+
+if not isnull(ls_tras_mezzo) then ll_priorita+=1
+
+if not isnull(ll_id_tipo_trasporto) then ll_priorita+=1 
+
+return ll_priorita
+end function
+

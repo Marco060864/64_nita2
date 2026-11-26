@@ -1,0 +1,38 @@
+﻿global type create_script from function_object
+end type
+
+forward prototypes
+global function string create_script (data_field lst_data[], integer num_stop, datawindow dw_data)
+end prototypes
+
+global function string create_script (data_field lst_data[], integer num_stop, datawindow dw_data);STRING LS_SQL_SCRIPT 
+INTEGER	C0				
+integer	Cur_row		
+
+Cur_row = DW_DATA.GetRow()
+
+FOR C0 = 1 TO NUM_STOP
+	CHOOSE CASE LST_DATA[C0].TIPO_CAMPO 
+		CASE "S" 			
+			LST_DATA[C0].VALORE_CAMPO = "'"+DW_DATA.GetItemString( Cur_Row, LST_DATA[C0].NOME_CAMPO )+"'"
+		CASE "N" 			
+			LST_DATA[C0].VALORE_CAMPO = string(DW_DATA.GetItemNumber( Cur_Row, LST_DATA[C0].NOME_CAMPO ))
+		CASE "D"				
+			LST_DATA[C0].VALORE_CAMPO = string(DW_DATA.GetItemDate( Cur_Row, LST_DATA[C0].NOME_CAMPO ), 'yyyy-mm-dd')
+	END CHOOSE
+	
+	IF LST_DATA[C0].VALORE_CAMPO <> "" THEN 	
+		IF (LST_DATA[C0].TIPO_CAMPO = "D") THEN
+			LS_SQL_SCRIPT = LS_SQL_SCRIPT+LST_DATA[C0].NOME_CAMPO+" " + LST_DATA[C0].CONDIZIONE+" date('"+LST_DATA[C0].VALORE_CAMPO+"')"
+		ELSE
+			LS_SQL_SCRIPT = LS_SQL_SCRIPT+" "+LST_DATA[C0].NOME_CAMPO+" "+LST_DATA[C0].CONDIZIONE+" "+LST_DATA[C0].VALORE_CAMPO
+		END IF
+
+		LS_SQL_SCRIPT = LS_SQL_SCRIPT+" AND "
+	END IF
+NEXT
+
+LS_SQL_SCRIPT = LEFT(LS_SQL_SCRIPT,LEN(LS_SQL_SCRIPT)-4)
+RETURN LS_SQL_SCRIPT
+end function
+

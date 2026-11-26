@@ -1,0 +1,364 @@
+﻿global type f_provvigioni_agenti from function_object
+end type
+
+forward prototypes
+global subroutine f_provvigioni_agenti (s_con_provvigione as_con_provvigione, ref datawindow adw_provvigioni, integer ai_row, integer as_num_gruppo, string as_chiamante)
+end prototypes
+
+global subroutine f_provvigioni_agenti (s_con_provvigione as_con_provvigione, ref datawindow adw_provvigioni, integer ai_row, integer as_num_gruppo, string as_chiamante);
+long			ll_id_gruppo_agenti
+long			ll_id_sog_commerciale
+long			ll_id_cat_com_sc			
+long			ll_id_unita_confezione	
+long			ll_id_articolo				
+long			ll_id_cat_com_articolo
+long			ll_id_cat_merceologica	
+date			ldt_data
+long			ll_id_anagrafica
+string		ls_sconto_perc
+decimal		ld_sconto_imp, ld_sconto_perc
+string		ls_tipo_prov
+long	   	ll_id_con_provvigione
+string		ls_select_ini
+string		ls_select
+long	 		ll_ret
+long			ll_id_valuta_prov
+decimal		ld_cambio, ld_cambio_doc
+decimal		ld_imp_prov_capo_area, ld_imp_prov_agente, ld_imp_prov_sub_agente
+decimal		ld_per_prov_capo_area, ld_per_prov_agente, ld_per_prov_sub_agente
+datastore	lds_scag_provvigione
+char			lc_sconto_con_listino		
+long			ll_id_con_lis_articolo
+string		ls_tipo_applicazione, ls_percentuali
+decimal		ld_spesa_fissa
+long			ll_id_sog_com_capo_area, ll_id_sog_com_agente, ll_id_sog_com_sub_agente
+string		ls_cod_articolo
+char			lc_tipo_sconto_zero 
+
+ll_id_gruppo_agenti 		= as_con_provvigione.id_gruppo_agenti
+ll_id_sog_commerciale 	= as_con_provvigione.id_sog_commerciale
+ll_id_unita_confezione	= as_con_provvigione.id_unita_confezione
+ll_id_articolo				= as_con_provvigione.id_articolo
+ldt_data						= as_con_provvigione.data
+ls_sconto_perc				= as_con_provvigione.sconto_perc
+ld_sconto_imp				= as_con_provvigione.sconto_imp
+ll_id_con_lis_articolo	= as_con_provvigione.id_con_lis_articolo   
+
+if isnull(ls_sconto_perc) then 
+	ld_sconto_perc = 0
+else
+	ld_sconto_perc = f_string_dec_prezzo(ls_sconto_perc,100)-100
+end if
+
+if isnull(ld_sconto_imp) then ld_sconto_imp = 0
+
+if ( ld_sconto_perc = 0 and ld_sconto_imp = 0 and ll_id_con_lis_articolo > 0 ) then
+	SELECT sconto_con_listino
+	INTO	 :lc_sconto_con_listino
+	FROM	 par_sistema
+	;
+	
+	if (lc_sconto_con_listino = "S") then
+		SELECT tipo_applicazione, percentuali, spesa_fissa
+		INTO	 :ls_tipo_applicazione, :ls_percentuali, :ld_spesa_fissa
+		FROM	 con_lis_articolo
+		WHERE  id_con_lis_articolo = :ll_id_con_lis_articolo
+		;
+		if (SQLCA.SQLCODE = -1) then &
+			messagebox("f_provvigioni_agenti - Condizioni di Listino", sqlca.sqlerrtext)
+			
+		if ls_tipo_applicazione = 'P' then	
+			ls_sconto_perc = ls_percentuali
+			ld_sconto_perc = (f_string_dec_prezzo(ls_sconto_perc,100)-100)
+			if isnull(ld_sconto_perc) then ld_sconto_perc = 0
+		elseif ls_tipo_applicazione = 'I' then	
+			ld_sconto_imp	= ld_spesa_fissa
+			if isnull(ld_sconto_imp) then ld_sconto_imp = 0
+		end if
+	end if
+end if
+
+ld_sconto_perc = abs(ld_sconto_perc)
+ld_sconto_imp  = abs(ld_sconto_imp)
+
+SELECT tipo_sconto_zero
+INTO	 :lc_tipo_sconto_zero
+FROM	 par_sistema
+;
+
+if ( ld_sconto_perc = 0 and ld_sconto_imp = 0) then
+	if (isnull(lc_tipo_sconto_zero)) then
+		messagebox("Provv. Agenti", "Specificare in Parametri Sistema / Agenti, ~nse con sconto zero le provv. devono essere recuperate~ndagli scaglioni in percentuale o ad importo")
+		return 
+	end if
+	
+	if (lc_tipo_sconto_zero = 'P') then
+		ls_tipo_prov = 'P'		
+	else
+		ls_tipo_prov = 'I'		
+	end if
+		
+else
+	
+	if (ld_sconto_perc > 0 and ld_sconto_imp > 0) then
+		if (isnull(lc_tipo_sconto_zero)) then
+			messagebox("Provv. Agenti", "Specificare in Parametri Sistema / Agenti, ~nse con entrambi gli sconti le provv. devono essere recuperate~ndagli scaglioni in percentuale o ad importo")
+			return 
+		end if
+		
+		if (lc_tipo_sconto_zero = 'P') then
+			ls_tipo_prov = 'P'
+		else
+			ls_tipo_prov = 'I'
+		end if
+	end if
+	
+
+	if ld_sconto_perc  > 0 then
+		ls_tipo_prov = 'P'
+
+	else
+		ls_tipo_prov = 'I'
+	end if
+end if
+
+SELECT id_cat_com_sc
+INTO	 :ll_id_cat_com_sc
+FROM	 sog_commerciale
+WHERE  id_sog_commerciale = :ll_id_sog_commerciale
+;
+
+if (SQLCA.SQLCODE = -1) then messagebox("DBError", SQLCA.SQLERRTEXT)
+	
+SELECT id_cat_com_articolo,
+		 id_cat_merceologica,
+		 id_anagrafica
+INTO   :ll_id_cat_com_articolo,
+		 :ll_id_cat_merceologica,	
+		 :ll_id_anagrafica			
+FROM	 articolo
+WHERE  id_articolo = :ll_id_articolo
+;
+
+if (SQLCA.SQLCODE = -1) then messagebox("DBError", SQLCA.SQLERRTEXT)
+
+SELECT codice
+INTO	 :ls_cod_articolo
+FROM	 articolo
+WHERE  id_articolo = :ll_id_articolo
+;
+if (sqlca.sqlcode = -1) then messagebox("DBError", sqlca.sqlerrtext)
+DECLARE con_prov CURSOR FOR
+SELECT  con_provvigione.id_con_provvigione
+FROM    {oj "con_provvigione"  LEFT OUTER JOIN "articolo" articolo_a  ON "con_provvigione"."id_articolo" = "articolo_a"."id_articolo"}, {oj "con_provvigione"  LEFT OUTER JOIN "articolo" articolo_b  ON "con_provvigione"."id_articolo_a" = "articolo_b"."id_articolo"}  
+WHERE   (con_provvigione.id_gruppo_agenti = :ll_id_gruppo_agenti OR con_provvigione.id_gruppo_agenti IS NULL)
+AND	  (con_provvigione.id_sog_commerciale = :ll_id_sog_commerciale OR con_provvigione.id_sog_commerciale IS NULL)
+AND	  (con_provvigione.id_cat_com_sc = :ll_id_cat_com_sc OR con_provvigione.id_cat_com_sc IS NULL)
+AND	  (con_provvigione.id_unita_confezione = :ll_id_unita_confezione OR con_provvigione.id_unita_confezione IS NULL)
+AND	  (articolo_a.codice <= :ls_cod_articolo OR articolo_a.codice IS NULL)
+AND	  (articolo_b.codice  >= :ls_cod_articolo OR articolo_b.codice  IS NULL)
+AND	  (con_provvigione.id_cat_com_articolo = :ll_id_cat_com_articolo OR con_provvigione.id_cat_com_articolo IS NULL)
+AND	  (con_provvigione.id_anagrafica = :ll_id_anagrafica OR con_provvigione.id_anagrafica IS NULL)
+AND	  (con_provvigione.id_cat_merceologica = :ll_id_cat_merceologica OR con_provvigione.id_cat_merceologica IS NULL)
+AND	  (con_provvigione.data_inizio <= :ldt_data 
+AND	  (con_provvigione.data_fine IS NULL OR con_provvigione.data_fine >= :ldt_data))
+ORDER BY con_provvigione.priorita DESC;
+
+OPEN con_prov;
+
+FETCH con_prov 
+INTO 	:ll_id_con_provvigione;
+
+CLOSE con_prov;
+
+lds_scag_provvigione = CREATE datastore
+lds_scag_provvigione.dataobject = "ds_scag_provvigione_gd"
+lds_scag_provvigione.settransobject(SQLCA)
+
+ls_select_ini = lds_scag_provvigione.Object.DataWindow.Table.select
+
+ll_ret = 0
+
+if ll_id_con_provvigione > 0 then
+	
+	
+	if ls_tipo_prov = 'I' then
+		
+		ls_select = ls_select_ini + &
+						" WHERE  id_con_provvigione = " + string(ll_id_con_provvigione) + &
+						" AND	 	tipo_sconto = 'I' " + &
+						" AND	 	da_imp_sconto <= CONVERT(NUMERIC(18,4),"+string(ld_sconto_imp)+") " + &
+						" AND	 	a_imp_sconto  >= CONVERT(NUMERIC(18,4),"+string(ld_sconto_imp)+") "
+	else
+		
+		ls_select = ls_select_ini + &
+						" WHERE  id_con_provvigione = " + string(ll_id_con_provvigione) + &
+						" AND	 	tipo_sconto = 'P' " + &
+						" AND	   da_per_sconto <= CONVERT(NUMERIC(18,4),"+string(ld_sconto_perc)+") " + &
+						" AND	   a_per_sconto  >= CONVERT(NUMERIC(18,4),"+string(ld_sconto_perc)+") "
+	end if
+	
+	lds_scag_provvigione.Object.DataWindow.Table.select = ls_select
+	ll_ret = lds_scag_provvigione.retrieve()	
+end if
+
+if (ll_ret <= 0) or (ll_id_con_provvigione <= 0) then
+	if ls_tipo_prov = 'I' then
+		
+		ls_select = ls_select_ini + &
+						" WHERE  tipo_sconto = 'I' " + &
+						" AND	 	da_imp_sconto <= CONVERT(NUMERIC(18,4),"+string(ld_sconto_imp)+") " + &
+						" AND	 	a_imp_sconto  >= CONVERT(NUMERIC(18,4),"+string(ld_sconto_imp)+") " + &
+						" AND    id_con_provvigione IS NULL "
+	else
+		
+		ls_select = ls_select_ini + &
+						" WHERE  tipo_sconto = 'P' " + &
+						" AND	   da_per_sconto <= CONVERT(NUMERIC(18,4),"+string(ld_sconto_perc)+") " + &
+						" AND	   a_per_sconto  >= CONVERT(NUMERIC(18,4),"+string(ld_sconto_perc)+") " + &
+						" AND    id_con_provvigione IS NULL "
+	end if
+	
+	lds_scag_provvigione.Object.DataWindow.Table.select = ls_select
+	ll_ret = lds_scag_provvigione.retrieve()	
+end if
+
+SELECT id_sog_com_capo_area, id_sog_com_agente, id_sog_com_sub_agente
+INTO	 :ll_id_sog_com_capo_area, :ll_id_sog_com_agente, :ll_id_sog_com_sub_agente
+FROM	 gruppo_agenti
+WHERE  id_gruppo_agenti = :ll_id_gruppo_agenti
+;
+
+if ls_tipo_prov = 'P' then		
+	if (ll_id_sog_com_capo_area > 0 and ll_ret > 0) then 
+		ld_per_prov_capo_area = lds_scag_provvigione.getitemnumber(1, "per_prov_capo_area")
+	else
+		ld_per_prov_capo_area = 0		
+	end if
+	if (ll_id_sog_com_agente > 0 and ll_ret > 0) then 
+		ld_per_prov_agente 	 = lds_scag_provvigione.getitemnumber(1, "per_prov_agente")
+	else
+		ld_per_prov_agente = 0
+	end if
+	if (ll_id_sog_com_sub_agente > 0 and ll_ret > 0) then 
+		ld_per_prov_sub_agente 	 = lds_scag_provvigione.getitemnumber(1, "per_prov_sub_agente")
+	else
+		ld_per_prov_sub_agente = 0
+	end if
+	
+	ld_imp_prov_capo_area = 0			
+	ld_imp_prov_agente = 0
+	ld_imp_prov_sub_agente = 0
+else									
+	if (ll_id_sog_com_capo_area > 0 and ll_ret > 0) then 
+		ld_imp_prov_capo_area  = lds_scag_provvigione.getitemnumber(1, "imp_prov_capo_area")
+	else
+		ld_imp_prov_capo_area  = 0
+	end if
+	if (ll_id_sog_com_agente > 0 and ll_ret > 0) then 
+		ld_imp_prov_agente 	  = lds_scag_provvigione.getitemnumber(1, "imp_prov_agente")
+	else
+		ld_imp_prov_agente 	  = 0
+	end if
+	if (ll_id_sog_com_sub_agente > 0 and ll_ret > 0) then 
+		ld_imp_prov_sub_agente = lds_scag_provvigione.getitemnumber(1, "imp_prov_sub_agente")
+	else
+		ld_imp_prov_sub_agente = 0
+	end if
+	ld_per_prov_capo_area = 0			
+	ld_per_prov_agente = 0
+	ld_per_prov_sub_agente = 0
+end if
+
+if (ll_ret > 0) then
+	if ls_tipo_prov = 'I' then
+		ll_id_valuta_prov = lds_scag_provvigione.getitemnumber(1, "id_valuta")
+		
+		if (as_con_provvigione.id_valuta <> ll_id_valuta_prov) then
+			SELECT cambio
+			INTO	 :ld_cambio
+			FROM	 valuta
+			WHERE	 id_valuta = :ll_id_valuta_prov
+			;
+			
+			SELECT cambio
+			INTO	 :ld_cambio_doc
+			FROM	 valuta
+			WHERE	 id_valuta = :as_con_provvigione.id_valuta
+			;
+			
+			ld_imp_prov_capo_area = (ld_imp_prov_capo_area * ld_cambio) / ld_cambio_doc		
+			ld_imp_prov_agente = (ld_imp_prov_agente * ld_cambio) / ld_cambio_doc
+			ld_imp_prov_sub_agente = (ld_imp_prov_sub_agente * ld_cambio) / ld_cambio_doc
+		end if
+	end if
+end if
+
+choose case as_chiamante
+	case "M"		
+			if (as_num_gruppo = 1) then
+				adw_provvigioni.setitem(ai_row, "provv_carea", ld_per_prov_capo_area)
+				adw_provvigioni.setitem(ai_row, "provv_agente", ld_per_prov_agente)
+				adw_provvigioni.setitem(ai_row, "provv_subage", ld_per_prov_sub_agente)
+			else
+				adw_provvigioni.setitem(ai_row, "provv_carea_2", ld_per_prov_capo_area)
+				adw_provvigioni.setitem(ai_row, "provv_agente_2", ld_per_prov_agente)
+				adw_provvigioni.setitem(ai_row, "provv_subage_2", ld_per_prov_sub_agente)
+			end if
+			if (as_num_gruppo = 1) then	
+				adw_provvigioni.setitem(ai_row, "provv_imp_carea", ld_imp_prov_capo_area)
+				adw_provvigioni.setitem(ai_row, "provv_imp_agente", ld_imp_prov_agente)
+				adw_provvigioni.setitem(ai_row, "provv_imp_subage", ld_imp_prov_sub_agente)
+			else
+				adw_provvigioni.setitem(ai_row, "provv_imp_carea_2", ld_imp_prov_capo_area)
+				adw_provvigioni.setitem(ai_row, "provv_imp_agente_2", ld_imp_prov_agente)
+				adw_provvigioni.setitem(ai_row, "provv_imp_subage_2", ld_imp_prov_sub_agente)
+			end if
+	case "R"
+			if (as_num_gruppo = 1) then
+				adw_provvigioni.setitem(ai_row, "provv_carea", ld_per_prov_capo_area)
+				adw_provvigioni.setitem(ai_row, "provv_agente", ld_per_prov_agente)
+				adw_provvigioni.setitem(ai_row, "provv_subage", ld_per_prov_sub_agente)
+			else
+				adw_provvigioni.setitem(ai_row, "provv_carea_2", ld_per_prov_capo_area)
+				adw_provvigioni.setitem(ai_row, "provv_agente_2", ld_per_prov_agente)
+				adw_provvigioni.setitem(ai_row, "provv_subage_2", ld_per_prov_sub_agente)
+			end if
+
+			if (as_num_gruppo = 1) then	
+				adw_provvigioni.setitem(ai_row, "prov_imp_capo", ld_imp_prov_capo_area)
+				adw_provvigioni.setitem(ai_row, "prov_imp_agente", ld_imp_prov_agente)
+				adw_provvigioni.setitem(ai_row, "prov_imp_sub_agente", ld_imp_prov_sub_agente)
+			else
+				adw_provvigioni.setitem(ai_row, "prov_imp_capo_2", ld_imp_prov_capo_area)
+				adw_provvigioni.setitem(ai_row, "prov_imp_agente_2", ld_imp_prov_agente)
+				adw_provvigioni.setitem(ai_row, "prov_imp_sub_agente_2", ld_imp_prov_sub_agente)
+			end if
+
+	case "D"
+
+			if (as_num_gruppo = 1) then
+				adw_provvigioni.setitem(ai_row, "provv_carea", ld_per_prov_capo_area)
+				adw_provvigioni.setitem(ai_row, "provv_agente", ld_per_prov_agente)
+				adw_provvigioni.setitem(ai_row, "provv_subage", ld_per_prov_sub_agente)
+			else
+				adw_provvigioni.setitem(ai_row, "riga_documento_provv_carea_2", ld_per_prov_capo_area)
+				adw_provvigioni.setitem(ai_row, "riga_documento_provv_agente_2", ld_per_prov_agente)
+				adw_provvigioni.setitem(ai_row, "riga_documento_provv_subage_2", ld_per_prov_sub_agente)
+			end if
+
+			if (as_num_gruppo = 1) then	
+				adw_provvigioni.setitem(ai_row, "provv_imp_carea", ld_imp_prov_capo_area)
+				adw_provvigioni.setitem(ai_row, "provv_imp_agente", ld_imp_prov_agente)
+				adw_provvigioni.setitem(ai_row, "provv_imp_subage", ld_imp_prov_sub_agente)
+			else
+				adw_provvigioni.setitem(ai_row, "riga_documento_provv_imp_carea_2", ld_imp_prov_capo_area)
+				adw_provvigioni.setitem(ai_row, "riga_documento_provv_imp_agente_2", ld_imp_prov_agente)
+				adw_provvigioni.setitem(ai_row, "riga_documento_provv_imp_subage_2", ld_imp_prov_sub_agente)
+
+		end if		
+end choose
+
+destroy lds_scag_provvigione
+end subroutine
+

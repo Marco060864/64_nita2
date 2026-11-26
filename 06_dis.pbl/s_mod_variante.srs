@@ -1,0 +1,7 @@
+﻿global type s_mod_variante from structure
+	datastore		datas
+	long		id_articolo
+	long		num_riga
+	long		quantita
+end type
+

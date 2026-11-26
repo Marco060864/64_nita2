@@ -1,0 +1,14 @@
+﻿global type s_bitmap from structure
+	string		nome
+	integer		x1
+	integer		y1
+	integer		x2
+	integer		y2
+	boolean		trasparente
+	integer		rect_x1
+	integer		rect_y1
+	integer		rect_x2
+	integer		rect_y2
+	boolean		tagliata
+end type
+

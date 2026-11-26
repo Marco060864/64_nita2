@@ -1,0 +1,244 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=600 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=112 color="536870912" )
+detail(height=76 color="536870912" )
+table(column=(type=char(8) updatewhereclause=yes name=sog_commerciale_codice dbname="sog_commerciale.codice" )
+ column=(type=char(40) updatewhereclause=yes name=anagrafica_rag_soc_1 dbname="anagrafica.rag_soc_1" )
+ column=(type=char(8) updatewhereclause=yes name=sog_commerciale_gen_codice dbname="sog_commerciale_gen.codice" )
+ column=(type=char(40) updatewhereclause=yes name=sog_commerciale_gen_rag_soc_1 dbname="sog_commerciale_gen.rag_soc_1" )
+ column=(type=date updatewhereclause=yes name=documento_data_documento dbname="documento.data_documento" )
+ column=(type=char(16) updatewhereclause=yes name=documento_num_documento dbname="documento.num_documento" )
+ column=(type=decimal(2) updatewhereclause=yes name=gruppo_agenti_rip_per_fatturato dbname="gruppo_agenti.rip_per_fatturato" )
+ column=(type=decimal(2) updatewhereclause=yes name=gruppo_agenti_rip_per_incassato dbname="gruppo_agenti.rip_per_incassato" )
+ column=(type=decimal(6) updatewhereclause=yes name=sog_commerciale_imp_fisso dbname="sog_commerciale_imp_fisso" )
+ column=(type=char(40) updatewhereclause=yes name=valuta_descrizione dbname="valuta.descrizione" )
+ column=(type=decimal(6) updatewhereclause=yes name=par_aperta_importo dbname="par_aperta_importo" )
+ column=(type=decimal(6) updatewhereclause=yes name=riep_prov_righe_imp_provv_documento dbname="riep_prov_righe_imp_provv_documento" )
+ column=(type=char(1) updatewhereclause=yes name=riep_prov_righe_tipo_prov dbname="riep_prov_righe.tipo_prov" )
+ column=(type=decimal(6) updatewhereclause=yes name=riep_prov_righe_provvigioni dbname="riep_prov_righe_provvigioni" )
+ column=(type=decimal(6) updatewhereclause=yes name=riep_prov_righe_imp_prov_incassato dbname="riep_prov_righe_imp_prov_incassato" )
+ column=(type=decimal(6) updatewhereclause=yes name=riep_provvigioni_imp_premi_penalita dbname="riep_provvigioni_imp_premi_penalita" )
+ column=(type=decimal(6) updatewhereclause=yes name=riep_provvigioni_liq_pagato dbname="riep_provvigioni_liq_pagato" )
+ column=(type=date updatewhereclause=yes name=sog_commerciale_prec_elab_definitivo dbname="sog_commerciale.prec_elab_definitivo" )
+ column=(type=decimal(6) updatewhereclause=yes name=sog_commerciale_imp_premio_budget dbname="sog_commerciale_imp_premio_budget" )
+ column=(type=decimal(2) updatewhereclause=yes name=tab_iva_per_aliquota dbname="tab_iva.per_aliquota" )
+ column=(type=decimal(4) updatewhereclause=yes name=cimp_ver_ult_elab dbname="imp_ver_ult_elab" )
+ column=(type=decimal(4) updatewhereclause=yes name=cprogressivo_enasarco dbname="progressivo_enasarco" )
+ column=(type=decimal(2) updatewhereclause=yes name=crit_acconto dbname="rit_acconto" )
+ column=(type=decimal(4) updatewhereclause=yes name=valuta_cambio dbname="valuta.cambio" )
+ column=(type=decimal(0) updatewhereclause=yes name=valuta_cifra_arrotondamento dbname="valuta.cifra_arrotondamento" )
+ column=(type=char(1) updatewhereclause=yes name=valuta_tipo_arrotondamento dbname="valuta.tipo_arrotondamento" )
+ column=(type=decimal(6) updatewhereclause=yes name=riep_provvigioni_inc_precedente dbname="riep_provvigioni_inc_precedente" )
+ column=(type=char(1) updatewhereclause=yes name=documento_tipo_fattura dbname="documento.tipo_fattura" )
+ column=(type=decimal(2) updatewhereclause=yes name=gruppo_agenti_fat_ult_elab dbname="gruppo_agenti.fat_ult_elab" )
+ column=(type=date updatewhereclause=yes name=riep_prov_righe_data_elab_fatturato dbname="riep_prov_righe.data_elab_fatturato" )
+ column=(type=date updatewhereclause=yes name=sog_commerciale_ult_elab_definitivo dbname="sog_commerciale.ult_elab_definitivo" )
+ column=(type=decimal(4) updatewhereclause=yes name=cmassimale dbname="massimale" )
+ column=(type=decimal(2) updatewhereclause=yes name=per_car_azienda dbname="per_car_azienda" )
+ column=(type=decimal(4) updatewhereclause=yes name=cincassato_netto dbname="incassato_netto" )
+ column=(type=decimal(4) updatewhereclause=yes name=ctotale dbname="totale" )
+ column=(type=decimal(4) updatewhereclause=yes name=cprov_fatturato dbname="prov_fatturato" )
+ column=(type=char(1) updatewhereclause=yes name=cgia_fatturato dbname="gia_fatturato" )
+ column=(type=decimal(2) updatewhereclause=yes name=crit_acconto_imp dbname="rit_acconto_imp" )
+ column=(type=long updatewhereclause=yes name=id_val_prov_agente dbname="sog_commerciale.id_val_prov_agente" )
+ column=(type=long updatewhereclause=yes name=documento_id_valuta dbname="documento.id_valuta" )
+ column=(type=long updatewhereclause=yes name=id_val_conto dbname="id_val_conto" )
+ retrieve="  SELECT ~"sog_commerciale~".~"codice~",   
+         ~"anagrafica~".~"rag_soc_1~",   
+         ~"sog_commerciale_gen~".~"codice~",   
+         ~"sog_commerciale_gen~".~"rag_soc_1~",   
+         ~"documento~".~"data_documento~",   
+         ~"documento~".~"num_documento~",   
+         ~"gruppo_agenti~".~"rip_per_fatturato~",   
+         ~"gruppo_agenti~".~"rip_per_incassato~",   
+         FN_CONV_VALUTA(~"sog_commerciale~".~"id_valuta~", ~"sog_commerciale~".~"imp_fisso~", ~"sog_commerciale~".~"id_val_prov_agente~") AS sog_commerciale_imp_fisso,
+         ~"valuta~".~"descrizione~",   
+         FN_CONV_VALUTA(~"par_aperta~".~"id_valuta~", ~"par_aperta~".~"importo~", ~"sog_commerciale~".~"id_val_prov_agente~") AS par_aperta_importo,
+         FN_CONV_VALUTA(~"documento~".~"id_valuta~", ~"riep_prov_righe~".~"imp_provv_documento~", ~"sog_commerciale~".~"id_val_prov_agente~") AS riep_prov_righe_imp_provv_documento,
+         ~"riep_prov_righe~".~"tipo_prov~",   
+         FN_CONV_PROVVIGIONI(~"documento~".~"id_valuta~", ~"riep_prov_righe~".~"provvigioni~", ~"sog_commerciale~".~"id_val_prov_agente~", ~"riep_prov_righe~".~"tipo_prov~") AS riep_prov_righe_provvigioni,
+         FN_CONV_VALUTA(~"documento~".~"id_valuta~", ~"riep_prov_righe~".~"imp_prov_incassato~", ~"sog_commerciale~".~"id_val_prov_agente~") AS riep_prov_righe_imp_prov_incassato,
+         FN_CONV_VALUTA(~"documento~".~"id_valuta~", ~"riep_provvigioni~".~"imp_premi_penalita~", ~"sog_commerciale~".~"id_val_prov_agente~") AS riep_provvigioni_imp_premi_penalita,
+         FN_CONV_VALUTA(~"documento~".~"id_valuta~", ~"riep_provvigioni~".~"liq_pagato~", ~"sog_commerciale~".~"id_val_prov_agente~") as riep_provvigioni_liq_pagato,
+         ~"sog_commerciale~".~"prec_elab_definitivo~",   
+         FN_CONV_VALUTA(~"documento~".~"id_valuta~", ~"sog_commerciale~".~"imp_premio_budget~", ~"sog_commerciale~".~"id_val_prov_agente~") AS sog_commerciale_imp_premio_budget,
+         ~"tab_iva~".~"per_aliquota~",   
+         CAST((SELECT FN_CONV_VALUTA(id_val_conto, IMP_VER_ULT_ELAB, ~"sog_commerciale~".~"id_val_prov_agente~") FROM PROG_ENASARCO WHERE ID_SOG_COMMERCIALE = ~"sog_commerciale~".~"id_sog_commerciale~" AND ANNO = YEAR(~"sog_commerciale~".~"ult_elab_definitivo~") AND ID_AZIENDA = 1) AS NUMERIC(18,4)) AS imp_ver_ult_elab,   
+         CAST((SELECT FN_CONV_VALUTA(id_val_conto, PROGRESSIVO_ENASARCO, ~"sog_commerciale~".~"id_val_prov_agente~") FROM PROG_ENASARCO WHERE ID_SOG_COMMERCIALE = ~"sog_commerciale~".~"id_sog_commerciale~" AND ANNO = YEAR(~"sog_commerciale~".~"ult_elab_definitivo~") AND ID_AZIENDA = 1) AS NUMERIC(18,4)) AS progressivo_enasarco,   
+         CAST((SELECT T.PER_TRIBUTO FROM TRIBUTO T, SOG_COMMERCIALE S WHERE T.ID_TRIBUTO = S.ID_TRIBUTO AND S.ID_SOG_COMMERCIALE = ~"sog_commerciale~".~"id_sog_commerciale~") AS NUMERIC(5,2)) AS rit_acconto,   
+         ~"valuta~".~"cambio~",   
+         ~"valuta~".~"cifra_arrotondamento~",   
+         ~"valuta~".~"tipo_arrotondamento~",   
+         FN_CONV_VALUTA(~"documento~".~"id_valuta~", ~"riep_provvigioni~".~"inc_precedente~", ~"sog_commerciale~".~"id_val_prov_agente~") AS  riep_provvigioni_inc_precedente,
+         ~"documento~".~"tipo_fattura~",   
+         ~"gruppo_agenti~".~"fat_ult_elab~",   
+         ~"riep_prov_righe~".~"data_elab_fatturato~",   
+         ~"sog_commerciale~".~"ult_elab_definitivo~",   
+         CAST((SELECT FN_CONV_VALUTA(id_valuta, IMP_MASSIMO, ~"sog_commerciale~".~"id_val_prov_agente~") FROM SCAG_ENASARCO WHERE ID_TIPO_AGENTE = ~"sog_commerciale~".~"id_tipo_agente~" AND ~"sog_commerciale~".~"ult_elab_definitivo~" >= DATA_INIZIO  AND ~"sog_commerciale~".~"ult_elab_definitivo~" <= DATA_FINE AND ID_AZIENDA = 1 ) AS NUMERIC(18,4)) AS massimale,   
+         CAST((SELECT per_car_azienda FROM per_enasarco WHERE data_inizio <= ~"sog_commerciale~".~"ult_elab_definitivo~" AND (data_fine >= ~"sog_commerciale~".~"ult_elab_definitivo~" OR data_fine IS NULL)) AS NUMERIC(5,2)) AS per_car_azienda,   
+         CAST( FN_CONV_VALUTA(~"documento~".~"id_valuta~", (~"riep_prov_righe~".~"imp_provv_documento~" * ~"riep_provvigioni~".~"inc_precedente~" / FN_CONV_VALUTA(~"par_aperta~".~"id_valuta~", ~"par_aperta~".~"importo~", ~"documento~".~"id_valuta~")), ~"sog_commerciale~".~"id_val_prov_agente~") AS NUMERIC(18,4)) AS incassato_netto,   
+         CAST(0 AS NUMERIC(18,4)) AS totale,   
+         CAST(0 AS NUMERIC(18,4)) AS prov_fatturato,   
+         CAST(' ' AS CHAR(1)) AS gia_fatturato,
+         CAST((SELECT T.PER_IMPONIBILE FROM TRIBUTO T, SOG_COMMERCIALE S WHERE T.ID_TRIBUTO = S.ID_TRIBUTO AND S.ID_SOG_COMMERCIALE = ~"sog_commerciale~".~"id_sog_commerciale~") AS NUMERIC(5,2)) AS rit_acconto_imp,
+			~"sog_commerciale~".~"id_val_prov_agente~",
+			~"documento~".~"id_valuta~",
+		   CAST( (SELECT id_valuta FROM esercizio WHERE data_inizio <= ~"sog_commerciale~".~"ult_elab_definitivo~" AND data_fine >= ~"sog_commerciale~".~"ult_elab_definitivo~") AS INTEGER) AS id_val_conto
+    FROM ~"documento~",   
+         ~"riep_prov_righe~",   
+         ~"riep_provvigioni~",   
+         ~"sog_commerciale_gen~",   
+         ~"gruppo_agenti~",   
+         ~"sog_commerciale~",   
+         ~"anagrafica~",   
+         ~"valuta~",   
+         ~"reg_pd~",   
+         ~"par_aperta~",   
+         ~"tab_iva~"  
+   WHERE ( ~"riep_prov_righe~".~"id_riep_provvigioni~" = ~"riep_provvigioni~".~"id_riep_provvigioni~" ) and  
+         ( ~"documento~".~"id_documento~" = ~"riep_provvigioni~".~"id_documento~" ) and  
+         ( ~"sog_commerciale_gen~".~"id_sog_commerciale~" = ~"documento~".~"id_sog_commerciale~" ) and  
+         ( ~"gruppo_agenti~".~"id_gruppo_agenti~" = ~"riep_provvigioni~".~"id_gruppo_agenti~" ) and  
+         ( ~"sog_commerciale~".~"id_sog_commerciale~" = ~"riep_provvigioni~".~"id_agente~" ) and  
+         ( ~"sog_commerciale~".~"id_anagrafica~" = ~"anagrafica~".~"id_anagrafica~" ) and  
+         ( ~"valuta~".~"id_valuta~" = ~"sog_commerciale~".~"id_val_prov_agente~" ) and  
+         ( ~"reg_pd~".~"num_progressivo~" = ~"documento~".~"num_progressivo~" ) and  
+         ( ~"reg_pd~".~"data_registrazione~" = ~"documento~".~"data_registrazione~" ) and  
+         ( ~"reg_pd~".~"id_registro~" = ~"documento~".~"id_registro~" ) and  
+         ( ~"par_aperta~".~"id_reg_pd~" =* ~"reg_pd~".~"id_reg_pd~" ) and  
+         ( ~"tab_iva~".~"id_tab_iva~" = ~"sog_commerciale~".~"id_tab_iva_fat_prov~" )
+
+" arguments=(("parametri", string),("tipo_stampa", string)) )
+group(level=1 header.height=352 trailer.height=1020 by=("sog_commerciale_codice" ) newpage=yes header.color="536870912" trailer.color="536870912" )
+compute(band=header alignment="0" expression=" parametri "border="0" color="0" x="498" y="516" height="68" width="4151" format="[general]"  name=parametri  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Parametri di stampa:"border="0" color="0" x="14" y="516" height="68" width="466"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+line(band=header x1="0" y1="596" x2="4677" y2="596" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+compute(band=header alignment="2" expression="'stampa ' + tipo_stampa"border="0" color="0" x="14" y="280" height="164" width="4640" format="[general]"  font.face="Arial" font.height="-20" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Stampa Liquidazione provvigioni Agenti"border="0" color="0" x="18" y="52" height="164" width="4645"  font.face="Arial" font.height="-26" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header id=18 alignment="0" tabsequence=32766 border="0" color="0" x="5710" y="656" height="68" width="302" format="[general]"  name=sog_commerciale_prec_elab_definitivo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+rectangle(band=header.1 x="9" y="16" height="332" width="4622" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="9" pen.color="33554432"  background.mode="2" background.color="0" )
+column(band=header.1 id=1 alignment="0" tabsequence=32766 border="0" color="0" x="238" y="52" height="68" width="439" format="[general]"  name=sog_commerciale_codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="2" text=" Agente:"border="0" color="0" x="14" y="52" height="68" width="210"  name=sog_commerciale_gen_codice_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=10 alignment="0" tabsequence=32766 border="0" color="0" x="2487" y="52" height="68" width="517" format="[general]"  name=valuta_descrizione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=2 alignment="0" tabsequence=32766 border="0" color="0" x="695" y="52" height="68" width="1371" format="[general]"  name=anagrafica_rag_soc_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="1" text=" Valuta provv.: "border="0" color="0" x="2103" y="52" height="68" width="366"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="1" text="Ultima elab. in definitivo:"border="0" color="0" x="3438" y="48" height="68" width="608"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="2" text=" Provvigioni"border="2" color="0" x="1650" y="144" height="68" width="741"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="2" text="Rip. % inc."border="2" color="0" x="2002" y="216" height="56" width="389"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="2" text=" Rip. % fatt."border="2" color="0" x="1650" y="216" height="56" width="347"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="2" text=" Elaborazione precedente"border="2" color="0" x="3927" y="144" height="68" width="699"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="2" text=" Totale"border="2" color="0" x="3927" y="216" height="128" width="329"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="2" text=" Liq. sul 
+ pagato "border="2" color="0" x="4261" y="216" height="128" width="366"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="2" text=" Provv.
+ Imp."border="2" color="0" x="3721" y="144" height="200" width="201"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="2" text=" Provv.
+ (%)"border="2" color="0" x="3547" y="144" height="200" width="169"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="2" text=" Incassato"border="2" color="0" x="3163" y="144" height="200" width="379"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="2" text="Netto"border="2" color="0" x="2779" y="144" height="200" width="379"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="2" text="Totale 
+Fattura"border="2" color="0" x="2395" y="144" height="200" width="379"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=8 alignment="2" tabsequence=32766 border="2" color="0" x="2002" y="276" height="68" width="389" format="[general]"  name=gruppo_agenti_rip_per_incassato edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=7 alignment="2" tabsequence=32766 border="2" color="0" x="1650" y="276" height="68" width="347" format="[general]"  name=gruppo_agenti_rip_per_fatturato edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="2" text="Num.
+Doc."border="2" color="0" x="1422" y="144" height="200" width="224"  name=documento_num_documento_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="2" text="Data doc."border="2" color="0" x="1152" y="144" height="200" width="265"  name=documento_data_documento_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.1 alignment="0" text=" Cliente"border="2" color="0" x="14" y="144" height="200" width="1134"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="f_round(riep_provvigioni_imp_premi_penalita,  valuta_cifra_arrotondamento , valuta_tipo_arrotondamento )"border="0" color="0" x="3579" y="100" height="68" width="462" format="#,0"  name=imp_premi_penalita_val visible="1~t0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=30 alignment="0" tabsequence=32766 border="0" color="0" x="2281" y="96" height="56" width="274" format="[general]"  name=riep_prov_righe_data_elab_fatturato visible="1~t0" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=31 alignment="0" tabsequence=32766 border="0" color="0" x="2743" y="100" height="56" width="274" format="[general]"  name=sog_commerciale_ult_elab_definitivo visible="1~t0" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression=" sog_commerciale_gen_codice + '     ' +  sog_commerciale_gen_rag_soc_1 "border="0" color="0" x="14" y="4" height="68" width="1134" format="[general]"  name=cliente  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="2" tabsequence=32766 border="0" color="0" x="1152" y="4" height="68" width="265" format="[general]"  name=documento_data_documento edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="2" tabsequence=32766 border="0" color="0" x="1422" y="4" height="68" width="224" format="[general]"  name=documento_num_documento edit.limit=16 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=36 alignment="1" tabsequence=32766 border="0" color="0" x="1650" y="4" height="68" width="347" format="#,0"  name=cprov_fatturato edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=37 alignment="0" tabsequence=32766 border="0" color="0" x="2016" y="4" height="68" width="23" format="[general]"  name=cgia_fatturato edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="/* Il valore dell'importo è già convertito nella Valuta della Liq. */
+f_round(riep_prov_righe_imp_prov_incassato, valuta_cifra_arrotondamento ,  valuta_tipo_arrotondamento )"border="0" color="0" x="2062" y="4" height="68" width="329" format="[general]"  name=imp_prov_incassato_val  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="/* Il valore dell'importo è già convertito nella Valuta della Liquidazione */
+f_round( par_aperta_importo,  valuta_cifra_arrotondamento ,  valuta_tipo_arrotondamento )"border="0" color="0" x="2395" y="4" height="68" width="379" format="#,0"  name=tot_fattura  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="/* Il valore dell'importo è già convertito nella Valuta della Liquidazione */
+f_round(riep_prov_righe_imp_provv_documento,  valuta_cifra_arrotondamento ,  valuta_tipo_arrotondamento )"border="0" color="0" x="2779" y="4" height="68" width="379" format="#,0"  name=imp_provvigioni  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="/* Il valore dell'importo è già convertito nella Valuta della Liquidazione */
+f_round( cincassato_netto ,  valuta_cifra_arrotondamento ,  valuta_tipo_arrotondamento )"border="0" color="0" x="3163" y="4" height="68" width="379" format="#,0"  name=incassato_netto_val  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="2" expression="if ( riep_prov_righe_tipo_prov = 'P',  riep_prov_righe_provvigioni , 0)"border="0" color="0" x="3547" y="4" height="68" width="169" format="#,0.00"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="/* Il valore dell'importo è già convertito nella Valuta della Liquidazione */
+if ( riep_prov_righe_tipo_prov = 'I',  f_round( riep_prov_righe_provvigioni , valuta_cifra_arrotondamento ,  valuta_tipo_arrotondamento ), 0)"border="0" color="0" x="3721" y="4" height="68" width="201" format="#,0"  name=provv_importo  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=35 alignment="1" tabsequence=32766 border="0" color="0" x="3927" y="4" height="68" width="329" format="#,0"  name=ctotale edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="/* Il valore dell'importo è già convertito nella Valuta della Liquidazione */
+f_round( riep_provvigioni_liq_pagato , valuta_cifra_arrotondamento ,  valuta_tipo_arrotondamento )"border="0" color="0" x="4261" y="4" height="68" width="361" format="#,0"  name=liq_pagato_val  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.1 alignment="2" text=" Totale provvigioni: "border="0" color="0" x="3200" y="32" height="68" width="489"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="/* Il valore dell'importo è già convertito nella Valuta della Liquidazione */
+f_round((sum(  ctotale for group 1 ) ),  valuta_cifra_arrotondamento ,  valuta_tipo_arrotondamento )"border="0" color="0" x="3721" y="36" height="68" width="512" format="#,0"  name=tot_provvigioni  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="2" text=" Rimborso spese fisse: "border="0" color="0" x="3086" y="120" height="68" width="603"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="/* Il valore dell'importo è già convertito nella Valuta della Liquidazione */
+f_round((sog_commerciale_imp_fisso ),  valuta_cifra_arrotondamento , valuta_tipo_arrotondamento )"border="0" color="0" x="3721" y="120" height="68" width="512" format="#,0"  name=imp_fisso_val  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.1 alignment="2" text=" Premio su budget: "border="0" color="0" x="3195" y="204" height="68" width="494" visible="1~t0"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="/* Il valore dell'importo è già convertito nella Valuta della Liquidazione */
+/* f_round( sog_commerciale_imp_premio_budget,  valuta_cifra_arrotondamento ,  valuta_tipo_arrotondamento )*/
+0"border="0" color="0" x="3721" y="204" height="68" width="512" format="#,0"  name=imp_premio_budget_val visible="1~t0"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.1 x1="3680" y1="280" x2="4265" y2="280" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="2" text=" Importo da Liquidare: "border="0" color="0" x="3122" y="292" height="68" width="567"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="/* Totale Provvigioni */
+tot_provvigioni + 
+
+/* Spese Fisse */
+if( isNull(sog_commerciale_imp_fisso),0,  sog_commerciale_imp_fisso ) +
+
+/* Premio sul Budget */
+/*if( isNull(sog_commerciale_imp_premio_budget), 0 ,  sog_commerciale_imp_premio_budget  ) */
+0"border="0" color="0" x="3721" y="292" height="68" width="512" format="#,0"  name=importo_da_liquidare  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.1 alignment="2" text=" Iva: "border="0" color="0" x="3122" y="380" height="68" width="110"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=20 alignment="0" tabsequence=32766 border="0" color="0" x="3237" y="380" height="68" width="165" format="[general]"  name=tab_iva_per_aliquota edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.1 alignment="2" text=" (%) "border="0" color="0" x="3406" y="380" height="68" width="105"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="f_round( (importo_da_liquidare * tab_iva_per_aliquota / 100),  valuta_cifra_arrotondamento ,  valuta_tipo_arrotondamento )"border="0" color="0" x="3721" y="380" height="68" width="512" format="#,0"  name=importo_iva  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="2" text=" Totale fattura: "border="0" color="0" x="3314" y="468" height="68" width="375"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="f_round(  ( (importo_da_liquidare * tab_iva_per_aliquota / 100) +
+ importo_da_liquidare ),  valuta_cifra_arrotondamento ,  valuta_tipo_arrotondamento )"border="0" color="0" x="3721" y="468" height="68" width="512" format="#,0"  name=totale_fattura  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="2" text=" Enasarco: "border="0" color="0" x="2213" y="556" height="68" width="270"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=33 alignment="0" tabsequence=32766 border="0" color="0" x="2491" y="556" height="68" width="137" format="[general]"  name=per_car_azienda edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="2" text=" (%) "border="0" color="0" x="2642" y="556" height="68" width="105"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.1 alignment="2" text=" Prog.: "border="0" color="0" x="2770" y="556" height="68" width="174" visible="1~tif(( if(isnull(massimale_val), 0, massimale_val) = if(isnull(progressivo_enasarco_val), 0, progressivo_enasarco_val)), 0, 1)"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="f_round(cprogressivo_enasarco,  valuta_cifra_arrotondamento ,  valuta_tipo_arrotondamento )"border="0" color="0" x="2949" y="556" height="68" width="370" format="#,0"  name=progressivo_enasarco_val visible="1~tif(( if(isnull(massimale_val), 0, massimale_val) = if(isnull(progressivo_enasarco_val), 0, progressivo_enasarco_val)), 0, 1)
+"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.1 alignment="2" text=" Da versare: "border="0" color="0" x="3378" y="556" height="68" width="311" visible="1~tif(( if(isnull(massimale_val), 0, massimale_val) = if(isnull(progressivo_enasarco_val), 0, progressivo_enasarco_val)), 0, 1)"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="f_round(cimp_ver_ult_elab,  valuta_cifra_arrotondamento , valuta_tipo_arrotondamento )"border="0" color="0" x="3721" y="556" height="68" width="512" format="#,0"  name=enasarco_da_versare visible="1~tif(( if(isnull(massimale_val), 0, massimale_val) = if(isnull(progressivo_enasarco_val), 0, progressivo_enasarco_val)), 0, 1) 
+"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.1 alignment="2" text="Massimale Enasarco: "border="0" color="0" x="1842" y="648" height="68" width="549" visible="1~tif(( massimale_val= progressivo_enasarco_val), 1, 0)"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="f_round( (cmassimale),  valuta_cifra_arrotondamento , valuta_tipo_arrotondamento )"border="0" color="0" x="2405" y="648" height="68" width="503" format="#,0"  name=massimale_val visible="1~tif(( if (isnull(massimale_val), 0, massimale_val) = if(isnull(progressivo_enasarco_val), 0, progressivo_enasarco_val)), 1, 0)"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.1 alignment="2" text=" Raggiunto"border="0" color="0" x="2921" y="648" height="68" width="265" visible="1~tif(( if (isnull(massimale_val), 0, massimale_val) = if(isnull(progressivo_enasarco_val), 0, progressivo_enasarco_val)), 1, 0)"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.1 alignment="2" text=" Ritenuta di acconto: "border="0" color="0" x="2528" y="732" height="68" width="517"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=23 alignment="0" tabsequence=32766 border="0" color="0" x="3063" y="732" height="68" width="178" format="[general]"  name=crit_acconto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.1 alignment="2" text=" sul:"border="0" color="0" x="3259" y="732" height="68" width="128"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=38 alignment="0" tabsequence=32766 border="0" color="0" x="3406" y="732" height="68" width="178" format="#,0.00"  name=crit_acconto_imp edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="// BL#12056
+f_round(
+(
+( 
+if(isnull( tot_provvigioni ), 0, tot_provvigioni ) + 
+if(isnull( sog_commerciale_imp_fisso ), 0, sog_commerciale_imp_fisso) + 
+if (isnull( sog_commerciale_imp_premio_budget ), 0, sog_commerciale_imp_premio_budget)
+)  
+*  
+crit_acconto_imp / 100
+
+*
+crit_acconto / 100
+),  valuta_cifra_arrotondamento ,  valuta_tipo_arrotondamento )"border="0" color="0" x="3721" y="728" height="68" width="512" format="#,0"  name=imp_rit_acconto  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.1 x1="3675" y1="804" x2="4270" y2="804" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="2" text=" Netto: "border="0" color="0" x="3515" y="820" height="68" width="174"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="f_round( 
+(
+totale_fattura -
+if (isnull( imp_rit_acconto ), 0, imp_rit_acconto) )
+,  valuta_cifra_arrotondamento ,  valuta_tipo_arrotondamento )
+//BL#12056"border="0" color="0" x="3721" y="820" height="68" width="512" format="#,0"  name=netto  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.1 alignment="0" text=" (*) Importo riconosciuto con precedente elaborazione in definitivo"border="0" color="0" x="2725" y="952" height="56" width="1669"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="1" expression="'Pag. ' + page() + ' di ' + pageCount()"border="0" color="0" x="4046" y="28" height="64" width="567" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=footer x1="5" y1="12" x2="4677" y2="12" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=footer alignment="1" text="Stampato il "border="0" color="0" x="32" y="32" height="64" width="265"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="0" expression="today()"border="0" color="0" x="311" y="32" height="64" width="215" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+text(band=footer alignment="1" text="alle"border="0" color="0" x="535" y="32" height="64" width="82"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="0" expression="now()"border="0" color="0" x="631" y="32" height="64" width="242" format="[time]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

@@ -1,0 +1,50 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=348 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=76 color="536870912" )
+detail(height=88 color="536870912" )
+table(column=(type=long updatewhereclause=yes identity=yes name=id_articolo dbname="articolo.id_articolo" )
+ column=(type=char(32) updatewhereclause=yes name=codice dbname="articolo.codice" )
+ column=(type=char(80) updatewhereclause=yes name=descrizione dbname="articolo.descrizione" )
+ column=(type=char(40) updatewhereclause=yes name=c_sconto dbname="c_sconto" )
+ column=(type=decimal(0) updatewhereclause=yes name=c_id_listino dbname="c_id_listino" )
+ column=(type=decimal(0) updatewhereclause=yes name=c_id_valuta dbname="c_id_valuta" )
+ column=(type=char(40) updatewhereclause=yes name=cat_com_art_descrizione dbname="cat_com_art_descrizione" )
+ column=(type=char(40) updatewhereclause=yes name=rag_soc_1 dbname="rag_soc_1" )
+ column=(type=char(40) updatewhereclause=yes name=cat_com_sc_descrizione dbname="cat_com_sc_descrizione" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_applicazione dbname="tipo_applicazione" )
+ column=(type=decimal(4) updatewhereclause=yes name=importo dbname="importo" )
+ column=(type=char(40) updatewhereclause=yes name=percentuali dbname="percentuali" )
+ column=(type=decimal(6) updatewhereclause=yes name=c_prezzo_n dbname="c_prezzo_n" )
+ column=(type=decimal(6) updatewhereclause=yes name=c_prezzo_l dbname="c_prezzo_l" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"articolo~" ) COLUMN(NAME=~"articolo.id_articolo~") COLUMN(NAME=~"articolo.codice~") COLUMN(NAME=~"articolo.descrizione~") COMPUTE(NAME=~"cast(null as char(40)) as c_sconto~") COMPUTE(NAME=~"cast( 0 as numeric) as c_id_listino~") COMPUTE(NAME=~"cast( 0 as numeric) as c_id_valuta~") COMPUTE(NAME=~"cast(null as char(40)) as cat_com_art_descrizione~") COMPUTE(NAME=~"cast(null as char(40)) as rag_soc_1~") COMPUTE(NAME=~"cast(null as char(40)) as cat_com_sc_descrizione~") COMPUTE(NAME=~"cast(null as char(1)) as tipo_applicazione~") COMPUTE(NAME=~"cast(0 as numeric(18,4)) as importo~") COMPUTE(NAME=~"cast(NULL as char(40)) as percentuali~") COMPUTE(NAME=~"cast(0 as dm_imp_6_dec) as c_prezzo_n~") COMPUTE(NAME=~"cast(0 as dm_imp_6_dec) as c_prezzo_l~")WHERE(    EXP1 =~"~~~"articolo~~~".~~~"codice~~~"~"   OP =~">=~"    EXP2 =~":da_art~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"~~~"articolo~~~".~~~"codice~~~"~"   OP =~"<=~"    EXP2 =~":a_art~" ) ) ORDER(NAME=~"articolo.codice~" ASC=yes ) ARG(NAME = ~"da_art~" TYPE = string)  ARG(NAME = ~"a_art~" TYPE = string) " arguments=(("da_art", string),("a_art", string)) )
+text(band=header alignment="2" text="STAMPA PREZZI ARTICOLI"border="0" color="0" x="1879" y="40" height="92" width="1481"  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Articolo
+Codice"border="2" color="0" x="9" y="232" height="112" width="507"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Articolo
+Descrizione"border="2" color="0" x="521" y="232" height="112" width="1207"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Articolo
+Cat. Commerciale"border="2" color="0" x="1733" y="232" height="112" width="503"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Soggetto Commerciale
+Ragione Sociale"border="2" color="0" x="2240" y="232" height="112" width="951"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Soggetto Commerciale
+Cat. Commerciale"border="2" color="0" x="3195" y="232" height="112" width="498"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Sconto"border="2" color="0" x="4087" y="232" height="112" width="270"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="14" y="8" height="68" width="494" format="[general]"  name=codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="526" y="8" height="68" width="1193" format="[general]"  name=descrizione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="1737" y="4" height="72" width="494" format="[general]"  name=cat_com_art_descrizione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="2249" y="8" height="68" width="942" format="[general]"  name=rag_soc_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="Stampato il"border="0" color="0" x="9" y="4" height="64" width="334"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="today()"border="0" color="0" x="361" y="4" height="64" width="256" format="[shortdate] [time]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="alle"border="0" color="0" x="640" y="4" height="64" width="110"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="now()"border="0" color="0" x="768" y="4" height="64" width="242" format="[time]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="2" tabsequence=32766 border="0" color="0" x="4091" y="8" height="68" width="265" format="[general]"  name=c_sconto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Prezzo
+Netto"border="2" color="0" x="4361" y="232" height="112" width="384"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="1" tabsequence=0 border="0" color="0" x="4361" y="8" height="68" width="384"  name=c_prezzo_n  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="3209" y="8" height="68" width="475" format="[general]"  name=cat_com_sc_descrizione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Prezzo
+Lordo"border="2" color="0" x="3698" y="232" height="112" width="384"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="1" tabsequence=0 border="0" color="0" x="3698" y="8" height="68" width="384"  name=c_prezzo_l  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

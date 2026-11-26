@@ -1,0 +1,20 @@
+﻿global type f_togli_spazi_doppi from function_object
+end type
+
+forward prototypes
+global function string f_togli_spazi_doppi (string as_stringa)
+end prototypes
+
+global function string f_togli_spazi_doppi (string as_stringa);integer li_pos
+
+li_pos=1
+do while li_pos>0
+	li_pos=pos(as_stringa, "  ", li_pos)
+	if li_pos>0 then
+		as_stringa=replace(as_stringa, li_pos, 2, " ")
+	end if
+loop
+
+return as_stringa
+end function
+

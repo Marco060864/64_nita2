@@ -1,0 +1,9 @@
+﻿global type s_des_articolo from structure
+	long		sl_id_des_articolo
+	string		ss_codice
+	string		ss_descrizione
+	string		ss_des_estesa
+	long		sl_id_lingua
+	long		sl_id_linguaggio
+end type
+

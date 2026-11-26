@@ -1,0 +1,73 @@
+﻿release 6;
+datawindow(units=0 timer_interval=60000 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=1516 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=80 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=char(16) updatewhereclause=yes name=num_documento dbname="documento.num_documento" )
+ column=(type=date updatewhereclause=yes name=documento_data_documento dbname="documento.data_documento" )
+ column=(type=long updatewhereclause=yes name=id_documento dbname="documento.id_documento" )
+ column=(type=char(8) updatewhereclause=yes name=sog_commerciale_codice dbname="sog_commerciale.codice" )
+ column=(type=char(40) updatewhereclause=yes name=anagrafica_rag_soc_1 dbname="anagrafica.rag_soc_1" )
+ column=(type=date updatewhereclause=yes name=data_prev_consegna dbname="documento.data_prev_consegna" )
+ column=(type=char(2) updatewhereclause=yes name=riga_documento_sigla_prezzo dbname="riga_documento.sigla_prezzo" )
+ column=(type=char(16) updatewhereclause=yes name=documento_num_documento dbname="documento.num_documento" )
+ column=(type=char(40) updatewhereclause=yes name=azienda_rag_soc_1 dbname="azienda.rag_soc_1" )
+ column=(type=char(40) updatewhereclause=yes name=sede_indirizzo dbname="sede.indirizzo" )
+ column=(type=char(10) updatewhereclause=yes name=sede_cap dbname="sede.cap" )
+ column=(type=char(40) updatewhereclause=yes name=sede_localita dbname="sede.localita" )
+ column=(type=char(5) updatewhereclause=yes name=sede_provincia dbname="sede.provincia" )
+ retrieve="  SELECT distinct ~"documento_a~".~"num_documento~",   
+         ~"documento_a~".~"data_documento~", 
+			~"documento_a~".~"id_documento~",  
+         ~"sog_commerciale~".~"codice~",   
+         ~"anagrafica~".~"rag_soc_1~",   
+         ~"documento_a~".~"data_prev_consegna~",   
+         ~"riga_documento_a~".~"sigla_prezzo~",   
+         ~"documento_b~".~"num_documento~" ,
+			~"azienda~".~"rag_soc_1~", ~"sede~".~"indirizzo~", 
+~"sede~".~"cap~", ~"sede~".~"localita~", ~"sede~".~"provincia~"
+    FROM ~"anagrafica~",   
+         ~"documento~" ~"documento_a~",   
+         ~"sog_commerciale~",   
+         ~"prof_documento~",   
+         ~"riga_documento~" ~"riga_documento_a~",   
+         ~"ord_cli_fornitore~",   
+         ~"riga_documento~" ~"riga_documento_b~",   
+         ~"documento~" ~"documento_b~"  ,
+  	~"azienda~", ~"sede~"  
+   WHERE ( ~"sog_commerciale~".~"id_anagrafica~" = ~"anagrafica~".~"id_anagrafica~" ) and  
+         ( ~"documento_a~".~"id_sog_commerciale~" = ~"sog_commerciale~".~"id_sog_commerciale~" ) and  
+         ( ~"prof_documento~".~"id_prof_documento~" = ~"documento_a~".~"id_prof_documento~" ) and  
+         ( ~"documento_a~".~"id_documento~" = ~"riga_documento_a~".~"id_documento~" ) and  
+         ( ~"riga_documento_a~".~"id_riga_documento~" *= ~"ord_cli_fornitore~".~"id_riga_ord_fornitore~"  ) and  
+         ( ~"ord_cli_fornitore~".~"id_riga_ord_cliente~" *= ~"riga_documento_b~".~"id_riga_documento~" ) and  
+         ( ~"riga_documento_b~".~"id_documento~" *= ~"documento_b~".~"id_documento~" ) and  
+         ( ( ~"documento_a~".~"data_prev_consegna~" >= :da_data_sc ) AND  
+         ( ~"documento_a~".~"data_prev_consegna~" <= :a_data_sc ) AND  
+         ( ~"anagrafica~".~"rag_soc_1~" >= :da_sog ) AND  
+         ( ~"anagrafica~".~"rag_soc_1~" <= :a_sog ) AND  
+         ( ~"documento_a~".~"data_prev_consegna~" is not null ) AND  
+         ( ~"documento_a~".~"data_prev_consegna~" > date('1900/01/01') ) AND  
+         ( ~"prof_documento~".~"tipo_registro~" = :tipo_registro ) )    
+			and (~"azienda~".~"id_azienda~"= ~"documento_a~".~"id_azienda~") 
+			and (~"azienda~".~"id_azienda~"= ~"sede~".~"id_azienda~")" arguments=(("da_data_sc", date),("a_data_sc", date),("da_sog", string),("a_sog", string),("tipo_registro", string),("nota", string))  sort="anagrafica_rag_soc_1 A data_prev_consegna A " )
+group(level=1 header.height=0 trailer.height=172 by=("anagrafica_rag_soc_1" ) newpage=yes header.color="553648127" trailer.color="536870912" )
+text(band=header alignment="0" text="Ordini in Scadenza"border="0" color="0" x="1024" y="36" height="92" width="1166"  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression=" nota "border="0" color="0" x="347" y="1152" height="224" width="2770" format="[general]"  name=c_nota  font.face="Arial" font.height="-11" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header id=9 alignment="0" tabsequence=32766 border="0" color="0" x="14" y="256" height="80" width="1582" format="[general]"  name=azienda_rag_soc_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=10 alignment="0" tabsequence=32766 border="0" color="0" x="14" y="348" height="80" width="1582" format="[general]"  name=sede_indirizzo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="if(isnull( sede_cap ), ~"~", sede_cap )+~"  ~"+if(isnull( sede_localita ),~"~", sede_localita )+~"  ~"+
+if(isnull( sede_provincia ),  ~"~", sede_provincia )"border="0" color="0" x="14" y="444" height="80" width="1582" format="[general]"  name=c_localita  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Num. Ordine"border="0" color="0" x="347" y="1432" height="76" width="457"  name=documento_num_documento_t  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Data Scadenza"border="0" color="0" x="855" y="1432" height="76" width="517"  name=documento_data_scadenza_t  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="~"Data: ~"+string(date(today()))"border="0" color="0" x="46" y="764" height="92" width="599" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="1" text="Spett.le"border="0" color="0" x="1390" y="692" height="84" width="334"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=5 alignment="0" tabsequence=32766 border="0" color="0" x="1737" y="692" height="84" width="1376" format="[general]"  name=anagrafica_rag_soc_1 edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="2" expression="if( documento_num_documento >~" ~" and  tipo_registro ='OA',  documento_num_documento ,  num_documento )"border="0" color="0" x="347" y="4" height="72" width="457" format="[general]"  name=c_num_documento  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="2" tabsequence=32766 border="0" color="0" x="855" y="4" height="72" width="517" format="[general]"  name=data_prev_consegna edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="1435" y="12" height="56" width="110" format="[general]"  name=riga_documento_sigla_prezzo visible="1~t0" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.1 alignment="0" text="GRAZIE E CORDIALI SALUTI"border="0" color="0" x="1984" y="104" height="64" width="827"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="~"Stampato il ~"+string(today())"border="0" color="0" x="1147" y="8" height="64" width="791" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="'Pag. ' + page() + ' di ' + pageCount()"border="0" color="0" x="14" y="8" height="64" width="933" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

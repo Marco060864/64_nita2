@@ -1,0 +1,7 @@
+﻿global type s_art_fittizio from structure
+	long		id_articolo
+	long		id_distinta
+	string		tipo_riga
+	string		codice_art
+end type
+

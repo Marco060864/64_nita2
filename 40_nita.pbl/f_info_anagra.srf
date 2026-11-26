@@ -1,0 +1,60 @@
+﻿global type f_info_anagra from function_object
+end type
+
+forward prototypes
+global function string f_info_anagra (long al_id_anagrafica)
+end prototypes
+
+global function string f_info_anagra (long al_id_anagrafica);
+
+string ls_info, ls_Rag_Soc_1, ls_Rag_Soc_2, ls_Ind, ls_CAP, ls_Loc, ls_Prov, ls_Naz, ls_CF, ls_PI
+
+if Not IsNull(al_id_anagrafica) then
+	  SELECT "dba"."anagrafica"."rag_soc_1",   
+				"dba"."anagrafica"."rag_soc_2",   
+				"dba"."anagrafica"."indirizzo",   
+				"dba"."anagrafica"."cap",   
+				"dba"."anagrafica"."localita",   
+				"dba"."anagrafica"."provincia",   
+				"dba"."anagrafica"."nazione",   
+				"dba"."anagrafica"."cod_fiscale",   
+				"dba"."anagrafica"."par_iva"  
+		 INTO :ls_Rag_Soc_1,   
+				:ls_Rag_Soc_2,   
+				:ls_Ind,   
+				:ls_CAP,   
+				:ls_Loc,   
+				:ls_Prov,   
+				:ls_Naz,   
+				:ls_CF,   
+				:ls_PI  
+		 FROM "dba"."anagrafica" 
+		WHERE ( "dba"."anagrafica"."id_anagrafica" = :al_id_anagrafica );
+	
+	CHOOSE CASE SQLCA.SQLCode
+		CASE 0
+			IF IsNull(ls_Rag_Soc_1) THEN ls_Rag_Soc_1 = ""
+			IF IsNull(ls_Rag_Soc_2) THEN ls_Rag_Soc_2 = ""
+			IF IsNull(ls_Ind) THEN ls_Ind = ""
+			IF IsNull(ls_CAP) THEN ls_CAP = ""
+			IF IsNull(ls_Loc) THEN ls_Loc = ""
+			IF IsNull(ls_Prov) THEN ls_Prov = ""
+			IF IsNull(ls_Naz) THEN ls_Naz = ""
+			IF IsNull(ls_PI) THEN ls_PI = ""
+			IF IsNull(ls_CF) THEN ls_CF = ""
+			ls_info = ls_Rag_Soc_1 + " - " + ls_Rag_Soc_2 + "~r" + ls_Ind + "~r" + ls_CAP + &
+				" " + ls_Loc + " " + ls_Prov + " " + ls_Naz + "~rP.I.:" + ls_PI + " - C.F.:" + ls_CF
+		CASE -1
+			ls_info = ""
+			MessageBox("Errore Database -1",SQLCA.SQLErrText)
+		CASE 100
+			ls_info = ""
+			MessageBox("Errore Database 100",SQLCA.SQLErrText)
+	END CHOOSE
+else
+	ls_info = " "
+end if
+
+RETURN ls_info
+end function
+

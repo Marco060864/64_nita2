@@ -1,0 +1,5 @@
+﻿global type s_formula from structure
+	string		formula_name
+	string		formula_string
+end type
+

@@ -1,0 +1,34 @@
+﻿global type f_visible from function_object
+end type
+
+forward prototypes
+global subroutine f_visible (datawindow adw_dwobj, string as_field, boolean ab_status)
+end prototypes
+
+global subroutine f_visible (datawindow adw_dwobj, string as_field, boolean ab_status);
+integer	li_status
+string	ls_label, ls_ricerca, ls_ricerca_obj
+
+IF ab_status THEN
+	li_status = 1
+ELSE
+	li_status = 0
+END IF
+
+ls_label = as_field + "_t"
+
+ls_ricerca = as_field + "_sw"
+
+ls_ricerca_obj = as_field + "_swc"
+
+adw_dwobj.Modify(as_field + ".Visible = " + string(li_status))
+adw_dwobj.Modify(ls_label + ".Visible = " + string(li_status))
+adw_dwobj.Modify(ls_ricerca + ".Visible = " + string(li_status))
+adw_dwobj.Modify(ls_ricerca_obj + ".Visible = " + string(li_status))
+
+IF (NOT ab_status) THEN
+	adw_dwobj.Modify(as_field + ".Width = 0")
+	adw_dwobj.Modify(ls_ricerca_obj + ".Width = 0")
+END IF
+end subroutine
+

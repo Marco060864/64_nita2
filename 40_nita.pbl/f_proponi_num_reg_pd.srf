@@ -1,0 +1,101 @@
+﻿global type f_proponi_num_reg_pd from function_object
+end type
+
+forward prototypes
+global function long f_proponi_num_reg_pd (long al_id_registro, string as_prog_scritture)
+end prototypes
+
+global function long f_proponi_num_reg_pd (long al_id_registro, string as_prog_scritture);
+
+long ll_Ultimo_Num_Reg, ll_RetVal
+decimal ldc_Max_Reg_PD, ldc_Max_Documento, ldc_abs_max, ldc_RetVal
+string ls_Max_Reg_PD, ls_Max_Documento, ls_abs_max
+string ls_tipo_registro
+SetNull(ll_RetVal)
+if as_prog_scritture='N' then
+	IF NOT (IsNull(al_id_registro) OR al_id_registro = 0) THEN
+		SELECT "dba"."registro"."tipo_registro"  
+			INTO :ls_tipo_registro  
+			FROM "dba"."registro"  
+			WHERE "dba"."registro"."id_registro" = :al_id_registro   ;
+			
+		CHOOSE CASE SQLCA.SQLCode
+			CASE 0
+				
+				CHOOSE CASE ls_tipo_registro
+					CASE "PN", "MN"
+						SELECT MAX("dba"."reg_pd"."num_progressivo")
+							INTO :ldc_Max_Reg_PD
+							FROM "dba"."reg_pd"   
+							WHERE "dba"."reg_pd"."id_registro" = :al_id_registro;
+					
+						IF IsNull(ldc_Max_Reg_PD) THEN ldc_Max_Reg_PD = 0
+						ll_RetVal = (ldc_Max_Reg_PD + 1)
+					CASE "IV", "IA", "IC"
+						SELECT MAX("dba"."reg_pd"."prog_globale")
+							INTO :ldc_Max_Reg_PD
+							FROM "dba"."reg_pd"   
+							WHERE "dba"."reg_pd"."id_registro" = :al_id_registro;
+							
+						SELECT MAX("dba"."documento"."prog_globale")
+							INTO :ldc_Max_Documento
+							FROM "dba"."documento"   
+							WHERE "dba"."documento"."id_registro" = :al_id_registro;						
+	
+						ls_Max_Reg_PD = String(ldc_Max_Reg_PD )
+						IF IsNull(ls_Max_Reg_PD) THEN ls_Max_Reg_PD = ""
+	
+						ls_Max_Documento = string(ldc_Max_Documento)
+						IF IsNull(ls_Max_Documento) THEN ls_Max_Documento = ""
+						
+						IF ls_Max_Reg_PD >= ls_Max_Documento THEN
+							ls_abs_max = ls_Max_Reg_PD
+						ELSEIF ls_Max_Documento > ls_Max_Reg_PD THEN
+							ls_abs_max = ls_Max_Documento
+						END IF
+						
+						ldc_RetVal = dec(right(ls_abs_max, 12))
+						IF IsNull(ldc_RetVal) THEN ldc_RetVal = 0
+						ll_RetVal = long(ldc_RetVal) + 1
+					CASE "DV"
+						SELECT MAX("dba"."documento"."prog_globale")
+							INTO :ldc_Max_Documento
+							FROM "dba"."documento"   
+							WHERE "dba"."documento"."id_registro" = :al_id_registro;											
+						IF IsNull(ldc_Max_Documento) THEN ldc_Max_Documento = 0
+						ll_RetVal = (ldc_Max_Documento + 1)						
+				END CHOOSE
+	
+			CASE -1
+				MessageBox("Errore sul DataBase", "f_proponi_num_reg_pd / 1")
+		END CHOOSE
+	
+	END IF
+else
+	SELECT MAX("dba"."reg_pd"."prog_globale")
+		INTO :ldc_Max_Reg_PD
+		FROM "dba"."reg_pd";
+		
+	SELECT MAX("dba"."documento"."prog_globale")
+		INTO :ldc_Max_Documento
+		FROM "dba"."documento";						
+
+	ls_Max_Reg_PD = String(ldc_Max_Reg_PD )
+	IF IsNull(ls_Max_Reg_PD) THEN ls_Max_Reg_PD = ""
+
+	ls_Max_Documento = string(ldc_Max_Documento)
+	IF IsNull(ls_Max_Documento) THEN ls_Max_Documento = ""
+	
+	IF ls_Max_Reg_PD >= ls_Max_Documento THEN
+		ls_abs_max = ls_Max_Reg_PD
+	ELSEIF ls_Max_Documento > ls_Max_Reg_PD THEN
+		ls_abs_max = ls_Max_Documento
+	END IF
+	
+	ldc_RetVal = dec(right(ls_abs_max, 12))
+	IF IsNull(ldc_RetVal) THEN ldc_RetVal = 0
+	ll_RetVal = long(ldc_RetVal) + 1	
+end if
+RETURN ll_RetVal
+end function
+

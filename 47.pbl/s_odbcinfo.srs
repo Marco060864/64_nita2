@@ -1,0 +1,23 @@
+﻿global type s_odbcinfo from structure
+	string		tipo
+	string		name
+	string		agent
+	string		autostop
+	string		databasefile
+	string		databasename
+	string		databaseswitches
+	string		description
+	string		driver
+	string		enginename
+	string		isolationlevel
+	string		keysinsqlstatistics
+	string		lazyautocommit
+	string		preventnotcapable
+	string		pwd
+	string		start_client
+	string		translationdll
+	string		translationname
+	string		translationoption
+	string		uid
+end type
+

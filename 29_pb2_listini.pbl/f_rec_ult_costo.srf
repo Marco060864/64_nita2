@@ -1,0 +1,84 @@
+﻿global type f_rec_ult_costo from function_object
+end type
+
+forward prototypes
+global function decimal f_rec_ult_costo (integer id_unita_confezione, integer ldc_cambio1, integer li_flag)
+end prototypes
+
+global function decimal f_rec_ult_costo (integer id_unita_confezione, integer ldc_cambio1, integer li_flag);
+
+
+long ll_scode				
+decimal{4} 	ldc_val		
+date 			ld_datareg 
+decimal{4}	ldc_tot		
+decimal{4} 	ldc_qta		
+long 			ll_idval		
+decimal{4}	ldc_cambio	
+
+			DECLARE cur_1 CURSOR FOR 
+				    SELECT "documento"."data_registrazione",   
+							"riga_documento"."tot_riga_val_riga",   
+							"riga_documento"."quantita",   
+							"riga_documento"."id_valuta",   
+							"riga_documento"."cambio"  
+					 FROM "documento","riga_documento","caus_magazzino"
+					WHERE ( "riga_documento"."id_documento" = "documento"."id_documento" )
+							AND ("riga_documento"."id_caus_magazzino" = "caus_magazzino"."id_caus_magazzino")
+							AND ("riga_documento"."id_unita_confezione" = :id_unita_confezione)
+							AND ("riga_documento"."tot_riga_val_riga" > 0)
+							AND  ("caus_magazzino"."mp_ult_costo" = 'S') 
+							AND ("riga_documento"."tot_riga_val_riga" > 0)
+						
+				ORDER BY "documento"."data_documento" asc ;
+				
+				DECLARE cur_2 CURSOR FOR 
+				    SELECT "documento"."data_registrazione",   
+							"riga_documento"."tot_riga_val_riga",   
+							"riga_documento"."quantita",   
+							"riga_documento"."id_valuta",   
+							"riga_documento"."cambio"  
+					 FROM "documento","riga_documento","caus_magazzino", articolo
+					WHERE ( "riga_documento"."id_documento" = "documento"."id_documento" )
+							AND ("riga_documento"."id_caus_magazzino" = "caus_magazzino"."id_caus_magazzino")
+							AND ("riga_documento"."id_unita_confezione" = :id_unita_confezione)
+							AND ("riga_documento"."tot_riga_val_riga" > 0)
+							AND  ("caus_magazzino"."mp_ult_costo" = 'S') 
+							AND ("riga_documento"."tot_riga_val_riga" > 0)
+							and ("documento"."id_sog_commerciale"="articolo"."id_sog_commerciale")
+							and ("riga_documento"."id_articolo"="articolo"."id_articolo")
+							
+				ORDER BY "documento"."data_documento" asc ;
+
+				ll_scode =	SQLCA.SQLCode
+				if ll_scode =0 then 
+					if li_flag=1 then
+						open cur_1;
+						fetch cur_1 into :ld_datareg, :ldc_tot, :ldc_qta, :ll_idval, :ldc_cambio;
+					else
+						open cur_2;
+						fetch cur_2 into :ld_datareg, :ldc_tot, :ldc_qta, :ll_idval, :ldc_cambio;
+					end if
+					ll_scode =	SQLCA.SQLCode
+					if li_flag=1 then
+						close cur_1;
+					else
+						close cur_2;
+					end if
+				end if
+					
+				if ll_scode =	0 then
+					
+					
+					
+					if (Ldc_cambio=0) or (ldc_cambio1=0) then
+												ldc_cambio1 = 1
+												ldc_cambio = 1
+					end if
+					ldc_tot		= ldc_tot/ldc_qta
+					ldc_val		= ldc_tot * ldc_cambio/ldc_cambio1
+					
+				end if
+				return ldc_val
+end function
+

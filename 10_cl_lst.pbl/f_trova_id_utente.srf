@@ -1,0 +1,13 @@
+﻿global type f_trova_id_utente from function_object
+end type
+
+forward prototypes
+global function string f_trova_id_utente ()
+end prototypes
+
+global function string f_trova_id_utente ();string ls_utente
+select ut_utente into :ls_utente from dba.utenti where id_utenti= :u_freddie.s_utenti.i_idutente;
+
+return ls_utente
+end function
+

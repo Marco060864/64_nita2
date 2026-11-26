@@ -1,0 +1,50 @@
+﻿global type f_recurse_voci_menu from function_object
+end type
+
+forward prototypes
+global function any f_recurse_voci_menu (long al_id_old, long al_id_padre, string as_chi)
+end prototypes
+
+global function any f_recurse_voci_menu (long al_id_old, long al_id_padre, string as_chi);
+
+long				ll_id_vm[], ll_id_vm_new[]
+long 				ll_id_voci_menu, ll_ret, ll_i, ll_id_new
+
+ll_id_new = f_insert_voci_menu(al_id_old, al_id_padre, as_chi)
+
+if ll_id_new > 0 then
+	declare lcur_voci_menu cursor for
+	  SELECT distinct id_voci_menu
+		 FROM voci_menu
+		 WHERE ( voci_menu.id_voci_menu_padre = :al_id_old )   ;
+	open lcur_voci_menu;
+	if sqlca.sqlcode < 0 then
+		MessageBox ("DataBase Error-1!", sqlca.sqlerrtext, exclamation!)
+		return -1
+	end if 
+	
+	do while sqlca.sqlcode = 0
+		fetch lcur_voci_menu into :ll_id_voci_menu ;
+		if sqlca.sqlcode = 0 then
+			
+			ll_id_vm[UpperBound(ll_id_vm)+1] = ll_id_voci_menu
+		elseif sqlca.sqlcode < 0 then
+			MessageBox ("DataBase Error-2!", sqlca.sqlerrtext, exclamation!)
+			return -1
+		end if
+	loop
+	close lcur_voci_menu;
+	
+	FOR ll_i = 1 TO UpperBound(ll_id_vm)
+		f_recurse_voci_menu(ll_id_vm[ll_i], ll_id_new, "V")
+	NEXT
+else
+	
+	MessageBox("Attenzione", "Inserimento della copia della riga con l'ID " + string(al_id_old) + &
+				" non riuscita.")
+	Return -1
+end if
+
+Return 0
+end function
+

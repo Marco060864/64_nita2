@@ -1,0 +1,23 @@
+﻿global type f_trova_num_data_doc from function_object
+end type
+
+forward prototypes
+global function string f_trova_num_data_doc (long al_id_doc, integer ai_flag)
+end prototypes
+
+global function string f_trova_num_data_doc (long al_id_doc, integer ai_flag);string ls_num
+date ldt_data, ldt_data_prev_consegna
+
+	select num_documento, data_documento, data_prev_consegna
+	into :ls_num, :ldt_data, :ldt_data_prev_consegna
+	from dba.documento
+	where id_documento=:al_id_doc
+	;
+if ai_flag=1 then
+	ls_num="ORD. n. "+ls_num+" del "+string(ldt_data, "dd/mm/yy")
+elseif ai_flag=2 then
+	ls_num=string(ldt_data_prev_consegna,"dd/mm/yy")
+end if
+return ls_num
+end function
+

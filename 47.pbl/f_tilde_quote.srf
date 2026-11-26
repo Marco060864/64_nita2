@@ -1,0 +1,32 @@
+﻿global type f_tilde_quote from function_object
+end type
+
+forward prototypes
+global function string f_tilde_quote (string as_nomec)
+end prototypes
+
+global function string f_tilde_quote (string as_nomec);
+string ls_retval
+integer li_stato
+long ll_lung, ll_i
+char lc_car
+
+ll_lung = len(as_nomec)
+li_stato = 0
+ls_retval = char(126)+char(34)
+for ll_i = 1 to ll_lung
+	lc_car = mid (as_nomec,ll_i,1)
+	choose case li_stato
+		case 0
+			if lc_car = "." then
+				ls_retval = ls_retval + char(126)+char(34)+'.'+char(126)+char(34)
+			else
+				ls_retval = ls_retval+lc_car
+			end if
+	end choose
+next
+ls_retval = ls_retval + char(126)+char(34)
+
+return ls_retval
+end function
+

@@ -1,0 +1,14 @@
+﻿global type s_attrib_testo from structure
+	integer		li_stile
+	integer		li_corpo
+	integer		li_paragrafo
+	string		ls_autosize
+	string		ls_visibile
+	string		ls_formato
+	string		ls_corsivo
+	string		ls_barrato
+	string		ls_sottolineato
+	string		ls_carattere
+	string		ls_ometti_se_zero
+end type
+

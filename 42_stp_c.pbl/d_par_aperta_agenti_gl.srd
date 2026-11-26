@@ -1,0 +1,152 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=96 color="536870912" )
+detail(height=346 color="536870912"  height.autosize=yes)
+table(column=(type=char(40) updatewhereclause=yes name=anagrafica_rag_soc_1 dbname="anagrafica.rag_soc_1" )
+ column=(type=long updatewhereclause=yes identity=yes name=conto_id_conto dbname="conto.id_conto" )
+ column=(type=char(8) updatewhereclause=yes name=conto_codice dbname="conto.codice" )
+ column=(type=char(40) updatewhereclause=yes name=conto_descrizione dbname="conto.descrizione" )
+ column=(type=char(16) updatewhereclause=yes name=par_aperta_num_partita dbname="par_aperta.num_partita" )
+ column=(type=date updatewhereclause=yes name=par_aperta_data_partita dbname="par_aperta.data_partita" )
+ column=(type=decimal(0) updatewhereclause=yes name=par_aperta_importo dbname="par_aperta.importo" )
+ column=(type=decimal(4) updatewhereclause=yes name=par_aperta_imp_valuta dbname="par_aperta.imp_valuta" )
+ column=(type=decimal(0) updatewhereclause=yes name=par_aperta_segno_iva dbname="par_aperta.segno_iva" )
+ column=(type=char(1) updatewhereclause=yes name=par_aperta_chiusa_forzatamente dbname="par_aperta.chiusa_forzatamente" )
+ column=(type=char(1) updatewhereclause=yes name=par_aperta_tipo_fattura dbname="par_aperta.tipo_fattura" )
+ column=(type=long updatewhereclause=yes identity=yes name=par_aperta_id_par_aperta dbname="par_aperta.id_par_aperta" )
+ column=(type=decimal(0) updatewhereclause=yes name=reg_pd_num_progressivo dbname="reg_pd.num_progressivo" )
+ column=(type=date updatewhereclause=yes name=reg_pd_data_registrazione dbname="reg_pd.data_registrazione" )
+ column=(type=char(16) updatewhereclause=yes name=reg_pd_num_documento dbname="reg_pd.num_documento" )
+ column=(type=date updatewhereclause=yes name=reg_pd_data_documento dbname="reg_pd.data_documento" )
+ column=(type=char(40) updatewhereclause=yes name=reg_pd_descrizione dbname="reg_pd.descrizione" )
+ column=(type=char(40) updatewhereclause=yes name=anagrafica_rag_soc_2 dbname="anagrafica.rag_soc_2" )
+ column=(type=char(40) updatewhereclause=yes name=anagrafica_indirizzo dbname="anagrafica.indirizzo" )
+ column=(type=char(10) updatewhereclause=yes name=anagrafica_cap dbname="anagrafica.cap" )
+ column=(type=char(40) updatewhereclause=yes name=anagrafica_localita dbname="anagrafica.localita" )
+ column=(type=char(5) updatewhereclause=yes name=anagrafica_provincia dbname="anagrafica.provincia" )
+ column=(type=char(5) updatewhereclause=yes name=anagrafica_nazione dbname="anagrafica.nazione" )
+ column=(type=char(16) updatewhereclause=yes name=anagrafica_cod_fiscale dbname="anagrafica.cod_fiscale" )
+ column=(type=char(16) updatewhereclause=yes name=anagrafica_par_iva dbname="anagrafica.par_iva" )
+ column=(type=date updatewhereclause=yes name=dat1 dbname="dat1" )
+ column=(type=date updatewhereclause=yes name=dat2 dbname="dat2" )
+ column=(type=decimal(0) updatewhereclause=yes name=saldo_partite dbname="saldo_partite" )
+ column=(type=char(40) updatewhereclause=yes name=azienda_rag_soc_1 dbname="azienda.rag_soc_1" )
+ column=(type=char(40) updatewhereclause=yes name=gruppo_agenti_descrizione dbname="gruppo_agenti.descrizione" )
+ retrieve="  SELECT ~"anagrafica~".~"rag_soc_1~",   
+         ~"conto~".~"id_conto~",   
+         ~"conto~".~"codice~",   
+         ~"conto~".~"descrizione~",   
+         ~"par_aperta~".~"num_partita~",   
+         ~"par_aperta~".~"data_partita~",   
+         ~"par_aperta~".~"importo~",   
+         ~"par_aperta~".~"imp_valuta~",   
+         ~"par_aperta~".~"segno_iva~",   
+         ~"par_aperta~".~"chiusa_forzatamente~",   
+         ~"par_aperta~".~"tipo_fattura~",   
+         ~"par_aperta~".~"id_par_aperta~",   
+         ~"reg_pd~".~"num_progressivo~",   
+         ~"reg_pd~".~"data_registrazione~",   
+         ~"reg_pd~".~"num_documento~",   
+         ~"reg_pd~".~"data_documento~",   
+         ~"reg_pd~".~"descrizione~",   
+         ~"anagrafica~".~"rag_soc_2~",   
+         ~"anagrafica~".~"indirizzo~",   
+         ~"anagrafica~".~"cap~",   
+         ~"anagrafica~".~"localita~",   
+         ~"anagrafica~".~"provincia~",   
+         ~"anagrafica~".~"nazione~",   
+         ~"anagrafica~".~"cod_fiscale~",   
+         ~"anagrafica~".~"par_iva~",   
+         cast(null as date) dat1,   
+         cast(null as date) dat2,   
+         cast(0 as decimal) saldo_partite,   
+         ~"azienda~".~"rag_soc_1~",   
+         ~"gruppo_agenti~".~"descrizione~"  
+    FROM {oj ~"sog_commerciale~"  LEFT OUTER JOIN ~"gruppo_agenti~"  ON ~"sog_commerciale~".~"id_gruppo_agenti~" = ~"gruppo_agenti~".~"id_gruppo_agenti~"},   
+         ~"par_aperta~",   
+         ~"conto~",   
+         ~"anagrafica~",   
+         ~"reg_pd~",   
+         ~"azienda~"  
+   WHERE ( ~"conto~".~"id_conto~" = ~"par_aperta~".~"id_conto~" ) and  
+         ( ~"sog_commerciale~".~"id_conto~" = ~"conto~".~"id_conto~" ) and  
+         ( ~"anagrafica~".~"id_anagrafica~" = ~"sog_commerciale~".~"id_anagrafica~" ) and  
+         ( ~"par_aperta~".~"id_reg_pd~" = ~"reg_pd~".~"id_reg_pd~" ) and  
+         ( ~"reg_pd~".~"id_azienda~" = ~"azienda~".~"id_azienda~" ) and  
+         (  ~"par_aperta~".~"id_par_aperta_padre~" is null ) AND  
+         (~"conto~".~"codice~" >= :rn_conto1 AND  
+         ~"conto~".~"codice~" <= :rn_conto2) AND  
+         (~"par_aperta~".~"data_partita~" >= :rn_dat1 AND  
+         ~"par_aperta~".~"data_partita~" <= :rn_dat2) AND  
+         ~"par_aperta~".~"stato~" = :rn_stato  AND  
+         (~"gruppo_agenti~".~"descrizione~" >= :da_gruppo_agente AND  
+         ~"gruppo_agenti~".~"descrizione~" <= :a_gruppo_agente)    
+" arguments=(("rn_conto1", string),("rn_conto2", string),("rn_dat1", date),("rn_dat2", date),("rn_stato", string),("da_gruppo_agente", string),("a_gruppo_agente", string))  sort="conto_codice A par_aperta_num_partita A " )
+group(level=1 header.height=528 trailer.height=573 by=("conto_id_conto" ) newpage=yes header.color="536870912" trailer.color="536870912" )
+column(band=header.1 id=2 alignment="0" tabsequence=32766 border="0" color="255" x="0" y="579" height="64" width="410" format="[general]"  name=conto_id_conto visible="1~t0" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header.1 alignment="0" text="ID"border="0" color="255" x="435" y="557" height="64" width="238" visible="1~t0"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header.1 alignment="1" text="Codice:"border="0" color="0" x="73" y="173" height="54" width="219"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=3 alignment="0" tabsequence=32766 border="0" color="0" x="311" y="160" height="67" width="340" format="[general]"  name=conto_codice edit.limit=8 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header.1 alignment="1" text="Ragione Sociale:"border="0" color="0" x="73" y="259" height="58" width="421"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=1 alignment="0" tabsequence=32766 border="0" color="0" x="519" y="253" height="64" width="1280" format="[general]"  name=anagrafica_rag_soc_1 edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=18 alignment="0" tabsequence=32766 border="0" color="0" x="1832" y="253" height="64" width="965" format="[general]"  name=anagrafica_rag_soc_2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=19 alignment="0" tabsequence=32766 border="0" color="0" x="508" y="349" height="64" width="1079" format="[general]"  name=anagrafica_indirizzo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=20 alignment="0" tabsequence=32766 border="0" color="0" x="1605" y="349" height="64" width="154" format="[general]"  name=anagrafica_cap edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=21 alignment="0" tabsequence=32766 border="0" color="0" x="1785" y="349" height="64" width="688" format="[general]"  name=anagrafica_localita edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=22 alignment="0" tabsequence=32766 border="0" color="0" x="2498" y="349" height="64" width="135" format="[general]"  name=anagrafica_provincia edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=23 alignment="0" tabsequence=32766 border="0" color="0" x="2662" y="349" height="64" width="135" format="[general]"  name=anagrafica_nazione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header.1 alignment="1" text="Cod.Fiscale:"border="0" color="0" x="128" y="445" height="54" width="366"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=24 alignment="0" tabsequence=32766 border="0" color="0" x="508" y="435" height="64" width="432" format="[general]"  name=anagrafica_cod_fiscale edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header.1 alignment="1" text="Partita IVA:"border="0" color="0" x="973" y="445" height="54" width="322"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=25 alignment="0" tabsequence=32766 border="0" color="0" x="1313" y="435" height="64" width="432" format="[general]"  name=anagrafica_par_iva edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header.1 alignment="1" text="Selezione della stampa dalla Data: "border="0" color="0" x="4" y="16" height="61" width="797"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header.1 alignment="1" text="alla Data: "border="0" color="0" x="1112" y="16" height="61" width="300"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=26 alignment="0" tabsequence=32766 border="0" color="0" x="808" y="13" height="64" width="329" format="dd/mm/yyyy"  name=dat1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=27 alignment="0" tabsequence=32766 border="0" color="0" x="1434" y="13" height="64" width="329" format="dd/mm/yyyy"  name=dat2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=header.1 x1="7" y1="83" x2="1807" y2="83" pen.style="0" pen.width="4" pen.color="0"  background.mode="2" background.color="16777215" )
+column(band=header.1 id=29 alignment="0" tabsequence=32766 border="0" color="0" x="1832" y="77" height="64" width="1291" format="[general]"  name=azienda_rag_soc_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=30 alignment="0" tabsequence=32766 border="0" color="0" x="1832" y="163" height="64" width="1295" format="[general]"  name=gruppo_agenti_descrizione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=detail x1="51" y1="320" x2="3226" y2="320" pen.style="0" pen.width="4" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=detail x1="40" y1="35" x2="40" y2="323" pen.style="0" pen.width="4" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=detail alignment="2" text="RIFERIMENTI CONTABILI"border="0" color="0" x="1335" y="42" height="54" width="918"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="0" text="   Reg. N.  /  Data                        Doc. N.  /  Data "border="0" color="0" x="1371" y="112" height="45" width="772"  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=detail x1="1320" y1="35" x2="1320" y2="323" pen.style="0" pen.width="4" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=detail alignment="2" text="SALDO PARTITA"border="0" color="0" x="2300" y="42" height="54" width="896"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=13 alignment="1" tabsequence=32766 border="0" color="0" x="1386" y="170" height="64" width="146" format="[general]"  name=reg_pd_num_progressivo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=14 alignment="1" tabsequence=32766 border="0" color="0" x="1554" y="170" height="64" width="183" format="dd/mm/yyyy"  name=reg_pd_data_registrazione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="1796" y="163" height="64" width="146" format="[general]"  name=reg_pd_num_documento edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="0" x="1957" y="163" height="64" width="183" format="dd/mm/yyyy"  name=reg_pd_data_documento edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="0" x="1382" y="250" height="64" width="852" format="[general]"  name=reg_pd_descrizione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=detail x1="2264" y1="35" x2="2264" y2="323" pen.style="0" pen.width="4" pen.color="0"  background.mode="2" background.color="16777215" )
+report(band=detail dataobject="d_saldo_partite" x="2300" y="109" height="192" width="896" border="0"  height.autosize=yes criteria="" nest_arguments=(("par_aperta_id_par_aperta")) trail_footer = yes  slideup=directlyabove )
+line(band=detail x1="3226" y1="35" x2="3226" y2="323" pen.style="0" pen.width="4" pen.color="0"  background.mode="2" background.color="16777215" )
+report(band=detail dataobject="d_saldo_mov_partita" x="1382" y="352" height="141" width="1792" border="0"  height.autosize=yes criteria="" nest_arguments=(("par_aperta_id_par_aperta")) trail_footer = yes  slideup=directlyabove )
+report(band=detail dataobject="d_partite_padri" x="51" y="506" height="134" width="1927" border="0"  height.autosize=yes criteria="" nest_arguments=(("par_aperta_id_par_aperta")) trail_footer = yes  slideup=directlyabove )
+report(band=detail dataobject="d_scad_par_aperte" x="51" y="352" height="141" width="1298" border="0"  height.autosize=yes criteria="" nest_arguments=(("par_aperta_id_par_aperta")) trail_footer = yes  slideup=directlyabove )
+text(band=detail alignment="2" text="PARTITA"border="0" color="0" x="55" y="42" height="54" width="1254"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="530" y="659" height="80" width="113" format="[general]"  name=par_aperta_segno_iva visible="1~t0" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="276856960" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="768" y="666" height="67" width="625" format="#,0"  name=par_aperta_importo visible="1~t0" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="276856960" )
+column(band=detail id=6 alignment="2" tabsequence=32766 border="0" color="0" x="823" y="112" height="67" width="410" format="dd/mm/yyyy"  name=par_aperta_data_partita edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Data "border="0" color="0" x="662" y="125" height="54" width="157"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="336" y="112" height="67" width="271" format="[general]"  name=par_aperta_num_partita edit.limit=16 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Num.Partita "border="0" color="0" x="59" y="125" height="54" width="274"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="0" text="Importo"border="0" color="0" x="154" y="227" height="58" width="179"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression=" par_aperta_importo *  par_aperta_segno_iva "border="0" color="0" x="336" y="208" height="80" width="629" format="#,0"  name=imp  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=detail x1="51" y1="32" x2="3226" y2="32" pen.style="0" pen.width="7" pen.color="0"  background.mode="2" background.color="16777215" )
+rectangle(band=trailer.1 x="48" y="9" height="208" width="1766" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="4" pen.color="33554432"  background.mode="2" background.color="0" )
+text(band=trailer.1 alignment="2" text="TOTALE PARTITE"border="0" color="0" x="998" y="80" height="58" width="505"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum( par_aperta_importo *  par_aperta_segno_iva  for group 1)"border="0" color="0" x="336" y="51" height="86" width="629" format="#,0"  name=tot1  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=trailer.1 alignment="0" text="Tot. MOVIMENTI"border="0" color="0" x="1975" y="355" height="58" width="479"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="0" text="Tot. PARTITE"border="0" color="0" x="377" y="355" height="58" width="384"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+report(band=trailer.1 dataobject="d_tot_partite" x="377" y="428" height="134" width="1214" border="0"  height.autosize=yes criteria="" nest_arguments=(("conto_codice")) trail_footer = yes  name=tot_par  slideup=directlyabove )
+report(band=trailer.1 dataobject="d_totale_mov_par" x="1975" y="425" height="134" width="1218" border="0"  height.autosize=yes criteria="" nest_arguments=(("conto_codice")) trail_footer = yes  name=tot_mov  slideup=directlyabove )
+text(band=trailer.1 alignment="1" text="RIEPILOGO PARTITE PER IL CONTO:"border="0" color="0" x="0" y="272" height="58" width="911"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=trailer.1 id=3 alignment="0" tabsequence=32766 border="0" color="0" x="933" y="265" height="70" width="366" format="[general]" edit.limit=8 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=trailer.1 id=28 alignment="1" tabsequence=32766 border="0" color="0" x="2271" y="265" height="64" width="713" format="#,0"  name=saldo_partite edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=trailer.1 alignment="1" text="SALDO CONTABILE PARTITE APERTE:"border="0" color="0" x="1313" y="272" height="58" width="940"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=trailer.1 x1="37" y1="249" x2="3215" y2="249" pen.style="0" pen.width="7" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=trailer.1 x1="37" y1="332" x2="3215" y2="332" pen.style="0" pen.width="4" pen.color="0"  background.mode="2" background.color="276856960" )
+compute(band=footer alignment="0" expression="'Page ' + page() + ' of ' + pageCount()"border="0" color="0" x="51" y="36" height="58" width="464" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="today()"border="0" color="0" x="578" y="36" height="58" width="325" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

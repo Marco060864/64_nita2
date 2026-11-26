@@ -1,0 +1,19 @@
+﻿//objectcomments LaBella: numero con 2 decimali e virgola, senza separatore migliaia (es. 16006,58), qualunque sia il locale di Windows.
+global type f_riep_proforma_labella_num from function_object
+end type
+
+forward prototypes
+global function string f_riep_proforma_labella_num (decimal adc_valore)
+end prototypes
+
+global function string f_riep_proforma_labella_num (decimal adc_valore);//20261015 formato del riepilogo proforma: "1556,60", "16006,58", "0,00"
+//         string(...,"0.00") usa il separatore decimale di Windows: sostituisco il punto
+//         con la virgola cosi' il risultato e' lo stesso su qualunque PC.
+string ls_ret
+
+if isnull(adc_valore) then adc_valore=0
+ls_ret=string(round(adc_valore, 2), "0.00")
+ls_ret=f_sostituisci_carattere(ls_ret, ".", ",")
+return ls_ret
+end function
+

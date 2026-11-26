@@ -1,0 +1,62 @@
+﻿global type f_crea_mov_partita from function_object
+end type
+
+forward prototypes
+global function long f_crea_mov_partita (long al_idpar_aperta, long al_idmov_contabile, long al_idreg_pd, long al_num_riga, date ad_data, decimal adc_importo, string as_note, long al_id_azienda)
+end prototypes
+
+global function long f_crea_mov_partita (long al_idpar_aperta, long al_idmov_contabile, long al_idreg_pd, long al_num_riga, date ad_data, decimal adc_importo, string as_note, long al_id_azienda);
+
+long ll_RetVal, ll_IDMov_Partita, ll_SQL_INSERT, ll_IDAzienda
+ll_RetVal = 0
+
+IF IsNull(al_id_azienda) THEN
+	ll_IDAzienda = 1
+ELSE
+	ll_IDAzienda = al_id_azienda
+END IF
+
+IF al_idpar_aperta > 0 THEN
+	
+	  INSERT INTO "mov_partita"
+				( "id_par_aperta",
+				  "id_mov_contabile",
+				  "id_reg_pd",
+				  "num_riga_mov_contabile",
+				  "data",
+				  "importo",
+				  "note",
+				  "id_azienda" )
+	  VALUES ( :al_IDPar_Aperta,
+				  :al_IDMov_Contabile,
+				  :al_IDReg_PD,
+				  :al_Num_Riga,
+				  :ad_Data,
+				  :adc_Importo,
+				  :as_Note,
+				  :ll_IDAzienda )  ;
+	
+	ll_SQL_INSERT = SQLCA.SQLCode
+	
+	
+	CHOOSE CASE ll_SQL_INSERT
+		CASE 0
+			SELECT "mov_partita"."id_mov_partita"
+				INTO :ll_IDMov_Partita
+				FROM "mov_partita"
+				WHERE "mov_partita"."id_par_aperta"    = :al_IDPar_Aperta AND
+						"mov_partita"."id_mov_contabile" = :al_IDMov_Contabile AND
+						"mov_partita"."id_reg_pd"        = :al_IDReg_PD;
+		CHOOSE CASE SQLCA.SQLCode
+			CASE 0
+				ll_RetVal = ll_IDMov_Partita
+		END CHOOSE
+	
+	END CHOOSE
+ELSE
+	ll_RetVal = 0
+END IF
+
+RETURN ll_RetVal
+end function
+

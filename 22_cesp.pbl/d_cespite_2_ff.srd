@@ -1,0 +1,179 @@
+﻿release 9;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=1792 color="536870912" )
+table(column=(type=long update=yes updatewhereclause=yes key=yes identity=yes name=id_cespite dbname="cespite.id_cespite" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=codice dbname="cespite.codice" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=descrizione dbname="cespite.descrizione" )
+ column=(type=date update=yes updatewhereclause=yes name=data_inizio_utilizzo dbname="cespite.data_inizio_utilizzo" )
+ column=(type=long update=yes updatewhereclause=yes name=id_cat_int_cespite dbname="cespite.id_cat_int_cespite" )
+ column=(type=long update=yes updatewhereclause=yes name=id_ubic_cespite dbname="cespite.id_ubic_cespite" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=stato dbname="cespite.stato" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=tipo_ammortamento dbname="cespite.tipo_ammortamento" )
+ column=(type=long update=yes updatewhereclause=yes name=id_centro_costo dbname="cespite.id_centro_costo" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=bene_usato dbname="cespite.bene_usato" )
+ column=(type=char(32766) update=yes updatewhereclause=no name=note dbname="cespite.note" )
+ column=(type=long update=yes updatewhereclause=yes name=id_azienda dbname="cespite.id_azienda" )
+ column=(type=long update=yes updatewhereclause=yes name=id_cespite_padre dbname="cespite.id_cespite_padre" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=codice dbname="cat_int_cespite.codice" )
+ column=(type=char(80) update=yes updatewhereclause=yes name=descrizione dbname="cat_int_cespite.descrizione" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=codice dbname="ubic_cespite.codice" )
+ column=(type=char(80) update=yes updatewhereclause=yes name=descrizione dbname="ubic_cespite.descrizione" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=valore_acq dbname="cespite.valore_acq" )
+ column=(type=date update=yes updatewhereclause=yes name=rival_data dbname="cespite.rival_data" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=rival_valore dbname="cespite.rival_valore" )
+ column=(type=date update=yes updatewhereclause=yes name=sval_data dbname="cespite.sval_data" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=sval_valore dbname="cespite.sval_valore" )
+ column=(type=char(10) updatewhereclause=yes name=ccod dbname="cod" )
+ column=(type=char(40) updatewhereclause=yes name=cdes dbname="des" )
+ column=(type=decimal(2) updatewhereclause=yes name=amm_normale dbname="cespite.amm_normale" )
+ column=(type=decimal(2) updatewhereclause=yes name=amm_anticipato dbname="cespite.amm_anticipato" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=anni_ammortizzati dbname="cespite.anni_ammortizzati" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=anni_ammortizzabili dbname="cespite.anni_ammortizzabili" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=deduzione dbname="cespite.deduzione" initial="N" values="	S/	F" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=autotraportatori dbname="cespite.autotraportatori" initial="N" values="	S/	N" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=registr_cassa dbname="cespite.registr_cassa" initial="N" values="	S/	N" )
+ column=(type=date update=yes updatewhereclause=yes name=data_inizio_amm dbname="cespite.data_inizio_amm" )
+ column=(type=date update=yes updatewhereclause=yes name=data_fine_amm dbname="cespite.data_fine_amm" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=fondo_amm_norm dbname="cespite.fondo_amm_norm" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=fondo_amm_ant dbname="cespite.fondo_amm_ant" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=tot_perdite dbname="cespite.tot_perdite" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=perd_uso_promiscuo dbname="cespite.perd_uso_promiscuo" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=credito_imposta dbname="cespite.credito_imposta" )
+ column=(type=date update=yes updatewhereclause=yes name=alien_data dbname="cespite.alien_data" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=alien_valore dbname="cespite.alien_valore" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=imp_non_amm dbname="cespite.imp_non_amm" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=plus dbname="cespite.plus" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=minus dbname="cespite.minus" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=quota_amm_prev_norm dbname="cespite.quota_amm_prev_norm" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=quota_amm_prev_antic dbname="cespite.quota_amm_prev_antic" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=sog_contr_manut dbname="cespite.sog_contr_manut" initial="N" values="	S/	N" )
+ column=(type=long update=yes updatewhereclause=yes name=id_valuta dbname="cespite.id_valuta" )
+ column=(type=char(20) updatewhereclause=yes name=matricola dbname="cespite.matricola" )
+ column=(type=decimal(2) updatewhereclause=yes name=amm_particolare dbname="cespite.amm_particolare" )
+ column=(type=char(8) update=yes updatewhereclause=yes name=codice dbname="centro_costo.codice" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=descrizione dbname="centro_costo.descrizione" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=imp_originale dbname="cespite.imp_originale" )
+ column=(type=char(16) updatewhereclause=yes name=cespite_cod_barre dbname="cespite.cod_barre" )
+ retrieve="  SELECT ~"cespite~".~"id_cespite~",   
+         ~"cespite~".~"codice~",   
+         ~"cespite~".~"descrizione~",   
+         ~"cespite~".~"data_inizio_utilizzo~",   
+         ~"cespite~".~"id_cat_int_cespite~",   
+         ~"cespite~".~"id_ubic_cespite~",   
+         ~"cespite~".~"stato~",   
+         ~"cespite~".~"tipo_ammortamento~",   
+         ~"cespite~".~"id_centro_costo~",   
+         ~"cespite~".~"bene_usato~",   
+         ~"cespite~".~"note~",   
+         ~"cespite~".~"id_azienda~",   
+         ~"cespite~".~"id_cespite_padre~",   
+         ~"cat_int_cespite~".~"codice~",   
+         ~"cat_int_cespite~".~"descrizione~",   
+         ~"ubic_cespite~".~"codice~",   
+         ~"ubic_cespite~".~"descrizione~",   
+         ~"cespite~".~"valore_acq~",    
+         ~"cespite~".~"rival_data~",   
+         ~"cespite~".~"rival_valore~",   
+         ~"cespite~".~"sval_data~",   
+         ~"cespite~".~"sval_valore~",     
+         cast(null as char(10)) as cod,   
+         cast(null as char(40)) as des,   
+         ~"cespite~".~"amm_normale~",   
+         ~"cespite~".~"amm_anticipato~",   
+         ~"cespite~".~"anni_ammortizzati~",
+			~"cespite~".~"anni_ammortizzabili~" ,    
+         ~"cespite~".~"deduzione~",   
+         ~"cespite~".~"autotraportatori~",   
+         ~"cespite~".~"registr_cassa~",   
+         ~"cespite~".~"data_inizio_amm~",   
+         ~"cespite~".~"data_fine_amm~",   
+         ~"cespite~".~"fondo_amm_norm~",   
+         ~"cespite~".~"fondo_amm_ant~",   
+         ~"cespite~".~"tot_perdite~",   
+         ~"cespite~".~"perd_uso_promiscuo~",   
+         ~"cespite~".~"credito_imposta~",   
+         ~"cespite~".~"alien_data~",   
+         ~"cespite~".~"alien_valore~",
+         ~"cespite~".~"imp_non_amm~",     
+         ~"cespite~".~"plus~",   
+         ~"cespite~".~"minus~",   
+         ~"cespite~".~"quota_amm_prev_norm~",   
+         ~"cespite~".~"quota_amm_prev_antic~",   
+         ~"cespite~".~"sog_contr_manut~",   
+         ~"cespite~".~"id_valuta~",   
+         ~"cespite~".~"matricola~",   
+         ~"cespite~".~"amm_particolare~",   
+         ~"centro_costo~".~"codice~",   
+         ~"centro_costo~".~"descrizione~",
+         ~"cespite~".~"imp_originale~",
+~"cespite~".~"cod_barre~"
+    FROM {oj {oj ~"cespite~"  LEFT OUTER JOIN ~"ubic_cespite~"  ON ~"cespite~".~"id_ubic_cespite~" = ~"ubic_cespite~".~"id_ubic_cespite~"} LEFT OUTER JOIN ~"centro_costo~"  ON ~"cespite~".~"id_centro_costo~" = ~"centro_costo~".~"id_centro_costo~"},   
+         ~"cat_int_cespite~"  
+   WHERE ( ~"cat_int_cespite~".~"id_cat_int_cespite~" = ~"cespite~".~"id_cat_int_cespite~" ) and  
+         ( ( ~"cespite~".~"id_azienda~" in (0, 1) ) )    
+" update="cespite" updatewhere=2 updatekeyinplace=yes )
+text(band=detail alignment="1" text="Data Fine Amm.to:" border="0" color="0" x="1020" y="48" height="58" width="538" html.valueishtml="0"  name=data_fine_amm_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Data Inizio Amm.to:" border="0" color="0" x="146" y="48" height="58" width="497" html.valueishtml="0"  name=data_inizio_amm_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=32 alignment="0" tabsequence=10 border="5" color="0" x="666" y="48" height="67" width="274" format="dd/mm/yyyy" html.valueishtml="0"  name=data_inizio_amm visible="1" edit.limit=0 edit.case=any edit.format="dd/mm/yyyy" edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=33 alignment="0" tabsequence=20 border="5" color="0" x="1587" y="48" height="67" width="274" format="dd/mm/yyyy" html.valueishtml="0"  name=data_fine_amm visible="1" edit.limit=0 edit.case=any edit.format="dd/mm/yyyy" edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Deduzione:" border="0" color="0" x="66" y="205" height="54" width="311" html.valueishtml="0"  name=deduzione_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=29 alignment="0" tabsequence=50 border="0" color="0" x="384" y="205" height="51" width="48" format="[general]" html.valueishtml="0"  name=deduzione visible="1" checkbox.text="" checkbox.on="S" checkbox.off="F" checkbox.scale=no checkbox.threed=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Autotrasportatori:" border="0" color="0" x="494" y="205" height="54" width="388" html.valueishtml="0"  name=autotraportatori_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=30 alignment="0" tabsequence=60 border="0" color="0" x="892" y="205" height="51" width="44" format="[general]" html.valueishtml="0"  name=autotraportatori visible="1" checkbox.text="" checkbox.on="S" checkbox.off="N" checkbox.scale=no checkbox.threed=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Quota Amm Prev Norm:" border="0" color="0" x="1050" y="205" height="54" width="519" html.valueishtml="0"  name=quota_amm_prev_norm_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=44 alignment="1" tabsequence=30 border="5" color="0" x="1587" y="195" height="70" width="373" format="#,0.00" html.valueishtml="0"  name=quota_amm_prev_norm visible="1" edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=34 alignment="1" tabsequence=32766 border="5" color="0" x="2472" y="195" height="70" width="377" format="#,0.00" html.valueishtml="0"  name=fondo_amm_norm visible="1" edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Fondo Amm Norm:" border="0" color="0" x="2048" y="205" height="54" width="410" html.valueishtml="0"  name=fondo_amm_norm_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Anni Ammortizzati:" border="0" color="0" x="1971" y="48" height="58" width="483" html.valueishtml="0"  name=anni_ammortizzati_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=27 alignment="1" tabsequence=32766 border="5" color="0" x="2480" y="48" height="67" width="139" format="[general]" html.valueishtml="0" protect="0~t1"  name=anni_ammortizzati visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=detail alignment="1" text="Registr Cassa:" border="0" color="0" x="37" y="330" height="54" width="340" html.valueishtml="0"  name=registr_cassa_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=31 alignment="0" tabsequence=70 border="0" color="0" x="384" y="330" height="51" width="48" format="[general]" html.valueishtml="0"  name=registr_cassa visible="1" checkbox.text="" checkbox.on="S" checkbox.off="N" checkbox.scale=no checkbox.threed=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Sog Contr Manut:" border="0" color="0" x="479" y="330" height="54" width="402" html.valueishtml="0"  name=sog_contr_manut_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=46 alignment="0" tabsequence=80 border="0" color="0" x="892" y="330" height="51" width="44" format="[general]" html.valueishtml="0"  name=sog_contr_manut visible="1" checkbox.text="" checkbox.on="S" checkbox.off="N" checkbox.scale=no checkbox.threed=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Quota Amm Prev Antic:" border="0" color="0" x="1046" y="330" height="54" width="519" html.valueishtml="0"  name=quota_amm_prev_antic_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=45 alignment="1" tabsequence=40 border="5" color="0" x="1587" y="320" height="67" width="373" format="#,0.00" html.valueishtml="0"  name=quota_amm_prev_antic visible="1" edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Fondo Amm Ant:" border="0" color="0" x="2048" y="330" height="54" width="410" html.valueishtml="0"  name=fondo_amm_ant_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=35 alignment="1" tabsequence=32766 border="5" color="0" x="2472" y="320" height="67" width="377" format="#,0.00" html.valueishtml="0"  name=fondo_amm_ant visible="1" edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+rectangle(band=detail x="22" y="467" height="758" width="2864"  name=r_1 visible="1" brush.hatch="6" brush.color="78748035" pen.style="0" pen.width="7" pen.color="15780518"  background.mode="2" background.color="78748035" )
+text(band=detail alignment="1" text="Acquisto -" border="0" color="0" x="88" y="512" height="58" width="289" html.valueishtml="0"  name=data_inizio_utilizzo_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Data:" border="0" color="0" x="351" y="512" height="58" width="157" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=110 border="5" color="0" x="530" y="506" height="67" width="274" format="dd/mm/yyyy" html.valueishtml="0"  name=data_inizio_utilizzo visible="1" edit.limit=10 edit.case=any edit.format="dd/mm/yyyy " edit.autoselect=yes edit.nilisnull=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Valore:" border="0" color="0" x="856" y="512" height="58" width="183" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="1" tabsequence=32766 border="5" color="0" x="1061" y="509" height="67" width="377" format="#,0.00" html.valueishtml="0"  name=valore_acq visible="1" edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="2" text="Promemoria  " border="2" color="0" x="1741" y="483" height="74" width="1123" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=detail alignment="1" text="Rivalutazione -" border="0" color="0" x="37" y="634" height="54" width="333" html.valueishtml="0"  name=rival_data_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Data:" border="0" color="0" x="377" y="634" height="54" width="132" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="0" tabsequence=120 border="5" color="0" x="530" y="621" height="67" width="274" format="dd/mm/yyyy" html.valueishtml="0"  name=rival_data visible="1" edit.limit=0 edit.case=any edit.format="dd/mm/yyyy" edit.autoselect=yes edit.nilisnull=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Valore:" border="0" color="0" x="863" y="634" height="54" width="183" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=20 alignment="1" tabsequence=32766 border="5" color="0" x="1061" y="624" height="67" width="377" format="#,0.00" html.valueishtml="0"  name=rival_valore visible="1" edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Svalutazione:" border="0" color="0" x="1518" y="637" height="54" width="311" html.valueishtml="0"  name=sval_data_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Data:" border="0" color="0" x="1832" y="637" height="54" width="135" html.valueishtml="0"  name=t_6 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=21 alignment="0" tabsequence=130 border="5" color="0" x="1986" y="624" height="67" width="249" format="dd/mm/yyyy" html.valueishtml="0"  name=sval_data visible="1" edit.limit=0 edit.case=any edit.format="dd/mm/yyyy" edit.autoselect=yes edit.nilisnull=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Valore:" border="0" color="0" x="2278" y="637" height="54" width="172" html.valueishtml="0"  name=t_7 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="5" color="0" x="2472" y="627" height="70" width="377" format="#,0.00" html.valueishtml="0"  name=sval_valore visible="1" edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Perd Uso Promiscuo:" border="0" color="0" x="2008" y="749" height="54" width="457" html.valueishtml="0"  name=perd_uso_promiscuo_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=37 alignment="1" tabsequence=90 border="5" color="0" x="2472" y="746" height="67" width="377" format="#,0.00" html.valueishtml="0"  name=perd_uso_promiscuo visible="1" edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Importo non amm:" border="0" color="0" x="2041" y="864" height="58" width="421" html.valueishtml="0"  name=t_8 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=41 alignment="1" tabsequence=100 border="5" color="0" x="2472" y="861" height="67" width="377" format="#,0.00" html.valueishtml="0"  name=imp_non_amm visible="1" edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+rectangle(band=detail x="22" y="992" height="234" width="1287"  name=r_2 visible="1" brush.hatch="6" brush.color="78748035" pen.style="0" pen.width="7" pen.color="15780518"  background.mode="2" background.color="78748035" )
+text(band=detail alignment="2" text="Cessione" border="0" color="0" x="80" y="963" height="58" width="282" html.valueishtml="0"  name=t_9 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="78748035" )
+text(band=detail alignment="1" text="Alienazione -" border="0" color="0" x="1485" y="989" height="54" width="347" html.valueishtml="0"  name=alien_data_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Data:" border="0" color="0" x="1840" y="989" height="54" width="132" html.valueishtml="0"  name=t_10 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=39 alignment="0" tabsequence=140 border="5" color="0" x="1986" y="979" height="70" width="249" format="dd/mm/yyyy" html.valueishtml="0"  name=alien_data visible="1" edit.limit=0 edit.case=any edit.format="dd/mm/yyyy" edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Valore:" border="0" color="0" x="2278" y="989" height="54" width="183" html.valueishtml="0"  name=t_11 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=40 alignment="1" tabsequence=32766 border="5" color="0" x="2472" y="986" height="67" width="377" format="#,0.00" html.valueishtml="0"  name=alien_valore visible="1" edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Plus:" border="0" color="0" x="66" y="1072" height="58" width="135" html.valueishtml="0"  name=plus_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=42 alignment="1" tabsequence=150 border="5" color="0" x="223" y="1069" height="67" width="377" format="#,0.00" html.valueishtml="0"  name=plus visible="1" edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=detail alignment="1" text="Minus:" border="0" color="0" x="644" y="1072" height="58" width="194" html.valueishtml="0"  name=minus_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=43 alignment="1" tabsequence=160 border="5" color="0" x="863" y="1069" height="67" width="377" format="#,0.00" html.valueishtml="0"  name=minus visible="1" edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=detail alignment="1" text="Residuo Ammortizzabile:" border="0" color="0" x="1774" y="1130" height="54" width="655" html.valueishtml="0"  name=residuo_da_amm_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+rectangle(band=detail x="2447" y="1091" height="128" width="435"  name=r_3 visible="1" brush.hatch="6" brush.color="24069423" pen.style="0" pen.width="4" pen.color="15780518"  background.mode="2" background.color="0" )
+compute(band=detail alignment="1" expression="if( isNull(valore_acq),0,valore_acq) - if(isNull(fondo_amm_norm),0,fondo_amm_norm)  - if(isNull(fondo_amm_ant),0,fondo_amm_ant)  +  if( isNull(rival_valore),0,rival_valore)  -  if( isNull(sval_valore),0,sval_valore)  - if(isNull(imp_non_amm),0,imp_non_amm) - if(isNull( perd_uso_promiscuo ) , 0 , perd_uso_promiscuo )"border="5" color="0" x="2472" y="1120" height="67" width="377" format="#,0.00" html.valueishtml="0"  name=residuo visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+  

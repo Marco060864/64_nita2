@@ -1,0 +1,274 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 grid.columnmove=no )
+summary(height=3 color="553648127" )
+footer(height=0 color="553648127" )
+detail(height=173 color="536870912" )
+table(column=(type=char(80) updatewhereclause=yes name=c_articolo_des dbname="c_articolo_des" )
+ column=(type=char(1) updatewhereclause=yes name=c_unita_conf_tipo_conversione dbname="c_unita_conf_tipo_conversione" initial="'M'" )
+ column=(type=decimal(0) updatewhereclause=yes name=c_unita_conf_molteplicita dbname="c_unita_conf_molteplicita" initial="1" )
+ column=(type=decimal(0) updatewhereclause=yes name=c_esistenza dbname="c_esistenza" )
+ column=(type=decimal(0) updatewhereclause=yes name=c_disponibilita dbname="c_disponibilita" )
+ column=(type=long updatewhereclause=yes name=c_arrot dbname="c_arrot" initial="0" )
+ column=(type=long update=yes updatewhereclause=yes key=yes identity=yes name=id_riga_documento dbname="id_riga_documento" )
+ column=(type=long update=yes updatewhereclause=yes name=id_documento dbname="id_documento" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=riga_documento_num_riga dbname="num_riga" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_articolo dbname="id_articolo" )
+ column=(type=char(32766) update=yes updatewhereclause=yes name=riga_documento_descrizione dbname="descrizione" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_des_articolo dbname="id_des_articolo" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_unita_confezione dbname="id_unita_confezione" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=quantita dbname="quantita" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=qta_sconto_merce dbname="qta_sconto_merce" initial="0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=qta_evasa dbname="qta_evasa" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_fat_con_unita_base dbname="fat_con_unita_base" initial="1" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=fat_con_globale dbname="fat_con_globale" initial="1" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=qta_un_base dbname="qta_un_base" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=qta_evasa_un_base dbname="qta_evasa_un_base" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_caus_magazzino dbname="id_caus_magazzino" )
+ column=(type=long update=yes updatewhereclause=yes name=id_locazione_1 dbname="id_locazione_1" )
+ column=(type=long update=yes updatewhereclause=yes name=id_locazione_2 dbname="id_locazione_2" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_valuta dbname="id_valuta" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_cambio dbname="cambio" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_listino dbname="id_listino" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_con_lis_articolo dbname="id_con_lis_articolo" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=prezzo dbname="prezzo" initial="0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=sconto dbname="sconto" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_prezzo_netto dbname="prezzo_netto" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_sconto_riga dbname="sconto_riga" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=date update=yes updatewhereclause=yes name=riga_documento_data_prevista_consegna dbname="data_prevista_consegna" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=riga_documento_peso_netto dbname="peso_netto" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=riga_documento_peso_lordo dbname="peso_lordo" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_dim_l dbname="dim_l" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_dim_h dbname="dim_h" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_dim_p dbname="dim_p" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=riga_documento_num_colli dbname="num_colli" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_tab_iva dbname="id_tab_iva" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=provv_agente dbname="provv_agente" validation=" real(gettext())  >= 0 AND  real(gettext())  <= 100" validationmsg="'Immettere un valore fra 0 e 100'" )
+ column=(type=long updatewhereclause=yes name=id_gruppo_agenti dbname="id_gruppo_agenti" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=riga_documento_val_attribuito dbname="val_attribuito" initial="0" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_caus_trasporto dbname="id_caus_trasporto" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=riga_documento_forza_chius_evasione dbname="forza_chius_evasione" initial="N" values="	S/	N" validation=" gettext()  = 'S' OR  gettext()  = 'N'" validationmsg="'Immettere: S, N'" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=riga_documento_sospesa dbname="sospesa" initial="N" values="	S/	N" validation=" gettext()  = 'S' OR  gettext()  = 'N'" validationmsg="'Immettere: S, N'" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=riga_documento_da_stampare dbname="da_stampare" initial="N" values="	S/	N" validation=" gettext()  = 'S' OR  gettext()  = 'N'" validationmsg="'Immettere: S, N'" )
+ column=(type=date update=yes updatewhereclause=yes name=riga_documento_data_inizio_competenza dbname="data_inizio_competenza" )
+ column=(type=date update=yes updatewhereclause=yes name=riga_documento_data_fine_competenza dbname="data_fine_competenza" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=tot_riga_val_riga dbname="tot_riga_val_riga" initial="0" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=tot_riga_val_doc dbname="tot_riga_val_doc" initial="0" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=tot_riga_val_az dbname="tot_riga_val_az" initial="0" )
+ column=(type=long update=yes updatewhereclause=yes name=id_riga_doc_provenienza dbname="id_riga_doc_provenienza" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_conto dbname="id_conto" )
+ column=(type=long update=yes updatewhereclause=yes name=riga_documento_id_azienda dbname="id_azienda" initial="1" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=provv_subage dbname="provv_subage" validation=" real(gettext())  >= 0 AND  real(gettext())  <= 100" validationmsg="'Immettere un valore fra 0 e 100'" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=provv_carea dbname="provv_carea" validation=" real(gettext())  >= 0 AND  real(gettext())  <= 100" validationmsg="'Immettere un valore fra 0 e 100'" )
+ column=(type=char(5) updatewhereclause=yes name=usimbolo dbname="simbolo" )
+ column=(type=char(40) updatewhereclause=yes name=udescrizione dbname="descrizione" )
+ column=(type=char(1) updatewhereclause=yes name=articolo_stato dbname="stato" )
+ column=(type=decimal(0) updatewhereclause=yes name=ccosto_medio dbname="costo_medio" )
+ column=(type=decimal(0) updatewhereclause=yes name=ccosto_ultimo dbname="costo_ultimo" )
+ column=(type=decimal(0) updatewhereclause=yes name=cesistenza_fisica dbname="esistenza_fisica" )
+ column=(type=decimal(0) updatewhereclause=yes name=cmc dbname="cmc" )
+ column=(type=char(4) updatewhereclause=yes name=cod_tipo_partita dbname="cod_tipo_partita" )
+ column=(type=long updatewhereclause=yes name=id_tipo_partita dbname="id_tipo_partita" )
+ column=(type=long updatewhereclause=yes name=id_titolo dbname="id_titolo" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=calo dbname="calo" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=fino dbname="fino" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=prezzo_metallo dbname="prezzo_metallo" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=prezzo_manifattura dbname="prezzo_manifattura" )
+ column=(type=long update=yes updatewhereclause=yes name=id_riga_partita dbname="id_riga_partita" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=coef_calo dbname="coef_calo" )
+ column=(type=decimal(4) updatewhereclause=yes name=conversione_peso_comune dbname="conversione" )
+ column=(type=char(5) updatewhereclause=yes name=unita_misura_b_simbolo dbname="simbolo" )
+ column=(type=char(40) updatewhereclause=yes name=unita_misura_b_descrizione dbname="descrizione" )
+ column=(type=decimal(4) updatewhereclause=yes name=conversione_volume_comune dbname="conversione" )
+ column=(type=decimal(2) updatewhereclause=yes name=conv_misura_peso dbname="conv_misura_peso" )
+ column=(type=char(5) updatewhereclause=yes name=simbolo_mov dbname="simbolo" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_um dbname="tipo" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=sigla_prezzo dbname="sigla_prezzo" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=valoriz_peso_non_prezioso dbname="valoriz_peso_non_prezioso" )
+ column=(type=char(32) updatewhereclause=yes name=codice dbname="codice" )
+ column=(type=char(40) updatewhereclause=yes name=descrizione dbname="descrizione" )
+ column=(type=char(32766) updatewhereclause=no name=des_estesa dbname="des_estesa" )
+ column=(type=char(32) updatewhereclause=yes name=c_articolo_cod dbname="c_articolo_cod" )
+ column=(type=char(40) updatewhereclause=yes name=rag_soc_1 dbname="rag_soc_1" )
+ column=(type=long updatewhereclause=yes name=id_sog_commerciale dbname="id_sog_commerciale" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=qta_ordinata_fo dbname="qta_ordinata_fo" )
+ column=(type=decimal(0) updatewhereclause=yes name=importo dbname="importo" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=ordinato_fo dbname="ordinato_fo" )
+ column=(type=long update=yes updatewhereclause=yes name=id_riga_doc_padre dbname="id_riga_doc_padre" )
+ column=(type=long update=yes updatewhereclause=yes name=id_riga_sorgente dbname="id_riga_sorgente" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=prezzo_complessivo dbname="prezzo_complessivo" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=provv_imp_agente dbname="provv_imp_agente" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=provv_imp_subage dbname="provv_imp_subage" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=provv_imp_carea dbname="provv_imp_carea" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=importo_manifattura dbname="importo_manifattura" )
+ column=(type=char(1) updatewhereclause=yes name=prod_interna dbname="prod_interna" )
+ column=(type=char(1) updatewhereclause=yes name=proponi_prezzo_metallo dbname="proponi_prezzo_metallo" )
+ column=(type=char(1) updatewhereclause=yes name=proponi_prezzo_manifattura dbname="proponi_prezzo_manifattura" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=peso_non_prezioso dbname="peso_non_prezioso" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=peso_netto_evaso dbname="peso_netto_evaso" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=importo_manifattura_val dbname="importo_manifattura_val" )
+ retrieve="  SELECT Cast('' as char(80)) As c_articolo_des,   
+         Cast('' as char(1)) As c_unita_conf_tipo_conversione,   
+         Cast(0 as decimal) As c_unita_conf_molteplicita,   
+         Cast(0 as decimal) As c_esistenza,   
+         Cast(0 as decimal) As c_disponibilita,   
+         Cast(0 as integer) As c_arrot,   
+         ~"riga_documento~".~"id_riga_documento~",   
+         ~"riga_documento~".~"id_documento~",   
+         ~"riga_documento~".~"num_riga~",   
+         ~"riga_documento~".~"id_articolo~",   
+         ~"riga_documento~".~"descrizione~",   
+         ~"riga_documento~".~"id_des_articolo~",   
+         ~"riga_documento~".~"id_unita_confezione~",   
+         ~"riga_documento~".~"quantita~",   
+         ~"riga_documento~".~"qta_sconto_merce~",   
+         ~"riga_documento~".~"qta_evasa~",   
+         ~"riga_documento~".~"fat_con_unita_base~",   
+         ~"riga_documento~".~"fat_con_globale~",   
+         ~"riga_documento~".~"qta_un_base~",   
+         ~"riga_documento~".~"qta_evasa_un_base~",   
+         ~"riga_documento~".~"id_caus_magazzino~",   
+         ~"riga_documento~".~"id_locazione_1~",   
+         ~"riga_documento~".~"id_locazione_2~",   
+         ~"riga_documento~".~"id_valuta~",   
+         ~"riga_documento~".~"cambio~",   
+         ~"riga_documento~".~"id_listino~",   
+         ~"riga_documento~".~"id_con_lis_articolo~",   
+         ~"riga_documento~".~"prezzo~",   
+         ~"riga_documento~".~"sconto~",   
+         ~"riga_documento~".~"prezzo_netto~",   
+         ~"riga_documento~".~"sconto_riga~",   
+         ~"riga_documento~".~"data_prevista_consegna~",   
+         ~"riga_documento~".~"peso_netto~",   
+         ~"riga_documento~".~"peso_lordo~",   
+         ~"riga_documento~".~"dim_l~",   
+         ~"riga_documento~".~"dim_h~",   
+         ~"riga_documento~".~"dim_p~",   
+         ~"riga_documento~".~"num_colli~",   
+         ~"riga_documento~".~"id_tab_iva~",   
+         ~"riga_documento~".~"provv_agente~",   
+         ~"riga_documento~".~"id_gruppo_agenti~",   
+         ~"riga_documento~".~"val_attribuito~",   
+         ~"riga_documento~".~"id_caus_trasporto~",   
+         ~"riga_documento~".~"forza_chius_evasione~",   
+         ~"riga_documento~".~"sospesa~",   
+         ~"riga_documento~".~"da_stampare~",   
+         ~"riga_documento~".~"data_inizio_competenza~",   
+         ~"riga_documento~".~"data_fine_competenza~",   
+         ~"riga_documento~".~"tot_riga_val_riga~",   
+         ~"riga_documento~".~"tot_riga_val_doc~",   
+         ~"riga_documento~".~"tot_riga_val_az~",   
+         ~"riga_documento~".~"id_riga_doc_provenienza~",   
+         ~"riga_documento~".~"id_conto~",   
+         ~"riga_documento~".~"id_azienda~",   
+         ~"riga_documento~".~"provv_subage~",   
+         ~"riga_documento~".~"provv_carea~",   
+         ~"unita_misura_a~".~"simbolo~",   
+         ~"unita_misura_a~".~"descrizione~",   
+         ~"articolo~".~"stato~",   
+         cast(0 as decimal) as costo_medio,   
+         cast(0 as decimal) as costo_ultimo,   
+         cast(0 as decimal) as esistenza_fisica,   
+         cast(0 as decimal) as cmc,   
+         ~"orafo_tipo_partita~".~"cod_tipo_partita~",   
+         ~"orafo_tipo_partita~".~"id_tipo_partita~",   
+         ~"articolo~".~"id_titolo~",   
+         ~"riga_documento~".~"calo~",   
+         ~"riga_documento~".~"fino~",   
+         ~"riga_documento~".~"prezzo_metallo~",   
+         ~"riga_documento~".~"prezzo_manifattura~",   
+         ~"riga_documento~".~"id_riga_partita~",   
+         ~"riga_documento~".~"coef_calo~",   
+         ~"unita_misura_a~".~"conversione~",   
+         ~"unita_misura_b~".~"simbolo~",   
+         ~"unita_misura_b~".~"descrizione~",   
+         ~"unita_misura_b~".~"conversione~",   
+         ~"unita_confezione~".~"conv_misura_peso~",   
+         ~"unita_misura_c~".~"simbolo~",   
+         ~"unita_misura_c~".~"tipo~",   
+         ~"riga_documento~".~"sigla_prezzo~",   
+         ~"riga_documento~".~"valoriz_peso_non_prezioso~",   
+         ~"des_articolo~".~"codice~",   
+         ~"des_articolo~".~"descrizione~",   
+         ~"des_articolo~".~"des_estesa~",   
+         Cast('' as char(32)) As c_articolo_cod,   
+         ~"sog_commerciale_gen~".~"rag_soc_1~",   
+         ~"articolo~".~"id_sog_commerciale~",   
+         ~"riga_documento~".~"qta_ordinata_fo~",   
+         cast(0 as decimal)as importo,   
+         ~"riga_documento~".~"ordinato_fo~",   
+         ~"riga_documento~".~"id_riga_doc_padre~",   
+         ~"riga_documento~".~"id_riga_sorgente~",   
+         ~"riga_documento~".~"prezzo_complessivo~",   
+         ~"riga_documento~".~"provv_imp_agente~",   
+         ~"riga_documento~".~"provv_imp_subage~",   
+         ~"riga_documento~".~"provv_imp_carea~",
+         ~"riga_documento~".~"importo_manifattura~",
+         ~"articolo~".~"prod_interna~",   
+         ~"caus_magazzino~".~"proponi_prezzo_metallo~",   
+         ~"caus_magazzino~".~"proponi_prezzo_manifattura~",
+	   ~"riga_documento~".~"peso_non_prezioso~" ,
+	   ~"riga_documento~".~"peso_netto_evaso~" ,
+	   ~"riga_documento~".~"importo_manifattura_val~" 
+			
+    FROM {oj 
+			 {oj
+			  {oj ~"unita_confezione~"  LEFT OUTER JOIN ~"unita_misura~" unita_misura_a  ON ~"unita_confezione~".~"id_unita_mis_peso~" = ~"unita_misura_a~".~"id_unita_misura~"},
+		     {oj ~"riga_documento~"  LEFT OUTER JOIN ~"caus_magazzino~"  ON ~"riga_documento~".~"id_caus_magazzino~" = ~"caus_magazzino~".~"id_caus_magazzino~"} 
+			 LEFT OUTER JOIN ~"orafo_tipo_partita~"  ON ~"caus_magazzino~".~"id_tipo_partita~" = ~"orafo_tipo_partita~".~"id_tipo_partita~"}, 
+		    {oj ~"unita_confezione~"  LEFT OUTER JOIN ~"unita_misura~" unita_misura_b  ON ~"unita_confezione~".~"id_unita_mis_volume~" = ~"unita_misura_b~".~"id_unita_misura~"}, 
+			 {oj ~"riga_documento~"  LEFT OUTER JOIN ~"unita_confezione~"  ON ~"riga_documento~".~"id_unita_confezione~" = ~"unita_confezione~".~"id_unita_confezione~"} 
+			LEFT OUTER JOIN ~"unita_misura~" unita_misura_c  ON ~"unita_confezione~".~"id_unita_misura~" = ~"unita_misura_c~".~"id_unita_misura~"}, 
+			{oj ~"riga_documento~"  LEFT OUTER JOIN ~"des_articolo~"  ON ~"riga_documento~".~"id_des_articolo~" = ~"des_articolo~".~"id_des_articolo~"}, 
+			{oj ~"articolo~"  LEFT OUTER JOIN ~"sog_commerciale_gen~"  ON ~"articolo~".~"id_sog_commerciale~" = ~"sog_commerciale_gen~".~"id_sog_commerciale~"},
+			{oj ~"riga_documento~" LEFT OUTER JOIN ~"articolo~" ON ~"riga_documento~".~"id_articolo~"=~"articolo~".~"id_articolo~"}
+   WHERE ( ~"riga_documento~".~"id_azienda~" in (0,1) ) AND  
+         (~"riga_documento~".~"id_documento~" = :ra_id_documento)    
+//( ~"articolo~".~"id_articolo~" = ~"riga_documento~".~"id_articolo~" ) and  " update="riga_documento" updatewhere=1 updatekeyinplace=yes arguments=(("ra_id_documento", number))  sort="id_titolo A " )
+group(level=1 header.height=0 trailer.height=99 by=("id_titolo" ) header.color="536870912" trailer.color="536870912" )
+text(band=header alignment="2" text="Nr. Riga"border="0" color="33554432" x="7" y="3" height="112" width="117"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Coef 
+ Calo"border="0" color="0" x="432" y="3" height="112" width="219"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Legato"border="0" color="33554432" x="1342" y="3" height="58" width="271"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Codice
+Articolo"border="0" color="33554432" x="132" y="3" height="112" width="293"  name=c_articolo_cod_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Prezzo
+Manifattura"border="0" color="0" x="1909" y="3" height="112" width="234"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Prezzo
+Complessivo"border="0" color="0" x="1620" y="3" height="112" width="282"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Prezzo
+ Metallo"border="0" color="0" x="2150" y="3" height="112" width="274"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Peso 
+Unitario"border="0" color="0" x="1159" y="3" height="112" width="176"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="U.
+M."border="0" color="0" x="2549" y="3" height="112" width="59"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Iva"border="0" color="0" x="2432" y="3" height="58" width="110"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Misura 
+(cm)"border="0" color="33554432" x="658" y="3" height="112" width="241"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Pezzi"border="0" color="41943040" x="907" y="3" height="112" width="245"  name=quantita_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="If ( IsNull ( id_riga_doc_provenienza ) , If (  qta_evasa >0 , If (  qta_evasa = ( quantita +  qta_sconto_merce ) ,'TE', 'PE') , 'NE') , 'DE' )"border="0" color="33554432" x="2801" y="3" height="90" width="80" format="[general]"  name=c_evasione visible="1~t0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=78 alignment="2" tabsequence=32766 border="0" color="0" x="2549" y="3" height="90" width="59" format="[general]"  name=simbolo_mov edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+column(band=detail id=70 alignment="1" tabsequence=80 border="0" color="0" x="1909" y="3" height="90" width="234" format="#,0.00" protect="0~tif(((( prezzo_complessivo >0) and (not isnull(prezzo_complessivo))or left(simbolo_mov, 1)=~"P~")or (proponi_prezzo_manifattura='N')), 1,0)"  name=prezzo_manifattura edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tif(((( prezzo_complessivo >0) and (not isnull(prezzo_complessivo))or left(simbolo_mov, 1)=~"P~")or (proponi_prezzo_manifattura='N')), 12632256,16777215)" )
+column(band=detail id=35 alignment="1" tabsequence=40 border="0" color="33554432" x="658" y="3" height="90" width="241" format="#,0.00"  name=riga_documento_dim_l edit.limit=0 edit.case=any edit.autoselect=yes edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=14 alignment="1" tabsequence=50 border="0" color="41943040" x="907" y="3" height="90" width="245" format="#,0.00~tif( quantita - int( quantita ) >0,'#,0.00','#,0')"  name=quantita edit.limit=18 edit.case=any edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=72 alignment="1" tabsequence=30 border="0" color="41943040" x="432" y="10" height="90" width="219" format="#,0.00"  name=coef_calo edit.limit=0 edit.case=any edit.autoselect=yes edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=9 alignment="1" tabsequence=10 border="0" color="33554432" x="7" y="3" height="90" width="117" format="[general]"  name=riga_documento_num_riga edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression=" if ( quantita <>0,riga_documento_peso_netto / quantita , 0)"border="0" color="0" x="1159" y="3" height="90" width="176" format="#,0.00"  name=peso_unita  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=85 alignment="0" tabsequence=20 border="0" color="33554432" x="132" y="3" height="90" width="293" format="[general]" protect="0~tIf ( c_evasione='NE' , 0 , 1 )"  name=c_articolo_cod edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=33 alignment="1" tabsequence=60 border="0" color="33554432" x="1342" y="3" height="90" width="271" format="#,0.00"  name=riga_documento_peso_netto edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=93 alignment="1" tabsequence=70 border="0" color="33554432" x="1620" y="3" height="90" width="282" format="#,0.00" protect="0~tif( (prezzo_metallo >0 and not isnull(prezzo_metallo)) or ( prezzo_manifattura >0 and not isnull( prezzo_manifattura )), 1,0 )"  name=prezzo_complessivo edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tif( (prezzo_metallo >0 and not isnull(prezzo_metallo)) or ( prezzo_manifattura >0 and not isnull( prezzo_manifattura )), 12632256,16777215 )" )
+compute(band=detail alignment="0" expression="/*If ( ( (quantita <>0) OR ( qta_sconto_merce <>0) OR ( prezzo<>0) ) AND not (IsNull(  riga_documento_id_tab_iva  ) ),  'V', 'D')*/ If ( ( (quantita <>0) OR ( qta_sconto_merce <>0) OR ( prezzo<>0) ), If (IsNull(  riga_documento_id_tab_iva ) ,  'I', 'V'),'D')"border="0" color="33554432" x="2710" y="3" height="90" width="84" format="[general]"  name=c_riga_valida visible="1~t0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=69 alignment="1" tabsequence=90 border="0" color="0" x="2150" y="3" height="90" width="274" format="#,0.00" protect="0~tif((( prezzo_complessivo >0) and (not isnull(prezzo_complessivo))or left(simbolo_mov, 1)=~"P~"), 1,0)"  name=prezzo_metallo edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tif((( prezzo_complessivo >0) and (not isnull(prezzo_complessivo))or left(simbolo_mov, 1)=~"P~"), 12632256,16777215)" )
+column(band=detail id=39 alignment="0" tabsequence=100 border="0" color="0" x="2432" y="3" height="90" width="110" format="[general]"  name=riga_documento_id_tab_iva dddw.name=d_tab_iva_gd dddw.displaycolumn=codice dddw.datacolumn=id_tab_iva dddw.percentwidth=1000 dddw.lines=0 dddw.limit=0 dddw.allowedit=yes dddw.useasborder=no dddw.case=any dddw.nilisnull=yes dddw.hscrollbar=yes dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="~"~""border="0" color="0" x="2615" y="3" height="99" width="88" format="[general]"  name=obj_3548901  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+bitmap(band=detail filename="S:\pb\commonframework\distinta.bmp" x="4092" y="13" height="80" width="73" border="6"  name=distinta )
+column(band=trailer.1 id=1 alignment="1" tabsequence=32766 border="5" color="0" x="7" y="9" height="70" width="117" format="[general]"  name=id_documento edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=trailer.1 id=2 alignment="1" tabsequence=32766 border="5" color="0" x="7" y="9" height="70" width="117" format="[general]"  name=c_unita_conf_tipo_conversione edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=trailer.1 id=3 alignment="0" tabsequence=32766 border="5" color="0" x="7" y="9" height="70" width="117" format="[general]"  name=cod_tipo_partita edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=trailer.1 id=4 alignment="1" tabsequence=32766 border="5" color="0" x="7" y="9" height="70" width="117" format="[general]"  name=id_tipo_partita edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=trailer.1 id=5 alignment="1" tabsequence=32766 border="5" color="0" x="7" y="9" height="70" width="117" format="[general]"  name=id_titolo edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+compute(band=trailer.1 alignment="0" expression="sum(fino+if(isnull(calo), 0, calo) for group 1)"border="0" color="0" x="132" y="19" height="77" width="293" format="[general]"  name=somma_quantita  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="sum( if( isNull( riga_documento_peso_lordo),0,riga_documento_peso_lordo * conversione_peso_comune  ))"border="0" color="0" x="7" y="202" height="16" width="117" format="[general]"  name=somma_peso_lordo  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="sum( if( isNull(  riga_documento_num_colli  ),0,riga_documento_num_colli  ))"border="0" color="0" x="7" y="234" height="16" width="117" format="[general]"  name=somma_num_colli  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="sum( if( isNull( riga_documento_peso_netto ),0,riga_documento_peso_netto * conversione_peso_comune   ))"border="0" color="0" x="7" y="170" height="16" width="117" format="[general]"  name=somma_peso_netto visible="1~t0"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="sum(if(isnull( riga_documento_dim_l ), 0, riga_documento_dim_l ) *if(isnull( riga_documento_dim_h ), 0, riga_documento_dim_h )*if(isnull( riga_documento_dim_p ), 0,  riga_documento_dim_p )*( conversione_volume_comune ^3)*quantita)"border="0" color="0" x="7" y="314" height="54" width="117" format="[general]"  name=c_volume_totale  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

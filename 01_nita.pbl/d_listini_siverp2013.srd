@@ -1,0 +1,41 @@
+﻿release 9;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no grid.lines=0 )
+header(height=115 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=74 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=variazione_pr_id_variazione dbname="variazione_pr.id_variazione" )
+ column=(type=char(4) updatewhereclause=yes name=listino_pr_codice dbname="listino_pr.codice" )
+ column=(type=long updatewhereclause=yes name=listino_pr_id_listino dbname="listino_pr.id_listino" )
+ column=(type=char(40) updatewhereclause=yes name=listino_pr_descrizione dbname="listino_pr.descrizione" )
+ column=(type=date updatewhereclause=yes name=variazione_pr_data_inizio dbname="variazione_pr.data_inizio" )
+ column=(type=date updatewhereclause=yes name=variazione_pr_data_fine dbname="variazione_pr.data_fine" )
+ column=(type=char(1) updatewhereclause=yes name=listino_pr_tipo dbname="listino_pr.tipo" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"listino_pr~" )  TABLE(NAME=~"variazione_pr~" ) COLUMN(NAME=~"variazione_pr.id_variazione~") COLUMN(NAME=~"listino_pr.codice~") COLUMN(NAME=~"listino_pr.id_listino~") COLUMN(NAME=~"listino_pr.descrizione~") COLUMN(NAME=~"variazione_pr.data_inizio~") COLUMN(NAME=~"variazione_pr.data_fine~") COLUMN(NAME=~"listino_pr.tipo~")    JOIN (LEFT=~"listino_pr.id_listino~"    OP =~"=~"RIGHT=~"variazione_pr.id_listino~" )) "  sort="listino_pr_descrizione A " )
+text(band=header alignment="2" text="Listino Pr
+Codice" border="0" color="33554432" x="7" y="6" height="102" width="201" html.valueishtml="0"  name=listino_pr_codice_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Listino Pr
+Id Listino" border="0" color="33554432" x="216" y="6" height="102" width="263" html.valueishtml="0"  name=listino_pr_id_listino_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Listino Pr
+Descrizione" border="0" color="33554432" x="486" y="6" height="102" width="947" html.valueishtml="0"  name=listino_pr_descrizione_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Variazione Pr
+Id Variazione" border="0" color="33554432" x="1441" y="6" height="102" width="285" html.valueishtml="0"  name=variazione_pr_id_variazione_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Variazione Pr
+Data Inizio" border="0" color="33554432" x="1733" y="6" height="102" width="285" html.valueishtml="0"  name=variazione_pr_data_inizio_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Variazione Pr
+Data Fine" border="0" color="33554432" x="2026" y="6" height="102" width="285" html.valueishtml="0"  name=variazione_pr_data_fine_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Listino Pr
+Tipo" border="0" color="33554432" x="2319" y="6" height="102" width="201" html.valueishtml="0"  name=listino_pr_tipo_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="7" y="7" height="61" width="201" format="[general]" html.valueishtml="0"  name=listino_pr_codice visible="1" edit.limit=4 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="33554432" x="216" y="7" height="61" width="263" format="[general]" html.valueishtml="0"  name=listino_pr_id_listino visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="33554432" x="486" y="7" height="61" width="947" format="[general]" html.valueishtml="0"  name=listino_pr_descrizione visible="1" edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="33554432" x="1441" y="7" height="61" width="285" format="[general]" html.valueishtml="0"  name=variazione_pr_id_variazione visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="33554432" x="1733" y="7" height="61" width="285" format="[general]" html.valueishtml="0"  name=variazione_pr_data_inizio visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="33554432" x="2026" y="7" height="61" width="285" format="[general]" html.valueishtml="0"  name=variazione_pr_data_fine visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="33554432" x="2319" y="7" height="61" width="201" format="[general]" html.valueishtml="0"  name=listino_pr_tipo visible="1" edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+ 

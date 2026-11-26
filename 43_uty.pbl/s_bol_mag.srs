@@ -1,0 +1,9 @@
+﻿global type s_bol_mag from structure
+	date		da_data
+	date		a_data
+	character		tipo
+	string		da_sog
+	string		a_sog
+	string		vis_pz
+end type
+

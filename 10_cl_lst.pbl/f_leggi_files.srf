@@ -1,0 +1,73 @@
+﻿global type f_leggi_files from function_object
+end type
+
+forward prototypes
+global function nvo_file_list f_leggi_files (string as_folder, boolean ab_subfolders)
+end prototypes
+
+global function nvo_file_list f_leggi_files (string as_folder, boolean ab_subfolders);//Basically, to start off with you'll need to create a structure called nvo_file_list.  It only has one item, a string array.
+///*USER OBJECT:  nvo_file_list*/
+//String as_file[]
+//
+//The following is the code from the function...  Let me know if you have any questions, or want the full pbl.
+//
+///*FUNCTION:  uf_get_files( String as_folder, Boolean // )*/
+///*1.)  TRUE - Returns all files of a folder, including subfolders*/
+///*2.)  FALSE - Returns all files of a folder, and only that folder*/
+Long ll_cnt, ll_temp
+nvo_file_list lstr_parms, lstr_temp
+OLEObject obj_shell, obj_folder, obj_items, obj_item
+
+IF DirectoryExists( as_folder ) THEN
+    //initiate the shell object
+    obj_shell = CREATE OLEObject
+    obj_shell.ConnectToNewObject( 'shell.application' )
+
+    IF IsValid( obj_shell ) THEN
+        //assign folder object
+        obj_folder = obj_shell.NameSpace( as_folder )
+        
+        IF IsValid( obj_folder ) THEN
+            //assign objects from that folder
+            obj_items = obj_folder.Items
+            
+            IF IsValid( obj_items ) THEN
+                //loop through items (zero-indexed)
+                FOR ll_cnt = 0 TO obj_items.Count
+                    //assign individual item
+                    obj_item = obj_items.Item( ll_cnt )
+                    
+                    IF IsValid( obj_item ) THEN
+                        //check to see if item is a folder
+                        IF obj_item.IsFolder AND ab_subfolders THEN
+                            //Yup, it's a recursive function!
+                         //   lstr_temp = uf_file_list( obj_item.Path )
+                            
+                            //loop through new files
+                            FOR ll_temp = 1 TO UpperBound( lstr_temp.as_file )
+                                //add to list
+                                lstr_parms.as_file[ UpperBound( lstr_parms.as_file ) + 1 ] = lstr_temp.as_file[ ll_temp ]
+                            NEXT
+                            
+                        ELSE
+                            //add to list
+                            lstr_parms.as_file[ UpperBound( lstr_parms.as_file ) + 1 ] = obj_item.Path
+                            
+                        END IF
+                    END IF
+                NEXT
+            END IF
+        END IF
+    END IF
+END IF
+
+//clear memory
+DESTROY obj_shell
+DESTROY obj_folder
+DESTROY obj_items
+DESTROY obj_item
+
+//return list
+RETURN lstr_parms
+end function
+

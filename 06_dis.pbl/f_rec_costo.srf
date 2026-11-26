@@ -1,0 +1,85 @@
+﻿global type f_rec_costo from function_object
+end type
+
+forward prototypes
+global function decimal f_rec_costo (long articolo, string tcalcolo, string tipo_applicazione, long ll_magazzino, long ll_valuta, long ll_id_sog_commerciale)
+end prototypes
+
+global function decimal f_rec_costo (long articolo, string tcalcolo, string tipo_applicazione, long ll_magazzino, long ll_valuta, long ll_id_sog_commerciale);
+decimal ld_costo
+string ls_costo
+string ls_cod,ls_applicazione
+decimal ld_null
+long ll_null,ll_cat_com,ll_produttore,ll_fornitore, ll_id_UC
+setnull(ll_null)
+setnull(ld_null)
+if ll_id_sog_commerciale>0 then
+else
+	setnull(ll_id_sog_commerciale)
+end if
+
+choose case tcalcolo
+	case 'L'
+		ls_applicazione='P'
+		select codice 
+		into :ls_cod
+		from articolo
+		where id_articolo=:articolo;
+		
+		select id_cat_com_articolo,id_sog_commerciale,id_anagrafica
+		into :ll_cat_com, :ll_fornitore, :ll_produttore
+		from articolo
+		where id_articolo=:articolo;
+		
+		
+select id_unita_confezione
+into :ll_id_UC
+from unita_confezione
+where unita_base='S'
+and id_articolo=:articolo;
+		ls_costo=f_recupera_prezzo(tipo_applicazione,ll_id_UC, ll_id_sog_commerciale,&
+						ll_null, ls_cod, ll_cat_com,	ll_fornitore, ll_produttore,& 
+						ld_null, ls_applicazione, articolo, ll_magazzino, ll_valuta)
+		integer li_pos
+		li_pos=pos(ls_costo,"!")
+		ld_costo=dec(left(ls_costo,li_pos -1))
+							
+	case 'U'
+		date ld_appoggio
+		select r.ult_costo,max(data_ult_costo)
+		into :ld_costo,:ld_appoggio
+		from riepilogo r,azienda
+		where r.id_articolo=:articolo
+		and azienda.id_azienda=1
+		and r.id_esercizio=azienda.id_esercizio
+		and r.id_attivita=azienda.id_attivita
+		and r.id_locazione in (select id_locazione 
+									  from locazione
+									  where id_magazzino=:ll_magazzino)
+		group by r.ult_costo;							
+	case 'M'
+		select sum(val_caricato) / sum(qta_caricata)
+		into :ld_costo
+		from riepilogo r,azienda
+		where r.id_articolo=:articolo
+		and azienda.id_azienda=1
+		and r.id_esercizio=azienda.id_esercizio
+		and r.id_attivita=azienda.id_attivita
+		and r.id_locazione in (select id_locazione 
+									  from locazione
+									  where id_magazzino=:ll_magazzino);
+	case 'C'
+		select cmc 
+		into :ld_costo 
+		from cmc r,azienda
+		where azienda.id_azienda=1
+		and r.id_attivita=azienda.id_attivita
+		and r.id_magazzino=:ll_magazzino
+		and r.id_articolo=:articolo;
+		
+end choose
+
+sqlca.sqlcode=0
+return ld_costo
+end function
+

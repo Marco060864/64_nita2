@@ -1,0 +1,201 @@
+﻿release 6;
+datawindow(units=3 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 635 print.margin.right = 635 print.margin.top = 635 print.margin.bottom = 635 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=7143 color="536870912" )
+summary(height=1005 color="536870912" )
+footer(height=5000 color="536870912" )
+detail(height=0 color="553648127"  height.autosize=yes)
+table(column=(type=long updatewhereclause=yes identity=yes name=id_documento dbname="id_documento" )
+ column=(type=char(16) updatewhereclause=yes name=num_documento dbname="num_documento" )
+ column=(type=date updatewhereclause=yes name=data_documento dbname="data_documento" )
+ column=(type=char(40) updatewhereclause=yes name=asp_beni dbname="asp_beni" )
+ column=(type=char(1) updatewhereclause=yes name=tras_mezzo dbname="tras_mezzo" )
+ column=(type=decimal(0) updatewhereclause=yes name=num_riga dbname="num_riga" )
+ column=(type=char(32766) updatewhereclause=no name=des_riga dbname="des_riga" )
+ column=(type=decimal(4) updatewhereclause=yes name=quantita dbname="quantita" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso_netto dbname="peso_netto" )
+ column=(type=decimal(6) updatewhereclause=yes name=tot_riga_val_riga dbname="tot_riga_val_riga" )
+ column=(type=decimal(2) updatewhereclause=yes name=coef_calo dbname="coef_calo" )
+ column=(type=decimal(6) updatewhereclause=yes name=prezzo_manifattura dbname="prezzo_manifattura" )
+ column=(type=char(40) updatewhereclause=yes name=des_stampa dbname="des_stampa" )
+ column=(type=char(40) updatewhereclause=yes name=rag_soc_1 dbname="rag_soc_1" )
+ column=(type=char(40) updatewhereclause=yes name=rag_soc_2 dbname="rag_soc_2" )
+ column=(type=char(40) updatewhereclause=yes name=indirizzo dbname="indirizzo" )
+ column=(type=char(10) updatewhereclause=yes name=cap dbname="cap" )
+ column=(type=char(40) updatewhereclause=yes name=localita dbname="localita" )
+ column=(type=char(5) updatewhereclause=yes name=provincia dbname="provincia" )
+ column=(type=char(5) updatewhereclause=yes name=nazione dbname="nazione" )
+ column=(type=char(16) updatewhereclause=yes name=cod_fiscale dbname="cod_fiscale" )
+ column=(type=char(16) updatewhereclause=yes name=par_iva dbname="par_iva" )
+ column=(type=char(40) updatewhereclause=yes name=rag_soc_vett dbname="rag_soc_vett" )
+ column=(type=char(40) updatewhereclause=yes name=rag_soc_2_vett dbname="rag_soc_2_vett" )
+ column=(type=char(40) updatewhereclause=yes name=indirizzo_vett dbname="indirizzo_vett" )
+ column=(type=char(10) updatewhereclause=yes name=cap_vett dbname="cap_vett" )
+ column=(type=char(40) updatewhereclause=yes name=localita_vett dbname="localita_vett" )
+ column=(type=char(5) updatewhereclause=yes name=provincia_vett dbname="provincia_vett" )
+ column=(type=char(5) updatewhereclause=yes name=nazione_vett dbname="nazione_vett" )
+ column=(type=char(40) updatewhereclause=yes name=des_cond_pagamento dbname="des_cond_pagamento" )
+ column=(type=char(5) updatewhereclause=yes name=cod_abi dbname="cod_abi" )
+ column=(type=char(40) updatewhereclause=yes name=den_abi dbname="den_abi" )
+ column=(type=char(5) updatewhereclause=yes name=cod_cab dbname="cod_cab" )
+ column=(type=char(40) updatewhereclause=yes name=den_cab dbname="den_cab" )
+ column=(type=char(40) updatewhereclause=yes name=rag_soc_dest dbname="rag_soc_dest" )
+ column=(type=char(40) updatewhereclause=yes name=rag_soc_2_dest dbname="rag_soc_2_dest" )
+ column=(type=char(40) updatewhereclause=yes name=indirizzo_dest dbname="indirizzo_dest" )
+ column=(type=char(10) updatewhereclause=yes name=cap_dest dbname="cap_dest" )
+ column=(type=char(40) updatewhereclause=yes name=localita_dest dbname="localita_dest" )
+ column=(type=char(5) updatewhereclause=yes name=provincia_dest dbname="provincia_dest" )
+ column=(type=char(5) updatewhereclause=yes name=nazione_dest dbname="nazione_dest" )
+ column=(type=char(16) updatewhereclause=yes name=num_doc_origine dbname="num_doc_origine" )
+ column=(type=date updatewhereclause=yes name=data_doc_origine dbname="data_doc_origine" )
+ column=(type=char(32) updatewhereclause=yes name=cod_articolo dbname="cod_articolo" )
+ column=(type=char(5) updatewhereclause=yes name=simbolo dbname="simbolo" )
+ column=(type=char(1) updatewhereclause=yes name=tipo dbname="tipo" )
+ column=(type=char(2) updatewhereclause=yes name=cod_metallo dbname="cod_metallo" )
+ column=(type=decimal(2) updatewhereclause=yes name=titolo dbname="titolo" )
+ column=(type=char(32766) updatewhereclause=no name=note_intestazione dbname="note_intestazione" )
+ column=(type=char(10) updatewhereclause=yes name=num_ns_prot_documenti dbname="num_ns_prot_documenti" )
+ column=(type=date updatewhereclause=yes name=data_ns_prot_documenti dbname="data_ns_prot_documenti" )
+ column=(type=char(10) updatewhereclause=yes name=num_lr_prot_documenti dbname="num_lr_prot_documenti" )
+ column=(type=date updatewhereclause=yes name=data_lr_prot_documenti dbname="data_lr_prot_documenti" )
+ column=(type=char(8) updatewhereclause=yes name=codice dbname="codice" )
+ column=(type=long updatewhereclause=yes name=id_tab_iva dbname="id_tab_iva" )
+ retrieve="  SELECT ~"documento_a~".~"id_documento~",   
+         ~"documento_a~".~"num_documento~",   
+         ~"documento_a~".~"data_documento~",   
+         ~"documento_a~".~"asp_beni~",   
+         ~"documento_a~".~"tras_mezzo~",   
+         ~"riga_documento_a~".~"num_riga~",   
+         ~"riga_documento_a~".~"descrizione~" as des_riga,   
+         ~"riga_documento_a~".~"quantita~",   
+         ~"riga_documento_a~".~"peso_netto~",   
+         ~"riga_documento_a~".~"tot_riga_val_riga~",   
+         ~"riga_documento_a~".~"coef_calo~",   
+         ~"riga_documento_a~".~"prezzo_manifattura~",   
+         ~"prof_documento~".~"des_stampa~",   
+         ~"anagrafica_a~".~"rag_soc_1~",   
+         ~"anagrafica_a~".~"rag_soc_2~",   
+         ~"anagrafica_a~".~"indirizzo~",   
+         ~"anagrafica_a~".~"cap~",   
+         ~"anagrafica_a~".~"localita~",   
+         ~"anagrafica_a~".~"provincia~",   
+         ~"anagrafica_a~".~"nazione~",   
+         ~"anagrafica_a~".~"cod_fiscale~",   
+         ~"anagrafica_a~".~"par_iva~",   
+         ~"anagrafica_b~".~"rag_soc_1~" as rag_soc_vett,   
+         ~"anagrafica_b~".~"rag_soc_2~"as rag_soc_2_vett,   
+         ~"anagrafica_b~".~"indirizzo~"as indirizzo_vett,   
+         ~"anagrafica_b~".~"cap~" as cap_vett,   
+         ~"anagrafica_b~".~"localita~" as localita_vett,   
+         ~"anagrafica_b~".~"provincia~" as provincia_vett,   
+         ~"anagrafica_b~".~"nazione~" as nazione_vett,   
+         ~"con_pagamento~".~"descrizione~" as des_cond_pagamento,   
+         ~"banca_appoggio~".~"cod_abi~" ,   
+         ~"banca_appoggio~".~"den_abi~" ,   
+         ~"banca_appoggio~".~"cod_cab~",   
+         ~"banca_appoggio~".~"den_cab~",   
+         ~"destinazione~".~"rag_soc_1~" as rag_soc_dest,   
+         ~"destinazione~".~"rag_soc_2~" as rag_soc_2_dest,   
+         ~"destinazione~".~"indirizzo~" as indirizzo_dest,   
+         ~"destinazione~".~"cap~" as cap_dest,   
+         ~"destinazione~".~"localita~" as localita_dest,   
+         ~"destinazione~".~"provincia~" as provincia_dest,   
+         ~"destinazione~".~"nazione~" as nazione_dest,   
+         ~"documento_b~".~"num_documento~" as num_doc_origine,   
+         ~"documento_b~".~"data_documento~" as data_doc_origine,   
+         ~"articolo~".~"codice~" as cod_articolo,   
+         ~"unita_misura~".~"simbolo~" ,   
+         ~"unita_misura~".~"tipo~",   
+         ~"orafo_metallo~".~"codice~" as cod_metallo,   
+         ~"orafo_titolo~".~"titolo~",
+			~"documento_a~".~"note_intestazione~",
+			~"sog_commerciale_a~".~"num_ns_prot_documenti~",
+			~"sog_commerciale_a~".~"data_ns_prot_documenti~",
+			~"sog_commerciale_a~".~"num_lr_prot_documenti~",
+			~"sog_commerciale_a~".~"data_lr_prot_documenti~",
+			~"sog_commerciale_a~".~"codice~",
+			~"sog_commerciale_a~".~"id_tab_iva~"
+    FROM {oj {oj {oj {oj {oj {oj {oj ~"documento~" documento_a  LEFT OUTER JOIN ~"con_pagamento~"  ON ~"documento_a~".~"id_con_pagamento~" = ~"con_pagamento~".~"id_con_pagamento~"} LEFT OUTER JOIN ~"banca_sog_commerciale~"  ON ~"documento_a~".~"id_banca_sog_commerciale~" = ~"banca_sog_commerciale~".~"id_banca_sog_commerciale~"} LEFT OUTER JOIN ~"banca_appoggio~"  ON ~"banca_sog_commerciale~".~"id_banca_appoggio~" = ~"banca_appoggio~".~"id_banca_appoggio~"}, {oj ~"documento~" documento_a  LEFT OUTER JOIN ~"destinazione~"  ON ~"documento_a~".~"id_destinazione~" = ~"destinazione~".~"id_destinazione~"}, {oj ~"riga_documento~" riga_documento_b  LEFT OUTER JOIN ~"documento~" documento_b  ON ~"riga_documento_b~".~"id_documento~" = ~"documento_b~".~"id_documento~"}, {oj ~"riga_documento~" riga_documento_a  LEFT OUTER JOIN ~"riga_documento~" riga_documento_b  ON ~"riga_documento_a~".~"id_riga_doc_provenienza~" = ~"riga_documento_b~".~"id_riga_documento~"} LEFT OUTER JOIN ~"articolo~"  ON ~"riga_documento_a~".~"id_articolo~" = ~"articolo~".~"id_articolo~"} LEFT OUTER JOIN ~"unita_confezione~"  ON ~"riga_documento_a~".~"id_unita_confezione~" = ~"unita_confezione~".~"id_unita_confezione~"} LEFT OUTER JOIN ~"unita_misura~"  ON ~"unita_confezione~".~"id_unita_misura~" = ~"unita_misura~".~"id_unita_misura~"}, {oj ~"articolo~"  LEFT OUTER JOIN ~"orafo_titolo~"  ON ~"articolo~".~"id_titolo~" = ~"orafo_titolo~".~"id_titolo~"} LEFT OUTER JOIN ~"orafo_metallo~"  ON ~"orafo_titolo~".~"id_metallo~" = ~"orafo_metallo~".~"id_metallo~"},   
+         ~"sog_commerciale~" ~"sog_commerciale_a~",   
+         ~"anagrafica~" ~"anagrafica_a~",   
+         ~"sog_commerciale~" ~"sog_commerciale_b~",   
+         ~"anagrafica~" ~"anagrafica_b~",   
+         ~"prof_documento~"  
+   WHERE ( ~"riga_documento_a~".~"id_documento~" = ~"documento_a~".~"id_documento~" ) and  
+         ( ~"anagrafica_a~".~"id_anagrafica~" = ~"sog_commerciale_a~".~"id_anagrafica~" ) and  
+         ( ~"documento_a~".~"id_sog_commerciale~" = ~"sog_commerciale_a~".~"id_sog_commerciale~" ) and  
+         ( ~"sog_commerciale_b~".~"id_anagrafica~" *= ~"anagrafica_b~".~"id_anagrafica~" ) and  
+         ( ~"documento_a~".~"id_sog_commerciale_vettore~" *= ~"sog_commerciale_b~".~"id_sog_commerciale~" ) and  
+         ( ~"documento_a~".~"id_prof_documento~" = ~"prof_documento~".~"id_prof_documento~" )    
+			and (~"documento_a~".~"id_documento~"=:rd_doc)" arguments=(("rd_doc", number))  sort="num_riga A " )
+report(band=header dataobject="d_scadenza_gd" x="238" y="4392" height="2037" width="4762" border="0"  height.autosize=yes criteria="" nest_arguments=(("id_documento")) trail_footer = yes  name=d_scadenza_gd  slideleft=yes  slideup=directlyabove )
+rectangle(band=header x="52" y="52" height="6561" width="19499"  name=rett_01  resizeable=1  moveable=1 brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="26" pen.color="33554432"  background.mode="2" background.color="0" )
+text(band=header alignment="0" text="Banca d'Appoggio"border="0" color="0" x="158" y="1402" height="370" width="3095"  name=den_abi_t  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="52" y1="1296" x2="11006" y2="1296"  name=linea_01  resizeable=1  moveable=1 pen.style="0" pen.width="26" pen.color="33554432"  background.mode="2" background.color="16777215" )
+line(band=header x1="52" y1="3016" x2="11006" y2="3016"  name=obj_14302766  resizeable=1  moveable=1 pen.style="0" pen.width="26" pen.color="33554432"  background.mode="2" background.color="16777215" )
+line(band=header x1="11006" y1="52" x2="11006" y2="6588"  name=vert_01  resizeable=1  moveable=1 pen.style="0" pen.width="26" pen.color="33554432"  background.mode="1" background.color="553648127" )
+column(band=header id=31 alignment="0" tabsequence=32766 border="0" color="0" x="185" y="1878" height="449" width="1084" format="[general]"  name=cod_abi  resizeable=1  moveable=1 edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=33 alignment="0" tabsequence=32766 border="0" color="0" x="185" y="2460" height="449" width="1084" format="[general]"  name=cod_cab  resizeable=1  moveable=1 edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=34 alignment="0" tabsequence=32766 border="0" color="0" x="1428" y="2460" height="449" width="9419" format="[general]"  name=den_cab  resizeable=1  moveable=1 edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=32 alignment="0" tabsequence=32766 border="0" color="0" x="1428" y="1878" height="449" width="9419" format="[general]"  name=den_abi  resizeable=1  moveable=1 edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Spett."border="0" color="0" x="11350" y="211" height="423" width="978"  name=rag_soc_1_t  resizeable=1  moveable=1  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Condizioni Pagamento:"border="0" color="0" x="158" y="3122" height="370" width="5212"  name=des_cond_pagamento_t  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="79" y1="4206" x2="11033" y2="4206"  name=obj_14302767  resizeable=1  moveable=1 pen.style="0" pen.width="26" pen.color="33554432"  background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Tipo Documento"border="0" color="0" x="5503" y="3122" height="370" width="5397"  name=des_stampa_t  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=30 alignment="2" tabsequence=32766 border="0" color="0" x="158" y="3624" height="449" width="5212" format="[general]"  name=des_cond_pagamento  resizeable=1  moveable=1 edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=13 alignment="2" tabsequence=32766 border="0" color="0" x="5503" y="3624" height="449" width="5397" format="[general]"  name=des_stampa  resizeable=1  moveable=1 edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Articolo"border="0" color="0" x="105" y="6693" height="370" width="2751"  name=cod_articolo_t  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Descrizione"border="0" color="0" x="2936" y="6693" height="370" width="5847"  name=des_riga_t  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Coef Calo"border="0" color="0" x="8863" y="6693" height="370" width="1455"  name=coef_calo_t  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Titolo"border="0" color="0" x="10398" y="6693" height="370" width="1455"  name=titolo_t  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Pezzi"border="0" color="0" x="11932" y="6693" height="370" width="1613"  name=quantita_t  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Peso"border="0" color="0" x="13626" y="6693" height="370" width="1772"  name=peso_netto_t  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Prezzo"border="0" color="0" x="15531" y="6693" height="370" width="1640"  name=prezzo_manifattura_t  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Importo"border="0" color="0" x="17250" y="6693" height="370" width="2248"  name=tot_riga_val_riga_t  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="if( rag_soc_dest >~"~",  rag_soc_2_dest ,  rag_soc_2 )"border="0" color="0" x="11324" y="1296" height="449" width="7990" format="[general]"  name=c_rag_soc_2  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="if( rag_soc_dest >~"~",  indirizzo_dest ,  indirizzo )"border="0" color="0" x="11324" y="1825" height="449" width="7990" format="[general]"  name=c_indirizzo  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="if( rag_soc_dest >~"~",  localita_dest ,  localita )"border="0" color="0" x="11324" y="2354" height="449" width="7990" format="[general]"  name=c_localita  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="if( rag_soc_dest >~"~",  cap_dest ,  cap )"border="0" color="0" x="11324" y="2910" height="449" width="1428" format="[general]"  name=c_cap  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="if( rag_soc_dest >~"~",  provincia_dest ,  provincia )"border="0" color="0" x="12858" y="2910" height="449" width="1508" format="[general]"  name=c_provincia  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="if( rag_soc_dest >~"~",  nazione_dest ,  nazione )"border="0" color="0" x="14525" y="2910" height="449" width="1508" format="[general]"  name=c_nazione  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="2" expression="if( par_iva >~"~",  par_iva ,  cod_fiscale )"border="0" color="0" x="6217" y="714" height="449" width="4683" format="[general]"  name=c_pi_cf  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cod Fisc./Par. IVA:"border="0" color="0" x="6217" y="211" height="370" width="4683"  name=cod_fiscale_t  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pg/Pgg"border="0" color="0" x="4524" y="211" height="370" width="1613"  name=obj_14302768  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="2" expression="page() + '/' + pageCount()"border="0" color="0" x="4550" y="714" height="449" width="1534" format="[general]"  name=obj_14302769  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=2 alignment="2" tabsequence=32766 border="0" color="0" x="2143" y="714" height="449" width="2301" format="[general]"  name=num_documento  resizeable=1  moveable=1 edit.limit=16 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Num. Fattura:"border="0" color="0" x="2143" y="211" height="370" width="2301"  name=num_documento_t  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Data"border="0" color="0" x="291" y="211" height="370" width="1746"  name=data_documento_t  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=3 alignment="2" tabsequence=32766 border="0" color="0" x="291" y="714" height="449" width="1746" format="[general]"  name=data_documento  resizeable=1  moveable=1 edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="if( rag_soc_dest >~"~",  rag_soc_dest ,  rag_soc_1 )"border="0" color="0" x="11324" y="767" height="449" width="7990" format="[general]"  name=c_rag_soc  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=27 alignment="0" tabsequence=32766 border="0" color="0" x="11324" y="5529" height="449" width="7990" format="[general]"  name=localita_vett  resizeable=1  moveable=1 edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=25 alignment="0" tabsequence=32766 border="0" color="0" x="11324" y="4974" height="449" width="7990" format="[general]"  name=indirizzo_vett  resizeable=1  moveable=1 edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Dati del Vettore:"border="0" color="0" x="11324" y="3889" height="370" width="2725"  name=rag_soc_vett_t visible="1~tif( rag_soc_vett >~"~", 1, 0)"  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=26 alignment="0" tabsequence=32766 border="0" color="0" x="11324" y="6085" height="449" width="1455" format="[general]"  name=cap_vett  resizeable=1  moveable=1 edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=28 alignment="0" tabsequence=32766 border="0" color="0" x="13149" y="6085" height="449" width="793" format="[general]"  name=provincia_vett  resizeable=1  moveable=1 edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=23 alignment="0" tabsequence=32766 border="0" color="0" x="11324" y="4418" height="449" width="7990" format="[general]"  name=rag_soc_vett  resizeable=1  moveable=1 edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=4 alignment="2" tabsequence=32766 border="0" color="0" x="5476" y="4788" height="449" width="5423" format="[general]"  name=asp_beni  resizeable=1  moveable=1 edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="2" expression="if( tras_mezzo =~"M~", ~"MITTENTE~", if(tras_mezzo=~"V~", ~"VETTORE~", ~"DESTINATARIO~"))"border="0" color="0" x="5476" y="6058" height="449" width="5423" format="[general]"  name=c_tras_mezzo  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Aspetto dei Beni"border="0" color="0" x="5476" y="4312" height="370" width="5423"  name=asp_beni_t  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Trasporto a Mezzo:"border="0" color="0" x="5476" y="5582" height="370" width="5423"  name=tras_mezzo_t  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=54 alignment="0" tabsequence=32766 border="0" color="0" x="17303" y="3466" height="370" width="1931" format="[general]"  name=codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Codice Cliente:"border="0" color="0" x="14631" y="3466" height="370" width="2566" visible="1~tif( rag_soc_vett >~"~", 1, 0)"  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=44 alignment="0" tabsequence=32766 border="0" color="0" x="105" y="27" height="449" width="2751" format="[general]"  name=cod_articolo  resizeable=1  moveable=1 edit.limit=32 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="2936" y="27" height="449" width="5847" format="[general]"  name=des_riga  resizeable=1  moveable=1 edit.limit=32000 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="0" color="0" x="8863" y="27" height="449" width="1455" format="[general]"  name=coef_calo  resizeable=1  moveable=1 edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=48 alignment="1" tabsequence=32766 border="0" color="0" x="10398" y="27" height="449" width="1455" format="[general]"  name=titolo  resizeable=1  moveable=1 edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="11932" y="27" height="449" width="1613" format="#,0"  name=quantita visible="1~t if( quantita = 0, 0,1)"  resizeable=1  moveable=1 edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="13626" y="27" height="449" width="1825" format="#,0.00"  name=peso_netto visible="1~t if( peso_netto = 0, 0,1)"  resizeable=1  moveable=1 edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="1" tabsequence=32766 border="0" color="0" x="15531" y="27" height="449" width="1640" format="#,0.00"  name=prezzo_manifattura  resizeable=1  moveable=1 edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="0" color="0" x="17250" y="27" height="449" width="2248" format="[general]"  name=tot_riga_val_riga visible="1~t if( tot_riga_val_riga = 0, 0,1)"  resizeable=1  moveable=1 edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="~"Rif. doc. n. ~"+  num_doc_origine +~" del ~"+string(  data_doc_origine )"border="0" color="0" x="105" y="529" height="370" width="4497" format="[general]"  name=c_doc_origine visible="1~tif(  (num_doc_origine = num_doc_origine[1]or (getrow()=1 and rowcount()>1)) , 0,1)
+"  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=summary id=49 alignment="0" tabsequence=32766 border="0" color="0" x="79" y="503" height="449" width="19288" format="[general]"  name=note_intestazione  resizeable=1  moveable=1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=summary alignment="0" text="Contributo CONAI assolto ove dovuto"border="0" color="0" x="105" y="53" height="370" width="6323"  name=obj_14302776  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+report(band=footer dataobject="d_riep_titoli_gd" x="105" y="2038" height="793" width="11959" border="0"  height.autosize=yes criteria="" nest_arguments=(("id_documento")) trail_footer = yes  name=d_riep_titoli_gd  slideleft=yes  slideup=directlyabove )
+report(band=footer dataobject="d_spese_gd" x="8175" y="318" height="793" width="4577" border="0"  height.autosize=yes criteria="" nest_arguments=(("id_documento")) trail_footer = yes  name=d_spese_gd  slideleft=yes  slideup=directlyabove )
+report(band=footer dataobject="d_tot_man_e_sconti_gd" x="105" y="318" height="793" width="7884" border="0"  height.autosize=yes criteria="" nest_arguments=(("id_documento")) trail_footer = yes  name=d_tot_man_e_sconti_gd  slideleft=yes  slideup=directlyabove )
+rectangle(band=footer x="52" y="0" height="4974" width="19552"  name=obj_2024751  resizeable=1  moveable=1 brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="26" pen.color="33554432"  background.mode="2" background.color="0" )
+report(band=footer dataobject="d_cast_iva_1_gd" x="14313" y="265" height="793" width="5027" border="2"  height.autosize=yes criteria="" nest_arguments=(("id_documento")) trail_footer = yes  name=d_cast_iva_1_gd  slideleft=yes  slideup=directlyabove )
+report(band=footer dataobject="d_cast_iva_totale" x="14261" y="2038" height="793" width="5185" border="0"  height.autosize=yes criteria="" nest_arguments=(("id_documento")) trail_footer = yes  name=d_cast_iva_totale  slideup=directlyabove )
+compute(band=footer alignment="0" expression="~"Operazione non imponibile ai sensi dell'Art. 8 2° C. D.P.R. 633 del 26/10/72 e modifiche successive  come  da Vs. dichiarazione d'intento N. ~"
++ num_lr_prot_documenti +~" del ~"+string(data_lr_prot_documenti )+~"annotata il ~"+ string( data_ns_prot_documenti ) +~" al num.  ~" + num_ns_prot_documenti +~" del ns. registro di cui al D.L. 746 del 29/12/83.~" "border="0" color="0" x="158" y="3810" height="1084" width="19129" format="[general]"  name=c_niart8 visible="1~tif( id_tab_iva =80, 0, 1)"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

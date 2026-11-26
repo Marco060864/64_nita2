@@ -1,0 +1,95 @@
+﻿global type f_get_sql_cond from function_object
+end type
+
+forward prototypes
+global function string f_get_sql_cond (datawindow adw_dw, long al_row, string as_dwcolname[], string as_dbfield[])
+end prototypes
+
+global function string f_get_sql_cond (datawindow adw_dw, long al_row, string as_dwcolname[], string as_dbfield[]);
+
+long ll_i, ll_value
+string ls_RetVal = "", ls_coltype, ls_value
+date ld_value
+datetime ldt_value
+decimal ldc_value
+time lt_value
+
+CONSTANT STRING LCS_AND = " AND "
+CONSTANT STRING LCS_OP = "("
+CONSTANT STRING LCS_CP = ")"
+
+FOR ll_i = 1 TO UpperBound(as_dwcolname)
+	adw_dw.AcceptText()	
+	ls_coltype = string(adw_dw.Describe(as_dwcolname[ll_i] + ".coltype"))
+	
+	IF pos(ls_coltype, "char") > 0 THEN ls_coltype = "char"
+	IF pos(ls_coltype, "decimal") > 0 THEN ls_coltype = "decimal"
+	
+	CHOOSE CASE ls_coltype
+		CASE "char"
+			ls_value = adw_dw.GetItemString(al_row, as_dwcolname[ll_i])
+			
+			IF String(ls_value) <> "" THEN
+				IF ls_RetVal = "" THEN
+					ls_RetVal = LCS_OP + as_dbfield[ll_i] + " LIKE '" + ls_value + "%'" + LCS_CP
+				ELSE
+					ls_RetVal = ls_RetVal + LCS_AND + LCS_OP + as_dbfield[ll_i] + " LIKE '" + ls_value + "%'" + LCS_CP
+				END IF
+			END IF
+		CASE "datetime"
+			ldt_value = adw_dw.GetItemDateTime(al_row, as_dwcolname[ll_i])
+			
+			IF String(ldt_value) <> "" THEN
+				IF ls_RetVal = "" THEN
+					ls_RetVal = LCS_OP + as_dbfield[ll_i] + " = " + string(ldt_value) + LCS_CP
+				ELSE
+					ls_RetVal = ls_RetVal + LCS_AND + LCS_OP + as_dbfield[ll_i] + " = " + string(ldt_value) + LCS_CP
+				END IF
+			END IF
+		CASE "date"
+			ld_value = adw_dw.GetItemDate(al_row, as_dwcolname[ll_i])
+			
+			IF String(ld_value) <> "" THEN
+				IF ls_RetVal = "" THEN
+					ls_RetVal = LCS_OP + as_dbfield[ll_i] + " = '" + string(ld_value, "yyyy/mm/dd") + "'" + LCS_CP
+				ELSE
+					ls_RetVal = ls_RetVal + LCS_AND + LCS_OP + as_dbfield[ll_i] + " = '" + string(ld_value, "yyyy/mm/dd") + "'" + LCS_CP
+				END IF
+			END IF
+		CASE "decimal"
+			ldc_value = adw_dw.GetItemDecimal(al_row, as_dwcolname[ll_i])
+			
+			IF String(ldc_value) <> "" THEN
+				IF ls_RetVal = "" THEN
+					ls_RetVal = LCS_OP + as_dbfield[ll_i] + " = " + string(ldc_value) + LCS_CP
+				ELSE
+					ls_RetVal = ls_RetVal + LCS_AND + LCS_OP + as_dbfield[ll_i] + " = " + string(ldc_value) + LCS_CP
+				END IF
+			END IF
+		CASE "number"
+			ll_value = adw_dw.GetItemNumber(al_row, as_dwcolname[ll_i])
+			
+			IF String(ll_value) <> "" THEN
+				IF ls_RetVal = "" THEN
+					ls_RetVal = LCS_OP + as_dbfield[ll_i] + " = " + string(ll_value) + LCS_CP
+				ELSE
+					ls_RetVal = ls_RetVal + LCS_AND + LCS_OP + as_dbfield[ll_i] + " = " + string(ll_value) + LCS_CP
+				END IF
+			END IF
+		CASE "time"
+			lt_value = adw_dw.GetItemTime(al_row, as_dwcolname[ll_i])
+			
+			IF String(lt_value) <> "" THEN
+				IF ls_RetVal = "" THEN
+					ls_RetVal = LCS_OP + as_dbfield[ll_i] + " = " + string(lt_value) + LCS_CP
+				ELSE
+					ls_RetVal = ls_RetVal + LCS_AND + LCS_OP + as_dbfield[ll_i] + " = " + string(lt_value) + LCS_CP
+				END IF
+			END IF
+	END CHOOSE
+
+NEXT
+
+RETURN ls_RetVal
+end function
+

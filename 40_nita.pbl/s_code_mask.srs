@@ -1,0 +1,5 @@
+﻿global type s_code_mask from structure
+	string		s_mask
+	string		s_initial
+end type
+

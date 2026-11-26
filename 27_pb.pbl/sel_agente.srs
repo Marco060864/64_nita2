@@ -1,0 +1,5 @@
+﻿global type sel_agente from structure
+	string		da_agente
+	string		a_agente
+end type
+

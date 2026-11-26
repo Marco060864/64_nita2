@@ -1,0 +1,98 @@
+﻿release 5;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=105 color="536870912" )
+table(column=(type=long updatewhereclause=yes key=yes identity=yes name=id_i_fronte dbname="intra_frontespizio_input.id_i_fronte" )
+ column=(type=long updatewhereclause=yes name=id_azienda dbname="intra_frontespizio_input.id_azienda" )
+ column=(type=decimal(0) updatewhereclause=yes name=mese dbname="intra_frontespizio_input.mese" )
+ column=(type=decimal(0) updatewhereclause=yes name=trimestre dbname="intra_frontespizio_input.trimestre" )
+ column=(type=decimal(0) updatewhereclause=yes name=anno dbname="intra_frontespizio_input.anno" )
+ column=(type=decimal(0) updatewhereclause=yes name=rif_disk dbname="intra_frontespizio_input.rif_disk" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_riepilogo dbname="intra_frontespizio_input.tipo_riepilogo" )
+ column=(type=char(40) updatewhereclause=yes name=cogn_nome_delegato dbname="intra_frontespizio_input.cogn_nome_delegato" )
+ column=(type=char(16) updatewhereclause=yes name=codice_fiscale dbname="intra_frontespizio_input.codice_fiscale" )
+ column=(type=decimal(0) updatewhereclause=yes name=tot_sez1 dbname="intra_frontespizio_input.tot_sez1" )
+ column=(type=decimal(0) updatewhereclause=yes name=tot_rig_sez1 dbname="intra_frontespizio_input.tot_rig_sez1" )
+ column=(type=char(40) updatewhereclause=yes name=cognome_nome dbname="intra_frontespizio_input.cognome_nome" )
+ column=(type=decimal(0) updatewhereclause=yes name=amm_compl_sez1 dbname="intra_frontespizio_input.amm_compl_sez1" )
+ column=(type=date updatewhereclause=yes name=data_nascita dbname="intra_frontespizio_input.data_nascita" )
+ column=(type=decimal(0) updatewhereclause=yes name=tot_sez2 dbname="intra_frontespizio_input.tot_sez2" )
+ column=(type=char(1) updatewhereclause=yes name=sesso dbname="intra_frontespizio_input.sesso" )
+ column=(type=char(40) updatewhereclause=yes name=comune_nascita dbname="intra_frontespizio_input.comune_nascita" )
+ column=(type=decimal(0) updatewhereclause=yes name=tot_rig_sez2 dbname="intra_frontespizio_input.tot_rig_sez2" )
+ column=(type=decimal(0) updatewhereclause=yes name=amm_compl_sez2 dbname="intra_frontespizio_input.amm_compl_sez2" )
+ column=(type=char(5) updatewhereclause=yes name=prov dbname="intra_frontespizio_input.prov" )
+ column=(type=date updatewhereclause=yes name=data dbname="intra_frontespizio_input.data" )
+ column=(type=char(16) updatewhereclause=yes name=telefono dbname="intra_frontespizio_input.telefono" )
+ column=(type=char(40) updatewhereclause=yes name=denominazione dbname="intra_frontespizio_input.denominazione" )
+ column=(type=char(16) updatewhereclause=yes name=telefono_ditta dbname="intra_frontespizio_input.telefono_ditta" )
+ column=(type=char(40) updatewhereclause=yes name=domicilio_fiscale dbname="intra_frontespizio_input.domicilio_fiscale" )
+ column=(type=decimal(0) updatewhereclause=yes name=cap dbname="intra_frontespizio_input.cap" )
+ column=(type=char(40) updatewhereclause=yes name=comune dbname="intra_frontespizio_input.comune" )
+ column=(type=char(2) updatewhereclause=yes name=provincia dbname="intra_frontespizio_input.provincia" )
+ column=(type=char(1) updatewhereclause=yes name=casella1 dbname="intra_frontespizio_input.casella1" )
+ column=(type=char(1) updatewhereclause=yes name=casella2 dbname="intra_frontespizio_input.casella2" )
+ column=(type=decimal(0) updatewhereclause=yes name=iva_delegato dbname="intra_frontespizio_input.iva_delegato" )
+ column=(type=char(16) updatewhereclause=yes name=telefono_delegato dbname="intra_frontespizio_input.telefono_delegato" )
+ column=(type=char(40) updatewhereclause=yes name=dom_fisc_delegato dbname="intra_frontespizio_input.dom_fisc_delegato" )
+ column=(type=decimal(0) updatewhereclause=yes name=cap_delegato dbname="intra_frontespizio_input.cap_delegato" )
+ column=(type=char(40) updatewhereclause=yes name=comune_delegato dbname="intra_frontespizio_input.comune_delegato" )
+ column=(type=char(2) updatewhereclause=yes name=prov_delegato dbname="intra_frontespizio_input.prov_delegato" )
+ column=(type=char(1) updatewhereclause=yes name=riepilogo dbname="intra_frontespizio_input.riepilogo" )
+ column=(type=char(11) updatewhereclause=yes name=partita_iva dbname="intra_frontespizio_input.partita_iva" )
+ column=(type=date updatewhereclause=yes name=da_data1 dbname="intra_frontespizio_input.da_data1" )
+ column=(type=date updatewhereclause=yes name=a_data1 dbname="intra_frontespizio_input.a_data1" )
+ retrieve="    SELECT ~"intra_frontespizio_input~".~"id_i_fronte~",   
+         ~"intra_frontespizio_input~".~"id_azienda~",   
+         ~"intra_frontespizio_input~".~"mese~",   
+         ~"intra_frontespizio_input~".~"trimestre~",   
+         ~"intra_frontespizio_input~".~"anno~",   
+         ~"intra_frontespizio_input~".~"rif_disk~",   
+         ~"intra_frontespizio_input~".~"tipo_riepilogo~",   
+         ~"intra_frontespizio_input~".~"cogn_nome_delegato~",   
+         ~"intra_frontespizio_input~".~"codice_fiscale~",   
+         ~"intra_frontespizio_input~".~"tot_sez1~",   
+         ~"intra_frontespizio_input~".~"tot_rig_sez1~",   
+         ~"intra_frontespizio_input~".~"cognome_nome~",   
+         ~"intra_frontespizio_input~".~"amm_compl_sez1~",   
+         ~"intra_frontespizio_input~".~"data_nascita~",   
+         ~"intra_frontespizio_input~".~"tot_sez2~",   
+         ~"intra_frontespizio_input~".~"sesso~",   
+         ~"intra_frontespizio_input~".~"comune_nascita~",   
+         ~"intra_frontespizio_input~".~"tot_rig_sez2~",   
+         ~"intra_frontespizio_input~".~"amm_compl_sez2~",   
+         ~"intra_frontespizio_input~".~"prov~",   
+         ~"intra_frontespizio_input~".~"data~",   
+         ~"intra_frontespizio_input~".~"telefono~",   
+         ~"intra_frontespizio_input~".~"denominazione~",   
+         ~"intra_frontespizio_input~".~"telefono_ditta~",   
+         ~"intra_frontespizio_input~".~"domicilio_fiscale~",   
+         ~"intra_frontespizio_input~".~"cap~",   
+         ~"intra_frontespizio_input~".~"comune~",   
+         ~"intra_frontespizio_input~".~"provincia~",   
+         ~"intra_frontespizio_input~".~"casella1~",   
+         ~"intra_frontespizio_input~".~"casella2~",   
+         ~"intra_frontespizio_input~".~"iva_delegato~",   
+         ~"intra_frontespizio_input~".~"telefono_delegato~",   
+         ~"intra_frontespizio_input~".~"dom_fisc_delegato~",   
+         ~"intra_frontespizio_input~".~"cap_delegato~",   
+         ~"intra_frontespizio_input~".~"comune_delegato~",   
+         ~"intra_frontespizio_input~".~"prov_delegato~",   
+         ~"intra_frontespizio_input~".~"riepilogo~",   
+         ~"intra_frontespizio_input~".~"partita_iva~",   
+         ~"intra_frontespizio_input~".~"da_data1~",   
+         ~"intra_frontespizio_input~".~"a_data1~"  
+    FROM ~"intra_frontespizio_input~"   
+" update="intra_frontespizio_input" updatewhere=0 updatekeyinplace=no )
+text(band=detail alignment="1" text="Mese:"border="0" color="32768" x="1~tif( tipo_riepilogo= 'M', 14, 3000 )" y="20" height="57" width="270"  name=mese_t visible="1~tif( tipo_riepilogo= 'M', 1, 3000 )"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Partita Iva:"border="0" color="32768" x="691" y="20" height="57" width="257"  name=partita_iva_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Trimestre:"border="0" color="32768" x="1692~tif( tipo_riepilogo= 'T', 14, 3000 )" y="20" height="57" width="270"  name=trimestre_t visible="1~tif( tipo_riepilogo= 'T', 1, 0 )"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Anno:"border="0" color="32768" x="2140~tif( tipo_riepilogo= 'A', 14, 3000 )" y="20" height="57" width="270"  name=anno_t visible="1~tif( tipo_riepilogo= 'A', 1, 0 )"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=38 alignment="0" tabsequence=32766 border="5" color="0" x="965" y="20" height="69" width="481" format="[general]"  name=partita_iva edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="5" color="0" x="289" y="20" height="69" width="97" format="[general]"  name=mese visible="1~tif( tipo_riepilogo= 'M', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="5" color="0" x="1980~tif( tipo_riepilogo= 'T', 289, 3000 )" y="20" height="69" width="97" format="[general]"  name=trimestre visible="1~tif( tipo_riepilogo= 'T', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="5" color="0" x="2433~tif( tipo_riepilogo= 'A', 289, 3000 )" y="20" height="69" width="97" format="[general]"  name=anno visible="1~tif( tipo_riepilogo= 'A', 1, 0 )" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="1477" y="8" height="77" width="133" format="[general]"  name=id_i_fronte visible="1~t0" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+  

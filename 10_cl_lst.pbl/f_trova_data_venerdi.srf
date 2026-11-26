@@ -1,0 +1,39 @@
+﻿global type f_trova_data_venerdi from function_object
+end type
+
+forward prototypes
+global function date f_trova_data_venerdi (date adt_data_sped_k)
+end prototypes
+
+global function date f_trova_data_venerdi (date adt_data_sped_k);//passo il numero del giorno e mi rende la data del fine settimana (venerdì
+date ldt_data_inizio, ldt_data_fine
+integer li_gg, li_anno, li_zero
+string ls_ult_2_cifre
+
+li_gg=daynumber(adt_data_sped_k)
+choose case li_gg
+	case 2 //lunedì
+		ldt_data_inizio=adt_data_sped_k
+		ldt_data_fine=relativedate(adt_data_sped_k, 4)
+	case 3
+		ldt_data_inizio=relativedate(adt_data_sped_k, -1)
+		ldt_data_fine=relativedate(adt_data_sped_k, 3)
+	case 4
+		ldt_data_inizio=relativedate(adt_data_sped_k, -2)
+		ldt_data_fine=relativedate(adt_data_sped_k, 2)
+	case 5
+		ldt_data_inizio=relativedate(adt_data_sped_k, -3)
+		ldt_data_fine=relativedate(adt_data_sped_k, 1)
+	case 6  //venerdì
+		ldt_data_inizio=relativedate(adt_data_sped_k, -4)
+		ldt_data_fine=adt_data_sped_k
+end choose
+//li_anno= year(adt_data_sped_k)
+//ls_ult_2_cifre=right(string(li_anno), 2)
+//li_zero=integer(ls_ult_2_cifre)
+//if mod(li_zero, 4)=0 and month(adt_data_sped_k)=2 and day(adt_data_sped_k)>22 then
+//	ldt_data_fine=relativedate(ldt_data_fine, -1)
+//end if
+return ldt_data_fine
+end function
+

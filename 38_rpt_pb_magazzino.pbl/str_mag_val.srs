@@ -1,0 +1,7 @@
+﻿global type str_mag_val from structure
+	string		filtro
+	string		parametri
+	date		data
+	character		costo
+end type
+

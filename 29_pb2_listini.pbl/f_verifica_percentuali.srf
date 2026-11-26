@@ -1,0 +1,31 @@
+﻿global type f_verifica_percentuali from function_object
+end type
+
+forward prototypes
+global function integer f_verifica_percentuali (string as_dato)
+end prototypes
+
+global function integer f_verifica_percentuali (string as_dato);
+integer li_flag=0, i
+boolean lb_flag
+for i= 1 to len(as_dato)
+	if li_flag=0 then
+		if mid(as_dato, i, 1)='+' or mid(as_dato, i, 1)='-' then
+			li_flag=1
+		else
+			return 0
+		end if
+	elseif li_flag=2 then
+		if mid(as_dato, i, 1)='+' or mid(as_dato, i, 1)='-' then li_flag=1
+	else
+		lb_flag=match(mid(as_dato, i, 1), "^[0-9]")
+		if lb_flag=false then 
+			return 0
+		else
+			if li_flag=1 then li_flag=2 else li_flag=0
+		end if
+	end if
+next
+return 1
+end function
+

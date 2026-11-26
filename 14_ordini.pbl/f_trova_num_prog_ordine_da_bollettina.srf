@@ -1,0 +1,33 @@
+﻿global type f_trova_num_prog_ordine_da_bollettina from function_object
+end type
+
+forward prototypes
+global function long f_trova_num_prog_ordine_da_bollettina (long al_id_bollettina)
+end prototypes
+
+global function long f_trova_num_prog_ordine_da_bollettina (long al_id_bollettina);long ll_num_prog, ll_id_riga_ordine
+integer li_num_riga
+
+
+select min(num_riga)
+into :li_num_riga
+from dba.riga_documento
+where id_documento=:al_id_bollettina
+;
+
+select provv_imp_subage_2
+into :ll_id_riga_ordine
+from dba.riga_documento
+where id_documento=:al_id_bollettina
+and num_riga=:li_num_riga
+;
+
+select num_progressivo
+into :ll_num_prog
+from dba.documento d, dba.riga_documento r
+where r.id_DOCUMENTO=d.id_documento
+and r.id_riga_documento= :ll_id_riga_ordine
+;
+return ll_num_prog
+end function
+

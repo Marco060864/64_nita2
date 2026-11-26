@@ -1,0 +1,24 @@
+﻿global type f_converti_in_fino from function_object
+end type
+
+forward prototypes
+global function decimal f_converti_in_fino (decimal ad_qta_legato, long al_id_titolo)
+end prototypes
+
+global function decimal f_converti_in_fino (decimal ad_qta_legato, long al_id_titolo);decimal{4} ld_fino, ld_titolo
+if al_id_titolo=0 then return 0
+select titolo
+into :ld_titolo
+from orafo_titolo
+where id_titolo=:al_id_titolo;
+if ld_titolo>0 then
+	ld_fino=f_round(ad_qta_legato*ld_titolo/1000, -2, 'M')
+else
+	ld_fino=0
+	if isnull(al_id_titolo) then 
+		al_id_titolo=0
+	end if
+end if
+return ld_fino
+end function
+

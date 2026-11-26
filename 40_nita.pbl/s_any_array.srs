@@ -1,0 +1,4 @@
+﻿global type s_any_array from structure
+	any		s_array[]
+end type
+

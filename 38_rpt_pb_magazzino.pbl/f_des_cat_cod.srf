@@ -1,0 +1,72 @@
+﻿global type f_des_cat_cod from function_object
+end type
+
+forward prototypes
+global function string f_des_cat_cod (long al_id_articolo)
+end prototypes
+
+global function string f_des_cat_cod (long al_id_articolo);string ls_des, ls_scelta, ls_scelta_Des, ls_Art, ls_tmp
+long ll_id_cat_cod, ll_id_cod_parte, ll_id_parte_reg, ll_num_sez, ll_lung
+integer li_pos
+
+ls_des = ""
+
+select id_cat_codifica, codice
+into :ll_id_cat_cod, :ls_art
+from articolo
+where id_articolo = :al_id_articolo;
+
+li_pos = 1
+
+
+DECLARE parte CURSOR FOR
+	select id_cod_parte, id_parte_regola
+	from cod_parte
+	where id_cat_codifica = :ll_id_cat_cod
+	USING SQLCA;
+	
+	OPEN parte;
+	
+	FETCH parte INTO :ll_id_cod_parte, :ll_id_parte_reg;
+	
+	DO WHILE SQLCA.SQLCODE = 0
+		select num_sezione, lunghezza
+		into :ll_num_sez, :ll_lung
+		from parte_regola
+		where id_parte_regola = :ll_id_parte_reg;
+		
+		ls_tmp = Mid(ls_Art, li_pos, ll_lung)
+		
+		li_pos = li_pos + ll_lung
+		
+		ls_scelta=""
+		ls_scelta_des=""		
+		
+		select scelta, descrizione
+		into :ls_scelta, :ls_scelta_Des
+		from scelta_parte
+		where :ll_id_cod_parte = id_cod_parte
+		and scelta = :ls_tmp;
+		
+		if sqlca.sqlcode = 0 then 
+	   	if ls_des = "" then 
+				ls_des = ls_scelta_Des
+			else
+				ls_des = ls_des + " - " + ls_scelta_Des				
+			end if
+		else
+	   	if ls_des = "" then
+				ls_des = ls_tmp  							
+			else
+				ls_des = ls_des + " - " + ls_tmp  							
+			end if
+
+		end if
+		
+		FETCH parte INTO :ll_id_cod_parte, :ll_id_parte_reg;
+	LOOP
+CLOSE parte;
+
+return ls_des
+end function
+

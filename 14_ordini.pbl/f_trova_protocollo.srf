@@ -1,0 +1,17 @@
+﻿global type f_trova_protocollo from function_object
+end type
+
+forward prototypes
+global function long f_trova_protocollo (long al_documento)
+end prototypes
+
+global function long f_trova_protocollo (long al_documento);long ll_num_prot
+
+select num_progressivo
+into :ll_num_prot
+from dba.documento
+where id_documento=:al_documento
+;
+return ll_num_prot;
+end function
+

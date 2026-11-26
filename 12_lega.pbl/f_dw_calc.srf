@@ -1,0 +1,252 @@
+﻿global type f_dw_calc from function_object
+end type
+
+forward prototypes
+global function long f_dw_calc (datawindow adw, string as_file)
+end prototypes
+
+global function long f_dw_calc (datawindow adw, string as_file);//20261112 scrive con LibreOffice Calc (UNO via COM, senza Microsoft Excel) le colonne VISIBILI di adw:
+//colonne e campi calcolati della banda detail con visible diverso da 0 e larghezza maggiore di 0,
+//nell ordine in cui si vedono (da sinistra a destra, x attuale: vale anche se l utente le ha spostate),
+//con l intestazione presa dal testo <nome>_t (se manca, il nome della colonna).
+//Righe: quelle del buffer primario, cioe quelle a video dopo filtro e ordinamento.
+//as_file: percorso completo; .xlsx = Excel 2007, altrimenti .xls = Excel 97 (massimo 65535 righe).
+//Ritorna le righe scritte; -1 = errore, gia detto all utente.
+string ls_oggetti, ls_ogg, ls_nomi[], ls_tipi[], ls_intest[], ls_vis, ls_url, ls_tmp, ls_valore
+string ls_fmt[], ls_f   //20261126 64_nita2: formato numerico di Calc preso dal formato della colonna ("" = nessuno)
+long ll_dec, ll_k
+long ll_x[], ll_n, ll_i, ll_j, ll_pos, ll_riga, ll_righe, ll_col, ll_tmp, ll_formato_d, ll_formato_dt
+double ld_grassetto = 150 //com.sun.star.awt.FontWeight.BOLD
+double ld_valore
+date ld_data
+datetime ldt_valore
+decimal ldc_valore
+boolean lb_aperto, lb_xlsx
+any la_righe[], la_riga[], la_vuota[], la_una_riga
+oleobject lole_sm, lole_desktop, lole_doc, lole_sheet, lole_range, lole_colonna
+oleobject lole_args[1], lole_filtro[1], lole_locale, lole_formati
+
+ll_righe = adw.rowcount()
+lb_xlsx = (lower(right(trim(as_file), 5)) = ".xlsx")
+if not lb_xlsx and ll_righe > 65535 then
+	messagebox("Attenzione!", "Le righe sono " + string(ll_righe) + ": il formato .xls ne tiene al massimo 65535. Salvare in .xlsx.")
+	return -1
+end if
+
+//1. colonne visibili della banda detail
+ls_oggetti = adw.Describe("DataWindow.Objects") + "~t"
+ll_n = 0
+do while len(ls_oggetti) > 0
+	ll_pos = pos(ls_oggetti, "~t")
+	ls_ogg = left(ls_oggetti, ll_pos - 1)
+	ls_oggetti = mid(ls_oggetti, ll_pos + 1)
+	if ls_ogg = "" then continue
+	ls_tmp = adw.Describe(ls_ogg + ".type")
+	if ls_tmp <> "column" and ls_tmp <> "compute" then continue
+	if adw.Describe(ls_ogg + ".band") <> "detail" then continue
+	ls_vis = adw.Describe(ls_ogg + ".visible")
+	if ls_vis = "0" or ls_vis = "~"0~"" or ls_vis = "'0'" then continue
+	if long(adw.Describe(ls_ogg + ".width")) <= 0 then continue
+	ll_n ++
+	ls_nomi[ll_n] = ls_ogg
+	ll_x[ll_n] = long(adw.Describe(ls_ogg + ".x"))
+	ls_tipi[ll_n] = lower(adw.Describe(ls_ogg + ".coltype"))
+	//20261126 64_nita2: formato semplice tipo #,##0.00 / #,0.0000 / 0.00 -> stessi decimali in Calc; maschere con
+	//espressioni o parentesi quadre ([general]) -> nessun formato, come prima
+	ls_fmt[ll_n] = ""
+	ls_f = adw.Describe(ls_ogg + ".format")
+	if left(ls_f, 1) = "'" or left(ls_f, 1) = "~"" then ls_f = mid(ls_f, 2, len(ls_f) - 2)
+	if ls_f <> "" and ls_f <> "!" and ls_f <> "?" and pos(ls_f, "~t") = 0 and pos(ls_f, "[") = 0 and pos(ls_f, "0") > 0 then
+		ll_dec = 0
+		ll_k = pos(ls_f, ".")
+		if ll_k > 0 then
+			do while mid(ls_f, ll_k + 1, 1) = "0" or mid(ls_f, ll_k + 1, 1) = "#"
+				ll_dec ++
+				ll_k ++
+			loop
+		end if
+		if ll_dec > 0 then
+			ls_fmt[ll_n] = "#,##0." + fill("0", ll_dec)
+		else
+			ls_fmt[ll_n] = "#,##0"
+		end if
+	end if
+	ls_tmp = adw.Describe(ls_ogg + "_t.text")
+	if ls_tmp = "!" or ls_tmp = "?" or trim(ls_tmp) = "" then ls_tmp = ls_ogg
+	if left(ls_tmp, 1) = "~"" and right(ls_tmp, 1) = "~"" and len(ls_tmp) > 1 then ls_tmp = mid(ls_tmp, 2, len(ls_tmp) - 2)
+	//a capo dell intestazione -> spazio
+	ll_pos = pos(ls_tmp, "~r~n")
+	do while ll_pos > 0
+		ls_tmp = replace(ls_tmp, ll_pos, 2, " ")
+		ll_pos = pos(ls_tmp, "~r~n")
+	loop
+	ll_pos = pos(ls_tmp, "~n")
+	do while ll_pos > 0
+		ls_tmp = replace(ls_tmp, ll_pos, 1, " ")
+		ll_pos = pos(ls_tmp, "~n")
+	loop
+	ls_intest[ll_n] = ls_tmp
+loop
+if ll_n = 0 then
+	messagebox("Attenzione!", "Nessuna colonna visibile da esportare.")
+	return -1
+end if
+
+//ordine da sinistra a destra
+for ll_i = 2 to ll_n
+	for ll_j = ll_i to 2 step -1
+		if ll_x[ll_j - 1] <= ll_x[ll_j] then exit
+		ll_tmp = ll_x[ll_j]
+		ll_x[ll_j] = ll_x[ll_j - 1]
+		ll_x[ll_j - 1] = ll_tmp
+		ls_tmp = ls_nomi[ll_j]
+		ls_nomi[ll_j] = ls_nomi[ll_j - 1]
+		ls_nomi[ll_j - 1] = ls_tmp
+		ls_tmp = ls_tipi[ll_j]
+		ls_tipi[ll_j] = ls_tipi[ll_j - 1]
+		ls_tipi[ll_j - 1] = ls_tmp
+		ls_tmp = ls_intest[ll_j]
+		ls_intest[ll_j] = ls_intest[ll_j - 1]
+		ls_intest[ll_j - 1] = ls_tmp
+		ls_tmp = ls_fmt[ll_j]
+		ls_fmt[ll_j] = ls_fmt[ll_j - 1]
+		ls_fmt[ll_j - 1] = ls_tmp
+	next
+next
+
+//2. righe: intestazione + dati, in un solo blocco per setDataArray (date come numero di Calc)
+la_riga = la_vuota
+for ll_col = 1 to ll_n
+	la_riga[ll_col] = ls_intest[ll_col]
+next
+la_una_riga = la_riga
+la_righe[1] = la_una_riga
+for ll_riga = 1 to ll_righe
+	la_riga = la_vuota
+	for ll_col = 1 to ll_n
+		la_riga[ll_col] = ""
+		if left(ls_tipi[ll_col], 4) = "char" then
+			ls_valore = adw.getitemstring(ll_riga, ls_nomi[ll_col])
+			if not isnull(ls_valore) then
+				if len(ls_valore) > 32000 then ls_valore = left(ls_valore, 32000)
+				la_riga[ll_col] = ls_valore
+			end if
+		elseif ls_tipi[ll_col] = "date" then
+			ld_data = adw.getitemdate(ll_riga, ls_nomi[ll_col])
+			if not isnull(ld_data) then la_riga[ll_col] = double(daysafter(date(1899, 12, 30), ld_data))
+		elseif ls_tipi[ll_col] = "datetime" or ls_tipi[ll_col] = "timestamp" then
+			ldt_valore = adw.getitemdatetime(ll_riga, ls_nomi[ll_col])
+			if not isnull(ldt_valore) then
+				ld_valore = daysafter(date(1899, 12, 30), date(ldt_valore))
+				ld_valore = ld_valore + secondsafter(time(0, 0, 0), time(ldt_valore)) / 86400.0
+				la_riga[ll_col] = ld_valore
+			end if
+		elseif left(ls_tipi[ll_col], 7) = "decimal" then
+			ldc_valore = adw.getitemdecimal(ll_riga, ls_nomi[ll_col])
+			if not isnull(ldc_valore) then la_riga[ll_col] = double(ldc_valore)
+		elseif ls_tipi[ll_col] = "long" or ls_tipi[ll_col] = "number" or ls_tipi[ll_col] = "int" &
+			or ls_tipi[ll_col] = "ulong" or ls_tipi[ll_col] = "real" or ls_tipi[ll_col] = "double" then
+			ld_valore = adw.getitemnumber(ll_riga, ls_nomi[ll_col])
+			if not isnull(ld_valore) then la_riga[ll_col] = ld_valore
+		elseif ls_tipi[ll_col] = "time" then
+			ls_valore = string(adw.getitemtime(ll_riga, ls_nomi[ll_col]), "hh:mm:ss")
+			if not isnull(ls_valore) then la_riga[ll_col] = ls_valore
+		end if
+	next
+	la_una_riga = la_riga
+	la_righe[ll_riga + 1] = la_una_riga
+next
+
+//3. LibreOffice: foglio nuovo nascosto, scrittura, salvataggio
+ls_url = "file:///" + f_sostituisci_carattere(as_file, "\", "/")
+lole_sm = create oleobject
+if lole_sm.ConnectToNewObject("com.sun.star.ServiceManager") <> 0 then
+	messagebox("Errore!", "LibreOffice non risponde su questo computer: nessun Excel creato.")
+	destroy lole_sm
+	return -1
+end if
+lb_aperto = false
+try
+	lole_desktop = lole_sm.createInstance("com.sun.star.frame.Desktop")
+	lole_args[1] = lole_sm.Bridge_GetStruct("com.sun.star.beans.PropertyValue")
+	lole_args[1].Name = "Hidden"
+	lole_args[1].Value = true
+	lole_filtro[1] = lole_sm.Bridge_GetStruct("com.sun.star.beans.PropertyValue")
+	lole_filtro[1].Name = "FilterName"
+	if lb_xlsx then
+		lole_filtro[1].Value = "Calc MS Excel 2007 XML"
+	else
+		lole_filtro[1].Value = "MS Excel 97"
+	end if
+	lole_doc = lole_desktop.loadComponentFromURL("private:factory/scalc", "_blank", 0, lole_args)
+	lb_aperto = true
+	lole_sheet = lole_doc.Sheets.getByIndex(0)
+
+	lole_range = lole_sheet.getCellRangeByPosition(0, 0, ll_n - 1, ll_righe)
+	lole_range.setDataArray(la_righe)
+
+	//intestazione in grassetto
+	lole_range = lole_sheet.getCellRangeByPosition(0, 0, ll_n - 1, 0)
+	lole_range.setPropertyValue("CharWeight", ld_grassetto)
+
+	//formati delle date (codici in inglese: valgono con qualsiasi lingua)
+	try
+		lole_locale = lole_sm.Bridge_GetStruct("com.sun.star.lang.Locale")
+		lole_locale.Language = "en"
+		lole_locale.Country = "US"
+		lole_formati = lole_doc.getNumberFormats()
+		ll_formato_d = lole_formati.queryKey("DD/MM/YYYY", lole_locale, false)
+		if ll_formato_d = -1 then ll_formato_d = lole_formati.addNew("DD/MM/YYYY", lole_locale)
+		ll_formato_dt = lole_formati.queryKey("DD/MM/YYYY HH:MM", lole_locale, false)
+		if ll_formato_dt = -1 then ll_formato_dt = lole_formati.addNew("DD/MM/YYYY HH:MM", lole_locale)
+		if ll_righe > 0 then
+			for ll_col = 1 to ll_n
+				if ls_tipi[ll_col] = "date" then
+					lole_range = lole_sheet.getCellRangeByPosition(ll_col - 1, 1, ll_col - 1, ll_righe)
+					lole_range.setPropertyValue("NumberFormat", ll_formato_d)
+				elseif ls_tipi[ll_col] = "datetime" or ls_tipi[ll_col] = "timestamp" then
+					lole_range = lole_sheet.getCellRangeByPosition(ll_col - 1, 1, ll_col - 1, ll_righe)
+					lole_range.setPropertyValue("NumberFormat", ll_formato_dt)
+				elseif ls_fmt[ll_col] <> "" then   //20261126 64_nita2 numeri con i decimali della colonna
+					ll_k = lole_formati.queryKey(ls_fmt[ll_col], lole_locale, false)
+					if ll_k = -1 then ll_k = lole_formati.addNew(ls_fmt[ll_col], lole_locale)
+					lole_range = lole_sheet.getCellRangeByPosition(ll_col - 1, 1, ll_col - 1, ll_righe)
+					lole_range.setPropertyValue("NumberFormat", ll_k)
+				end if
+			next
+		end if
+	catch (runtimeerror lre_formato)
+		//niente formato: le date escono come numero, il file si crea lo stesso
+	end try
+
+	//larghezza ottimale, ma non oltre 12 cm (le descrizioni lunghe)
+	try
+		for ll_col = 1 to ll_n
+			lole_colonna = lole_sheet.Columns.getByIndex(ll_col - 1)
+			lole_colonna.OptimalWidth = true
+			if long(lole_colonna.Width) > 12000 then lole_colonna.Width = 12000
+		next
+	catch (runtimeerror lre_larghezza)
+	end try
+
+	if FileExists(as_file) then FileDelete(as_file)
+	lole_doc.storeToURL(ls_url, lole_filtro)
+catch (runtimeerror lre_calc)
+	messagebox("Errore!", "Excel NON creato con LibreOffice:~r~n" + lre_calc.Text)
+	ll_righe = -1
+end try
+if lb_aperto then
+	try
+		lole_doc.close(false)
+	catch (runtimeerror lre_chiudi)
+	end try
+end if
+lole_sm.DisconnectObject()
+destroy lole_sm
+
+if ll_righe >= 0 and not FileExists(as_file) then
+	messagebox("Errore!", "Excel NON creato:~r~n" + as_file)
+	ll_righe = -1
+end if
+return ll_righe
+end function

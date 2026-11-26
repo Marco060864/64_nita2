@@ -1,0 +1,28 @@
+﻿global type str_anag_art from structure
+	string		filtro
+	string		flag
+	string		parametri
+	string		da_art
+	string		a_art
+	long		id_variazione
+	string		ordinamento
+	date		da_data
+	date		a_data
+	long		id_cat_codifica
+	integer		id_parte_regola
+	character		des_estesa
+	string		da_magazzino
+	string		a_magazzino
+	integer		anno
+	integer		mese
+	integer		id_valuta
+	decimal { 4 }		cambio
+	character		tipo_arr
+	integer		num_dec
+	integer		i_tipo_stampa
+	string		tipo_stampa
+	long		id_cat_comm
+	long		id_cat_merc
+	long		id_cat_fisc
+end type
+

@@ -1,0 +1,8 @@
+﻿global type s_peprintoptions from structure
+	integer		structsize
+	unsignedinteger		startpagen
+	unsignedinteger		stoppagen
+	unsignedinteger		nReportcopies
+	unsignedinteger		collation
+end type
+

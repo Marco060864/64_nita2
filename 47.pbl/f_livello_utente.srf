@@ -1,0 +1,22 @@
+﻿global type f_livello_utente from function_object
+end type
+
+forward prototypes
+global function string f_livello_utente (string as_vedi_sempre)
+end prototypes
+
+global function string f_livello_utente (string as_vedi_sempre);string ls_livello
+
+if as_vedi_sempre='S' then
+	ls_livello='A'
+else
+	select livello
+	into :ls_livello
+	from dba.utenti
+	where id_utenti=:u_freddie.s_utenti.i_idutente
+	;
+end if
+if isnull(ls_livello) then ls_livello='A'
+return ls_livello
+end function
+

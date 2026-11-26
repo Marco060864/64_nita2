@@ -1,0 +1,19 @@
+﻿global type f_trova_peso_articolo from function_object
+end type
+
+forward prototypes
+global function decimal f_trova_peso_articolo (long al_id_distinta)
+end prototypes
+
+global function decimal f_trova_peso_articolo (long al_id_distinta);decimal ldc_peso_articolo
+
+select sum(peso_netto)
+into :ldc_peso_articolo
+from dba.riga_distinta
+where id_distinta=:al_id_distinta
+;
+if isnull(ldc_peso_articolo) then ldc_peso_articolo=0
+
+return ldc_peso_articolo
+end function
+

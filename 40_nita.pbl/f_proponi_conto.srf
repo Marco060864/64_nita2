@@ -1,0 +1,41 @@
+﻿global type f_proponi_conto from function_object
+end type
+
+forward prototypes
+global function long f_proponi_conto (long al_id_prof_registrazione, ref string as_conto_codice, ref string as_conto_descrizione)
+end prototypes
+
+global function long f_proponi_conto (long al_id_prof_registrazione, ref string as_conto_codice, ref string as_conto_descrizione);
+
+long ll_IDConto_Prof_Mov_Contab, ll_RetVal
+string ls_filtro_conto
+
+SELECT "dba"."prof_mov_contabile"."id_conto", "dba"."prof_mov_contabile"."filtro_conto"
+	INTO :ll_IDConto_Prof_Mov_Contab, :ls_filtro_conto
+	FROM "dba"."prof_mov_contabile"
+	WHERE "dba"."prof_mov_contabile"."id_prof_registrazione" = :al_id_prof_registrazione AND
+			"dba"."prof_mov_contabile"."num_riga" = 1;
+
+CHOOSE CASE SQLCA.SQLCode
+	CASE 0
+		ll_RetVal = ll_IDConto_Prof_Mov_Contab
+
+			SELECT "dba"."conto"."codice", "dba"."conto"."descrizione"
+				INTO :as_conto_codice, :as_conto_descrizione
+				FROM "dba"."conto"
+				WHERE "dba"."conto"."id_conto" = :ll_IDConto_Prof_Mov_Contab;
+			
+			CHOOSE CASE SQLCA.SQLCode
+				CASE -1
+					MessageBox("Errore sul Database", "f_proponi_conto / 2")
+					ll_RetVal = 0
+			END CHOOSE
+
+	CASE -1
+		MessageBox("Errore sul Database", "f_proponi_conto / 1")
+		ll_RetVal = 0
+END CHOOSE
+
+RETURN ll_RetVal
+end function
+

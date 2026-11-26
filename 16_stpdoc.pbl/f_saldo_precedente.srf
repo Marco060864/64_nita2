@@ -1,0 +1,109 @@
+﻿global type f_saldo_precedente from function_object
+end type
+
+forward prototypes
+global function decimal f_saldo_precedente (long al_id_sog, string as_a_data, string as_metallo, string as_tipo_stampa, string as_legato_fino)
+end prototypes
+
+global function decimal f_saldo_precedente (long al_id_sog, string as_a_data, string as_metallo, string as_tipo_stampa, string as_legato_fino);	string ls_sql_1, ls_sql_ok
+	decimal ldc_saldo_peso_precedente, ldc_saldo_fc_precedente , ldc_correzioni_silver, ldc_correzione_k,ldc_ritorno
+	long ll_id_titolo
+	date adt_da_data, adt_a_data
+	
+	adt_a_data=date(as_a_data)
+	adt_da_data=date(year(adt_a_data), 1,1)
+	
+	ls_sql_1+=" and (documento.id_sog_commerciale= "+string( al_id_sog)+") and (orafo_metallo.codice='"+as_metallo+"') "
+			if as_tipo_stampa="d_new_scheda_magazzino" or isnull(as_tipo_stampa) or as_tipo_stampa<=" " then
+				  
+				ls_sql_ok= "SELECT  sum( (select ( case caus_magazzino.segno  when 'C' then riga_documento.peso_netto  "+&
+									  " when 'S' then riga_documento.peso_netto * -1 end )))  as c_somma_peso, "+&
+				  	"sum( (select ( case caus_magazzino.segno  when 'C' then round(riga_documento.peso_netto * riga_documento.coef_calo /1000, 2)  "+&
+									  " when 'S' then round(riga_documento.peso_netto * riga_documento.coef_calo /1000 , 2 ) * -1 end )))  as c_somma_finocalo "+&
+				 	" FROM riga_documento, documento, articolo, orafo_metallo, orafo_titolo , caus_magazzino "+& 
+					" WHERE ( caus_magazzino.id_caus_magazzino = riga_documento.id_caus_magazzino ) and  "+&
+						" ( documento.id_documento = riga_documento.id_documento ) and   "+&
+						" ( articolo.id_articolo = riga_documento.id_articolo ) and   "+&
+						" ( orafo_titolo.id_metallo = orafo_metallo.id_metallo ) and   "+&
+						" ( orafo_titolo.id_titolo = articolo.id_titolo ) and   "+&
+					"	 ( caus_magazzino.segno is not null ) AND   "+&
+						" (documento.data_documento >= '"+string(adt_da_data, "yyyy/mm/dd")+"' AND   "+&
+						" documento.data_documento <  '"+string(adt_a_data, "yyyy/mm/dd")+"' )    " +ls_sql_1 //il filtro per metallo è qui: 1 metallo solo per stampa
+			else
+				ls_sql_ok= "SELECT  sum( (select ( case caus_magazzino.saldi_cl_fino  when '+' then riga_documento.peso_netto  "+&
+									  " when '-' then riga_documento.peso_netto * -1 end )))  as c_somma_peso, "+&
+					"sum( (select ( case caus_magazzino.saldi_cl_fino  when '+' then round(riga_documento.peso_netto * riga_documento.coef_calo /1000, 2)  "+&
+									  " when '-' then round(riga_documento.peso_netto * riga_documento.coef_calo /1000 , 2 ) * -1 end )))  as c_somma_finocalo "+&
+					" FROM riga_documento, documento, articolo, orafo_metallo, orafo_titolo , caus_magazzino "+& 
+						" WHERE ( caus_magazzino.id_caus_magazzino = riga_documento.id_caus_magazzino ) and  "+&
+					" ( documento.id_documento = riga_documento.id_documento ) and   "+&
+					" ( articolo.id_articolo = riga_documento.id_articolo ) and   "+&
+					" ( orafo_titolo.id_metallo = orafo_metallo.id_metallo ) and   "+&
+					" ( orafo_titolo.id_titolo = articolo.id_titolo ) and   "+&
+					"	 ( caus_magazzino.saldi_cl_fino is not null ) AND   "+&
+					" (documento.data_documento >= '"+string(adt_da_data, "yyyy/mm/dd")+"' AND   "+&
+					" documento.data_documento <  '"+string(adt_a_data, "yyyy/mm/dd")+"' )    " +ls_sql_1 //il filtro per metallo è qui: 1 metallo solo per stampa
+			end if
+			PREPARE SQLSA FROM :ls_sql_ok using sqlca ;
+			DECLARE my_cursor DYNAMIC CURSOR FOR SQLSA ;
+			OPEN DYNAMIC my_cursor ;
+			FETCH my_cursor INTO :ldc_saldo_peso_precedente, :ldc_saldo_fc_precedente ;
+			CLOSE my_cursor ;
+			
+			if as_metallo='AG' then
+				ll_id_titolo=4
+			else
+				select max(id_titolo)
+				into :ll_id_titolo
+				from orafo_titolo, orafo_metallo
+				where orafo_metallo.codice=:as_metallo
+				and orafo_titolo.id_metallo=orafo_metallo.id_metallo
+				;
+				if ll_id_titolo<=0 or isnull(ll_id_titolo) then
+					messagebox("Attenzione!", "Titolo non trovato!")
+					return 0
+				end if
+			end if
+			if al_id_sog=43  then
+				SELECT sum((select sum((case when provv_imp_carea_2>0 then provv_imp_carea_2 * (select fn_rec_prezzo_filo_rame('L', documento.data_documento)) else 0 end) + (case when provv_imp_agente_2>0 
+				then provv_imp_agente_2 * (select fn_rec_prezzo_filo_rame('F', documento.data_documento)) else 0 end )+ (case when peso_lordo>0 then peso_lordo else 0 end)) from riga_documento 
+				where id_documento=documento.id_documento and id_articolo in (select articolo.id_articolo from articolo where id_titolo=:ll_id_titolo) and (select count(*) from riga_documento  , articolo
+				where articolo.id_articolo=riga_documento.id_articolo and articolo.id_titolo=:ll_id_titolo and id_documento=documento.id_documento and peso_netto> 1 ) >10
+				  )) // , (select sum(correzione) from correzioni_k where id_riga_documento in (select id_riga_documento from riga_documento where id_documento=documento.id_documento) )
+				  into :ldc_correzioni_silver //, :ldc_correzione_k
+				FROM dba.documento
+				where data_documento>=:adt_da_data and data_documento< :adt_a_data 
+				and ( documento.id_prof_documento =114 or documento.id_prof_documento =150 or documento.id_prof_documento =66 )
+				and id_sog_commerciale=43;
+				if ldc_correzioni_silver>0 then 
+					ldc_saldo_peso_precedente=ldc_saldo_peso_precedente - ldc_correzioni_silver
+					ldc_saldo_fc_precedente=ldc_saldo_fc_precedente - ldc_correzioni_silver
+				end if
+				//aggiungo correzioni rigo rigo
+				select sum(correzione) 
+				into :ldc_correzione_k
+				from correzioni_k , documento
+				where id_riga_documento in (select id_riga_documento from riga_documento, articolo, orafo_titolo, orafo_metallo
+				where id_documento=documento.id_documento and  data_documento>=:adt_da_data 
+				and data_documento< :adt_a_data and 
+				orafo_metallo.id_metallo=orafo_titolo.id_metallo and orafo_metallo.codice=:as_metallo
+				and orafo_titolo.id_titolo=articolo.id_titolo and articolo.id_articolo=riga_documento.id_articolo) ;
+				
+				if ldc_correzione_k<>0 then// ldc_correzioni_silver+=ldc_correzione_k
+				//if ldc_correzioni_silver>0 then 
+					ldc_saldo_peso_precedente -= ldc_correzione_k //IL SEGNO - è PERCHé SONO MOVIMENTI DI SCARICO QUINDI NEGATIVI!!!! 20200715
+					ldc_saldo_fc_precedente -= ldc_correzione_k
+				//end if
+				end if
+			end if
+			if as_legato_fino='L' then
+				ldc_ritorno=ldc_saldo_peso_precedente
+			else
+				ldc_ritorno=ldc_saldo_fc_precedente
+			end if
+			if isnull(ldc_ritorno) then ldc_ritorno=0
+			return ldc_ritorno
+			
+
+end function
+

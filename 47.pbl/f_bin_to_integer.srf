@@ -1,0 +1,21 @@
+﻿global type f_bin_to_integer from function_object
+end type
+
+forward prototypes
+global function long f_bin_to_integer (string as_binary_nymber)
+end prototypes
+
+global function long f_bin_to_integer (string as_binary_nymber);
+
+char lch_binary_number[]
+long ll_size, ll_count, ll_return_number
+
+lch_binary_number= as_binary_nymber
+ll_size= UpperBound(lch_binary_number)
+FOR ll_count= 0 to ll_size -1
+	if lch_binary_number[ll_size - ll_count]= "1" then	ll_return_number= ll_return_number + (2^ll_count)
+NEXT
+
+RETURN ll_return_number
+end function
+

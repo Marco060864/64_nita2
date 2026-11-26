@@ -1,0 +1,21 @@
+﻿global type f_trova_imm_personalizzata from function_object
+end type
+
+forward prototypes
+global function string f_trova_imm_personalizzata (string as_cod_articolo, string as_cod_soggetto)
+end prototypes
+
+global function string f_trova_imm_personalizzata (string as_cod_articolo, string as_cod_soggetto);string ls_imm_personale
+
+select i.nome_immagine
+into :ls_imm_personale
+from immagini_cliente i, sog_commerciale s, articolo a
+where i.id_sog_commerciale=s.id_sog_commerciale
+and i.id_articolo=a.id_articolo
+and a.codice=:as_cod_articolo
+and s.codice=:as_cod_soggetto
+;
+return ls_imm_personale
+
+end function
+

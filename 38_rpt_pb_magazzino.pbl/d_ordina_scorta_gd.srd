@@ -1,0 +1,127 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=232 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=0 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=riepilogo_id_esercizio dbname="riepilogo.id_esercizio" )
+ column=(type=long updatewhereclause=yes name=riepilogo_id_attivita dbname="riepilogo.id_attivita" )
+ column=(type=long updatewhereclause=yes name=id_articolo dbname="riepilogo.id_articolo" )
+ column=(type=long updatewhereclause=yes name=riepilogo_id_locazione dbname="riepilogo.id_locazione" )
+ column=(type=decimal(0) updatewhereclause=yes name=c_esistenza dbname="c_esistenza" )
+ column=(type=decimal(0) updatewhereclause=yes name=c_esistenza_fisica dbname="c_esistenza_fisica" )
+ column=(type=decimal(0) updatewhereclause=yes name=c_disponibilita dbname="c_disponibilita" )
+ column=(type=char(32) updatewhereclause=yes name=articolo_codice dbname="articolo.codice" )
+ column=(type=char(80) updatewhereclause=yes name=articolo_descrizione dbname="articolo.descrizione" )
+ column=(type=long updatewhereclause=yes identity=yes name=unita_confezione_id_unita_confezione dbname="unita_confezione.id_unita_confezione" )
+ column=(type=decimal(4) updatewhereclause=yes name=scorta_scorta_minima dbname="scorta.scorta_minima" )
+ column=(type=long updatewhereclause=yes name=scorta_id_per_scorta dbname="scorta.id_per_scorta" )
+ column=(type=decimal(0) updatewhereclause=yes name=per_scorta_giorno_inizio dbname="per_scorta.giorno_inizio" )
+ column=(type=decimal(0) updatewhereclause=yes name=per_scorta_mese_inizio dbname="per_scorta.mese_inizio" )
+ column=(type=decimal(0) updatewhereclause=yes name=per_scorta_giorno_fine dbname="per_scorta.giorno_fine" )
+ column=(type=decimal(0) updatewhereclause=yes name=per_scorta_mese_fine dbname="per_scorta.mese_fine" )
+ column=(type=decimal(4) updatewhereclause=yes name=scorta_scorta_massima dbname="scorta.scorta_massima" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_qta_ord_clienti dbname="riepilogo.qta_ord_clienti" )
+ column=(type=decimal(4) updatewhereclause=yes name=riepilogo_qta_ord_fornitori dbname="riepilogo.qta_ord_fornitori" )
+ column=(type=long updatewhereclause=yes name=articolo_id_sog_commerciale dbname="articolo.id_sog_commerciale" )
+ retrieve="SELECT ~"riepilogo~".~"id_esercizio~",   
+         ~"riepilogo~".~"id_attivita~",   
+         ~"riepilogo~".~"id_articolo~",   
+         ~"riepilogo~".~"id_locazione~",   
+         Cast(0 as decimal) As c_esistenza,   
+         Cast(0 as decimal) As c_esistenza_fisica,   
+         Cast(0 as decimal) As c_disponibilita,   
+         ~"articolo~".~"codice~",   
+         ~"articolo~".~"descrizione~",   
+         ~"unita_confezione~".~"id_unita_confezione~",   
+         ~"scorta~".~"scorta_minima~",   
+         ~"scorta~".~"id_per_scorta~",   
+         ~"per_scorta~".~"giorno_inizio~",   
+         ~"per_scorta~".~"mese_inizio~",   
+         ~"per_scorta~".~"giorno_fine~",   
+         ~"per_scorta~".~"mese_fine~",   
+         ~"scorta~".~"scorta_massima~",   
+         ~"riepilogo~".~"qta_ord_clienti~",   
+         ~"riepilogo~".~"qta_ord_fornitori~",   
+         ~"articolo~".~"id_sog_commerciale~"  
+    FROM {oj ~"scorta~"  LEFT OUTER JOIN ~"per_scorta~"  ON ~"scorta~".~"id_per_scorta~" = ~"per_scorta~".~"id_per_scorta~"},   
+         ~"riepilogo~",   
+         ~"articolo~",   
+         ~"unita_confezione~"  
+   WHERE ( ~"unita_confezione~".~"id_unita_confezione~" = ~"scorta~".~"id_unita_confezione~" ) and  
+         ( ~"articolo~".~"id_articolo~" = ~"riepilogo~".~"id_articolo~" ) and  
+         ( ~"unita_confezione~".~"id_articolo~" = ~"articolo~".~"id_articolo~" ) and  
+         (~"articolo~".~"codice~" <= :a_articolo AND  
+         ~"articolo~".~"codice~" >= :da_articolo) AND  
+         ~"riepilogo~".~"id_esercizio~" = :esercizio AND  
+         ~"riepilogo~".~"id_attivita~" = :attivita AND  
+         ~"riepilogo~".~"anno~" = :anno AND  
+         ~"riepilogo~".~"mese~" = :mese AND  
+         ~"unita_confezione~".~"unita_base~" = 'S' AND  
+         ((((~"per_scorta~".~"giorno_inizio~" <= :giorno AND  
+         ~"per_scorta~".~"mese_inizio~" <= :mese) AND  
+         (~"per_scorta~".~"giorno_fine~" >= :giorno AND  
+         ~"per_scorta~".~"mese_fine~" >= :mese)) AND  
+         ~"scorta~".~"id_per_scorta~" is not null) OR  
+         (~"scorta~".~"id_per_scorta~" is null))   
+ORDER BY ~"articolo~".~"codice~" ASC   
+" arguments=(("a_articolo", string),("da_articolo", string),("anno", number),("esercizio", number),("attivita", number),("mese", number),("giorno", number)) )
+group(level=1 header.height=0 trailer.height=128 by=("id_articolo" ) header.color="536870912" trailer.color="536870912" )
+text(band=header alignment="2" text="Riepilogo
+Id Esercizio"border="0" color="0" x="5" y="4" height="112" width="274"  name=riepilogo_id_esercizio_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Riepilogo
+Id Attivita"border="0" color="0" x="283" y="4" height="112" width="274"  name=riepilogo_id_attivita_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Riepilogo
+Id Articolo"border="0" color="0" x="562" y="4" height="112" width="274"  name=riepilogo_id_articolo_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Riepilogo
+Id Locazione"border="0" color="0" x="841" y="4" height="112" width="279"  name=riepilogo_id_locazione_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="C Esistenza"border="0" color="0" x="1125" y="4" height="56" width="274"  name=c_esistenza_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="C Esistenza Fisica"border="0" color="0" x="1403" y="4" height="56" width="402"  name=c_esistenza_fisica_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="C Disponibilita"border="0" color="0" x="1810" y="4" height="56" width="302"  name=c_disponibilita_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Articolo
+Codice"border="0" color="0" x="2121" y="4" height="112" width="750"  name=articolo_codice_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Articolo
+Descrizione"border="0" color="0" x="2880" y="4" height="112" width="1847"  name=articolo_descrizione_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Unita Confezione
+Id Unita Confezione"border="0" color="0" x="4736" y="4" height="112" width="425"  name=unita_confezione_id_unita_confezione_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Scorta
+Scorta Minima"border="0" color="0" x="5166" y="4" height="112" width="306"  name=scorta_scorta_minima_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Scorta
+Id Per Scorta"border="0" color="0" x="5477" y="4" height="112" width="283"  name=scorta_id_per_scorta_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Per Scorta
+Giorno Inizio"border="0" color="0" x="5765" y="4" height="112" width="274"  name=per_scorta_giorno_inizio_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Per Scorta
+Mese Inizio"border="0" color="0" x="6043" y="4" height="112" width="274"  name=per_scorta_mese_inizio_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Per Scorta
+Giorno Fine"border="0" color="0" x="6322" y="4" height="112" width="274"  name=per_scorta_giorno_fine_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Per Scorta
+Mese Fine"border="0" color="0" x="6601" y="4" height="112" width="274"  name=per_scorta_mese_fine_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Scorta
+Scorta Massima"border="0" color="0" x="6880" y="4" height="112" width="352"  name=scorta_scorta_massima_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Riepilogo
+Qta Ord Clienti"border="0" color="0" x="7237" y="4" height="112" width="315"  name=riepilogo_qta_ord_clienti_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Riepilogo
+Qta Ord Fornitori"border="0" color="0" x="7557" y="4" height="112" width="366"  name=riepilogo_qta_ord_fornitori_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Articolo
+Id Sog Commerciale"border="0" color="0" x="7927" y="4" height="112" width="430"  name=articolo_id_sog_commerciale_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=1 alignment="1" tabsequence=32766 border="0" color="0" x="5" y="144" height="68" width="274" format="[general]"  name=riepilogo_id_esercizio edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=2 alignment="1" tabsequence=32766 border="0" color="0" x="283" y="144" height="68" width="274" format="[general]"  name=riepilogo_id_attivita edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=3 alignment="1" tabsequence=32766 border="0" color="0" x="562" y="8" height="68" width="274" format="[general]"  name=id_articolo edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=4 alignment="1" tabsequence=32766 border="0" color="0" x="841" y="148" height="68" width="274" format="[general]"  name=riepilogo_id_locazione edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=5 alignment="1" tabsequence=32766 border="0" color="0" x="1125" y="8" height="68" width="274" format="[general]"  name=c_esistenza edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=6 alignment="1" tabsequence=32766 border="0" color="0" x="1403" y="8" height="68" width="274" format="[general]"  name=c_esistenza_fisica edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=7 alignment="1" tabsequence=32766 border="0" color="0" x="1810" y="8" height="68" width="274" format="[general]"  name=c_disponibilita edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=8 alignment="0" tabsequence=32766 border="0" color="0" x="2126" y="8" height="68" width="750" format="[general]"  name=articolo_codice edit.limit=32 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=9 alignment="0" tabsequence=32766 border="0" color="0" x="2880" y="8" height="68" width="1847" format="[general]"  name=articolo_descrizione edit.limit=80 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=10 alignment="1" tabsequence=32766 border="0" color="0" x="4736" y="8" height="68" width="274" format="[general]"  name=unita_confezione_id_unita_confezione edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=11 alignment="1" tabsequence=32766 border="0" color="0" x="5166" y="8" height="68" width="274" format="[general]"  name=scorta_scorta_minima edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=12 alignment="1" tabsequence=32766 border="0" color="0" x="5477" y="8" height="68" width="274" format="[general]"  name=scorta_id_per_scorta edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=13 alignment="1" tabsequence=32766 border="0" color="0" x="5765" y="8" height="68" width="274" format="[general]"  name=per_scorta_giorno_inizio edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=14 alignment="1" tabsequence=32766 border="0" color="0" x="6043" y="8" height="68" width="274" format="[general]"  name=per_scorta_mese_inizio edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=15 alignment="1" tabsequence=32766 border="0" color="0" x="6322" y="8" height="68" width="274" format="[general]"  name=per_scorta_giorno_fine edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=16 alignment="1" tabsequence=32766 border="0" color="0" x="6601" y="8" height="68" width="274" format="[general]"  name=per_scorta_mese_fine edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=17 alignment="1" tabsequence=32766 border="0" color="0" x="6880" y="8" height="68" width="274" format="[general]"  name=scorta_scorta_massima edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=18 alignment="1" tabsequence=32766 border="0" color="0" x="7237" y="8" height="68" width="274" format="[general]"  name=riepilogo_qta_ord_clienti edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=19 alignment="1" tabsequence=32766 border="0" color="0" x="7557" y="8" height="68" width="274" format="[general]"  name=riepilogo_qta_ord_fornitori edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=20 alignment="1" tabsequence=32766 border="0" color="0" x="7927" y="8" height="68" width="274" format="[general]"  name=articolo_id_sog_commerciale edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

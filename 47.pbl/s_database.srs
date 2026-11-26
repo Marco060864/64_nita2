@@ -1,0 +1,9 @@
+﻿global type s_database from structure
+	string		name
+	string		user
+	string		password
+	string		vendor
+	string		key
+	string		description
+end type
+

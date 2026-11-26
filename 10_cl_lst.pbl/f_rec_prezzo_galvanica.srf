@@ -1,0 +1,33 @@
+﻿global type f_rec_prezzo_galvanica from function_object
+end type
+
+forward prototypes
+global function decimal f_rec_prezzo_galvanica (date adt_data_documento, long al_id_galvanica)
+end prototypes
+
+global function decimal f_rec_prezzo_galvanica (date adt_data_documento, long al_id_galvanica);decimal ldc_prezzo
+
+if adt_data_documento>=date( "2020-02-10") then
+
+	select quotazione
+	into :ldc_prezzo
+	from dba.galvanica_prezzo
+	where id_galvanica=:al_id_galvanica
+	and data_inizio<=:adt_data_documento and (data_fine>=:adt_data_documento or data_fine is null)
+	;
+	if isnull(ldc_prezzo) then ldc_prezzo=0
+
+else
+	select  (case 
+	when :adt_data_documento >= date('2020-01-01') then "galvanica"."prezzo_01_01_20"
+	when :adt_data_documento >= date('2019-09-01') and :adt_data_documento < date('2020-01-01') then "galvanica"."prezzo_01_09_19"
+	when :adt_data_documento < date('2019-06-01') then "galvanica"."prezzo_gr"
+
+	else "galvanica"."prezzo_da_data1" end) as c_prezzo_rif
+	into   :ldc_prezzo 
+	from dba.galvanica
+	where id_galvanica=:al_id_galvanica;
+end if
+return ldc_prezzo
+end function
+

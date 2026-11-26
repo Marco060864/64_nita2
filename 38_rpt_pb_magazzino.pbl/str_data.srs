@@ -1,0 +1,7 @@
+﻿global type str_data from structure
+	string		filtro
+	date		data_inizio
+	date		data_fine
+	character		flag
+end type
+

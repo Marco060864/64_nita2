@@ -1,0 +1,179 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=460 color="536870912" )
+summary(height=8 color="536870912" )
+footer(height=124 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=date updatewhereclause=yes name=documento_data_registrazione dbname="documento.data_registrazione" )
+ column=(type=date updatewhereclause=yes name=documento_data_documento dbname="documento.data_documento" )
+ column=(type=decimal(0) updatewhereclause=yes name=documento_num_progressivo dbname="documento.num_progressivo" )
+ column=(type=char(40) updatewhereclause=yes name=registro_descrizione dbname="registro.descrizione" )
+ column=(type=char(8) updatewhereclause=yes name=sog_commerciale_gen_codice dbname="sog_commerciale_gen.codice" )
+ column=(type=char(40) updatewhereclause=yes name=sog_commerciale_gen_rag_soc_1 dbname="sog_commerciale_gen.rag_soc_1" )
+ column=(type=char(32) updatewhereclause=yes name=articolo_codice dbname="articolo.codice" )
+ column=(type=char(40) updatewhereclause=yes name=articolo_des_breve dbname="articolo.des_breve" )
+ column=(type=char(8) updatewhereclause=yes name=unita_confezione_codice dbname="unita_confezione.codice" )
+ column=(type=char(40) updatewhereclause=yes name=unita_confezione_descrizione dbname="unita_confezione.descrizione" )
+ column=(type=char(8) updatewhereclause=yes name=caus_magazzino_codice dbname="caus_magazzino.codice" )
+ column=(type=char(40) updatewhereclause=yes name=caus_magazzino_descrizione dbname="caus_magazzino.descrizione" )
+ column=(type=char(1) updatewhereclause=yes name=unita_confezione_unita_base dbname="unita_confezione.unita_base" )
+ column=(type=long updatewhereclause=yes name=riga_documento_id_riga_documento dbname="riga_documento.id_riga_documento" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_quantita dbname="riga_documento.quantita" )
+ column=(type=char(1) updatewhereclause=yes name=ccarico dbname="carico" values="	S/	N" )
+ column=(type=char(1) updatewhereclause=yes name=cscarico dbname="scarico" values="	S/	N" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_prezzo_netto dbname="riga_documento.prezzo_netto" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_tot_riga_val_az dbname="riga_documento.tot_riga_val_az" )
+ column=(type=char(8) updatewhereclause=yes name=magazzino_codice dbname="magazzino.codice" )
+ column=(type=decimal(4) updatewhereclause=yes name=valuta_cambio dbname="valuta.cambio" )
+ column=(type=char(2) updatewhereclause=yes name=ctipo_movimento dbname="tipo_movimento" )
+ column=(type=long updatewhereclause=yes name=id_val_euro dbname="id_val_euro" )
+ column=(type=decimal(4) updatewhereclause=yes name=prezzo_netto_v dbname="prezzo_netto_v" )
+ column=(type=decimal(4) updatewhereclause=yes name=tot_riga_val_riga_v dbname="tot_riga_val_riga_v" )
+ column=(type=decimal(4) updatewhereclause=yes name=tot_riga_val_riga_e dbname="tot_riga_val_riga_e" )
+ retrieve="  SELECT ~"documento~".~"data_registrazione~",   
+			~"documento~".~"data_documento~",   
+         ~"documento~".~"num_progressivo~",   
+         ~"registro~".~"descrizione~",   
+         ~"sog_commerciale_gen~".~"codice~",   
+         ~"sog_commerciale_gen~".~"rag_soc_1~",   
+         ~"articolo~".~"codice~",   
+         ~"articolo~".~"des_breve~",   
+         ~"unita_confezione~".~"codice~",   
+         ~"unita_confezione~".~"descrizione~",   
+         ~"caus_magazzino~".~"codice~",   
+         ~"caus_magazzino~".~"descrizione~",   
+         ~"unita_confezione~".~"unita_base~", 
+         ~"riga_documento~".~"id_riga_documento~",  
+         ~"riga_documento~".~"quantita~",   
+         CAST('N' AS CHAR(1)) AS carico,   
+         CAST('N' AS CHAR(1)) AS scarico,   
+         ~"riga_documento~".~"prezzo_netto~",   
+         ~"riga_documento~".~"tot_riga_val_az~",   
+         ~"magazzino~".~"codice~",   
+         ~"valuta~".~"cambio~",   
+         CAST(FN_TIPO_MOVIMENTO(~"riga_documento~".~"id_caus_magazzino~", 'P') AS CHAR(2)) AS tipo_movimento,
+			CAST( ( SELECT id_val_euro FROM par_sistema) AS INTEGER) AS id_val_euro,
+			CAST( fn_conv_valuta(~"riga_documento~".~"id_valuta~", ~"riga_documento~".~"prezzo_netto~", :rn_id_valuta) AS DECIMAL(18,4) ) AS prezzo_netto_v,
+			CAST( fn_conv_valuta(~"riga_documento~".~"id_valuta~", ~"riga_documento~".~"tot_riga_val_riga~", :rn_id_valuta) AS DECIMAL(18,4) ) AS tot_riga_val_riga_v,
+			CAST( fn_conv_valuta(~"riga_documento~".~"id_valuta~", ~"riga_documento~".~"tot_riga_val_riga~", id_val_euro) AS DECIMAL(18,4) ) AS tot_riga_val_riga_e
+    FROM ~"documento~",   
+         ~"registro~",   
+         ~"sog_commerciale_gen~",   
+         ~"riga_documento~",   
+         ~"articolo~",   
+         ~"unita_confezione~",   
+         ~"caus_magazzino~",   
+         ~"locazione~",   
+         ~"magazzino~",   
+         ~"valuta~"  
+   WHERE ( ~"sog_commerciale_gen~".~"id_sog_commerciale~" = ~"documento~".~"id_sog_commerciale~" ) and  
+         ( ~"registro~".~"id_registro~" = ~"documento~".~"id_registro~" ) and  
+         ( ~"articolo~".~"id_articolo~" = ~"riga_documento~".~"id_articolo~" ) and  
+         ( ~"unita_confezione~".~"id_unita_confezione~" = ~"riga_documento~".~"id_unita_confezione~" ) and  
+         ( ~"caus_magazzino~".~"id_caus_magazzino~" = ~"riga_documento~".~"id_caus_magazzino~" ) and  
+         ( ~"magazzino~".~"id_magazzino~" = ~"locazione~".~"id_magazzino~" ) and  
+         ( ~"valuta~".~"id_valuta~" = ~"riga_documento~".~"id_valuta~" ) and  
+         ( ~"locazione~".~"id_locazione~" = ~"riga_documento~".~"id_locazione_1~" ) and  
+         ( ~"riga_documento~".~"id_documento~" = ~"documento~".~"id_documento~" )   
+   UNION   
+  SELECT ~"documento~".~"data_registrazione~",   
+			~"documento~".~"data_documento~",   
+         ~"documento~".~"num_progressivo~",   
+         ~"registro~".~"descrizione~",   
+         ~"sog_commerciale_gen~".~"codice~",   
+         ~"sog_commerciale_gen~".~"rag_soc_1~",   
+         ~"articolo~".~"codice~",   
+         ~"articolo~".~"des_breve~",   
+         ~"unita_confezione~".~"codice~",   
+         ~"unita_confezione~".~"descrizione~",   
+         ~"caus_magazzino~".~"codice~",   
+         ~"caus_magazzino~".~"descrizione~",   
+         ~"unita_confezione~".~"unita_base~",  
+         ~"riga_documento~".~"id_riga_documento~", 
+         ~"riga_documento~".~"quantita~",   
+         CAST('N' AS CHAR(1)) AS carico,   
+         CAST('N' AS CHAR(1)) AS scarico,   
+         ~"riga_documento~".~"prezzo_netto~",   
+         ~"riga_documento~".~"tot_riga_val_az~",   
+         ~"magazzino~".~"codice~",   
+         ~"valuta~".~"cambio~",   
+         CAST(FN_TIPO_MOVIMENTO(~"riga_documento~".~"id_caus_magazzino~", 'D') AS CHAR(2)) AS tipo_movimento  ,
+			CAST( ( SELECT id_val_euro FROM par_sistema) AS INTEGER) AS id_val_euro,
+			CAST( fn_conv_valuta(~"riga_documento~".~"id_valuta~", ~"riga_documento~".~"prezzo_netto~", :rn_id_valuta) AS DECIMAL(18,4) ) AS prezzo_netto_v,
+			CAST( fn_conv_valuta(~"riga_documento~".~"id_valuta~", ~"riga_documento~".~"tot_riga_val_riga~", :rn_id_valuta) AS DECIMAL(18,4) ) AS tot_riga_val_riga_v,
+			CAST( fn_conv_valuta(~"riga_documento~".~"id_valuta~", ~"riga_documento~".~"tot_riga_val_riga~", id_val_euro) AS DECIMAL(18,4) ) AS tot_riga_val_riga_e
+    FROM ~"documento~",   
+         ~"registro~",   
+         ~"sog_commerciale_gen~",   
+         ~"riga_documento~",   
+         ~"articolo~",   
+         ~"unita_confezione~",   
+         ~"caus_magazzino~",   
+         ~"locazione~",   
+         ~"magazzino~",   
+         ~"valuta~"  
+   WHERE ( ~"sog_commerciale_gen~".~"id_sog_commerciale~" = ~"documento~".~"id_sog_commerciale~" ) and  
+         ( ~"registro~".~"id_registro~" = ~"documento~".~"id_registro~" ) and  
+         ( ~"articolo~".~"id_articolo~" = ~"riga_documento~".~"id_articolo~" ) and  
+         ( ~"unita_confezione~".~"id_unita_confezione~" = ~"riga_documento~".~"id_unita_confezione~" ) and  
+         ( ~"caus_magazzino~".~"id_caus_magazzino~" = ~"riga_documento~".~"id_caus_magazzino~" ) and  
+         ( ~"magazzino~".~"id_magazzino~" = ~"locazione~".~"id_magazzino~" ) and  
+         ( ~"valuta~".~"id_valuta~" = ~"riga_documento~".~"id_valuta~" ) and  
+         ( ~"riga_documento~".~"id_documento~" = ~"documento~".~"id_documento~" ) and  
+         ( ~"locazione~".~"id_locazione~" = ~"riga_documento~".~"id_locazione_2~" )    
+" arguments=(("parametri", string),("parita_euro", number),("cifra_arrotondamento_E", number),("tipo_arrotondamento_E", string),("rn_id_valuta", number)) )
+group(level=1 header.height=108 trailer.height=224 by=("caus_magazzino_codice" ) header.color="536870912" trailer.color="536870912" )
+group(level=2 header.height=272 trailer.height=0 by=("articolo_codice" , "unita_confezione_codice" ) newpage=yes header.color="536870912" trailer.color="536870912" )
+text(band=header alignment="2" text="Movimenti Articolo per Causale"border="0" color="0" x="18" y="84" height="164" width="4690"  font.face="Arial" font.height="-26" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="5" y1="444" x2="4699" y2="444" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Parametri di stampa:"border="0" color="0" x="14" y="348" height="64" width="471"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+line(band=header x1="0" y1="444" x2="4677" y2="444" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression=" parametri "border="0" color="0" x="503" y="348" height="64" width="4206" format="[general]"  name=parametri  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+compute(band=header.1 alignment="2" expression=" caus_magazzino_codice + '     ' +  caus_magazzino_descrizione "border="0" color="0" x="14" y="16" height="64" width="4695" format="[general]"  name=caus_mag_coddes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+rectangle(band=header.2 x="9" y="20" height="252" width="4690" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="9" pen.color="33554432"  background.mode="2" background.color="0" )
+compute(band=header.2 alignment="0" expression=" unita_confezione_codice + '     ' +  unita_confezione_descrizione "border="0" color="0" x="2482" y="60" height="64" width="1797" format="[general]"  name=unita_conf_coddes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.2 alignment="0" text=" Articolo / Unità Conf.:"border="0" color="0" x="50" y="60" height="64" width="530"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header.2 alignment="0" expression=" articolo_codice + '     ' +  articolo_des_breve "border="0" color="0" x="613" y="60" height="64" width="1797" format="[general]"  name=articolo_coddes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header.2 alignment="2" text="Registro"border="2" color="0" x="942" y="176" height="92" width="457"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header.2 alignment="2" text=" Intestatario"border="2" color="0" x="1403" y="176" height="92" width="1577"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header.2 alignment="2" text="C"border="2" color="0" x="2985" y="176" height="92" width="87"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header.2 alignment="2" text="S"border="2" color="0" x="3077" y="176" height="92" width="87"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header.2 alignment="2" text=" Altro"border="2" color="0" x="3168" y="176" height="92" width="169"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header.2 alignment="2" text=" Quantità"border="2" color="0" x="3342" y="176" height="92" width="343"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header.2 alignment="2" text=" Prezzo Netto"border="2" color="0" x="3689" y="176" height="92" width="343"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header.2 alignment="2" text=" Magazzino"border="2" color="0" x="4384" y="176" height="92" width="306"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header.2 alignment="2" text="Prot."border="2" color="0" x="544" y="176" height="92" width="393"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header.2 alignment="2" text=" Data Reg."border="2" color="0" x="279" y="176" height="92" width="261"  name=articolo_codice_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header.2 alignment="2" text=" Data Doc."border="2" color="0" x="14" y="176" height="92" width="261"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header.2 alignment="2" text=" Imponibile"border="2" color="0" x="4037" y="176" height="92" width="343"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="951" y="4" height="64" width="434" format="[general]"  name=registro_descrizione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=30 border="0" color="0" x="1422" y="4" height="64" width="283" format="[general]"  name=sog_commerciale_gen_codice edit.limit=8 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=40 border="0" color="0" x="1737" y="4" height="64" width="1225" format="[general]"  name=sog_commerciale_gen_rag_soc_1 edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="0" tabsequence=50 border="0" color="0" x="2990" y="4" height="56" width="64" format=""  name=ccarico checkbox.text="" checkbox.on="S" checkbox.off="N" checkbox.scale=no checkbox.threed=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=17 alignment="0" tabsequence=60 border="0" color="0" x="3077" y="4" height="56" width="59" format="[general]"  name=cscarico checkbox.text="" checkbox.on="S" checkbox.off="N" checkbox.scale=no checkbox.threed=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="2" expression="IF ( (STRING(ctipo_movimento)  <> 'CF' AND STRING(ctipo_movimento)  <> 'SF' ) ,  STRING(ctipo_movimento) ,  ' ' )"border="0" color="0" x="3154" y="4" height="64" width="174" format="[general]"  name=altro  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=20 alignment="2" tabsequence=100 border="0" color="0" x="4379" y="4" height="64" width="302" format="[general]"  name=magazzino_codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="544" y="4" height="64" width="393" format="[general]"  name=documento_num_progressivo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="37" y="4" height="64" width="238" format="[general]"  name=documento_data_documento edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="311" y="4" height="64" width="229" format="[general]"  name=documento_data_registrazione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="1" tabsequence=70 border="0" color="0" x="3333" y="4" height="64" width="343" format="#,0.00"  name=riga_documento_quantita edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=24 alignment="1" tabsequence=32766 border="0" color="0" x="3685" y="4" height="64" width="343" format="~tf_valu_mask(  rn_id_valuta )	// BL#15064#"  name=prezzo_netto_v edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="0" x="4037" y="4" height="64" width="343" format="~tf_valu_mask(  rn_id_valuta )	// BL#15064#"  name=tot_riga_val_riga_v edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.1 alignment="0" text="Carichi:"border="0" color="0" x="1317" y="48" height="64" width="192"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(  (IF ( ctipo_movimento = 'CF', riga_documento_quantita, 0)) for group 1 )"border="0" color="0" x="1509" y="48" height="64" width="443" format="#,0.00"  name=qta_caricata  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=trailer.1 alignment="0" text="Scarichi:"border="0" color="0" x="2002" y="48" height="64" width="210"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(  (IF ( ctipo_movimento = 'SF', riga_documento_quantita, 0)) for group 1 )"border="0" color="0" x="2217" y="48" height="64" width="443" format="#,0.00"  name=qta_scaricata  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=trailer.1 alignment="0" text="Altro:"border="0" color="0" x="2702" y="48" height="64" width="142"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(  (IF ( ctipo_movimento <> 'CF' AND ctipo_movimento <> 'SF' , riga_documento_quantita, 0)) for group 1 )"border="0" color="0" x="2843" y="48" height="64" width="443" format="#,0.00"  name=qta_altro  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=trailer.1 x1="3808" y1="12" x2="4379" y2="12" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression=" sum(     tot_riga_val_riga_v for group 1 )	// BL#15064# "border="0" color="0" x="3813" y="48" height="64" width="553" format="[general]~tf_valu_mask(  rn_id_valuta )	// BL#15064#"  name=imp_articolo  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=trailer.1 alignment="1" text="Tot. Imponibile:"border="0" color="0" x="3419" y="48" height="64" width="389"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression=" sum(     tot_riga_val_riga_e for group 1 )	// BL#15064#"border="0" color="0" x="3813" y="136" height="64" width="553" format="[general]~tf_valu_mask(  id_val_euro )" visible="1~tif ( rn_id_valuta =  id_val_euro , 0, 1) // BL#15064"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=trailer.1 alignment="1" text="Tot. Imponibile Euro:"border="0" color="0" x="3218" y="136" height="64" width="590" visible="1~tif ( rn_id_valuta =  id_val_euro , 0, 1) // BL#15064"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=footer alignment="1" text="Stampato il "border="0" color="0" x="0" y="44" height="64" width="265"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="0" expression="today()"border="0" color="0" x="279" y="44" height="64" width="215" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+text(band=footer alignment="1" text="alle"border="0" color="0" x="503" y="44" height="64" width="82"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="0" expression="now()"border="0" color="0" x="599" y="44" height="64" width="242" format="[time]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="1" expression="'Page ' + page() + ' of ' + pageCount()"border="0" color="0" x="4069" y="40" height="64" width="567" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=footer x1="0" y1="16" x2="4699" y2="16" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

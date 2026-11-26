@@ -1,0 +1,6 @@
+﻿global type s_trova_progressivo from structure
+	long		sl_num_progressivo
+	date		sdt_data_registrazione
+	long		sl_id_documento
+end type
+

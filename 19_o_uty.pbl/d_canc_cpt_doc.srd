@@ -1,0 +1,54 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=68 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=char(8) updatewhereclause=yes name=caus_magazzino_codice dbname="caus_magazzino.codice" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=cast_cpt_documento_id_documento dbname="cast_cpt_documento.id_documento" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=cast_cpt_documento_id_conto dbname="cast_cpt_documento.id_conto" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=cast_cpt_documento_tipo_riga_cpt dbname="cast_cpt_documento.tipo_riga_cpt" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=cast_cpt_documento_val_imponibile dbname="cast_cpt_documento.val_imponibile" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=cast_cpt_documento_val_imp_scontato dbname="cast_cpt_documento.val_imp_scontato" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=cast_cpt_documento_val_omaggi dbname="cast_cpt_documento.val_omaggi" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=cast_cpt_documento_val_spese dbname="cast_cpt_documento.val_spese" )
+ retrieve="  SELECT ~"caus_magazzino~".~"codice~",   
+         ~"cast_cpt_documento~".~"id_documento~",   
+         ~"cast_cpt_documento~".~"id_conto~",   
+         ~"cast_cpt_documento~".~"tipo_riga_cpt~",   
+         ~"cast_cpt_documento~".~"val_imponibile~",   
+         ~"cast_cpt_documento~".~"val_imp_scontato~",   
+         ~"cast_cpt_documento~".~"val_omaggi~",   
+         ~"cast_cpt_documento~".~"val_spese~"  
+    FROM ~"caus_magazzino~",   
+         ~"documento~",   
+         ~"sog_commerciale~",   
+         ~"cast_cpt_documento~"  
+   WHERE ( ~"documento~".~"id_caus_magazzino~" = ~"caus_magazzino~".~"id_caus_magazzino~" ) and  
+         ( ~"sog_commerciale~".~"id_sog_commerciale~" = ~"documento~".~"id_sog_commerciale~" ) and  
+         ( ~"cast_cpt_documento~".~"id_documento~" = ~"documento~".~"id_documento~" ) and  
+         ( ( ~"caus_magazzino~".~"codice~" >= :da_caus ) AND  
+         ( ~"caus_magazzino~".~"codice~" <= :a_caus ) AND  
+         (~"documento~".~"data_documento~" >= :da_data AND  
+         ~"documento~".~"data_documento~" <= :a_data or 
+				~"documento~".~"data_documento~" is null)	AND  
+         ~"sog_commerciale~".~"codice~" >= :da_sog AND  
+         ~"sog_commerciale~".~"codice~" <= :a_sog )    
+" update="cast_cpt_documento" updatewhere=0 updatekeyinplace=no arguments=(("da_data", date),("a_data", date),("da_sog", string),("a_sog", string),("da_caus", string),("a_caus", string)) )
+text(band=header alignment="2" text="Caus Magazzino"border="0" color="0" x="9" y="8" height="56" width="366"  name=caus_magazzino_codice_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Cast Cpt Documento Id Documento"border="0" color="0" x="384" y="8" height="56" width="805"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cast Cpt Documento Id Conto"border="0" color="0" x="1198" y="8" height="56" width="699"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cast Cpt Documento Tipo Riga Cpt"border="0" color="0" x="1906" y="8" height="56" width="123"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cast Cpt Documento Val Imponibile"border="0" color="0" x="2039" y="8" height="56" width="805"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cast Cpt Documento Val Imp Scontato"border="0" color="0" x="2853" y="8" height="56" width="882"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cast Cpt Documento Val Omaggi"border="0" color="0" x="3744" y="8" height="56" width="759"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cast Cpt Documento Val Spese"border="0" color="0" x="4512" y="8" height="56" width="978"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="8" height="68" width="366" format="[general]"  name=caus_magazzino_codice edit.limit=8 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="384" y="8" height="68" width="805" format="[general]"  name=cast_cpt_documento_id_documento edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1198" y="8" height="68" width="699" format="[general]"  name=cast_cpt_documento_id_conto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1906" y="8" height="68" width="123" format="[general]"  name=cast_cpt_documento_tipo_riga_cpt edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="2039" y="8" height="68" width="805" format="[general]"  name=cast_cpt_documento_val_imponibile edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="2853" y="8" height="68" width="882" format="[general]"  name=cast_cpt_documento_val_imp_scontato edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="3744" y="8" height="68" width="759" format="[general]"  name=cast_cpt_documento_val_omaggi edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="4512" y="8" height="68" width="978" format="[general]"  name=cast_cpt_documento_val_spese edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

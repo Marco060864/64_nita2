@@ -1,0 +1,126 @@
+﻿release 9;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+header(height=192 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=67 color="536870912" )
+detail(height=77 color="536870912" )
+table(column=(type=char(32) updatewhereclause=yes name=articolo_codice dbname="articolo.codice" )
+ column=(type=char(40) updatewhereclause=yes name=articolo_des_breve dbname="articolo.des_breve" )
+ column=(type=char(5) updatewhereclause=yes name=unita_misura_simbolo dbname="unita_misura.simbolo" )
+ column=(type=decimal(6) updatewhereclause=yes name=prezzo dbname="prezzo" )
+ column=(type=char(40) updatewhereclause=yes name=valuta dbname="valuta" )
+ column=(type=long updatewhereclause=yes name=id_valuta dbname="id_valuta" )
+ column=(type=char(8) updatewhereclause=yes name=cat_com_articolo_codice dbname="cat_com_articolo.codice" )
+ column=(type=char(8) updatewhereclause=yes name=cat_merceologica_codice dbname="cat_merceologica.codice" )
+ column=(type=char(8) updatewhereclause=yes name=cat_fiscale_codice dbname="cat_fiscale.codice" )
+ column=(type=decimal(4) updatewhereclause=yes name=unita_confezione_peso_netto dbname="unita_confezione.peso_netto" )
+ column=(type=decimal(4) updatewhereclause=yes name=unita_confezione_dim_l dbname="unita_confezione.dim_l" )
+ column=(type=char(1) updatewhereclause=yes name=articolo_prod_interna dbname="articolo.prod_interna" )
+ column=(type=decimal(6) updatewhereclause=yes name=prezzo_manifattura dbname="prezzo_manifattura" )
+ column=(type=char(1) updatewhereclause=yes name=unita_misura_tipo dbname="unita_misura.tipo" )
+ column=(type=char(40) updatewhereclause=yes name=azienda_rag_soc_2 dbname="azienda.rag_soc_2" )
+ column=(type=decimal(2) updatewhereclause=yes name=articolo_coef_calo dbname="articolo.coef_calo" )
+ column=(type=char(40) updatewhereclause=yes name=des_listino dbname="des_listino" )
+ column=(type=real updatewhereclause=yes name=coef_calo dbname="coef_calo" )
+ column=(type=decimal(6) updatewhereclause=yes name=galvanica dbname="galvanica" )
+ column=(type=long updatewhereclause=yes name=articolo_id_cat_codifica dbname="articolo.id_cat_codifica" )
+ column=(type=char(80) updatewhereclause=yes name=articolo_descrizione dbname="articolo.descrizione" )
+ retrieve="SELECT ~"articolo~".~"codice~",   
+         ~"articolo~".~"des_breve~",   
+         ~"unita_misura~".~"simbolo~",   
+         CAST((SELECT ~"prezzo~" FROM ~"prezzo~" 
+WHERE ~"id_variazione~" = :rl_id_variazione AND
+ ~"id_unita_confezione~" = ~"unita_confezione~".~"id_unita_confezione~") 
+AS decimal(20,6)) AS prezzo,   
+         CAST((SELECT ~"valuta~".~"descrizione~" 
+FROM ~"valuta~" WHERE  ~"valuta~".~"id_valuta~" =:ra_id_valuta) AS CHAR) AS Valuta,   
+          CAST((SELECT ~"valuta~".~"id_valuta~" 
+FROM ~"valuta~", ~"variazione~", ~"listino~" WHERE
+ ~"variazione~".~"id_variazione~" = :rl_id_variazione
+AND ~"listino~".~"id_listino~" = ~"variazione~".~"id_listino~" 
+AND ~"valuta~".~"id_valuta~" = ~"listino~".~"id_valuta~") AS integer) AS id_valuta,  
+         ~"cat_com_articolo~".~"codice~",   
+         ~"cat_merceologica~".~"codice~",   
+         ~"cat_fiscale~".~"codice~",   
+         ~"unita_confezione~".~"peso_netto~",   
+         ~"unita_confezione~".~"dim_l~",   
+         ~"articolo~".~"prod_interna~",   
+         CAST((SELECT ~"prezzo_manifattura~" FROM ~"prezzo~" 
+WHERE ~"id_variazione~" = :rl_id_variazione AND
+ ~"id_unita_confezione~" = ~"unita_confezione~".~"id_unita_confezione~")
+ AS decimal(20,6)) AS prezzo_manifattura,   
+         ~"unita_misura~".~"tipo~",   
+         ~"azienda~".~"rag_soc_2~",   
+         ~"articolo~".~"coef_calo~",   
+         CAST((SELECT ~"listino~".~"descrizione~" FROM ~"listino~", ~"variazione~"
+ WHERE ~"variazione~".~"id_variazione~" = :rl_id_variazione
+and ~"listino~".~"id_listino~"=~"variazione~".~"id_listino~") as char(40) )as des_listino,
+CAST((SELECT ~"coef_calo~" FROM ~"prezzo~" 
+WHERE ~"id_variazione~" = :rl_id_variazione 
+AND ~"id_unita_confezione~" = ~"unita_confezione~".~"id_unita_confezione~") 
+AS FLOAT(4)) AS coef_calo,
+CAST((SELECT ~"galvanica~" FROM ~"prezzo~" 
+WHERE ~"id_variazione~" = :rl_id_variazione AND
+ ~"id_unita_confezione~" = ~"unita_confezione~".~"id_unita_confezione~") 
+AS decimal(20,6)) AS galvanica,
+articolo.id_cat_codifica , articolo.descrizione
+    
+FROM {oj ~"unita_confezione~"  LEFT OUTER JOIN ~"unita_misura~" 
+ ON ~"unita_confezione~".~"id_unita_misura~" = ~"unita_misura~".~"id_unita_misura~"}, 
+{oj ~"articolo~"  LEFT OUTER JOIN ~"cat_merceologica~" 
+ ON ~"articolo~".~"id_cat_merceologica~" = ~"cat_merceologica~".~"id_cat_merceologica~"},
+ {oj ~"articolo~"  LEFT OUTER JOIN ~"cat_fiscale~" 
+ ON ~"articolo~".~"id_cat_fiscale~" = ~"cat_fiscale~".~"id_cat_fiscale~"}, {oj ~"articolo~"  
+LEFT OUTER JOIN ~"unita_confezione~"  
+ON ~"articolo~".~"id_articolo~" = ~"unita_confezione~".~"id_articolo~"},   
+         ~"cat_com_articolo~",   
+         ~"azienda~"  
+   WHERE ( ~"cat_com_articolo~".~"id_cat_com_articolo~" =
+ ~"articolo~".~"id_cat_com_articolo~" ) and  
+         ( ~"azienda~".~"id_azienda~" = ~"unita_confezione~".~"id_azienda~" ) and  
+         ( ( ~"articolo~".~"codice~" >= :rs_da_codice ) AND  
+         ( ~"articolo~".~"codice~" <= :rs_a_codice ) )  
+" arguments=(("rl_id_variazione", number),("rs_da_codice", string),("rs_a_codice", string),("ra_id_valuta", number),("ra_cambio", number),("num_dec_arr", number),("tipo_arr", string))  sort="articolo_codice A " )
+text(band=header alignment="0" text="LISTINO" border="0" color="0" x="26" y="16" height="93" width="417" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header id=17 alignment="0" tabsequence=32766 border="0" color="0" x="453" y="16" height="93" width="1269" format="[general]" html.valueishtml="0"  name=des_listino visible="1" edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-14" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="~"Da Articolo ~"+rs_da_codice+~" ad Articolo ~"+rs_a_codice"border="0" color="0" x="1752" y="16" height="58" width="1057" format="[general]" html.valueishtml="0"  name=sss visible="0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="ARTICOLO" border="2" color="0" x="22" y="125" height="61" width="1203" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="1" text="PREZZO" border="2" color="0" x="2728" y="125" height="61" width="234" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="1" text="GALVANICA" border="2" color="0" x="2977" y="125" height="61" width="325" html.valueishtml="0"  name=t_6 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header id=20 alignment="0" tabsequence=32766 border="0" color="0" x="1744" y="13" height="64" width="1525" format="[general]" html.valueishtml="0"  name=articolo_id_cat_codifica visible="1" dddw.name=d_cat_codifca_des_sl dddw.displaycolumn=descrizione dddw.datacolumn=id_cat_codifica dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=no dddw.case=any dddw.nilisnull=yes dddw.imemode=0  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="DESCRIZIONE" border="2" color="0" x="1240" y="125" height="61" width="1477" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=detail x1="22" y1="74" x2="2794" y2="74"  name=l_1 visible="1" pen.style="4" pen.width="4" pen.color="79741120"  background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression="f_round(if(prezzo_manifattura>0,  prezzo_manifattura  / ra_cambio, prezzo/ ra_cambio), num_dec_arr , tipo_arr ) "border="0" color="0" x="2721" y="3" height="70" width="241" format="#,0.0000~tcase(  num_dec_arr  
+when 0 then ~"#,0~" 
+when -1 then ~"#,0.0~"
+when -2 then ~"#,0.00~"
+when -3 then ~"#,0.000~"
+when -4 then ~"#,0.0000~"
+when -5 then ~"#,0.00000~"
+when -6 then ~"#,0.000000~"
+)" html.valueishtml="0"  name=prezzo_valuta visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="f_round(galvanica/ ra_cambio, num_dec_arr , tipo_arr ) "border="0" color="0" x="2977" y="3" height="70" width="325" format="#,0.0000~tcase(  num_dec_arr  
+when 0 then ~"#,0~" 
+when -1 then ~"#,0.0~"
+when -2 then ~"#,0.00~"
+when -3 then ~"#,0.000~"
+when -4 then ~"#,0.0000~"
+when -5 then ~"#,0.00000~"
+when -6 then ~"#,0.000000~"
+)" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="26" y="3" height="70" width="1203" format="[general]" html.valueishtml="0"  name=articolo_codice visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=21 alignment="0" tabsequence=32766 border="0" color="0" x="1240" y="3" height="70" width="1477" format="[general]" html.valueishtml="0"  name=articolo_descrizione visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="Stampato il" border="0" color="33554432" x="22" y="3" height="58" width="274" html.valueishtml="0"  name=t_7 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="0" expression="today()"border="0" color="33554432" x="322" y="3" height="58" width="227" format="[shortdate]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="553648127" )
+text(band=footer alignment="0" text="alle" border="0" color="33554432" x="571" y="3" height="58" width="91" html.valueishtml="0"  name=t_8 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="0" expression="now()"border="0" color="33554432" x="688" y="3" height="58" width="205" format="[time]" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="0" expression="~"Righe: ~"+string(rowcount())"border="0" color="0" x="955" y="3" height="58" width="699" format="[general]" html.valueishtml="0"  name=righe visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+column(band=footer id=6 alignment="0" tabsequence=32766 border="0" color="0" x="2344" y="3" height="58" width="472" format="[general]" html.valueishtml="0"  name=id_valuta visible="1~t0" dddw.name=d_valuta_cod_sl dddw.displaycolumn=descrizione dddw.datacolumn=id_valuta dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=no dddw.case=any dddw.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=footer alignment="1" text="Valuta:" border="0" color="0" x="1975" y="3" height="58" width="201" html.valueishtml="0"  name=t_9 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=footer id=5 alignment="0" tabsequence=32766 border="0" color="0" x="2198" y="3" height="58" width="611" format="[general]" html.valueishtml="0"  name=valuta visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+  

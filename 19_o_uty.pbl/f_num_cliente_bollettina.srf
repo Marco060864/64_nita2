@@ -1,0 +1,41 @@
+﻿global type f_num_cliente_bollettina from function_object
+end type
+
+forward prototypes
+global function string f_num_cliente_bollettina (long al_id_riga_derivata)
+end prototypes
+
+global function string f_num_cliente_bollettina (long al_id_riga_derivata);string ls_num_cliente, ls_return= "", ls_data_ora
+integer li_pos,li_num_riga
+long ll_id_prov, ll_num_prog
+datetime ldt_data_ora_modifica
+
+select id_riga_doc_provenienza
+into :ll_id_prov
+from dba.riga_documento 
+where id_riga_documento=:al_id_riga_derivata  
+;
+select data_ora_modifica into  :ldt_data_ora_modifica 
+from dba.riga_doc_estensione where id_riga_documento=:ll_id_prov
+;
+if isnull(ll_id_prov) then ll_id_prov=al_id_riga_derivata
+	select num_documento,  num_progressivo, r.num_riga 
+	into :ls_num_cliente   , :ll_num_prog, :li_num_riga
+	from dba.documento d, dba.riga_documento r
+	where d.id_documento=r.id_documento
+	and r.id_riga_documento=:ll_id_prov
+	;
+	
+	if isnull(ls_num_cliente) then 
+		ls_return=""
+	else
+		if isnull(ll_num_prog) then ll_num_prog=0
+		ls_data_ora=string(ldt_data_ora_modifica, "yy/mm/dd hh:mm:ss")	
+		if isnull(ls_data_ora) or ls_data_ora="00/01/01 00:00:00" then ls_data_ora=""
+		ls_return=ls_num_cliente + "_" +ls_data_ora+" Prog. "+string(ll_num_prog)+"-"+string(li_num_riga)
+	end if
+
+//ls_return=ls_num_cliente+ ls_return
+return ls_return
+end function
+

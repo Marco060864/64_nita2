@@ -1,0 +1,23 @@
+﻿global type f_trova_xrclf from function_object
+end type
+
+forward prototypes
+global function string f_trova_xrclf (string as_num_bollettina, date adt_data)
+end prototypes
+
+global function string f_trova_xrclf (string as_num_bollettina, date adt_data);string ls_return
+date ldt_indietro_fino_a
+
+ldt_indietro_fino_a=relativedate(adt_data, - 120)  //carica gli xsald e gli Xrclf solo fino a 4 mesi prima....
+
+//select first(p.codice+' - '+ num_documento+ ' - '+string(data_documento))  into :ls_return  //20230830 Samy vuole solo il num_progressivo!
+select first(p.codice+' - '+ string(d.num_progressivo))  into :ls_return //eccolo
+from documento d, riga_documento r, prof_documento p  
+where d.id_documento=r.id_documento and d.data_documento> :ldt_indietro_fino_a
+and  p.id_prof_documento=d.id_prof_documento and  d.id_prof_documento=171 and LEFT(STRING(R.PROVV_IMP_CAREA_2), 5)=:as_num_bollettina
+order by d.data_documento desc;
+
+
+return ls_return
+end function
+

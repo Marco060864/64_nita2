@@ -1,0 +1,19 @@
+﻿global type dati from structure
+	string		codice
+	string		descrizione
+	long		id_articolo
+	string		path
+	string		tipo_riga
+	decimal {4}	quantita
+	decimal {4}	costo
+	long		id_dis_figlio
+	date		data_inizio
+	date		data_fine
+	long		id_distinta
+	long		id_riga
+	long		num_riga
+	integer		livello
+	decimal {2}	calo
+	decimal {4}	peso_netto
+end type
+

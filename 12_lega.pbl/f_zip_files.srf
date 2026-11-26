@@ -1,0 +1,61 @@
+﻿global type f_zip_files from function_object
+end type
+
+forward prototypes
+global function integer f_zip_files (string as_zip_path, string as_7zip_path, string as_file_list[])
+end prototypes
+
+global function integer f_zip_files (string as_zip_path, string as_7zip_path, string as_file_list[]);// 20250915 Funzione per creare un archivio ZIP con 7-Zip
+//integer ZipFiles(string as_zip_path, string as_7zip_path, string as_file_list[])
+
+string ls_command, ls_file, ls_bat_path, ls_bat_content, ls_run_command
+integer li_rc, i, li_file
+
+// Costruzione comando base dopo cmd/c c'è l'apertura di " che verrà chiusa dopo il ciclo for perché tutto il comando deve essere fra virgolette
+ls_command = 'cmd /c "' + as_7zip_path + ' a -tzip "' + as_zip_path + '"'
+
+// Aggiunta dei file
+for i = 1 to upperbound(as_file_list)
+    ls_file = as_file_list[i]
+    if FileExists(ls_file) then
+        ls_command += ' "' + ls_file + '"'
+    else
+        MessageBox("Errore", "File non trovato: " + ls_file)
+        return -1
+    end if
+next
+
+// Chiusura virgolette finali del comando
+ls_command += '"'
+
+ls_bat_path = "C:\nita\exp_doc\zip_cmd.bat"
+
+ls_bat_content =ls_command
+
+// Apri il file per scrittura
+li_file = FileOpen(ls_bat_path, LineMode!, Write!, LockWrite!)
+
+if li_file = -1 then
+    MessageBox("Errore", "Impossibile creare il file batch.")
+    return 100
+end if
+
+// Scrivi il comando nel file
+FileWrite(li_file, ls_command)
+
+// Chiudi il file
+FileClose(li_file)
+
+ls_run_command = 'cmd /c "' + ls_bat_path + '"'
+li_rc = Run(ls_run_command, Minimized!)
+
+if li_rc <> 0 and li_rc<>1 then
+    MessageBox("Errore ZIP", "Esecuzione batch fallita. Codice: " + string(li_rc))
+else
+    MessageBox("Successo", "Archivio ZIP creato correttamente.")
+	FileDelete(ls_bat_path)
+end if
+
+return li_rc
+end function
+

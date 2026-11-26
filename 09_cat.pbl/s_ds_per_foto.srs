@@ -1,0 +1,24 @@
+﻿global type s_ds_per_foto from structure
+	datastore		ds_dati_doc
+	string		dw
+	w_st_foto_articolo_cx		w_padre
+	string		ruota
+	integer		li_max_larghezza
+	integer		li_max_altezza
+	integer		li_x_foto
+	integer		li_y_foto
+	decimal { 2 }		scala
+	w_catalogo_2018_cx		w_padre_2018
+	integer		h_foto
+	integer		w_foto
+	integer		ret_spes
+	string		ret_colore
+	integer		linea_sep_spes
+	string		linea_sep_colore
+	integer		pag_di_partenza
+	string		testo
+	integer		t_x		descriptor "comment" = "~r~n"
+	integer		t_y
+	integer		t_width
+end type
+

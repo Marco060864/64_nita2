@@ -1,0 +1,21 @@
+﻿global type f_trova_num_bollettina_da_doc_produzione from function_object
+end type
+
+forward prototypes
+global function string f_trova_num_bollettina_da_doc_produzione (long id_riga_produzione)
+end prototypes
+
+global function string f_trova_num_bollettina_da_doc_produzione (long id_riga_produzione);string ls_num_bol
+date ldt_data_scadenza
+
+
+select d.num_documento, d.data_prev_consegna
+into :ls_num_bol, :ldt_data_scadenza
+from dba.produzione_2011 p, dba.documento d
+where d.id_documento=p.id_bollettina
+and p.id_doc_produzione=:id_riga_produzione
+;
+if ldt_data_scadenza> date("1900/01/01") then ls_num_bol= ls_num_bol+" - "+ string(ldt_data_scadenza, 'dd/mm')
+return ls_num_bol
+end function
+

@@ -1,0 +1,8 @@
+﻿global type s_per_carichi from structure
+	date		data_doc
+	string		num_doc
+	decimal { 2 }		peso
+	string		ls_doc_carico[]
+	string		ls_doc_scarico[]
+end type
+

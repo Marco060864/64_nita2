@@ -1,0 +1,8 @@
+﻿//objectcomments Struttura per passaggio parametri da w_reg_pd_mn_pn_ff a w_reg_pd_mn_pn_lt.
+global type s_contabilizzazione from structure
+	long		l_id_prof_registrazione
+	long		l_id_registro
+	date		d_data_registrazione
+	date		d_data_competenza
+end type
+

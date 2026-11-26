@@ -1,0 +1,8 @@
+﻿global type s_menu_ric from structure
+	string		ss_label[]
+	long		sl_padre[]
+	long		sl_start
+	long		sl_pictureindex[]
+	long		sl_data[]
+end type
+

@@ -1,0 +1,86 @@
+﻿//objectcomments DataWindow utilizzata nei DataStore di w_contab_documento_ff
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=76 color="536870912" )
+summary(height=16 color="536870912" )
+footer(height=72 color="553648127" )
+detail(height=72 color="553648127" )
+table(column=(type=long update=yes updatewhereclause=yes name=id_conto dbname="cast_cpt_documento.id_conto" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=tipo_riga_cpt dbname="cast_cpt_documento.tipo_riga_cpt" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=val_imponibile dbname="cast_cpt_documento.val_imponibile" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=val_imp_scontato dbname="cast_cpt_documento.val_imp_scontato" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=val_omaggi dbname="cast_cpt_documento.val_omaggi" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=val_spese dbname="cast_cpt_documento.val_spese" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_registro dbname="tipo_registro" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_fattura dbname="tipo_fattura" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"cast_cpt_documento~" ) COLUMN(NAME=~"cast_cpt_documento.id_conto~") COLUMN(NAME=~"cast_cpt_documento.tipo_riga_cpt~") COLUMN(NAME=~"cast_cpt_documento.val_imponibile~") COLUMN(NAME=~"cast_cpt_documento.val_imp_scontato~") COLUMN(NAME=~"cast_cpt_documento.val_omaggi~") COLUMN(NAME=~"cast_cpt_documento.val_spese~") COMPUTE(NAME=~"tipo_registro = :as_tipo_registro~") COMPUTE(NAME=~"tipo_fattura = :ac_tipo_fattura~")WHERE(    EXP1 =~"~~~"cast_cpt_documento~~~".~~~"id_documento~~~"~"   OP =~"=~"    EXP2 =~":al_id_documento~" ) ) ARG(NAME = ~"al_id_documento~" TYPE = number)  ARG(NAME = ~"as_tipo_registro~" TYPE = string)  ARG(NAME = ~"ac_tipo_fattura~" TYPE = string) " arguments=(("al_id_documento", number),("as_tipo_registro", string),("ac_tipo_fattura", string))  sort="sort A " )
+text(band=header alignment="2" text="Id Conto"border="0" color="0" x="9" y="8" height="56" width="274"  name=id_conto_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Tipo Riga Cpt"border="0" color="0" x="293" y="8" height="56" width="288"  name=tipo_riga_cpt_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Val Imponibile"border="0" color="0" x="590" y="8" height="56" width="297"  name=val_imponibile_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Val Imp Scontato"border="0" color="0" x="896" y="8" height="56" width="370"  name=val_imp_scontato_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Val Omaggi"border="0" color="0" x="1275" y="8" height="56" width="274"  name=val_omaggi_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Val Spese"border="0" color="0" x="1559" y="8" height="56" width="274"  name=val_spese_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Tipo Fattura"border="0" color="0" x="2542" y="8" height="56" width="265"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Segno"border="0" color="0" x="2816" y="8" height="56" width="210"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Sort"border="0" color="0" x="3035" y="8" height="56" width="165"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=10 border="0" color="0" x="9" y="4" height="64" width="274" format="[general]"  name=id_conto edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=4 alignment="1" tabsequence=40 border="0" color="0" x="896" y="4" height="64" width="370" format="[general]"  name=val_imp_scontato edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=5 alignment="1" tabsequence=50 border="0" color="0" x="1275" y="4" height="64" width="274" format="[general]"  name=val_omaggi edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="0" color="0" x="293" y="4" height="64" width="288" format="[general]"  name=tipo_riga_cpt edit.limit=1 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=3 alignment="1" tabsequence=30 border="0" color="0" x="590" y="4" height="64" width="297" format="[general]"  name=val_imponibile edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=6 alignment="1" tabsequence=60 border="0" color="0" x="1559" y="4" height="64" width="274" format="[general]"  name=val_spese edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+compute(band=detail alignment="1" expression="IF ( (tipo_riga_cpt = 'S'),  val_imp_scontato , 0  )"border="0" color="0" x="1842" y="4" height="64" width="256" format="[general]"  name=val_imp_scontato_isn  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="1" expression="IF ( (tipo_riga_cpt = 'S'),  val_spese , 0  )"border="0" color="0" x="2107" y="4" height="64" width="256" format="[general]"  name=val_spese_isn  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="2373" y="4" height="64" width="160" format="[general]"  name=tipo_registro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="2542" y="4" height="64" width="265" format="[general]"  name=tipo_fattura edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+compute(band=detail alignment="0" expression="CASE( as_tipo_registro
+   WHEN ~"IA~" THEN
+      (CASE (ac_tipo_fattura
+         WHEN ~"N~" THEN (CASE (tipo_riga_cpt
+               WHEN ~"S~" THEN ~"A~"
+               WHEN ~"C~" THEN ~"D~"
+               WHEN ~"I~" THEN ~"D~"
+               WHEN ~"N~" THEN ~"D~"))
+
+         WHEN ~"C~" THEN (CASE (tipo_riga_cpt
+               WHEN ~"S~" THEN ~"D~"
+               WHEN ~"C~" THEN ~"A~"
+               WHEN ~"I~" THEN ~"A~"
+               WHEN ~"N~" THEN ~"A~"))
+
+         WHEN ~"D~" THEN (CASE (tipo_riga_cpt
+               WHEN ~"S~" THEN ~"A~"
+               WHEN ~"C~" THEN ~"D~"
+               WHEN ~"I~" THEN ~"D~"
+               WHEN ~"N~" THEN ~"D~"))))
+   WHEN ~"IV~",~"IC~" THEN
+      (CASE (ac_tipo_fattura
+         WHEN ~"N~" THEN (CASE (tipo_riga_cpt
+               WHEN ~"S~" THEN ~"D~"
+               WHEN ~"C~" THEN ~"A~"
+               WHEN ~"I~" THEN ~"A~"
+               WHEN ~"N~" THEN ~"A~"))
+
+         WHEN ~"C~" THEN (CASE (tipo_riga_cpt
+               WHEN ~"S~" THEN ~"A~"
+               WHEN ~"C~" THEN ~"D~"
+               WHEN ~"I~" THEN ~"D~"
+               WHEN ~"N~" THEN ~"D~"))
+
+         WHEN ~"D~" THEN (CASE (tipo_riga_cpt
+               WHEN ~"S~" THEN ~"D~"
+               WHEN ~"C~" THEN ~"A~"
+               WHEN ~"I~" THEN ~"A~"
+               WHEN ~"N~" THEN ~"A~")))))
+"border="0" color="0" x="2816" y="4" height="64" width="210" format="[general]"  name=segno  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+compute(band=detail alignment="0" expression="case( tipo_riga_cpt 
+	when ~"S~" then 1
+	when ~"C~" then 2
+	when ~"I~" then 3
+	when ~"N~" then 4
+	else 99)
+
+"border="0" color="0" x="3035" y="4" height="64" width="165" format="[general]"  name=sort  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+compute(band=footer alignment="1" expression="sum (val_imp_scontato_isn) + sum (val_spese_isn)"border="0" color="0" x="1842" y="4" height="64" width="256" format="[general]"  name=tot_documento  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="sum (val_omaggi)"border="0" color="0" x="2107" y="0" height="76" width="256" format="[general]"  name=tot_omaggi  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

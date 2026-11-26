@@ -1,0 +1,104 @@
+﻿global type f_calc_sconto_prezzo from function_object
+end type
+
+forward prototypes
+global function decimal f_calc_sconto_prezzo (decimal adc_prezzo, string as_sconto, decimal adc_qta)
+end prototypes
+
+global function decimal f_calc_sconto_prezzo (decimal adc_prezzo, string as_sconto, decimal adc_qta);
+char		lc_sconto[],	lc_item[],		lc_c,		lc_sep
+long		ll_itemc,		ll_nchars,		ll_char
+boolean	lb_minus
+decimal	ldc_parte
+string	ls_test
+integer	li_test
+
+
+ldc_parte = 0.5
+ls_test = string(ldc_parte)
+li_test = pos(ls_test,"0")
+if li_test>0 then li_test ++
+lc_sep = mid(ls_test,li_test,1)
+
+if isNull (adc_prezzo) then adc_prezzo = 0
+if isNull (as_sconto) then as_sconto = ""
+if (isNull (adc_qta)) or (adc_qta = 0) then adc_qta = 1
+
+
+lc_item = ""
+ll_itemc = 0
+lb_minus = false
+if as_sconto> "" then
+	lc_sconto = trim(as_sconto)
+	ll_nchars = upperbound(lc_sconto)
+	for ll_char = 1 to ll_nchars
+		lc_c = lc_sconto[ll_char]
+		choose case lc_c
+			case '-'
+				if (ll_char=1) or (lc_item>"") then
+					ldc_parte = dec(lc_item)
+					if (ldc_parte<0) or (ldc_parte>100 and not lb_minus) then
+						
+						setNull (ldc_parte)
+						return (ldc_parte)
+					else
+						if lb_minus then ldc_parte = (0.0 - ldc_parte)
+						adc_prezzo = adc_prezzo * (100.0 - ldc_parte)/100.0
+					end if
+				else
+					
+					setNull (ldc_parte)
+					return ldc_parte
+				end if
+				lc_item = ""
+				ll_itemc = 0
+				lb_minus = true
+			case'+'
+				if (ll_char=1) or (lc_item>"") then
+					ldc_parte = dec(lc_item)
+					if (ldc_parte<0) or (ldc_parte>100 and not lb_minus) then
+						
+						setNull (ldc_parte)
+						return (ldc_parte)
+					else
+						if lb_minus then ldc_parte = (0.0 - ldc_parte)
+						adc_prezzo = adc_prezzo * (100.0 - ldc_parte)/100.0
+					end if
+				else
+					
+					setNull (ldc_parte)
+					return ldc_parte
+				end if
+				lc_item = ""
+				ll_itemc = 0
+				lb_minus = false
+			case '0','1','2','3','4','5','6','7','8','9',lc_sep
+				ll_itemc ++
+				lc_item[ll_itemc] = lc_sconto[ll_char]
+			case '~r','~n','~t',' '
+			case else
+				setNull (ldc_parte)
+				return ldc_parte
+		end choose
+	next
+	
+	
+	
+	if lc_item>"" then
+		ldc_parte = dec(lc_item)
+		if (ldc_parte<0) or (ldc_parte>100 and not lb_minus) then
+			
+			setNull (ldc_parte)
+			return (ldc_parte)
+		else
+			if lb_minus then ldc_parte = (0.0 - ldc_parte)
+			adc_prezzo = adc_prezzo * (100.0 - ldc_parte)/100.0
+		end if
+	end if
+	return adc_prezzo
+
+else
+	return adc_prezzo
+end if
+end function
+

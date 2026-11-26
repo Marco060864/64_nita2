@@ -1,0 +1,15 @@
+﻿global type s_ges_lotti from structure
+	long		s_id_articolo
+	date		s_data_scadenza
+	decimal {2}	s_qta_da_scaricare
+	long		s_numero
+	string		s_flag_copia
+	decimal {2}	s_qta_originale
+	datastore		s_ds_lotti
+	long		s_id_lotti[]
+	decimal {2}	s_qta_scar_originale[]
+	decimal {4}	s_peso_da_scaricare
+	decimal {4}	s_peso_originale
+	decimal {4}	s_peso_scar_originale[]
+end type
+

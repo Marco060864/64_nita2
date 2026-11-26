@@ -1,0 +1,27 @@
+﻿global type f_traduci from function_object
+end type
+
+forward prototypes
+global function string f_traduci (string as_da_lingua, string as_lingua, string as_da_tradurre)
+end prototypes
+
+global function string f_traduci (string as_da_lingua, string as_lingua, string as_da_tradurre);integer i, a
+long ll_righe, ll_riga_trovata
+string ls_des, ls_des1, ls_ricerca_da, ls_des2, ls_desok, ls_traduzione
+datastore ds_traduzione
+integer li_pos
+
+ds_traduzione=create datastore
+ds_traduzione.dataobject="d_traduci_gd"
+ds_traduzione.settransobject(sqlca)
+ll_righe=ds_traduzione.retrieve()
+	ll_riga_trovata=ds_traduzione.find(as_da_lingua+"='"+as_da_tradurre+"'", 1, ll_righe)
+	if ll_riga_trovata>0 then
+		ls_traduzione=ds_traduzione.getitemstring(ll_riga_trovata, as_lingua)
+	else
+		ls_traduzione=as_da_tradurre
+	end if
+destroy ds_traduzione
+return ls_traduzione
+end function
+

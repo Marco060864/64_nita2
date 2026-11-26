@@ -1,0 +1,309 @@
+﻿global type recupera_prezzo from function_object
+end type
+
+forward prototypes
+global function string recupera_prezzo (string ls_app, long ll_id_u_c_in_esame, long ll_sog_com, long ll_id_cat_com_sc, string ls_cod_art_in_esame, long ll_id_cat_com_articolo, long ll_sog_com_fornitore, long ll_id_produttore, date ldt_data_attuale, decimal ld_qta, string ls_tipo_applicazione, long al_id_articolo, long al_id_magazzino)
+end prototypes
+
+global function string recupera_prezzo (string ls_app, long ll_id_u_c_in_esame, long ll_sog_com, long ll_id_cat_com_sc, string ls_cod_art_in_esame, long ll_id_cat_com_articolo, long ll_sog_com_fornitore, long ll_id_produttore, date ldt_data_attuale, decimal ld_qta, string ls_tipo_applicazione, long al_id_articolo, long al_id_magazzino);
+
+
+STRING			LS_SQL_SCRIPT				
+string			data_registrazione
+long 				ll_riga_corrente
+decimal{4}		ld_importo					
+decimal{4}		ld_cambio
+decimal{4}		ld_prezzo					
+long 				ll_listino					
+string			ls_percentuali				
+integer			i
+string			ls_perc
+decimal{4}		ld_sconto
+decimal{4}		ld_sconto_riga
+decimal{4}		ld_sconto_documento
+decimal			ld_cmc
+long				ll_id_attivita
+
+long				ll_id_listino				
+string			ls_qta
+long				ll_pos
+string			ls_filtro_ulteriore		
+
+data_registrazione = string(ldt_data_attuale,'yy/mm/dd')
+ls_qta=string(ld_qta)
+ll_pos = Pos(ls_qta, ",", 1)
+ls_tipo_applicazione = trim(ls_tipo_applicazione)
+ls_qta=replace(ls_qta, ll_pos, 1, ".")
+	select id_listino
+	into :ll_id_listino
+	from sog_commerciale
+	where id_sog_commerciale = :ll_sog_com;
+	if sqlca.sqlcode<>0 then ll_id_listino=0
+if ls_app='A' or ls_app='V' then
+	LS_SQL_SCRIPT = ""	
+	LS_SQL_SCRIPT+="(applicazione = '"+ls_app+"') and (tipo_applicazione = "+ls_tipo_applicazione+") and "
+	LS_SQL_SCRIPT+="( id_sog_commerciale  = "+string(ll_sog_com)+" or isNull( id_sog_commerciale )) and "
+	LS_SQL_SCRIPT+="( id_cat_com_sc = "+string(ll_id_cat_com_sc)+" or isNull( id_cat_com_sc )) and "
+	LS_SQL_SCRIPT+="( id_unita_confezione = "+string(ll_id_U_C_in_esame)+" or isNull( id_unita_confezione )) and "
+	LS_SQL_SCRIPT+="(( cod_art_da <= '"+ls_cod_art_in_esame+"' or isNull( cod_art_da )) and "
+	LS_SQL_SCRIPT+="( cod_art_a  >= '"+ls_cod_art_in_esame+"' or isNull( cod_art_a ))) and "
+	LS_SQL_SCRIPT+="( id_cat_com_articolo = "+string(ll_id_cat_com_articolo)+" or isNull( id_cat_com_articolo )) and "
+	LS_SQL_SCRIPT+="( data_inizio <= date('"+string(ldt_data_attuale)+"') and ( data_fine >= date('"+string(ldt_data_attuale)+"') or isNull( data_fine ) ) ) and "
+	LS_SQL_SCRIPT+="( ( qta_minima <= "+ls_qta+" or isNull( qta_minima ) ) and (  qta_massima >= "+ls_qta+" or isNull( qta_massima ) ) )"
+else
+	LS_SQL_SCRIPT="tipo_applicazione="+ls_tipo_applicazione  &
+	+" and (id_unita_confezione="+string(ll_id_U_C_in_esame)& 
+	+" or id_sog_commerciale="+string(ll_sog_com)+ " or id_cat_com_sc="+string(ll_id_cat_com_sc)&
+	+" or cod_art_da<='"+ls_cod_art_in_esame+"' or cod_art_a>='"+ls_cod_art_in_esame &
+	+"' or id_cat_com_articolo="+string(ll_id_cat_com_articolo)+" or id_sog_commerciale_forn="&
+	+string(ll_sog_com_fornitore)+" or id_anagrafica="+string(ll_id_produttore)&
+	+" or (qta_minima<="+ ls_qta+" and qta_massima>="+ls_qta+"))"
+end if
+
+datastore ds_recupera_prezzo
+ds_recupera_prezzo=create datastore
+
+ds_recupera_prezzo.dataobject="d_recupera_prezzo_gd"
+
+ds_recupera_prezzo.settransobject(sqlca)
+
+
+integer li_filtro
+
+li_filtro=ds_recupera_prezzo.setfilter(LS_SQL_SCRIPT)
+if li_filtro<> 1 then 
+	messagebox("QUERY_2 con FILTRO = "+string(li_filtro), LS_SQL_SCRIPT )
+end if
+ds_recupera_prezzo.filter()
+ds_recupera_prezzo.retrieve(ldt_data_attuale)
+
+
+
+
+if ds_recupera_prezzo.rowcount()>0 then
+	ls_app=ds_recupera_prezzo.getitemstring(1, "tipo_applicazione")
+
+	
+	
+	if ls_app="P" then
+		ld_importo=ds_recupera_prezzo.getitemdecimal(1, "importo")
+		
+		ld_cambio =ds_recupera_prezzo.getitemdecimal(1, "valuta_cambio")
+		if isnull(ld_cambio) or ld_cambio <= 0 then ld_cambio = 1
+		
+		if not isnull(ld_importo) then 
+			ld_prezzo=ld_importo*ld_cambio
+		else
+			ls_app="H"
+		end if
+	END IF
+	
+	
+		if ls_app="I" or ls_app="H" then
+			if ds_recupera_prezzo.getitemnumber(1, "id_listino")>0 then 
+				ll_listino=ds_recupera_prezzo.getitemnumber(1, "id_listino")
+				select p.prezzo, valuta.cambio
+				into :ld_prezzo, :ld_cambio
+				from prezzo p, unita_confezione u, variazione v, listino l, valuta
+				where l.id_listino=:ll_listino
+				and l.id_valuta = valuta.id_valuta
+				and v.id_listino = l.id_listino
+				and u.id_unita_confezione = p.id_unita_confezione
+				and v.id_variazione = p.id_variazione
+				and u.id_unita_confezione = :ll_id_U_C_in_esame
+				and (dateformat(v.data_inizio ,'yy/mm/dd') <= :data_registrazione)
+				and (dateformat(v.data_fine ,'yy/mm/dd') >= :data_registrazione or v.data_fine IS NULL);
+				if ld_cambio = 0 or isnull(ld_cambio) then ld_cambio = 1
+				ld_prezzo = ld_prezzo*ld_cambio
+				
+			END IF
+			if isNull(ld_prezzo) or (ld_prezzo <= 0) then
+					ll_sog_com=ds_recupera_prezzo.getitemnumber(1, "id_sog_commerciale")
+					if ll_sog_com>0 then
+						select id_listino
+						into :ll_listino
+						from sog_commerciale
+						where id_sog_commerciale=:ll_sog_com;
+						if sqlca.sqlcode=0 then
+							select p.prezzo, valuta.cambio
+							into :ld_prezzo, :ld_cambio
+							from prezzo p, unita_confezione u, variazione v, listino l, valuta
+							where l.id_listino=:ll_listino
+							and l.id_valuta = valuta.id_valuta
+							and v.id_listino = l.id_listino
+							and u.id_unita_confezione = p.id_unita_confezione
+							and v.id_variazione = p.id_variazione
+							and u.id_unita_confezione = :ll_id_U_C_in_esame
+							and (dateformat(v.data_inizio ,'yy/mm/dd') <= :data_registrazione)
+							and (dateformat(v.data_fine ,'yy/mm/dd') >= :data_registrazione or v.data_fine IS NULL);
+							if ld_cambio = 0 or isnull(ld_cambio) then ld_cambio = 1
+							ld_prezzo = ld_prezzo*ld_cambio
+						
+						
+						else
+							select p.prezzo, valuta.cambio
+							into :ld_prezzo, :ld_cambio
+							from prezzo p, unita_confezione u, variazione v, listino l, valuta
+							where u.id_unita_confezione=p.id_unita_confezione
+							and v.id_variazione=p.id_variazione
+							and l.id_listino = v.id_listino
+							and l.id_valuta = valuta.id_vauta
+							and u.id_unita_confezione=:ll_id_U_C_in_esame
+							and (dateformat(v.data_inizio ,'yy/mm/dd') <= :data_registrazione)
+							and (dateformat(v.data_fine ,'yy/mm/dd') >= :data_registrazione or v.data_fine IS NULL)
+							and v.id_listino not in ( SELECT sog_commerciale.id_listino 
+																FROM sog_commerciale 
+																WHERE sog_commerciale.id_listino IS NOT NULL);
+							if ld_cambio = 0 or isnull(ld_cambio) then ld_cambio = 1
+							ld_prezzo = ld_prezzo*ld_cambio
+																
+							
+							
+							if sqlca.sqlcode<>0 then
+								messagebox("Attenzione!", "Non esiste un prezzo da recuperare!")
+							end if
+						end if
+					end if
+			end if
+		end if
+
+choose case ls_app
+	case "P" , "H"
+		ls_percentuali=ds_recupera_prezzo.getitemstring(1, "percentuali")
+			if len(ls_percentuali)>0 then
+				for i = 1 to len(ls_percentuali)
+					ls_perc=ls_perc+mid(ls_percentuali, i, 1)
+					if i>1 and (right(ls_perc, 1)="+" or right(ls_perc, 1)="-" or i=len(ls_percentuali)) then
+						if i<> len(ls_percentuali) then ls_perc=mid(ls_perc, 1, len(ls_perc)-1)
+						ld_prezzo=ld_prezzo - (ld_prezzo*dec(ls_perc)/100)
+						ls_perc=mid(ls_percentuali, i, 1)
+					end if
+				next
+			end if
+			
+			ls_perc=""
+			ls_percentuali=ds_recupera_prezzo.getitemstring(1, "spesa")
+			if len(ls_percentuali)>0 then
+				for i = 1 to len(ls_percentuali)
+					ls_perc=ls_perc+mid(ls_percentuali, i, 1)
+					if i>1 and (right(ls_perc, 1)="+" or right(ls_perc, 1)="-" or i=len(ls_percentuali)) then
+						if i<> len(ls_percentuali) then ls_perc=mid(ls_perc, 1, len(ls_perc)-1)
+						
+						ld_prezzo=ld_prezzo+(ld_prezzo*dec(ls_perc)/100)
+						ls_perc=mid(ls_percentuali, i, 1)
+					end if
+				next
+			end if
+			
+			
+			ld_importo=ds_recupera_prezzo.getitemdecimal(1, "spesa_fissa")
+			
+			ld_cambio =ds_recupera_prezzo.getitemdecimal(1, "valuta_cambio")
+			if isnull(ld_cambio) or ld_cambio <= 0 then ld_cambio = 1
+			if ld_importo>0 and not isnull(ld_importo) then
+				ld_prezzo=ld_prezzo+(ld_importo*ld_cambio)
+			end if
+	case "I"
+		ld_sconto=ds_recupera_prezzo.getitemdecimal(1, "importo")
+		
+		ld_cambio =ds_recupera_prezzo.getitemdecimal(1, "valuta_cambio")
+		if isnull(ld_cambio) or ld_cambio <= 0 then ld_cambio = 1
+		if not isnull(ld_sconto) then
+			ld_prezzo=ld_prezzo - (ld_sconto*ld_cambio)
+		end if
+		
+			ls_perc=""
+			ls_percentuali=ds_recupera_prezzo.getitemstring(1, "spesa")
+			if len(ls_percentuali)>0 then
+				for i = 1 to len(ls_percentuali)
+					ls_perc=ls_perc+mid(ls_percentuali, i, 1)
+					if i>1 and (right(ls_perc, 1)="+" or right(ls_perc, 1)="-" or i=len(ls_percentuali)) then
+						if i<> len(ls_percentuali) then ls_perc=mid(ls_perc, 1, len(ls_perc)-1)
+						ld_prezzo=ld_prezzo+(ld_prezzo*dec(ls_perc)/100)
+						ls_perc=mid(ls_percentuali, i, 1)
+					end if
+				next
+			end if
+			
+			
+			ld_importo=ds_recupera_prezzo.getitemdecimal(1, "spesa_fissa")
+			
+			ld_cambio =ds_recupera_prezzo.getitemdecimal(1, "valuta_cambio")
+			if isnull(ld_cambio) or ld_cambio <= 0 then ld_cambio = 1
+			if ld_importo>0 or not isnull(ld_importo) then
+				ld_prezzo=ld_prezzo+(ld_importo*ld_cambio)
+			end if
+	case "R"
+		ld_sconto_riga=ds_recupera_prezzo.getitemdecimal(1, "importo")
+		
+		ld_cambio =ds_recupera_prezzo.getitemdecimal(1, "valuta_cambio")
+		if isnull(ld_cambio) or ld_cambio <= 0 then ld_cambio = 1
+		return string(ld_sconto_riga*ld_cambio)
+	case "C"
+		
+		select id_attivita
+		into :ll_id_attivita
+		from azienda
+		where id_azienda=1;
+		
+			select cmc
+			into :ld_cmc
+			from cmc
+			where id_attivita=:ll_id_attivita
+			and id_magazzino=:al_id_magazzino
+			and id_articolo=:al_id_articolo;
+			
+			if sqlca.sqlcode=0 then
+				ld_prezzo=ld_cmc
+				ls_percentuali=ds_recupera_prezzo.getitemstring(1, "percentuali")
+				if len(ls_percentuali)>0 then
+					for i = 1 to len(ls_percentuali)
+						ls_perc=ls_perc+mid(ls_percentuali, i, 1)
+						if i>1 and (right(ls_perc, 1)="+" or right(ls_perc, 1)="-" or i=len(ls_percentuali)) then
+							
+							if i<> len(ls_percentuali) then ls_perc=mid(ls_perc, 1, len(ls_perc)-1)
+							ld_prezzo=ld_prezzo+(ld_prezzo*dec(ls_perc)/100)
+							ls_perc=mid(ls_percentuali, i, 1)
+						end if
+					next
+				end if
+			end if
+	case "D"
+		ls_percentuali=ds_recupera_prezzo.getitemstring(1, "percentuali")
+		return ls_percentuali
+	case "S"
+		ls_percentuali=ds_recupera_prezzo.getitemstring(1, "percentuali")
+		return ls_percentuali
+end choose
+
+
+else
+	if ls_tipo_applicazione<> "'D'" and ls_tipo_applicazione<> "'R'" and ls_tipo_applicazione<> "'S'" then
+		select p.prezzo
+		into :ld_prezzo
+		from prezzo p, variazione v
+		where p.id_variazione=v.id_variazione 
+		and v.id_listino=:ll_id_listino
+		and (dateformat(v.data_inizio ,'yy/mm/dd') <= :data_registrazione)
+		and (dateformat(v.data_fine ,'yy/mm/dd') >= :data_registrazione or v.data_fine IS NULL)
+		and p.id_unita_confezione=:ll_id_U_C_in_esame;	
+		
+		
+		if sqlca.sqlcode<>0 then
+			select p.prezzo
+			into :ld_prezzo
+			from prezzo p, variazione v 
+			where p.id_variazione=v.id_variazione 
+			and (dateformat(v.data_inizio ,'yy/mm/dd') <= :data_registrazione)
+			and (dateformat(v.data_fine ,'yy/mm/dd') >= :data_registrazione or v.data_fine IS NULL)
+			and p.id_unita_confezione=:ll_id_U_C_in_esame;	
+		end if
+	end if
+end if
+
+string ls_prezzo
+ls_prezzo=string(ld_prezzo)
+destroy ds_recupera_prezzo 
+return (ls_prezzo)
+end function
+

@@ -1,0 +1,5 @@
+﻿global type s_key_articoli from structure
+	boolean		sn_applica_lista
+	integer		id_lista_articoli
+end type
+

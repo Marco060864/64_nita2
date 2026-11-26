@@ -1,0 +1,6 @@
+﻿global type s_printerr from structure
+	integer		errore
+	string		principale
+	string		dettaglio
+end type
+

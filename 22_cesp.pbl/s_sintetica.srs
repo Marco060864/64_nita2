@@ -1,0 +1,7 @@
+﻿global type s_sintetica from structure
+	string		da_cod
+	string		a_cod
+	date		data_fine
+	string		stato
+end type
+

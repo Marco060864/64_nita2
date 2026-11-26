@@ -1,0 +1,50 @@
+﻿release 5;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=202 color="536870912" )
+summary(height=4 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=87 color="536870912" )
+table(column=(type=char(1) updatewhereclause=yes name=unita_confezione_unita_base dbname="unita_confezione.unita_base" )
+ column=(type=long updatewhereclause=yes name=prezzo_id_variazione dbname="prezzo.id_variazione" )
+ column=(type=long updatewhereclause=yes name=variazione_id_listino dbname="variazione.id_listino" )
+ column=(type=char(8) updatewhereclause=yes name=codice dbname="sog_commerciale.codice" )
+ column=(type=long updatewhereclause=yes name=unita_confezione_id_articolo dbname="unita_confezione.id_articolo" )
+ column=(type=decimal(4) updatewhereclause=yes name=prezzo_prezzo dbname="prezzo.prezzo" )
+ column=(type=decimal(2) updatewhereclause=yes name=prezzo_coef_calo dbname="prezzo.coef_calo" )
+ column=(type=date updatewhereclause=yes name=variazione_data_inizio dbname="variazione.data_inizio" )
+ column=(type=date updatewhereclause=yes name=variazione_data_fine dbname="variazione.data_fine" )
+ column=(type=char(4) updatewhereclause=yes name=listino_codice dbname="listino.codice" )
+ column=(type=char(32) updatewhereclause=yes name=articolo_codice dbname="articolo.codice" )
+ column=(type=char(80) updatewhereclause=yes name=articolo_descrizione dbname="articolo.descrizione" )
+ column=(type=char(40) updatewhereclause=yes name=anagrafica_rag_soc_1 dbname="anagrafica.rag_soc_1" )
+ column=(type=long updatewhereclause=yes identity=yes name=id_sog_commerciale dbname="sog_commerciale.id_sog_commerciale" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"prezzo~" )  TABLE(NAME=~"variazione~" )  TABLE(NAME=~"unita_confezione~" )  TABLE(NAME=~"sog_commerciale~" )  TABLE(NAME=~"listino~" )  TABLE(NAME=~"articolo~" )  TABLE(NAME=~"anagrafica~" ) COLUMN(NAME=~"unita_confezione.unita_base~") COLUMN(NAME=~"prezzo.id_variazione~") COLUMN(NAME=~"variazione.id_listino~") COLUMN(NAME=~"sog_commerciale.codice~") COLUMN(NAME=~"unita_confezione.id_articolo~") COLUMN(NAME=~"prezzo.prezzo~") COLUMN(NAME=~"prezzo.coef_calo~") COLUMN(NAME=~"variazione.data_inizio~") COLUMN(NAME=~"variazione.data_fine~") COLUMN(NAME=~"listino.codice~") COLUMN(NAME=~"articolo.codice~") COLUMN(NAME=~"articolo.descrizione~") COLUMN(NAME=~"anagrafica.rag_soc_1~") COLUMN(NAME=~"sog_commerciale.id_sog_commerciale~")    JOIN (LEFT=~"unita_confezione.id_unita_confezione~"    OP =~"=~"RIGHT=~"prezzo.id_unita_confezione~" )    JOIN (LEFT=~"prezzo.id_variazione~"    OP =~"=~"RIGHT=~"variazione.id_variazione~" )    JOIN (LEFT=~"listino.id_listino~"    OP =~"=~"RIGHT=~"variazione.id_listino~" )    JOIN (LEFT=~"articolo.id_articolo~"    OP =~"=~"RIGHT=~"unita_confezione.id_articolo~" )    JOIN (LEFT=~"variazione.id_listino~"    OP =~"=~"RIGHT=~"sog_commerciale.id_listino~" )    JOIN (LEFT=~"anagrafica.id_anagrafica~"    OP =~"=~"RIGHT=~"sog_commerciale.id_anagrafica~" )WHERE(    EXP1 =~"~~~"unita_confezione~~~".~~~"unita_base~~~"~"   OP =~"=~"    EXP2 =~"'S'~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"substr(~~~"sog_commerciale~~~".~~~"codice~~~" , 1, 2)~"   OP =~"=~" NEST = PBSELECT( VERSION(400) TABLE(NAME=~"par_sistema~" ) COLUMN(NAME=~"par_sistema.pref_cod_fornitore~"))) ) ORDER(NAME=~"prezzo.prezzo~" ASC=yes )  ORDER(NAME=~"prezzo.coef_calo~" ASC=yes ) "  sort="unita_confezione_id_articolo A " )
+text(band=header alignment="2" text="Unita Base"border="0" color="0" x="18" y="22" height="173" width="129"  name=unita_confezione_unita_base_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cod.
+Listino"border="0" color="0" x="168" y="22" height="173" width="150"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Cod:
+Articolo"border="0" color="0" x="342" y="22" height="173" width="214"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Descrizione"border="0" color="0" x="580" y="22" height="173" width="1099"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Prezzo"border="0" color="0" x="1700" y="22" height="173" width="267"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Data
+inizio"border="0" color="0" x="2184" y="22" height="173" width="189"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Data
+fine"border="0" color="0" x="2447" y="22" height="103" width="97"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Sog Commerciale
+Codice"border="0" color="0" x="2610" y="22" height="173" width="278"  name=sog_commerciale_codice_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Ragione
+sociale"border="0" color="0" x="2913" y="22" height="173" width="562"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Coeff.
+di
+calo"border="0" color="0" x="1988" y="22" height="173" width="175"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="5" color="0" x="18" y="3" height="68" width="129" format="[general]"  name=unita_confezione_unita_base  hidesnaked=1 edit.limit=1 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="5" color="0" x="342" y="3" height="68" width="210" format="[general]"  name=articolo_codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="5" color="0" x="178" y="3" height="68" width="132" format="[general]"  name=listino_codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="5" color="0" x="584" y="3" height="68" width="1099" format="[general]"  name=articolo_descrizione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="5" color="0" x="1704" y="3" height="68" width="267" format="[general]"  name=prezzo_prezzo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="5" color="0" x="2905" y="3" height="68" width="566" format="[general]"  name=anagrafica_rag_soc_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=4 alignment="2" tabsequence=32766 border="5" color="0" x="2607" y="3" height="68" width="278" format="[general]"  name=codice  hidesnaked=1 edit.limit=8 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="5" color="0" x="2393" y="3" height="68" width="196" format="[general]"  name=variazione_data_fine edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="5" color="0" x="2191" y="3" height="68" width="189" format="[general]"  name=variazione_data_inizio edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="5" color="0" x="1992" y="3" height="68" width="175" format="[general]"  name=prezzo_coef_calo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+  

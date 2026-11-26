@@ -1,0 +1,5 @@
+﻿global type str_riepilogo from structure
+	string		valore_caricato
+	string		quantita_caricata
+end type
+

@@ -1,0 +1,6 @@
+﻿global type s_ord_fab from structure
+	string		filtro
+	date		da_data
+	date		a_data
+end type
+

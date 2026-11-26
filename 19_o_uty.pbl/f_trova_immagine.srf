@@ -1,0 +1,20 @@
+﻿global type f_trova_immagine from function_object
+end type
+
+forward prototypes
+global function string f_trova_immagine (long al_id_soggetto, long al_id_articolo)
+end prototypes
+
+global function string f_trova_immagine (long al_id_soggetto, long al_id_articolo);
+
+string ls_nome_immagine
+
+select nome_immagine
+into :ls_nome_immagine
+from immagini_cliente
+where id_sog_commerciale=:al_id_soggetto
+and id_articolo= :al_id_articolo;
+if isnull(ls_nome_immagine) then ls_nome_immagine=""
+return ls_nome_immagine
+end function
+

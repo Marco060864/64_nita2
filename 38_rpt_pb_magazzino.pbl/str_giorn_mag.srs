@@ -1,0 +1,9 @@
+﻿global type str_giorn_mag from structure
+	date		da_data
+	date		a_data
+	string		filtro
+	character		flag
+	character		parametri
+	long		id_valuta
+end type
+

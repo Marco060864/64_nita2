@@ -1,0 +1,79 @@
+﻿global type f_set_code from function_object
+end type
+
+forward prototypes
+global function s_code_mask f_set_code (long al_id_rule)
+end prototypes
+
+global function s_code_mask f_set_code (long al_id_rule);string ls_parti_regola[], ls_parte, ls_mask, ls_val_proposto[], ls_proposto, ls_riemp, ls_car_riemp[]
+long ll_count, ll_size, ll_lunghezza, ll_parte_lunghezza[]
+integer li_len, li_pos
+s_code_mask lstr_code_mask
+
+lstr_code_mask.s_mask = ""
+lstr_code_mask.s_initial = ""
+DECLARE lcur_parti_regola CURSOR FOR
+SELECT cod_parte.mas_input, cod_parte.val_proposto, cod_parte.car_riempimento, parte_regola.lunghezza
+    FROM cod_parte, parte_regola
+	 WHERE cod_parte.id_cat_codifica = :al_id_rule AND cod_parte.id_parte_regola = parte_regola.id_parte_regola
+	 ORDER BY parte_regola.num_sezione;
+OPEN lcur_parti_regola;
+
+IF sqlca.sqlcode < 0 THEN
+	MessageBox ("DataBase Error!", sqlca.sqlerrtext, exclamation!)
+	RETURN lstr_code_mask
+END IF
+ll_count= 0
+do while sqlca.sqlcode = 0
+	fetch lcur_parti_regola into :ls_parte, :ls_proposto, :ls_riemp, :ll_lunghezza;
+	if sqlca.sqlcode = 0 then
+		ll_count++
+		ls_parti_regola[ll_count] = ls_parte
+		ls_val_proposto[ll_count] = ls_proposto
+		ls_car_riemp[ll_count] = ls_riemp
+		ll_parte_lunghezza[ll_count] = ll_lunghezza
+	elseif sqlca.sqlcode < 0 then
+		MessageBox ("DataBase Error", sqlca.sqlerrtext, exclamation!)
+		return lstr_code_mask
+	else
+		exit
+	end if
+loop
+close lcur_parti_regola;
+ls_proposto = ""
+ll_size = UpperBound(ls_parti_regola)
+for ll_count = 1 to ll_size
+	ls_parte = ls_parti_regola[ll_count]
+	if not IsNull(ls_val_proposto[ll_count]) then
+		ls_proposto = ls_proposto + ls_val_proposto[ll_count]
+	else
+		if not IsNull(ls_car_riemp[ll_count]) then
+			ls_proposto = ls_proposto + f_lpad("",ls_car_riemp[ll_count], ll_parte_lunghezza[ll_count])
+		else
+			ls_proposto = ls_proposto + f_lpad("","_", ll_parte_lunghezza[ll_count])
+		end if
+	end if 
+	li_len = Len(ls_parte)
+	for li_pos = 1 to li_len
+		CHOOSE CASE Mid(ls_parte,li_pos, 1)
+			CASE "A"
+				ls_mask = ls_mask + "!"
+			CASE "N"
+				ls_mask = ls_mask + "#"
+			CASE "M"
+				ls_mask = ls_mask + "a"
+			CASE "X"
+				ls_mask = ls_mask + "X"
+			
+			CASE ELSE
+				
+		END CHOOSE
+	next
+next
+lstr_code_mask.s_mask = ls_mask
+lstr_code_mask.s_initial = ls_proposto
+RETURN lstr_code_mask
+
+
+end function
+

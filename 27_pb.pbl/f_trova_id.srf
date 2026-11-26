@@ -1,0 +1,52 @@
+﻿global type f_trova_id from function_object
+end type
+
+forward prototypes
+global subroutine f_trova_id (string as_tabella_db, string as_campo_ritorno, string as_campo_ricerca, long al_id, ref long al_retval[])
+end prototypes
+
+global subroutine f_trova_id (string as_tabella_db, string as_campo_ritorno, string as_campo_ricerca, long al_id, ref long al_retval[]);
+
+
+
+long		ll_id_tabella, ll_sqlerr
+string	ls_id, sqlstatement
+long		ll_id[]
+
+sqlstatement = "SELECT distinct " + as_campo_ritorno + " FROM " + as_tabella_db + &
+	+" WHERE ( " + as_tabella_db + "." + as_campo_ricerca + " = " + string(al_id) + " ) "
+PREPARE SQLSA FROM :sqlstatement ;
+ll_sqlerr = sqlca.sqlcode
+if ll_sqlerr = 0 then
+	describe sqlsa into sqlda;
+else
+	MessageBox ("DataBase Error 1!", "Problemi durante funzione PREPARE.", exclamation!)
+	return
+end if
+ll_sqlerr = sqlca.sqlcode
+if ll_sqlerr = 0 then
+	DECLARE lcur_id_tabella DYNAMIC CURSOR FOR SQLSA ;
+else
+	MessageBox ("DataBase Error 2!", "Non riuscito DESCRIBE sqlsa into SQLDA", exclamation!)
+	return
+end if
+ll_sqlerr = sqlca.sqlcode
+if ll_sqlerr = 0 then
+	OPEN DYNAMIC lcur_id_tabella using descriptor sqlda;
+	fetch lcur_id_tabella into :ll_id_tabella;
+	ll_sqlerr = sqlca.sqlcode
+	do while ll_sqlerr = 0
+		
+		ll_id[UpperBound(ll_id)+1] = ll_id_tabella
+		fetch lcur_id_tabella into :ll_id_tabella;
+		ll_sqlerr = sqlca.sqlcode
+	loop
+	close lcur_id_tabella;
+else
+	MessageBox ("DataBase Error 3!", "Non riuscito DECLARE del cursore", exclamation!)
+	return
+end if
+al_retval = ll_id
+
+end subroutine
+

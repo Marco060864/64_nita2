@@ -1,0 +1,17 @@
+﻿global type f_tipo_fattura from function_object
+end type
+
+forward prototypes
+global function string f_tipo_fattura (integer al_id_doc)
+end prototypes
+
+global function string f_tipo_fattura (integer al_id_doc);string ls_tipo
+
+select tipo_fattura
+into :ls_tipo
+from dba.documento
+where id_documento=:al_id_doc;
+
+return ls_tipo
+end function
+

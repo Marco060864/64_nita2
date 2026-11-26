@@ -1,0 +1,9 @@
+﻿global type s_crea_dw from structure
+	string		ls_dw_sintax
+	long		ll_id_doc
+	string		s_selezione
+	u_dw_master_main		dw_riga
+	u_dw_master_main		dw_gen
+	string		s_ordina
+end type
+

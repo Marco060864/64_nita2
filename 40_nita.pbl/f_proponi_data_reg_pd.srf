@@ -1,0 +1,131 @@
+﻿global type f_proponi_data_reg_pd from function_object
+end type
+
+forward prototypes
+global function date f_proponi_data_reg_pd (long al_id_registro, string as_prog_scritture)
+end prototypes
+
+global function date f_proponi_data_reg_pd (long al_id_registro, string as_prog_scritture);
+
+long LL_ID_AZIENDA, ll_id_esercizio
+date ld_Ultima_Data_Reg, ld_data_inizio, ld_data_fine, ld_oggi, ld_data_bollato
+LL_ID_AZIENDA = 1
+ld_oggi = Today()
+if as_prog_scritture='N' then
+	IF NOT (IsNull(al_id_registro) OR al_id_registro = 0) THEN
+		SELECT MAX("dba"."reg_pd"."data_registrazione")
+			INTO :ld_Ultima_Data_Reg
+			FROM "dba"."reg_pd"   
+			WHERE "dba"."reg_pd"."id_registro" = :al_id_registro;
+	
+	
+		CHOOSE CASE SQLCA.SQLCode
+			CASE -1
+				MessageBox("Errore sul DataBase", "f_proponi_data_reg_pd / 1")
+		END CHOOSE
+	
+	  SELECT "esercizio"."data_inizio",   
+				"esercizio"."data_fine"  
+		 INTO :ld_data_inizio,   
+				:ld_data_fine  
+		 FROM "esercizio",   
+				"registro"  
+		WHERE ( "registro"."id_esercizio" = "esercizio"."id_esercizio" ) and  
+				( ( "registro"."id_registro" = :al_id_registro ) )   ;
+	
+	
+		CHOOSE CASE SQLCA.SQLCode
+			CASE 0
+				
+  
+				
+				
+				IF (NOT ((ld_Ultima_Data_Reg >= ld_data_inizio) AND (ld_Ultima_Data_Reg <= ld_data_fine))) OR &
+					IsNull(ld_Ultima_Data_Reg) THEN
+					ld_Ultima_Data_Reg = ld_data_inizio
+				END IF
+			CASE -1
+				MessageBox("Errore sul DataBase", "f_proponi_data_reg_pd / 2")
+		END CHOOSE
+	
+	END IF
+	
+	IF IsNull(ld_Ultima_Data_Reg) THEN ld_Ultima_Data_Reg = ld_oggi
+	
+	
+	
+	select "ultima_data"
+		into :ld_data_bollato
+		from "dba"."contatori_registri"
+		where "id_registro" = :al_id_registro;
+	
+	CHOOSE CASE SQLCA.SQLCode
+			CASE -1
+				RETURN ld_Ultima_Data_Reg
+			CASE 0
+				If ld_ultima_data_reg < ld_data_bollato then
+					ld_ultima_data_reg = RelativeDate(ld_data_bollato, 1)
+				end if
+				
+	END CHOOSE
+else
+	IF NOT (IsNull(al_id_registro) OR al_id_registro = 0) THEN
+		SELECT MAX("dba"."reg_pd"."data_registrazione")
+			INTO :ld_Ultima_Data_Reg
+			FROM "dba"."reg_pd" ;
+	
+	
+		CHOOSE CASE SQLCA.SQLCode
+			CASE -1
+				MessageBox("Errore sul DataBase", "f_proponi_data_reg_pd / 1")
+		END CHOOSE
+	
+	  SELECT "esercizio"."data_inizio",   
+				"esercizio"."data_fine"  
+		 INTO :ld_data_inizio,   
+				:ld_data_fine  
+		 FROM "esercizio",   
+				"registro"  
+		WHERE ( "registro"."id_esercizio" = "esercizio"."id_esercizio" ) and  
+				( ( "registro"."id_registro" = :al_id_registro ) )   ;
+	
+	
+		CHOOSE CASE SQLCA.SQLCode
+			CASE 0
+				
+  
+				
+				
+				IF (NOT ((ld_Ultima_Data_Reg >= ld_data_inizio) AND (ld_Ultima_Data_Reg <= ld_data_fine))) OR &
+					IsNull(ld_Ultima_Data_Reg) THEN
+					ld_Ultima_Data_Reg = ld_data_inizio
+				END IF
+			CASE -1
+				MessageBox("Errore sul DataBase", "f_proponi_data_reg_pd / 2")
+		END CHOOSE
+	
+	END IF
+	
+	IF IsNull(ld_Ultima_Data_Reg) THEN ld_Ultima_Data_Reg = ld_oggi
+	
+	
+	
+	select "ultima_data"
+		into :ld_data_bollato
+		from "dba"."contatori_registri";
+	
+	CHOOSE CASE SQLCA.SQLCode
+			CASE -1
+				RETURN ld_Ultima_Data_Reg
+			CASE 0
+				If ld_ultima_data_reg < ld_data_bollato then
+					ld_ultima_data_reg = RelativeDate(ld_data_bollato, 1)
+				end if
+				
+	END CHOOSE
+end if
+
+RETURN ld_Ultima_Data_Reg
+
+end function
+

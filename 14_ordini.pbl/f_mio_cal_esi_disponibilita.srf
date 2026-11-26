@@ -1,0 +1,105 @@
+﻿global type f_mio_cal_esi_disponibilita from function_object
+end type
+
+forward prototypes
+global function string f_mio_cal_esi_disponibilita (long al_id_articolo, long al_id_magazzino, long al_id_attivita, decimal ad_anno, decimal ad_mese, long al_id_prof_doc, integer ai_flag)
+end prototypes
+
+global function string f_mio_cal_esi_disponibilita (long al_id_articolo, long al_id_magazzino, long al_id_attivita, decimal ad_anno, decimal ad_mese, long al_id_prof_doc, integer ai_flag);
+string ls_filtro, ls_car_fiscali, ls_scar_fiscali, ls_ord_clienti, ls_ord_fornitori
+string ls_vis_clienti, ls_vis_fornitori, ls_imp_produzione, ls_ord_produzione
+string ls_gr_lib_1, ls_gr_lib_2, ls_gr_lib_3, ls_gr_lib_4, ls_cl_clienti, ls_cl_fornitori
+long ll_riga_corrente, ll_num_righe
+decimal{4} ld_esi_fisica, ld_esi_fiscale, ld_disp
+
+	datastore ds_cal_esi_disponibilita
+	
+	ds_cal_esi_disponibilita=create datastore
+	
+	ds_cal_esi_disponibilita.dataobject="d_cal_esi_disponibilita"
+	
+	ds_cal_esi_disponibilita.settransobject(sqlca)
+	 
+	if ai_flag=1 then 
+		ls_filtro="id_magazzino="+string(al_id_magazzino)
+		ds_cal_esi_disponibilita.setfilter(ls_filtro)
+		if ds_cal_esi_disponibilita.filter() <> 1 then messagebox("ERRORE ","FILTRO "+ls_filtro )
+		
+	end if
+		
+	
+	
+	ds_cal_esi_disponibilita.retrieve(al_id_attivita, al_id_articolo, ad_anno , ad_mese)
+	ll_num_righe=ds_cal_esi_disponibilita.rowcount()
+	if ll_num_righe < 1 then
+		return "No righe!"
+	end if 
+	ld_esi_fisica=ds_cal_esi_disponibilita.getitemdecimal(1, "esi_fisica")
+	ld_esi_fiscale=ds_cal_esi_disponibilita.getitemdecimal(1, "esi_fiscale")
+	if IsNull(al_id_prof_doc) then
+		select 	car_fiscali, sca_fiscali, ord_clienti, ord_fornitori,
+					vis_clienti, vis_fornitori, imp_produzione, ord_produzione, 
+					cl_clienti, cl_fornitori,
+					gr_lib_1, gr_lib_2, gr_lib_3, gr_lib_4
+		into 		:ls_car_fiscali, :ls_scar_fiscali, :ls_ord_clienti, :ls_ord_fornitori,
+					:ls_vis_clienti, :ls_vis_fornitori, :ls_imp_produzione, :ls_ord_produzione,
+					:ls_cl_clienti, :ls_cl_fornitori,
+					:ls_gr_lib_1, :ls_gr_lib_2, :ls_gr_lib_3, :ls_gr_lib_4
+		from		par_disponibilita
+		where		id_prof_documento is null;
+	else
+		select 	car_fiscali, sca_fiscali, ord_clienti, ord_fornitori,
+					vis_clienti, vis_fornitori, imp_produzione, ord_produzione, 
+					cl_clienti, cl_fornitori,
+					gr_lib_1, gr_lib_2, gr_lib_3, gr_lib_4
+		into 		:ls_car_fiscali, :ls_scar_fiscali, :ls_ord_clienti, :ls_ord_fornitori,
+					:ls_vis_clienti, :ls_vis_fornitori, :ls_imp_produzione, :ls_ord_produzione,
+					:ls_cl_clienti, :ls_cl_fornitori,
+					:ls_gr_lib_1, :ls_gr_lib_2, :ls_gr_lib_3, :ls_gr_lib_4
+		from		par_disponibilita
+		where		id_prof_documento= :al_id_prof_doc;
+	end if
+	if sqlca.sqlcode=0 then
+		if isnull(ls_car_fiscali) then ls_car_fiscali=""
+		if isnull(ls_scar_fiscali) then ls_scar_fiscali=""
+		if isnull(ls_vis_fornitori) then ls_vis_fornitori=""
+		if isnull(ls_vis_clienti) then ls_vis_clienti=""
+		if isnull(ls_ord_clienti) then ls_ord_clienti=""
+		if isnull(ls_ord_fornitori) then ls_ord_fornitori=""
+		if isnull(ls_cl_clienti) then ls_cl_clienti=""
+		if isnull(ls_cl_fornitori) then ls_cl_fornitori=""
+		if isnull(ls_imp_produzione) then ls_imp_produzione=""
+		if isnull(ls_ord_produzione) then ls_ord_produzione=""
+		if isnull(ls_gr_lib_1) then ls_gr_lib_1=""
+		if isnull(ls_gr_lib_2) then ls_gr_lib_2=""
+		if isnull(ls_gr_lib_3) then ls_gr_lib_3=""
+		if isnull(ls_gr_lib_4) then ls_gr_lib_4=""
+		
+
+		  ls_car_fiscali += 		string(ds_cal_esi_disponibilita.getitemdecimal(1, "s_qta_caricata"))   
+		  ls_scar_fiscali +=  	string(ds_cal_esi_disponibilita.getitemdecimal(1, "s_qta_scaricata"))  
+		  ls_vis_fornitori +=   string(ds_cal_esi_disponibilita.getitemdecimal(1, "s_vis_fornitori"))  
+		  ls_vis_clienti   +=   string(ds_cal_esi_disponibilita.getitemdecimal(1, "s_vis_clienti")) 
+		  ls_ord_clienti   +=   string(ds_cal_esi_disponibilita.getitemdecimal(1, "s_ord_clienti"))   
+		  ls_ord_fornitori	+= string(ds_cal_esi_disponibilita.getitemdecimal(1, "s_ord_fornitori"))   
+		  ls_cl_clienti    +=	string(ds_cal_esi_disponibilita.getitemdecimal(1, "s_cl_clienti"))
+		  ls_cl_fornitori  += 	string(ds_cal_esi_disponibilita.getitemdecimal(1, "s_cl_fornitori"))
+		  ls_imp_produzione += 	string(ds_cal_esi_disponibilita.getitemdecimal(1, "s_imp_produzione"))  
+		  ls_ord_produzione += 	string(ds_cal_esi_disponibilita.getitemdecimal(1, "s_ord_produzione"))
+		  ls_gr_lib_1 		+=		string(ds_cal_esi_disponibilita.getitemdecimal(1, "s_gruppo_lib_1"))
+		  ls_gr_lib_2 		+=   	string(ds_cal_esi_disponibilita.getitemdecimal(1, "s_gruppo_lib_2"))
+		  ls_gr_lib_3 		+=		string(ds_cal_esi_disponibilita.getitemdecimal(1, "s_gruppo_lib_3"))
+		  ls_gr_lib_4 		+= 	string(ds_cal_esi_disponibilita.getitemdecimal(1, "s_gruppo_lib_4"))
+		  ld_disp= dec(ls_car_fiscali)+dec(ls_scar_fiscali)+dec(ls_vis_fornitori)+&
+				dec(ls_vis_clienti)+dec(ls_ord_clienti)+dec(ls_ord_fornitori)+&
+				dec(ls_cl_clienti)+dec(ls_cl_fornitori)+dec(ls_imp_produzione)+&
+				dec(ls_ord_produzione)+dec(ls_gr_lib_1)+dec(ls_gr_lib_2)+&
+				dec(ls_gr_lib_3)+dec(ls_gr_lib_4)
+	end if
+	
+	ls_filtro=string(ld_esi_fisica)+"F"+string(ld_esi_fiscale)+"D"+string(ld_disp)+"IC"+ls_ord_clienti+"IF"+ls_ord_fornitori
+	destroy ds_cal_esi_disponibilita
+	return ls_filtro
+
+end function
+

@@ -1,0 +1,14 @@
+﻿global type s_cod_parte from structure
+	long		l_id_cod_parte
+	string		s_descrizione
+	long		l_lunghezza
+	string		s_progressivo
+	string		s_variante
+	long		l_num_sezione
+	string		s_mas_input
+	string		s_tipo_richiesta
+	string		s_val_proposto
+	string		s_car_riempimento
+	string		s_solo_in_elenco
+end type
+

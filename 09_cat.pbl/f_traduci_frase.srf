@@ -1,0 +1,34 @@
+﻿global type f_traduci_frase from function_object
+end type
+
+forward prototypes
+global function string f_traduci_frase (string as_da_lingua, string as_a_lingua, string as_des)
+end prototypes
+
+global function string f_traduci_frase (string as_da_lingua, string as_a_lingua, string as_des);integer li_pos, a
+string ls_des2, ls_desok, ls_des1
+
+as_des=f_sostituisci_carattere(as_des, "-", " ")
+as_des=f_sostituisci_carattere(as_des, "_", " ")
+as_des=f_sostituisci_carattere(as_des, ",", " ")
+as_des=f_sostituisci_carattere(as_des, ";", " ")
+
+li_pos=pos(as_des, " ")
+do 
+	if li_pos>0 then
+		ls_des1=mid(as_des, a+1, li_pos - a)
+	else
+		ls_des1=mid(as_des, a+1, len(as_des))
+		
+	end if
+	ls_des2=f_traduci(as_da_lingua, as_a_lingua, ls_des1)
+	if ls_des2> " " then
+		ls_desok+=" "+ls_des2
+	end if
+	//end if
+	a=li_pos
+	li_pos=pos(as_des, " ", a+1)
+loop while a>0 
+return ls_desok
+end function
+

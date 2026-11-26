@@ -1,0 +1,182 @@
+﻿global type f_rec_log_calc from function_object
+end type
+
+forward prototypes
+global function integer f_rec_log_calc (string as_file, string as_testa, string as_riepilogo, any aa_valori[])
+end prototypes
+
+global function integer f_rec_log_calc (string as_file, string as_testa, string as_riepilogo, any aa_valori[]);//20261112 richiesta utente: lo specchietto del REC (wf_rec_log_dopo in w_orafo_documento_ordine_cx) in Excel al posto del .txt.
+//Scrive con LibreOffice Calc (UNO via COM, come f_dw_calc, senza Microsoft Excel) il file as_file (.xlsx):
+//  riga 1 as_testa (grassetto), riga 2 as_riepilogo, riga 4 intestazioni (grassetto, grigio), dalla 5 le righe cambiate,
+//  in fondo il totale delle righe cambiate (Tot. prima, Tot. dopo, Diff.).
+//aa_valori[]: le righe cambiate una dopo l altra, 13 valori per riga nell ordine delle intestazioni qui sotto
+//  (numeri come double, testi come stringa): riga 1 = elementi 1..13, riga 2 = 14..26 ...
+//  Nessun valore = scritta "Nessuna riga cambiata.".
+//Come lo specchietto non deve MAI fermare il lavoro: nessun messaggio, ritorna 1 = file creato, -1 = non creato
+//(chi chiama allora scrive il .txt di prima).
+constant integer NCOL = 13
+//20261126 64_nita2 (Labella): intestazioni senza i nomi Karizia (prezzo e prezzo metallo prima e dopo)
+string ls_intest[13] = {"Riga", "ID ART", "Doc. prov.", "Articolo", "Pz", "Prezzo prima", "Prezzo dopo", &
+	"Metallo prima", "Metallo dopo", "Tot. prima", "Tot. dopo", "Diff.", "Motivo"}
+string ls_url
+long ll_n, ll_i, ll_k, ll_col, ll_ult, ll_f_pz, ll_f_pr, ll_f_tot, ll_f_diff
+double ld_grassetto = 150 //com.sun.star.awt.FontWeight.BOLD
+double ld_tp, ld_td
+any la_righe[], la_riga[], la_vuota[], la_una_riga
+integer li_ret
+oleobject lole_sm, lole_desktop, lole_doc, lole_sheet, lole_range, lole_colonna
+oleobject lole_args[1], lole_filtro[1], lole_locale, lole_formati
+
+if isnull(as_file) or trim(as_file) = "" then return -1
+if isnull(as_testa) then as_testa = ""
+if isnull(as_riepilogo) then as_riepilogo = ""
+ll_n = long(truncate(upperbound(aa_valori) / NCOL, 0))   //righe complete (la divisione in PB arrotonda)
+if ll_n * NCOL < upperbound(aa_valori) then ll_n++
+
+//1. tutte le righe del foglio in un blocco rettangolare (setDataArray): 13 celle per riga
+la_riga = la_vuota
+la_riga[1] = as_testa
+for ll_col = 2 to NCOL
+	la_riga[ll_col] = ""
+next
+la_una_riga = la_riga
+la_righe[1] = la_una_riga
+la_riga[1] = as_riepilogo
+la_una_riga = la_riga
+la_righe[2] = la_una_riga
+la_riga[1] = ""
+la_una_riga = la_riga
+la_righe[3] = la_una_riga
+la_riga = la_vuota
+for ll_col = 1 to NCOL
+	la_riga[ll_col] = ls_intest[ll_col]
+next
+la_una_riga = la_riga
+la_righe[4] = la_una_riga
+ld_tp = 0
+ld_td = 0
+for ll_i = 1 to ll_n
+	la_riga = la_vuota
+	for ll_col = 1 to NCOL
+		la_riga[ll_col] = ""
+		ll_k = (ll_i - 1) * NCOL + ll_col
+		if ll_k <= upperbound(aa_valori) then
+			if not isnull(aa_valori[ll_k]) then la_riga[ll_col] = aa_valori[ll_k]
+		end if
+	next
+	if classname(la_riga[10]) = "double" then ld_tp += double(la_riga[10])
+	if classname(la_riga[11]) = "double" then ld_td += double(la_riga[11])
+	la_una_riga = la_riga
+	la_righe[4 + ll_i] = la_una_riga
+next
+//totale delle righe cambiate (o la scritta se non ce ne sono)
+la_riga = la_vuota
+for ll_col = 1 to NCOL
+	la_riga[ll_col] = ""
+next
+if ll_n > 0 then
+	la_riga[9] = "Totale"
+	la_riga[10] = ld_tp
+	la_riga[11] = ld_td
+	la_riga[12] = ld_td - ld_tp
+else
+	la_riga[1] = "Nessuna riga cambiata."
+end if
+la_una_riga = la_riga
+ll_ult = 4 + ll_n + 1   //ultima riga del foglio (contando da 1)
+la_righe[ll_ult] = la_una_riga
+
+//2. LibreOffice: foglio nuovo nascosto, scrittura, formati, salvataggio
+ls_url = "file:///" + f_sostituisci_carattere(as_file, "\", "/")
+lole_sm = create oleobject
+if lole_sm.ConnectToNewObject("com.sun.star.ServiceManager") <> 0 then
+	destroy lole_sm
+	return -1
+end if
+li_ret = 1
+try
+	lole_desktop = lole_sm.createInstance("com.sun.star.frame.Desktop")
+	lole_args[1] = lole_sm.Bridge_GetStruct("com.sun.star.beans.PropertyValue")
+	lole_args[1].Name = "Hidden"
+	lole_args[1].Value = true
+	lole_filtro[1] = lole_sm.Bridge_GetStruct("com.sun.star.beans.PropertyValue")
+	lole_filtro[1].Name = "FilterName"
+	lole_filtro[1].Value = "Calc MS Excel 2007 XML"
+	lole_doc = lole_desktop.loadComponentFromURL("private:factory/scalc", "_blank", 0, lole_args)
+	lole_sheet = lole_doc.Sheets.getByIndex(0)
+
+	lole_range = lole_sheet.getCellRangeByPosition(0, 0, NCOL - 1, ll_ult - 1)
+	lole_range.setDataArray(la_righe)
+
+	//titolo, intestazioni e totale in grassetto; intestazioni su fondo grigio chiaro
+	lole_range = lole_sheet.getCellRangeByPosition(0, 0, 0, 0)
+	lole_range.setPropertyValue("CharWeight", ld_grassetto)
+	lole_range = lole_sheet.getCellRangeByPosition(0, 3, NCOL - 1, 3)
+	lole_range.setPropertyValue("CharWeight", ld_grassetto)
+	lole_range.setPropertyValue("CellBackColor", 14277081)   //RGB(217,217,217)
+	lole_range = lole_sheet.getCellRangeByPosition(0, ll_ult - 1, NCOL - 1, ll_ult - 1)
+	lole_range.setPropertyValue("CharWeight", ld_grassetto)
+
+	//formati dei numeri (codici in inglese: valgono con qualsiasi lingua)
+	try
+		lole_locale = lole_sm.Bridge_GetStruct("com.sun.star.lang.Locale")
+		lole_locale.Language = "en"
+		lole_locale.Country = "US"
+		lole_formati = lole_doc.getNumberFormats()
+		ll_f_pz = lole_formati.queryKey("#,##0.##", lole_locale, false)
+		if ll_f_pz = -1 then ll_f_pz = lole_formati.addNew("#,##0.##", lole_locale)
+		ll_f_pr = lole_formati.queryKey("0.0000", lole_locale, false)
+		if ll_f_pr = -1 then ll_f_pr = lole_formati.addNew("0.0000", lole_locale)
+		ll_f_tot = lole_formati.queryKey("#,##0.00", lole_locale, false)
+		if ll_f_tot = -1 then ll_f_tot = lole_formati.addNew("#,##0.00", lole_locale)
+		ll_f_diff = lole_formati.queryKey("+#,##0.00;-#,##0.00;0.00", lole_locale, false)
+		if ll_f_diff = -1 then ll_f_diff = lole_formati.addNew("+#,##0.00;-#,##0.00;0.00", lole_locale)
+		//righe dei dati e del totale: da 5 a ll_ult (indici da 0: 4 .. ll_ult - 1)
+		lole_range = lole_sheet.getCellRangeByPosition(4, 4, 4, ll_ult - 1)
+		lole_range.setPropertyValue("NumberFormat", ll_f_pz)
+		lole_range = lole_sheet.getCellRangeByPosition(5, 4, 8, ll_ult - 1)
+		lole_range.setPropertyValue("NumberFormat", ll_f_pr)
+		lole_range = lole_sheet.getCellRangeByPosition(9, 4, 10, ll_ult - 1)
+		lole_range.setPropertyValue("NumberFormat", ll_f_tot)
+		lole_range = lole_sheet.getCellRangeByPosition(11, 4, 11, ll_ult - 1)
+		lole_range.setPropertyValue("NumberFormat", ll_f_diff)
+	catch (runtimeerror lre_formato)
+		//niente formati: i numeri escono come numeri semplici, il file si crea lo stesso
+	end try
+
+	//larghezze: ottimali, ma titolo e riepilogo (lunghi, in colonna A) non devono allargare la prima colonna;
+	//il motivo puo' essere lungo: al massimo 20 cm
+	try
+		for ll_col = 1 to NCOL
+			lole_colonna = lole_sheet.Columns.getByIndex(ll_col - 1)
+			lole_colonna.OptimalWidth = true
+			if ll_col = 1 then lole_colonna.Width = 1500
+			if ll_col = NCOL and long(lole_colonna.Width) > 20000 then lole_colonna.Width = 20000
+		next
+	catch (runtimeerror lre_larghezza)
+	end try
+
+	//intestazioni sempre in vista scorrendo
+	try
+		lole_doc.getCurrentController().freezeAtPosition(0, 4)
+	catch (runtimeerror lre_blocca)
+	end try
+
+	if FileExists(as_file) then FileDelete(as_file)
+	lole_doc.storeToURL(ls_url, lole_filtro)
+catch (runtimeerror lre_calc)
+	li_ret = -1
+end try
+if isvalid(lole_doc) then
+	try
+		lole_doc.close(false)
+	catch (runtimeerror lre_chiudi)
+	end try
+end if
+lole_sm.DisconnectObject()
+destroy lole_sm
+
+if li_ret = 1 and not FileExists(as_file) then li_ret = -1
+return li_ret
+end function
+

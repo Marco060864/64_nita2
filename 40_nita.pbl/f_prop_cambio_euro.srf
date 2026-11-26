@@ -1,0 +1,28 @@
+﻿global type f_prop_cambio_euro from function_object
+end type
+
+forward prototypes
+global function decimal f_prop_cambio_euro (long al_id_valuta)
+end prototypes
+
+global function decimal f_prop_cambio_euro (long al_id_valuta);
+
+decimal ldc_cambio
+
+SELECT "dba"."valuta"."parita_euro"
+	INTO :ldc_cambio
+	FROM "dba"."valuta"
+	WHERE ("dba"."valuta"."id_valuta" = :al_id_valuta);
+
+CHOOSE CASE SQLCA.SQLCode
+	CASE 100
+		ldc_cambio = 1
+	CASE -1
+		MessageBox("Errore Sul DataBase", "f_prop_cambio_euro / 1")
+		ldc_cambio = 1
+END CHOOSE
+	
+RETURN ldc_cambio
+
+end function
+

@@ -1,0 +1,296 @@
+﻿release 12.5;
+datawindow(units=0 timer_interval=0 color=16777215 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=317 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=77 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" height.autosize=yes )
+table(column=(type=char(32) updatewhereclause=yes name=c_articolo_cod dbname="c_articolo_cod" )
+ column=(type=char(80) updatewhereclause=yes name=c_articolo_des dbname="c_articolo_des" )
+ column=(type=char(1) updatewhereclause=yes name=c_unita_conf_tipo_conversione dbname="c_unita_conf_tipo_conversione" )
+ column=(type=decimal(4) updatewhereclause=yes name=c_unita_conf_molteplicita dbname="c_unita_conf_molteplicita" )
+ column=(type=long updatewhereclause=yes name=c_arrot dbname="c_arrot" )
+ column=(type=long updatewhereclause=yes identity=yes name=id_riga_documento dbname="locazione.id_riga_documento" )
+ column=(type=long updatewhereclause=yes name=id_documento dbname="locazione.id_documento" )
+ column=(type=decimal(0) updatewhereclause=yes name=num_riga dbname="locazione.num_riga" )
+ column=(type=long updatewhereclause=yes name=id_articolo dbname="locazione.id_articolo" )
+ column=(type=char(32766) updatewhereclause=no name=descrizione dbname="locazione.descrizione" )
+ column=(type=long updatewhereclause=yes name=id_des_articolo dbname="locazione.id_des_articolo" )
+ column=(type=long updatewhereclause=yes name=id_unita_confezione dbname="locazione.id_unita_confezione" )
+ column=(type=decimal(4) updatewhereclause=yes name=quantita dbname="locazione.quantita" )
+ column=(type=decimal(4) updatewhereclause=yes name=qta_sconto_merce dbname="locazione.qta_sconto_merce" )
+ column=(type=decimal(4) updatewhereclause=yes name=qta_evasa dbname="locazione.qta_evasa" )
+ column=(type=decimal(4) updatewhereclause=yes name=fat_con_unita_base dbname="locazione.fat_con_unita_base" )
+ column=(type=decimal(4) updatewhereclause=yes name=fat_con_globale dbname="locazione.fat_con_globale" )
+ column=(type=decimal(4) updatewhereclause=yes name=qta_un_base dbname="locazione.qta_un_base" )
+ column=(type=decimal(4) updatewhereclause=yes name=qta_evasa_un_base dbname="locazione.qta_evasa_un_base" )
+ column=(type=long updatewhereclause=yes name=id_caus_magazzino dbname="locazione.id_caus_magazzino" )
+ column=(type=long updatewhereclause=yes name=id_locazione_1 dbname="locazione.id_locazione_1" )
+ column=(type=long updatewhereclause=yes name=id_locazione_2 dbname="locazione.id_locazione_2" )
+ column=(type=long updatewhereclause=yes name=id_valuta dbname="locazione.id_valuta" )
+ column=(type=decimal(4) updatewhereclause=yes name=cambio dbname="locazione.cambio" )
+ column=(type=long updatewhereclause=yes name=id_listino dbname="locazione.id_listino" )
+ column=(type=long updatewhereclause=yes name=id_con_lis_articolo dbname="locazione.id_con_lis_articolo" )
+ column=(type=decimal(6) updatewhereclause=yes name=prezzo dbname="locazione.prezzo" )
+ column=(type=char(40) updatewhereclause=yes name=sconto dbname="locazione.sconto" )
+ column=(type=decimal(6) updatewhereclause=yes name=prezzo_netto dbname="locazione.prezzo_netto" )
+ column=(type=decimal(4) updatewhereclause=yes name=sconto_riga dbname="locazione.sconto_riga" )
+ column=(type=date updatewhereclause=yes name=data_prevista_consegna dbname="locazione.data_prevista_consegna" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso_netto dbname="locazione.peso_netto" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso_lordo dbname="locazione.peso_lordo" )
+ column=(type=decimal(4) updatewhereclause=yes name=dim_l dbname="locazione.dim_l" )
+ column=(type=decimal(4) updatewhereclause=yes name=dim_h dbname="locazione.dim_h" )
+ column=(type=decimal(4) updatewhereclause=yes name=dim_p dbname="locazione.dim_p" )
+ column=(type=decimal(0) updatewhereclause=yes name=num_colli dbname="locazione.num_colli" )
+ column=(type=long updatewhereclause=yes name=id_tab_iva dbname="locazione.id_tab_iva" )
+ column=(type=decimal(2) updatewhereclause=yes name=provv_agente dbname="locazione.provv_agente" )
+ column=(type=long updatewhereclause=yes name=id_gruppo_agenti dbname="locazione.id_gruppo_agenti" )
+ column=(type=decimal(4) updatewhereclause=yes name=val_attribuito dbname="locazione.val_attribuito" )
+ column=(type=long updatewhereclause=yes name=id_caus_trasporto dbname="locazione.id_caus_trasporto" )
+ column=(type=char(1) updatewhereclause=yes name=forza_chius_evasione dbname="locazione.forza_chius_evasione" )
+ column=(type=char(1) updatewhereclause=yes name=sospesa dbname="locazione.sospesa" )
+ column=(type=char(1) updatewhereclause=yes name=da_stampare dbname="locazione.da_stampare" )
+ column=(type=date updatewhereclause=yes name=data_inizio_competenza dbname="locazione.data_inizio_competenza" )
+ column=(type=date updatewhereclause=yes name=data_fine_competenza dbname="locazione.data_fine_competenza" )
+ column=(type=decimal(6) updatewhereclause=yes name=tot_riga_val_riga dbname="locazione.tot_riga_val_riga" )
+ column=(type=decimal(6) updatewhereclause=yes name=tot_riga_val_doc dbname="locazione.tot_riga_val_doc" )
+ column=(type=decimal(6) updatewhereclause=yes name=tot_riga_val_az dbname="locazione.tot_riga_val_az" )
+ column=(type=long updatewhereclause=yes name=id_riga_doc_provenienza dbname="locazione.id_riga_doc_provenienza" )
+ column=(type=long updatewhereclause=yes name=id_conto dbname="locazione.id_conto" )
+ column=(type=long updatewhereclause=yes name=id_azienda dbname="locazione.id_azienda" )
+ column=(type=decimal(2) updatewhereclause=yes name=provv_subage dbname="locazione.provv_subage" )
+ column=(type=decimal(2) updatewhereclause=yes name=provv_carea dbname="locazione.provv_carea" )
+ column=(type=char(5) updatewhereclause=yes name=simbolo dbname="locazione.simbolo" )
+ column=(type=char(40) updatewhereclause=yes name=descrizione_1 dbname="locazione.descrizione" )
+ column=(type=char(1) updatewhereclause=yes name=stato dbname="locazione.stato" )
+ column=(type=char(4) updatewhereclause=yes name=cod_tipo_partita dbname="locazione.cod_tipo_partita" )
+ column=(type=long updatewhereclause=yes identity=yes name=id_tipo_partita dbname="locazione.id_tipo_partita" )
+ column=(type=long updatewhereclause=yes name=id_titolo dbname="locazione.id_titolo" )
+ column=(type=decimal(4) updatewhereclause=yes name=calo dbname="locazione.calo" )
+ column=(type=decimal(4) updatewhereclause=yes name=fino dbname="locazione.fino" )
+ column=(type=decimal(6) updatewhereclause=yes name=prezzo_metallo dbname="locazione.prezzo_metallo" )
+ column=(type=decimal(6) updatewhereclause=yes name=prezzo_manifattura dbname="locazione.prezzo_manifattura" )
+ column=(type=long updatewhereclause=yes name=id_riga_partita dbname="locazione.id_riga_partita" )
+ column=(type=decimal(2) updatewhereclause=yes name=coef_calo dbname="locazione.coef_calo" )
+ column=(type=decimal(4) updatewhereclause=yes name=conversione dbname="locazione.conversione" )
+ column=(type=char(5) updatewhereclause=yes name=simbolo_2 dbname="locazione.simbolo" )
+ column=(type=char(40) updatewhereclause=yes name=descrizione_3 dbname="locazione.descrizione" )
+ column=(type=decimal(4) updatewhereclause=yes name=conversione_4 dbname="locazione.conversione" )
+ column=(type=decimal(4) updatewhereclause=yes name=conv_misura_peso dbname="locazione.conv_misura_peso" )
+ column=(type=char(5) updatewhereclause=yes name=simbolo_5 dbname="locazione.simbolo" )
+ column=(type=char(1) updatewhereclause=yes name=tipo dbname="locazione.tipo" )
+ column=(type=char(2) updatewhereclause=yes name=sigla_prezzo dbname="locazione.sigla_prezzo" )
+ column=(type=decimal(4) updatewhereclause=yes name=valoriz_peso_non_prezioso dbname="locazione.valoriz_peso_non_prezioso" )
+ column=(type=char(32) updatewhereclause=yes name=codice dbname="locazione.codice" )
+ column=(type=char(40) updatewhereclause=yes name=descrizione_6 dbname="locazione.descrizione" )
+ column=(type=char(32766) updatewhereclause=no name=des_estesa dbname="locazione.des_estesa" )
+ column=(type=char(40) updatewhereclause=yes name=rag_soc_1 dbname="locazione.rag_soc_1" )
+ column=(type=long updatewhereclause=yes name=id_sog_commerciale dbname="locazione.id_sog_commerciale" )
+ column=(type=decimal(4) updatewhereclause=yes name=qta_ordinata_fo dbname="locazione.qta_ordinata_fo" )
+ column=(type=decimal(0) updatewhereclause=yes name=importo dbname="importo" )
+ column=(type=char(1) updatewhereclause=yes name=ordinato_fo dbname="locazione.ordinato_fo" )
+ column=(type=long updatewhereclause=yes name=id_riga_doc_padre dbname="locazione.id_riga_doc_padre" )
+ column=(type=long updatewhereclause=yes name=id_riga_sorgente dbname="locazione.id_riga_sorgente" )
+ column=(type=decimal(6) updatewhereclause=yes name=prezzo_complessivo dbname="locazione.prezzo_complessivo" )
+ column=(type=decimal(4) updatewhereclause=yes name=provv_imp_agente dbname="locazione.provv_imp_agente" )
+ column=(type=decimal(4) updatewhereclause=yes name=provv_imp_subage dbname="locazione.provv_imp_subage" )
+ column=(type=decimal(4) updatewhereclause=yes name=provv_imp_carea dbname="locazione.provv_imp_carea" )
+ column=(type=decimal(4) updatewhereclause=yes name=importo_manifattura dbname="locazione.importo_manifattura" )
+ column=(type=char(1) updatewhereclause=yes name=prod_interna dbname="locazione.prod_interna" )
+ column=(type=char(1) updatewhereclause=yes name=proponi_prezzo_metallo dbname="locazione.proponi_prezzo_metallo" )
+ column=(type=char(1) updatewhereclause=yes name=proponi_prezzo_manifattura dbname="locazione.proponi_prezzo_manifattura" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso_non_prezioso dbname="locazione.peso_non_prezioso" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso_netto_evaso dbname="locazione.peso_netto_evaso" )
+ column=(type=decimal(4) updatewhereclause=yes name=importo_manifattura_val dbname="locazione.importo_manifattura_val" )
+ column=(type=long updatewhereclause=yes name=id_gruppo_agenti_2 dbname="locazione.id_gruppo_agenti_2" )
+ column=(type=decimal(2) updatewhereclause=yes name=provv_agente_2 dbname="locazione.provv_agente_2" )
+ column=(type=decimal(2) updatewhereclause=yes name=provv_subage_2 dbname="locazione.provv_subage_2" )
+ column=(type=decimal(2) updatewhereclause=yes name=provv_carea_2 dbname="locazione.provv_carea_2" )
+ column=(type=decimal(4) updatewhereclause=yes name=provv_imp_agente_2 dbname="locazione.provv_imp_agente_2" )
+ column=(type=decimal(4) updatewhereclause=yes name=provv_imp_subage_2 dbname="locazione.provv_imp_subage_2" )
+ column=(type=decimal(4) updatewhereclause=yes name=provv_imp_carea_2 dbname="locazione.provv_imp_carea_2" )
+ column=(type=decimal(6) updatewhereclause=yes name=cmc dbname="cmc" )
+ column=(type=decimal(6) updatewhereclause=yes name=costo_ultimo dbname="costo_ultimo" )
+ column=(type=decimal(6) updatewhereclause=yes name=costo_medio dbname="costo_medio" )
+ column=(type=decimal(6) updatewhereclause=yes name=c_esistenza dbname="c_esistenza" )
+ column=(type=decimal(6) updatewhereclause=yes name=c_disponibilita dbname="c_disponibilita" )
+ column=(type=decimal(6) updatewhereclause=yes name=esistenza_fisica dbname="esistenza_fisica" )
+ column=(type=char(60) updatewhereclause=yes name=c_esidisp dbname="c_esidisp" )
+ column=(type=char(30) updatewhereclause=yes name=c_ult_costo_data dbname="c_ult_costo_data" )
+ column=(type=char(30) updatewhereclause=yes name=c_cmc_data dbname="c_cmc_data" )
+ column=(type=char(10) updatewhereclause=yes name=data_costo_ultimo dbname="data_costo_ultimo" )
+ column=(type=char(10) updatewhereclause=yes name=data_cmc dbname="data_cmc" )
+ column=(type=char(1) updatewhereclause=yes name=forza_chius_evasione dbname="locazione.forza_chius_evasione" )
+ retrieve="  SELECT    Cast(~"articolo~".~"codice~" as char(32)) As c_articolo_cod,
+         Cast(~"articolo~".~"descrizione~" as char(80)) As c_articolo_des,   
+         Cast(~"unita_confezione~".~"tipo_conversione~" as char(1)) As c_unita_conf_tipo_conversione,   
+         Cast(~"unita_confezione~".~"molteplicita~" as decimal) As c_unita_conf_molteplicita,   
+         Cast(0 as integer) As c_arrot,
+         ~"riga_documento~".~"id_riga_documento~",   
+         ~"riga_documento~".~"id_documento~",   
+         ~"riga_documento~".~"num_riga~",   
+         ~"riga_documento~".~"id_articolo~",   
+         ~"riga_documento~".~"descrizione~",   
+         ~"riga_documento~".~"id_des_articolo~",   
+         ~"riga_documento~".~"id_unita_confezione~",   
+         ~"riga_documento~".~"quantita~",   
+         ~"riga_documento~".~"qta_sconto_merce~",   
+         ~"riga_documento~".~"qta_evasa~",   
+         ~"riga_documento~".~"fat_con_unita_base~",   
+         ~"riga_documento~".~"fat_con_globale~",   
+         ~"riga_documento~".~"qta_un_base~",   
+         ~"riga_documento~".~"qta_evasa_un_base~",   
+         ~"riga_documento~".~"id_caus_magazzino~",   
+         ~"riga_documento~".~"id_locazione_1~",   
+         ~"riga_documento~".~"id_locazione_2~",   
+         ~"riga_documento~".~"id_valuta~",   
+         ~"riga_documento~".~"cambio~",   
+         ~"riga_documento~".~"id_listino~",   
+         ~"riga_documento~".~"id_con_lis_articolo~",   
+         ~"riga_documento~".~"prezzo~", 
+         ~"riga_documento~".~"sconto~",   
+            ~"riga_documento~".~"prezzo_netto~",
+         ~"riga_documento~".~"sconto_riga~",   
+         ~"riga_documento~".~"data_prevista_consegna~",   
+         ~"riga_documento~".~"peso_netto~",   
+         ~"riga_documento~".~"peso_lordo~",   
+         ~"riga_documento~".~"dim_l~",   
+         ~"riga_documento~".~"dim_h~",   
+         ~"riga_documento~".~"dim_p~",   
+         ~"riga_documento~".~"num_colli~",   
+         ~"riga_documento~".~"id_tab_iva~",   
+         ~"riga_documento~".~"provv_agente~",   
+         ~"riga_documento~".~"id_gruppo_agenti~",   
+         ~"riga_documento~".~"val_attribuito~",   
+         ~"riga_documento~".~"id_caus_trasporto~",   
+         ~"riga_documento~".~"forza_chius_evasione~",   
+         ~"riga_documento~".~"sospesa~",   
+         ~"riga_documento~".~"da_stampare~",   
+         ~"riga_documento~".~"data_inizio_competenza~",   
+         ~"riga_documento~".~"data_fine_competenza~",   
+         ~"riga_documento~".~"tot_riga_val_riga~",   
+         ~"riga_documento~".~"tot_riga_val_doc~",   
+         ~"riga_documento~".~"tot_riga_val_az~",   
+         ~"riga_documento~".~"id_riga_doc_provenienza~",   
+         ~"riga_documento~".~"id_conto~",   
+         ~"riga_documento~".~"id_azienda~",   
+         ~"riga_documento~".~"provv_subage~",   
+         ~"riga_documento~".~"provv_carea~",   
+         ~"unita_misura_a~".~"simbolo~",   
+         ~"unita_misura_a~".~"descrizione~",   
+         ~"articolo~".~"stato~",   
+         
+         ~"orafo_tipo_partita~".~"cod_tipo_partita~",   
+         ~"orafo_tipo_partita~".~"id_tipo_partita~",   
+         ~"articolo~".~"id_titolo~",   
+         ~"riga_documento~".~"calo~",
+			~"riga_documento~".~"fino~",
+
+ 
+           ~"riga_documento~".~"prezzo_metallo~", 
+           ~"riga_documento~".~"prezzo_manifattura~", 
+         ~"riga_documento~".~"id_riga_partita~",   
+         ~"riga_documento~".~"coef_calo~",   
+         ~"unita_misura_a~".~"conversione~",   
+         ~"unita_misura_b~".~"simbolo~",   
+         ~"unita_misura_b~".~"descrizione~",   
+         ~"unita_misura_b~".~"conversione~",   
+          ~"unita_confezione~".~"conv_misura_peso~",
+
+
+
+  
+         ~"unita_misura_c~".~"simbolo~",   
+         ~"unita_misura_c~".~"tipo~",   
+         ~"riga_documento~".~"sigla_prezzo~",   
+         ~"riga_documento~".~"valoriz_peso_non_prezioso~",   
+         ~"des_articolo~".~"codice~",   
+         ~"des_articolo~".~"descrizione~",   
+         ~"des_articolo~".~"des_estesa~",   
+         ~"sog_commerciale_gen~".~"rag_soc_1~",   
+         ~"articolo~".~"id_sog_commerciale~",   
+         ~"riga_documento~".~"qta_ordinata_fo~",   
+         cast(0 as decimal)as importo,   
+         ~"riga_documento~".~"ordinato_fo~",   
+         ~"riga_documento~".~"id_riga_doc_padre~",   
+         ~"riga_documento~".~"id_riga_sorgente~",   
+         
+~"riga_documento~".~"prezzo_complessivo~",
+   
+         ~"riga_documento~".~"provv_imp_agente~",   
+         ~"riga_documento~".~"provv_imp_subage~",   
+         ~"riga_documento~".~"provv_imp_carea~",
+         ~"riga_documento~".~"importo_manifattura~",
+         ~"articolo~".~"prod_interna~",   
+         ~"caus_magazzino~".~"proponi_prezzo_metallo~",   
+         ~"caus_magazzino~".~"proponi_prezzo_manifattura~",
+	      ~"riga_documento~".~"peso_non_prezioso~" ,
+	      ~"riga_documento~".~"peso_netto_evaso~" ,
+	      ~"riga_documento~".~"importo_manifattura_val~" ,
+		   ~"riga_documento~".~"id_gruppo_agenti_2~",   
+         ~"riga_documento~".~"provv_agente_2~",   
+         ~"riga_documento~".~"provv_subage_2~",   
+         ~"riga_documento~".~"provv_carea_2~",   
+         ~"riga_documento~".~"provv_imp_agente_2~",   
+         ~"riga_documento~".~"provv_imp_subage_2~",   
+         ~"riga_documento~".~"provv_imp_carea_2~",
+			CAST(SUBSTR(c_cmc_data, 1, 20) as numeric(20,6)) as cmc,   
+         CAST(SUBSTR(c_ult_costo_data, 1, 20) as numeric(20,6)) as costo_ultimo,   
+         CAST(FN_COSTO_MEDIO(1, ~"riga_documento~".~"id_articolo~", (SELECT id_magazzino FROM locazione WHERE id_locazione = ~"riga_documento~".~"id_locazione_1~"), YEAR(TODAY(*)), MONTH(TODAY(*)), ~"riga_documento~".~"id_valuta~")  AS DECIMAL(20,6) ) AS costo_medio,   
+         CAST(SUBSTR( c_esidisp, 21, 20) as numeric(20,6)) As c_esistenza,   
+         CAST(SUBSTR(c_esidisp,  41, 20) as numeric(20,6)) As c_disponibilita,   
+         CAST(SUBSTR(c_esidisp, 1, 20) as numeric(20,6)) as esistenza_fisica,   
+         CAST(FN_ESI_DISP(1, ~"riga_documento~".~"id_articolo~", (SELECT id_magazzino FROM locazione WHERE id_locazione = ~"riga_documento~".~"id_locazione_1~"), YEAR(TODAY(*)), MONTH(TODAY(*)) , ~"riga_documento~".~"id_valuta~")  AS CHAR(60) ) AS c_esidisp,   
+         CAST(FN_ULTIMO_COSTO_DATA(1, ~"riga_documento~".~"id_articolo~", (SELECT id_magazzino FROM locazione WHERE id_locazione = ~"riga_documento~".~"id_locazione_1~"), YEAR(TODAY(*)), MONTH(TODAY(*)) , ~"riga_documento~".~"id_valuta~")  AS CHAR(30) ) AS c_ult_costo_data,   
+         CAST(FN_CMC_DATA(1, ~"riga_documento~".~"id_articolo~", (SELECT id_magazzino FROM locazione WHERE id_locazione = ~"riga_documento~".~"id_locazione_1~"), ~"riga_documento~".~"id_valuta~")  AS CHAR(30) ) AS c_cmc_data,   
+         CAST(SUBSTR(c_ult_costo_data, 21, 10) as CHAR(10)) as data_costo_ultimo,   
+         CAST(SUBSTR(c_cmc_data, 21, 10) as CHAR(10)) as data_cmc,
+		riga_b.forza_chius_evasione		
+    FROM {oj 
+			 {oj
+			  {oj ~"unita_confezione~"  LEFT OUTER JOIN ~"unita_misura~" unita_misura_a  ON ~"unita_confezione~".~"id_unita_mis_peso~" = ~"unita_misura_a~".~"id_unita_misura~"},
+		     {oj ~"riga_documento~"  LEFT OUTER JOIN ~"caus_magazzino~"  ON ~"riga_documento~".~"id_caus_magazzino~" = ~"caus_magazzino~".~"id_caus_magazzino~"} 
+			 LEFT OUTER JOIN ~"orafo_tipo_partita~"  ON ~"caus_magazzino~".~"id_tipo_partita~" = ~"orafo_tipo_partita~".~"id_tipo_partita~"}, 
+		    {oj ~"unita_confezione~"  LEFT OUTER JOIN ~"unita_misura~" unita_misura_b  ON ~"unita_confezione~".~"id_unita_mis_volume~" = ~"unita_misura_b~".~"id_unita_misura~"}, 
+			 {oj ~"riga_documento~"  LEFT OUTER JOIN ~"unita_confezione~"  ON ~"riga_documento~".~"id_unita_confezione~" = ~"unita_confezione~".~"id_unita_confezione~"} 
+			LEFT OUTER JOIN ~"unita_misura~" unita_misura_c  ON ~"unita_confezione~".~"id_unita_misura~" = ~"unita_misura_c~".~"id_unita_misura~"}, 
+			{oj ~"riga_documento~"  LEFT OUTER JOIN ~"des_articolo~"  ON ~"riga_documento~".~"id_des_articolo~" = ~"des_articolo~".~"id_des_articolo~"}, 
+			{oj ~"articolo~"  LEFT OUTER JOIN ~"sog_commerciale_gen~"  ON ~"articolo~".~"id_sog_commerciale~" = ~"sog_commerciale_gen~".~"id_sog_commerciale~"},
+			{oj ~"riga_documento~" LEFT OUTER JOIN ~"articolo~" ON ~"riga_documento~".~"id_articolo~"=~"articolo~".~"id_articolo~"},
+			{oj ~"riga_documento~"  LEFT OUTER JOIN ~"riga_documento~" as riga_b  ON ~"riga_documento~".~"id_riga_doc_provenienza~" = riga_b.id_riga_documento}   
+ WHERE ( ~"riga_documento~".~"id_azienda~" in (0,1) ) AND  
+         (~"riga_documento~".~"id_documento~" = :ra_id_documento)    
+//( ~"articolo~".~"id_articolo~" = ~"riga_documento~".~"id_articolo~" ) and  " arguments=(("ra_id_documento", number)) )
+column(band=header id=2 alignment="0" tabsequence=32766 border="0" color="0" x="578" y="10" height="211" width="4261" format="[general]" html.valueishtml="0"  name=c_articolo_des visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="0" text="Riferimento ordini:" border="0" color="0" x="7" y="13" height="64" width="552" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="0" text="Fornitore" border="2" color="0" x="7" y="240" height="74" width="680" html.valueishtml="0"  name=t_2 visible="1"  resizeable=1  moveable=1  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="0" text="Descrizione" border="2" color="0" x="1697" y="240" height="74" width="1558" html.valueishtml="0"  name=t_4 visible="1"  resizeable=1  moveable=1  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="0" text="Art. codice" border="2" color="0" x="699" y="240" height="74" width="984" html.valueishtml="0"  name=t_3 visible="1"  resizeable=1  moveable=1  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Quantità" border="2" color="0" x="3719" y="240" height="74" width="216" html.valueishtml="0"  name=t_6 visible="1"  resizeable=1  moveable=1  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="CM" border="2" color="0" x="3950" y="240" height="74" width="168" html.valueishtml="0"  name=t_7 visible="1"  resizeable=1  moveable=1  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Peso Un." border="2" color="0" x="4133" y="240" height="74" width="238" html.valueishtml="0"  name=t_8 visible="1"  resizeable=1  moveable=1  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Peso tot." border="2" color="0" x="4385" y="240" height="74" width="260" html.valueishtml="0"  name=t_9 visible="1"  resizeable=1  moveable=1  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Prezzo" border="2" color="0" x="4659" y="240" height="74" width="187" html.valueishtml="0"  name=t_10 visible="1"  resizeable=1  moveable=1  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Titolo" border="2" color="0" x="3269" y="240" height="74" width="205" html.valueishtml="0"  name=t_11 visible="1"  resizeable=1  moveable=1  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="C. Calo" border="2" color="0" x="3489" y="240" height="74" width="219" html.valueishtml="0"  name=t_5 visible="1"  resizeable=1  moveable=1  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=80 alignment="0" tabsequence=32766 border="0" color="0" x="4" y="3" height="64" width="684" format="[general]" html.valueishtml="0"  name=rag_soc_1 visible="1"  resizeable=1  moveable=1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=61 alignment="2" tabsequence=32766 border="0" color="0" x="3259" y="3" height="64" width="205" format="[general]" html.valueishtml="0"  name=id_titolo visible="1"  resizeable=1  moveable=1 dddw.name=d_orafo_tit_cod_sl dddw.displaycolumn=tit dddw.datacolumn=id_titolo dddw.percentwidth=0 dddw.lines=0 dddw.limit=0 dddw.allowedit=yes dddw.useasborder=no dddw.case=any dddw.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="1697" y="3" height="64" width="1558" format="[general]" html.valueishtml="0"  name=descrizione visible="1"  resizeable=1  moveable=1 height.autosize=yes edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="699" y="3" height="64" width="984" format="[general]" html.valueishtml="0"  name=c_articolo_cod visible="1"  resizeable=1  moveable=1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=67 alignment="1" tabsequence=32766 border="0" color="0" x="3478" y="3" height="64" width="230" format="#,0.00" html.valueishtml="0"  name=coef_calo visible="1"  resizeable=1  moveable=1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=13 alignment="1" tabsequence=32766 border="0" color="0" x="3716" y="3" height="64" width="216" format="#,0" html.valueishtml="0"  name=quantita visible="1"  resizeable=1  moveable=1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=34 alignment="1" tabsequence=32766 border="0" color="0" x="3968" y="3" height="64" width="168" format="#,0.00" html.valueishtml="0"  name=dim_l visible="1"  resizeable=1  moveable=1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="1" expression="peso_netto/(if(quantita>0, quantita, 1))"border="0" color="0" x="4133" y="3" height="64" width="238" format="#,0.00" html.valueishtml="0"  name=peso_tot visible="1"  resizeable=1  moveable=1  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=32 alignment="1" tabsequence=32766 border="0" color="0" x="4385" y="3" height="64" width="260" format="#,0.00" html.valueishtml="0"  name=peso_netto visible="1"  resizeable=1  moveable=1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=27 alignment="1" tabsequence=32766 border="0" color="0" x="4659" y="3" height="64" width="187" format="#,0.0000" html.valueishtml="0"  name=prezzo visible="1"  resizeable=1  moveable=1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="0" expression="f_trova_bol_da_riga_ordine( id_riga_documento )"border="0" color="33554432" x="4864" y="3" height="67" width="322" format="[General]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Tahoma" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

@@ -1,0 +1,172 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no pointer="S:\pb\commonframework\Point.cur" grid.lines=0 )
+header(height=120 color="536870912" )
+summary(height=12 color="536870912" )
+footer(height=16 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(32) updatewhereclause=yes name=articolo_a_codice dbname="codice" )
+ column=(type=char(32) updatewhereclause=yes name=articolo_b_codice dbname="codice" )
+ column=(type=long update=yes updatewhereclause=yes key=yes identity=yes name=id_con_lis_articolo dbname="id_con_lis_articolo" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=applicazione dbname="applicazione" initial="V" )
+ column=(type=long update=yes updatewhereclause=yes name=id_unita_confezione dbname="id_unita_confezione" )
+ column=(type=long update=yes updatewhereclause=yes name=id_sog_commerciale dbname="id_sog_commerciale" )
+ column=(type=long update=yes updatewhereclause=yes name=id_cat_com_sc dbname="id_cat_com_sc" )
+ column=(type=long update=yes updatewhereclause=yes name=id_art_da dbname="id_art_da" )
+ column=(type=long update=yes updatewhereclause=yes name=id_cat_com_articolo dbname="id_cat_com_articolo" )
+ column=(type=long update=yes updatewhereclause=yes name=id_sog_commerciale_fornitore dbname="id_sog_commerciale_fornitore" )
+ column=(type=long update=yes updatewhereclause=yes name=id_anagrafica dbname="id_anagrafica" )
+ column=(type=long update=yes updatewhereclause=yes name=id_listino dbname="id_listino" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=qta_minima dbname="qta_minima" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=qta_massima dbname="qta_massima" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=tipo_applicazione dbname="tipo_applicazione" values="Percentuali di  sconto	P/Importo di sconto//maggiorazione	I/percentuali di Sconto riga	S/importo di sconto Riga	R/percentuali di sconto Documento	D/costo medio continuo	C/Ultimo prezzo pagato dal Cliente	U/costo Trasporto	T/" )
+ column=(type=long update=yes updatewhereclause=yes name=id_valuta dbname="id_valuta" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=cambio dbname="cambio" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=percentuali dbname="percentuali" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=spesa dbname="spesa" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=spesa_fissa dbname="spesa_fissa" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=priorita dbname="priorita" )
+ column=(type=long update=yes updatewhereclause=yes name=id_azienda dbname="id_azienda" initial="1" )
+ column=(type=long update=yes updatewhereclause=yes name=id_art_a dbname="id_art_a" )
+ column=(type=long update=yes updatewhereclause=yes name=id_destinazione dbname="id_destinazione" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=tras_mezzo dbname="tras_mezzo" )
+ column=(type=char(80) updatewhereclause=yes name=articolo_a_descrizione dbname="descrizione" )
+ column=(type=char(80) updatewhereclause=yes name=articolo_b_descrizione dbname="descrizione" )
+ column=(type=date update=yes updatewhereclause=yes name=data_inizio dbname="data_inizio" )
+ column=(type=date update=yes updatewhereclause=yes name=data_fine dbname="data_fine" )
+ column=(type=char(8) updatewhereclause=yes name=sog_commerciale_gen_codice dbname="codice" )
+ column=(type=char(40) updatewhereclause=yes name=sog_commerciale_gen_rag_soc_1 dbname="rag_soc_1" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=stato dbname="stato" initial="O" values="Offerta	O/" )
+ column=(type=decimal(6) update=yes updatewhereclause=yes name=importo dbname="importo" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"con_lis_articolo~" )  TABLE(NAME=~"articolo~" ALIAS=~"articolo_a~" )  TABLE(NAME=~"articolo~" ALIAS=~"articolo_b~" )  TABLE(NAME=~"sog_commerciale~" )  TABLE(NAME=~"anagrafica~" )  TABLE(NAME=~"cat_com_sc~" ) COLUMN(NAME=~"articolo_a.codice~") COLUMN(NAME=~"articolo_b.codice~") COLUMN(NAME=~"con_lis_articolo.id_con_lis_articolo~") COLUMN(NAME=~"con_lis_articolo.applicazione~") COLUMN(NAME=~"con_lis_articolo.id_unita_confezione~") COLUMN(NAME=~"con_lis_articolo.id_sog_commerciale~") COLUMN(NAME=~"con_lis_articolo.id_cat_com_sc~") COLUMN(NAME=~"con_lis_articolo.id_art_da~") COLUMN(NAME=~"con_lis_articolo.id_cat_com_articolo~") COLUMN(NAME=~"con_lis_articolo.id_sog_commerciale_fornitore~") COLUMN(NAME=~"con_lis_articolo.id_anagrafica~") COLUMN(NAME=~"con_lis_articolo.id_listino~") COLUMN(NAME=~"con_lis_articolo.qta_minima~") COLUMN(NAME=~"con_lis_articolo.qta_massima~") COLUMN(NAME=~"con_lis_articolo.tipo_applicazione~") COLUMN(NAME=~"con_lis_articolo.id_valuta~") COLUMN(NAME=~"con_lis_articolo.cambio~") COLUMN(NAME=~"con_lis_articolo.percentuali~") COLUMN(NAME=~"con_lis_articolo.spesa~") COLUMN(NAME=~"con_lis_articolo.spesa_fissa~") COLUMN(NAME=~"con_lis_articolo.priorita~") COLUMN(NAME=~"con_lis_articolo.id_azienda~") COLUMN(NAME=~"con_lis_articolo.id_art_a~") COLUMN(NAME=~"con_lis_articolo.id_destinazione~") COLUMN(NAME=~"con_lis_articolo.tras_mezzo~") COLUMN(NAME=~"articolo_a.descrizione~") COLUMN(NAME=~"articolo_b.descrizione~") COLUMN(NAME=~"con_lis_articolo.data_inizio~") COLUMN(NAME=~"con_lis_articolo.data_fine~") COLUMN(NAME=~"sog_commerciale.codice~") COLUMN(NAME=~"anagrafica.rag_soc_1~") COLUMN(NAME=~"con_lis_articolo.stato~") COLUMN(NAME=~"con_lis_articolo.importo~")    JOIN (LEFT=~"articolo_a.id_articolo~"    OP =~"=~"RIGHT=~"con_lis_articolo.id_art_da~"    OUTER2 =~"con_lis_articolo.id_art_da~" )    JOIN (LEFT=~"articolo_b.id_articolo~"    OP =~"=~"RIGHT=~"con_lis_articolo.id_art_a~"    OUTER2 =~"con_lis_articolo.id_art_a~" )    JOIN (LEFT=~"sog_commerciale.id_sog_commerciale~"    OP =~"=~"RIGHT=~"con_lis_articolo.id_sog_commerciale~"    OUTER2 =~"con_lis_articolo.id_sog_commerciale~" )    JOIN (LEFT=~"anagrafica.id_anagrafica~"    OP =~"=~"RIGHT=~"sog_commerciale.id_anagrafica~"    OUTER2 =~"sog_commerciale.id_anagrafica~" )    JOIN (LEFT=~"cat_com_sc.id_cat_com_sc~"    OP =~"=~"RIGHT=~"sog_commerciale.id_cat_com_sc~"    OUTER2 =~"sog_commerciale.id_cat_com_sc~" )WHERE(    EXP1 =~"~~~"con_lis_articolo~~~".~~~"id_azienda~~~"~"   OP =~"=~"    EXP2 =~"1~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"( ~~~"con_lis_articolo~~~".~~~"id_art_da~~~"~"   OP =~"is not~"    EXP2 =~"NULL~"    LOGIC =~"or~" ) WHERE(    EXP1 =~"~~~"con_lis_articolo~~~".~~~"id_art_a~~~"~"   OP =~"is not~"    EXP2 =~"NULL )~" ) ) " update="con_lis_articolo" updatewhere=1 updatekeyinplace=yes )
+text(band=header alignment="2" text="% di Sconto:
+ES. +10+20-30"border="0" color="0" x="5175" y="8" height="112" width="421"  name=percentuali_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="% di Magg.:
+ES. +10+20-30
+"border="0" color="0" x="5605" y="8" height="168" width="329"  name=spesa_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Valuta"border="0" color="0" x="4864" y="8" height="56" width="302"  name=id_valuta_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Imp.
+Sconto / Magg."border="0" color="0" x="5943" y="8" height="112" width="347"  name=spesa_fissa_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Data Inizio"border="0" color="0" x="6299" y="8" height="56" width="238"  name=data_inizio_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Data Fine"border="0" color="0" x="6546" y="8" height="56" width="247"  name=data_fine_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Sog Commerciale 
+Rag. Sociale"border="0" color="0" x="1463" y="8" height="112" width="901"  name=sog_commerciale_gen_rag_soc_1_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Sog Commerciale
+Codice"border="0" color="0" x="978" y="8" height="112" width="389"  name=sog_commerciale_gen_codice_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="A Articolo"border="0" color="0" x="466" y="8" height="112" width="411"  name=articolo_b_codice_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Da Articolo"border="0" color="0" x="9" y="8" height="112" width="357"  name=articolo_a_codice_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cat. Com. 
+Sogg.Comm."border="0" color="0" x="2459" y="8" height="112" width="498"  name=id_cat_com_sc_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Tipo Applicazione"border="0" color="0" x="2967" y="8" height="112" width="846"  name=tipo_applicazione_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Priorita"border="0" color="0" x="6802" y="8" height="56" width="274"  name=priorita_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Stato"border="0" color="0" x="3822" y="8" height="56" width="375"  name=stato_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Listino"border="0" color="0" x="4206" y="8" height="56" width="320"  name=id_listino_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Importo"border="0" color="0" x="4535" y="8" height="56" width="320"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="''"border="0" color="0" x="887" y="0" height="64" width="82" format="[general]"  name=app2  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="''"border="0" color="0" x="375" y="0" height="64" width="82" format="[general]"  name=app1  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=16 alignment="1" tabsequence=100 border="0" color="33554432" x="4864" y="0" height="64" width="302" format="[general]" protect="0~tcase(  tipo_applicazione 
+when 'P' then 0
+when 'I' then 0
+when 'R' then 0
+when 'C' then 1
+when 'D' then 1
+when 'S' then 1
+when 'U' then 1  )"  name=id_valuta dddw.name=d_valuta_des_sl dddw.displaycolumn=descrizione dddw.datacolumn=id_valuta dddw.percentwidth=200 dddw.lines=0 dddw.limit=0 dddw.allowedit=yes dddw.useasborder=yes dddw.case=any dddw.nilisnull=yes dddw.autohscroll=yes dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tcase(  tipo_applicazione 
+when 'P' then 16777215
+when  'I' then 16777215
+when 'R' then 16777215
+when 'C' then 12632256
+when 'D' then 12632256 
+when 'S' then 12632256
+when 'U' then 12632256  )" )
+column(band=detail id=18 alignment="0" tabsequence=110 border="0" color="33554432" x="5175" y="0" height="64" width="421" format="[general]" protect="0~tcase(  tipo_applicazione 
+when 'P' then 0
+when 'I' then 1
+when 'R' then 1
+when 'C' then 1
+when 'D' then 0
+when 'S' then 0
+when 'U' then 1 )"  name=percentuali edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tcase(  tipo_applicazione 
+when 'P' then 16777215  
+when 'I' then 12632256 
+when 'R' then 12632256 
+when 'C' then 12632256 
+when 'D' then 16777215 
+when 'S' then 16777215
+when 'U' then 12632256 )" )
+column(band=detail id=19 alignment="0" tabsequence=120 border="0" color="33554432" x="5605" y="0" height="64" width="329" format="[general]" protect="0~tcase(  tipo_applicazione 
+when 'P' then 0
+when 'I' then 0
+when 'R' then 1
+when 'C' then 1
+when 'D' then 1
+when 'S' then 1 
+when 'U' then 1 )"  name=spesa edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tcase(  tipo_applicazione 
+when 'P' then 16777215
+when 'I' then 16777215
+when 'R' then 12632256
+when 'C' then 12632256
+when 'D' then 12632256
+when 'S' then 12632256
+when 'U' then 12632256  )" )
+column(band=detail id=15 alignment="0" tabsequence=60 border="0" color="33554432" x="2967" y="0" height="64" width="846" format="[general]"  name=tipo_applicazione ddlb.limit=0 ddlb.allowedit=yes ddlb.case=any ddlb.nilisnull=yes ddlb.autohscroll=yes ddlb.useasborder=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=20 alignment="1" tabsequence=130 border="0" color="33554432" x="5943" y="0" height="64" width="347" format="#,0.0000" protect="0~tcase(  tipo_applicazione 
+when 'P' then 0
+when 'I' then 0
+when 'R' then 1
+when 'C' then 1
+when 'D' then 1
+when 'S' then 1
+when 'U' then 1  )"  name=spesa_fissa edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tcase(  tipo_applicazione 
+when 'P' then 16777215
+when 'I' then 16777215
+when 'R' then 12632256
+when 'C' then 12632256
+when 'D' then 12632256
+when 'S' then 12632256
+when 'U' then 12632256  )" )
+column(band=detail id=28 alignment="0" tabsequence=140 border="0" color="33554432" x="6299" y="0" height="64" width="238" format="dd/mm/yy"  name=data_inizio edit.limit=0 edit.case=any edit.format="dd/mm/yy" edit.focusrectangle=no edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=29 alignment="0" tabsequence=150 border="0" color="33554432" x="6546" y="0" height="64" width="247" format="[general]"  name=data_fine edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="33554432" x="9" y="0" height="64" width="357" format="[general]"  name=articolo_a_codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="0" color="33554432" x="466" y="0" height="64" width="411" format="[general]"  name=articolo_b_codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=7 alignment="0" tabsequence=50 border="0" color="0" x="2459" y="0" height="64" width="498" format="[general]" protect="0~tif (not isNull(id_sog_commerciale), 1, 0)"  name=id_cat_com_sc dddw.name=d_cat_com_sc_des_sl dddw.displaycolumn=descrizione dddw.datacolumn=id_cat_com_sc dddw.percentwidth=400 dddw.lines=0 dddw.limit=0 dddw.allowedit=yes dddw.useasborder=yes dddw.case=any dddw.nilisnull=yes dddw.autohscroll=yes dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~t if (not isNull(id_sog_commerciale), 12632256, 16777215 )" )
+compute(band=detail alignment="0" expression="' '"border="0" color="0" x="1376" y="0" height="64" width="78" format="[general]"  name=obj_7527918  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="' '"border="0" color="0" x="2373" y="0" height="64" width="78" format="[general]"  name=obj_7531637  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=30 alignment="0" tabsequence=30 border="0" color="33554432" x="978" y="0" height="64" width="389" format="[general]" protect="0~tif (not isNull(id_cat_com_sc), 1, 0)"  name=sog_commerciale_gen_codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~t if (not isNull(  id_cat_com_sc ), 12632256, 16777215 )" )
+bitmap(band=detail filename="S:\pb\CommonFramework\search.bmp" x="1381" y="0" height="64" width="78" border="6"  name=sog_commerciale_gen_codice_sw )
+column(band=detail id=31 alignment="0" tabsequence=40 border="0" color="33554432" x="1463" y="0" height="64" width="901" format="[general]" protect="0~tif (not isNull(id_cat_com_sc), 1, 0)"  name=sog_commerciale_gen_rag_soc_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~t if (not isNull(id_cat_com_sc), 12632256, 16777215 )" )
+bitmap(band=detail filename="S:\pb\CommonFramework\search.bmp" x="2373" y="0" height="64" width="78" border="6"  name=sog_commerciale_gen_rag_soc_1_sw )
+column(band=detail id=21 alignment="1" tabsequence=160 border="0" color="33554432" x="6802" y="0" height="64" width="274" format="[general]"  name=priorita edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=32 alignment="0" tabsequence=70 border="0" color="33554432" x="3822" y="0" height="64" width="375" format="[general]"  name=stato ddlb.limit=0 ddlb.allowedit=yes ddlb.case=any ddlb.nilisnull=yes ddlb.vscrollbar=yes ddlb.useasborder=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+bitmap(band=detail filename="S:\pb\CommonFramework\search.bmp" x="379" y="0" height="64" width="78" border="6"  name=articolo_a_codice_sw )
+bitmap(band=detail filename="S:\pb\CommonFramework\search.bmp" x="891" y="0" height="64" width="73" border="6"  name=articolo_b_codice_sw )
+column(band=detail id=12 alignment="0" tabsequence=80 border="0" color="33554432" x="4206" y="0" height="64" width="320" format="[general]" protect="0~tcase(  tipo_applicazione 
+when 'P' then (If (not IsNull(Importo), 1, 0))
+when 'I' then 0
+when 'R' then 1
+when 'C' then 1
+when 'D' then 1
+when 'S' then 1
+when 'U' then 1 )"  name=id_listino dddw.name=d_listino_cod_sl dddw.displaycolumn=codice dddw.datacolumn=id_listino dddw.percentwidth=550 dddw.lines=0 dddw.limit=0 dddw.allowedit=yes dddw.useasborder=yes dddw.case=any dddw.nilisnull=yes dddw.autohscroll=yes dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tcase(  tipo_applicazione 
+when 'P' then (If (Not IsNull(importo), 12632256, 16777215))
+when 'I' then 16777215
+when 'R' then 12632256
+when 'C' then 12632256
+when 'D' then 12632256 
+when 'S' then 12632256
+when 'U' then 12632256 )" )
+column(band=detail id=33 alignment="1" tabsequence=90 border="0" color="33554432" x="4539" y="0" height="64" width="315" format="[general]~tf_valu_mask(  id_valuta )" protect="0~tcase(  tipo_applicazione 
+when 'P' then (if (not IsNull(  id_listino ), 1, 0))
+when 'I' then 0
+when 'R' then 0
+when 'C' then 1
+when 'D' then 1
+when 'S' then 1
+when 'U' then 1  )"  name=importo edit.limit=0 edit.case=any edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tcase(  tipo_applicazione 
+when 'P' then (if (not IsNull(  id_listino ), 12632256, 16777215))
+when 'I' then 16777215
+when 'R' then 16777215
+when 'C' then 12632256
+when 'D' then 12632256
+when 'S' then 12632256 
+when 'U' then 12632256 )" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

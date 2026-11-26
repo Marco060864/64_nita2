@@ -1,0 +1,16 @@
+﻿global type f_date2ymd from function_object
+end type
+
+forward prototypes
+global subroutine f_date2ymd (date as_data, ref integer ai_year, ref integer ai_month, ref integer ai_day)
+end prototypes
+
+global subroutine f_date2ymd (date as_data, ref integer ai_year, ref integer ai_month, ref integer ai_day);
+		
+
+ai_year = year(as_data)
+ai_month = month(as_data)
+ai_day = day(as_data)
+
+end subroutine
+

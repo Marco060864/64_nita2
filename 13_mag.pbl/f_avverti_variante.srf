@@ -1,0 +1,20 @@
+﻿global type f_avverti_variante from function_object
+end type
+
+forward prototypes
+global subroutine f_avverti_variante (string as_articolo)
+end prototypes
+
+global subroutine f_avverti_variante (string as_articolo);//controlla articolo con codice passato e vede se è a "S" il flag ges_matricole.
+string ls_test
+
+select ges_matricole
+into :ls_test
+from dba.articolo
+where codice=:as_articolo
+;
+if ls_test= "S" then
+	messagebox("Super-Attenzione!" , "L'articolo possiede diverse varianti: CONTROLLA BENE di aver scelto quella giusta!!!")
+end if
+end subroutine
+

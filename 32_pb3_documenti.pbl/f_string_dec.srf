@@ -1,0 +1,38 @@
+﻿global type f_string_dec from function_object
+end type
+
+forward prototypes
+global function decimal f_string_dec (string al_stringa)
+end prototypes
+
+global function decimal f_string_dec (string al_stringa);integer li_len
+decimal{2} li_int
+string ls_segno,ls_conv,ls_app,ls_num,ls_con
+li_len=len(al_stringa)
+do while li_len>0 
+	ls_app=left(al_stringa,1)
+	if ls_app='-' then
+		ls_segno='-'
+		al_stringa=right(al_stringa,len(al_stringa) -1)
+	elseif ls_app='+' then
+		ls_segno='+'
+		al_stringa=right(al_stringa,len(al_stringa) -1)
+	else
+		ls_segno='+'
+	end if
+	ls_num=""
+	ls_app=al_stringa
+	ls_con=left(ls_app,1)
+	do while ls_con<>'-' and ls_con<>'+' and not isnull(ls_con) and ls_con<>"" 
+		ls_app=right(ls_app,len(ls_app) -1)
+		ls_num=ls_num+ls_con
+		ls_con=left(ls_app,1)
+	loop
+	al_stringa=ls_app
+	ls_num=ls_segno+ls_num
+	li_int=li_int+dec(ls_num)
+	li_len=len(al_stringa)
+loop
+return li_int
+end function
+

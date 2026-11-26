@@ -1,0 +1,21 @@
+﻿global type f_trova_tipo_lavorazione from function_object
+end type
+
+forward prototypes
+global function string f_trova_tipo_lavorazione (long al_id_art)
+end prototypes
+
+global function string f_trova_tipo_lavorazione (long al_id_art);string ls_ret
+
+select lavorazione
+into :ls_ret
+from dba.art_per_lavorazione
+where id_articolo=:al_id_art;
+
+
+
+return ls_ret
+
+
+end function
+

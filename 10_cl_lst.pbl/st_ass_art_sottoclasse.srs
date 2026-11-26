@@ -1,0 +1,7 @@
+﻿global type st_ass_art_sottoclasse from structure
+	long		id_articolo
+	string		cod_articolo
+	string		des_articolo
+	long		id_sog_commerciale
+end type
+

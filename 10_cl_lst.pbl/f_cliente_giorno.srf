@@ -1,0 +1,64 @@
+﻿global type f_cliente_giorno from function_object
+end type
+
+forward prototypes
+global function string f_cliente_giorno (string as_num_bollettina)
+end prototypes
+
+global function string f_cliente_giorno (string as_num_bollettina);string ls_giorno, ls_cliente, ls_data_ritorno
+integer li_g, z
+date ldt_data_inizio, ldt_data_fine, ldt_data_scadenza, ldt_data_g_minimo
+date ldt_data_ritorno
+
+ls_data_ritorno=f_data_cliente(as_num_bollettina)
+ldt_data_ritorno=date(ls_data_ritorno)
+
+ls_cliente=left(as_num_bollettina,  pos(as_num_bollettina, "-") - 1)
+select data_prev_consegna into :ldt_data_scadenza from dba.documento where num_documento =:as_num_bollettina;
+select min(s_data) into :ldt_data_g_minimo from dba.sped_lista_k;
+li_g = daynumber(ldt_data_g_minimo)
+if li_g>0 then
+
+	ldt_data_fine=f_trova_data_venerdi(ldt_data_g_minimo)
+	//20231017 inserisco anche il sabato
+	ldt_data_fine=relativedate(ldt_data_fine, 1) //proviamo....
+	
+	//choose case li_g  //20231009 (+ o -) Samy dice basta la data di fine...
+	//	case 2 //lunedì
+	//		ldt_data_inizio=today()
+	//		ldt_data_fine=relativedate(today(), 4)
+	//	case 3
+	//		ldt_data_inizio=relativedate(today(), -1)
+	//		ldt_data_fine=relativedate(today(), 3)
+	//	case 4
+	//		ldt_data_inizio=relativedate(today(), -2)
+	//		ldt_data_fine=relativedate(today(), 2)
+	//	case 5
+	//		ldt_data_inizio=relativedate(today(), -3)
+	//		ldt_data_fine=relativedate(today(), 1)
+	//	case 6  //venerdì
+	//		ldt_data_inizio=relativedate(today(), -4)
+	//		ldt_data_fine=today()
+	//end choose
+	//aggiungo tolleranza
+	//if ldt_data_scadenza>=ldt_data_inizio and ldt_data_scadenza<= ldt_data_fine then  //20231002 samy vuole vedere i più vecchi, ma non oltre la data fine della settimana (vede anche la settimana precedente
+	
+	if ldt_data_scadenza<= ldt_data_fine then
+		ls_giorno=f_g_settimana(ldt_data_ritorno)
+	else
+		ldt_data_ritorno=f_anticipa_cliente(ldt_data_scadenza, ls_cliente, right(as_num_bollettina, 7))
+		if ldt_data_ritorno<>ldt_data_scadenza then
+			ls_giorno=f_g_settimana(ldt_data_ritorno)
+			ls_giorno+="X"  //20250623 se c'è la X è anticipato!!!
+		else
+			ls_giorno="---"
+		end if
+	end if
+else
+	//z++
+	//if z=1 then messagebox("OCCHIO!", "Tabella SPEDIZIONI K NON riempita correttamente!!")
+end if
+
+return ls_giorno
+end function
+

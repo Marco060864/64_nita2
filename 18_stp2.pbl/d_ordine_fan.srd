@@ -1,0 +1,108 @@
+﻿release 6;
+datawindow(units=3 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 635 print.margin.right = 635 print.margin.top = 635 print.margin.bottom = 635 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=6006 color="536870912" )
+summary(height=582 color="536870912" )
+footer(height=26 color="553648127" )
+detail(height=502 color="536870912" )
+table(column=(type=char(32) updatewhereclause=yes name=codice dbname="codice" )
+ column=(type=char(32766) updatewhereclause=no name=descrizione dbname="descrizione" )
+ column=(type=decimal(4) updatewhereclause=yes name=quantita dbname="quantita" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso_netto dbname="peso_netto" )
+ column=(type=decimal(4) updatewhereclause=yes name=dim_l dbname="dim_l" )
+ column=(type=decimal(2) updatewhereclause=yes name=coef_calo dbname="coef_calo" )
+ column=(type=decimal(4) updatewhereclause=yes name=fino dbname="fino" )
+ column=(type=decimal(4) updatewhereclause=yes name=prezzo_manifattura dbname="prezzo_manifattura" )
+ column=(type=decimal(4) updatewhereclause=yes name=calo dbname="calo" )
+ column=(type=long updatewhereclause=yes identity=yes name=id_documento dbname="id_documento" )
+ column=(type=char(16) updatewhereclause=yes name=num_documento dbname="num_documento" )
+ column=(type=date updatewhereclause=yes name=data_documento dbname="data_documento" )
+ column=(type=date updatewhereclause=yes name=data_prev_consegna dbname="data_prev_consegna" )
+ column=(type=char(32766) updatewhereclause=no name=note_intestazione dbname="note_intestazione" )
+ column=(type=char(20) updatewhereclause=yes name=bollo dbname="bollo" )
+ column=(type=char(40) updatewhereclause=yes name=rag_soc_1 dbname="rag_soc_1" )
+ column=(type=char(40) updatewhereclause=yes name=indirizzo dbname="indirizzo" )
+ column=(type=char(40) updatewhereclause=yes name=localita dbname="localita" )
+ column=(type=char(10) updatewhereclause=yes name=cap dbname="cap" )
+ column=(type=char(5) updatewhereclause=yes name=provincia dbname="provincia" )
+ column=(type=char(5) updatewhereclause=yes name=nazione dbname="nazione" )
+ column=(type=char(40) updatewhereclause=yes name=az_rag_1 dbname="az_rag_1" )
+ column=(type=char(40) updatewhereclause=yes name=rag_soc_2 dbname="rag_soc_2" )
+ column=(type=char(20) updatewhereclause=yes name=bollo dbname="bollo" )
+ column=(type=long updatewhereclause=yes name=id_valuta dbname="id_valuta" )
+ column=(type=decimal(4) updatewhereclause=yes name=prezzo_complessivo dbname="prezzo_complessivo" )
+ retrieve="SELECT
+    articolo.~"codice~",
+    riga_documento.~"descrizione~", riga_documento.~"quantita~", riga_documento.~"peso_netto~",
+ riga_documento.~"dim_l~", riga_documento.~"coef_calo~", riga_documento.~"fino~", riga_documento.~"prezzo_manifattura~",
+riga_documento.~"calo~",
+    documento.~"id_documento~", documento.~"num_documento~", documento.~"data_documento~", documento.~"data_prev_consegna~", documento.~"note_intestazione~", documento.~"bollo~",
+    sog_commerciale_gen.~"rag_soc_1~", sede.indirizzo, sede.localita, sede.cap, sede.provincia, 
+	sede.nazione, azienda.rag_soc_1 as az_rag_1, azienda.rag_soc_2, documento.~"bollo~",
+documento.~"id_valuta~", riga_documento.prezzo_complessivo
+FROM
+    ~"DBA~".~"riga_documento~" riga_documento LEFT OUTER JOIN ~"DBA~".~"articolo~" articolo ON
+         riga_documento.~"id_articolo~"=articolo.~"id_articolo~",
+    ~"DBA~".~"documento~" documento,
+    ~"DBA~".~"sog_commerciale_gen~" sog_commerciale_gen ,
+azienda, sede
+WHERE
+    riga_documento.~"id_documento~" = documento.~"id_documento~" AND
+    documento.~"id_sog_commerciale~" = sog_commerciale_gen.~"id_sog_commerciale~" and
+documento.id_azienda=azienda.id_azienda and sede.id_azienda=azienda.id_azienda
+and documento.id_documento=:rn_id_doc" arguments=(("rn_id_doc", number)) )
+column(band=header id=17 alignment="2" tabsequence=32766 border="0" color="0" x="291" y="1402" height="396" width="5767" format="[general]"  name=indirizzo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="'Page ' + page() + ' of ' + pageCount()"border="0" color="0" x="158" y="4418" height="423" width="2540" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="FANTASY"border="0" color="0" x="1349" y="264" height="608" width="3413"  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="CAPOLONA - AREZZO - ITALY"border="0" color="0" x="264" y="1825" height="423" width="5794"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="CODICE/VAR."border="0" color="0" x="132" y="5529" height="423" width="2460"  name=codice_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=14 alignment="0" tabsequence=32766 border="0" color="0" x="9763" y="3413" height="1905" width="9048" format="[general]"  name=note_intestazione edit.limit=0 edit.case=any edit.autoselect=yes edit.autovscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="di GIOVANNINI GUGLIELMO e C. SNC"border="0" color="0" x="0" y="926" height="423" width="6350"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="~"ORDINE N° ~"+ num_documento+  ~" del ~"+string( data_documento )"border="0" color="0" x="6693" y="926" height="502" width="6826" format="[general]"  name=num_ord  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="~"SCADENZA: ~"+ data_prev_consegna "border="0" color="0" x="13890" y="926" height="423" width="4921" format="[general]"  name=scadenza  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header id=16 alignment="0" tabsequence=32766 border="0" color="0" x="9763" y="2857" height="449" width="9048" format="[general]"  name=rag_soc_1 edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="FAX 0575/420135"border="0" color="0" x="264" y="2275" height="423" width="5794"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="SPETT.LE"border="0" color="0" x="9710" y="2275" height="423" width="1693"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="52" y1="5979" x2="19208" y2="5979" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="DESCRIZIONE/NOTE"border="0" color="0" x="2672" y="5529" height="423" width="6561"  name=descrizione_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="MISURA"border="0" color="0" x="11191" y="5529" height="423" width="2037"  name=dim_l_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="PEZZI"border="0" color="0" x="13308" y="5529" height="423" width="1746"  name=quantita_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="PESO TOT."border="0" color="0" x="15134" y="5529" height="423" width="1957"  name=peso_netto_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="PESO UNIT."border="0" color="0" x="17171" y="5529" height="423" width="2037"  name=id_documento_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="PREZZO"border="0" color="0" x="9313" y="5529" height="423" width="1799"  name=prezzo_manifattura_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="105" y1="5503" x2="19208" y2="5503" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+column(band=header id=24 alignment="0" tabsequence=32766 border="0" color="0" x="1534" y="3889" height="423" width="6535" format="[general]"  name=bollo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="BOLLO:"border="0" color="0" x="185" y="3889" height="423" width="1322" visible="1~tif(bollo>'', 1, 0)"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="132" y="27" height="449" width="2460" format="[general]"  name=codice edit.limit=32 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="2672" y="27" height="449" width="6561" format="[general]"  name=descrizione edit.limit=32000 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="11191" y="27" height="449" width="2037" format="#,0.00"  name=dim_l edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="13308" y="27" height="449" width="1746" format="#,0"  name=quantita edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="15134" y="27" height="449" width="1957" format="#,0.00"  name=peso_netto edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="IF( quantita <>0, peso_netto / quantita , 0)"border="0" color="0" x="17171" y="27" height="449" width="2037" format="#,0.00"  name=peso_unit  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="105" y1="477" x2="19208" y2="477" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=detail x1="11138" y1="0" x2="11138" y2="556" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="536870912" )
+line(band=detail x1="9260" y1="0" x2="9260" y2="556" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="536870912" )
+line(band=detail x1="13255" y1="0" x2="13255" y2="556" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="536870912" )
+line(band=detail x1="15081" y1="0" x2="15081" y2="556" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="536870912" )
+line(band=detail x1="17118" y1="0" x2="17118" y2="556" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="536870912" )
+line(band=detail x1="19235" y1="0" x2="19235" y2="556" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="536870912" )
+line(band=detail x1="2619" y1="0" x2="2619" y2="556" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="536870912" )
+line(band=detail x1="52" y1="0" x2="52" y2="556" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="0" tabsequence=32766 border="0" color="0" x="29183" y="0" height="423" width="6799" format="[general]"  name=prezzo_complessivo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression=" if  (prezzo_manifattura >0,  prezzo_manifattura ,   prezzo_complessivo ) "border="0" color="0" x="9313" y="27" height="449" width="1799" format="[general]~tf_valu_EDIT(id_valuta)"  name=c_prezzo  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=summary alignment="1" text="TOT PESO GR.:"border="0" color="0" x="105" y="53" height="423" width="2619"  name=coef_calo_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="0" expression="SUM( peso_netto FOR ALL)"border="0" color="0" x="2910" y="53" height="423" width="2169" format="#,0.00"  name=tot_peso  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=summary alignment="1" text="TOT. FINO"border="0" color="0" x="6032" y="53" height="423" width="1746"  name=fino_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="0" expression="sum(fino for all)"border="0" color="0" x="7937" y="53" height="423" width="1719" format="[general]"  name=totfino  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=summary alignment="1" text="TOT CALO:"border="0" color="0" x="10133" y="53" height="423" width="1825"  name=num_documento_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="0" expression="sum(calo for all)"border="0" color="0" x="12117" y="53" height="423" width="1852" format="[general]"  name=totcalo  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=summary alignment="1" text="TOT FINO+CALO:"border="0" color="0" x="14261" y="53" height="423" width="2883"  name=data_documento_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="0" expression="sum(fino for all) + sum(calo for all)"border="0" color="0" x="17250" y="53" height="423" width="1957" format="#,0.00"  name=totfc  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=foreground x1="11138" y1="5503" x2="11138" y2="6006" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=foreground x1="9260" y1="5503" x2="9260" y2="6006" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=foreground x1="13255" y1="5503" x2="13255" y2="6006" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=foreground x1="15081" y1="5503" x2="15081" y2="6006" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=foreground x1="17118" y1="5503" x2="17118" y2="6006" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=foreground x1="19235" y1="5503" x2="19235" y2="6006" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=foreground x1="2619" y1="5503" x2="2619" y2="6006" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=foreground x1="52" y1="5503" x2="52" y2="6006" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

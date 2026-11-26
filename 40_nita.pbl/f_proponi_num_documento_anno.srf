@@ -1,0 +1,52 @@
+﻿global type f_proponi_num_documento_anno from function_object
+end type
+
+forward prototypes
+global function string f_proponi_num_documento_anno (long al_id_registro, integer ai_anno)
+end prototypes
+
+global function string f_proponi_num_documento_anno (long al_id_registro, integer ai_anno);
+
+long ll_Ultimo_Num_Doc, ll_RetVal
+decimal ldc_RetVal, ldc_Max_Reg_PD, ldc_Max_Documento
+string ls_Max_Reg_PD, ls_Max_Documento, ls_abs_max
+
+
+SELECT MAX(CONVERT(Numeric, "dba"."reg_pd"."doc_globale"))
+	INTO :ldc_Max_Reg_PD
+	FROM "dba"."reg_pd"   
+	WHERE "dba"."reg_pd"."id_registro" = :al_id_registro AND
+			( "dba"."reg_pd"."id_reg_pd_padre" IS NULL ) AND
+			( year("dba"."reg_pd"."data_documento") = :ai_anno ) ;
+
+
+	
+SELECT MAX(CONVERT(Numeric, "dba"."documento"."doc_globale"))
+	INTO :ldc_Max_Documento
+	FROM "dba"."documento"   
+	WHERE "dba"."documento"."id_registro" = :al_id_registro AND
+			( year("dba"."documento"."data_documento") = :ai_anno ) ;						
+
+
+ls_Max_Reg_PD = String(ldc_Max_Reg_PD)
+IF IsNull(ls_Max_Reg_PD) THEN ls_Max_Reg_PD = ""
+
+ls_Max_Documento = string(ldc_Max_Documento)
+IF IsNull(ls_Max_Documento) THEN ls_Max_Documento = ""
+
+
+
+IF ls_Max_Reg_PD >= ls_Max_Documento THEN
+	ls_abs_max = ls_Max_Reg_PD
+ELSEIF ls_Max_Documento > ls_Max_Reg_PD THEN
+	ls_abs_max = ls_Max_Documento
+END IF
+
+ldc_RetVal = dec(right(ls_abs_max, 12))
+IF IsNull(ldc_RetVal) THEN ldc_RetVal = 0
+ll_RetVal = long(ldc_RetVal) + 1
+
+
+RETURN String(ll_RetVal)
+end function
+

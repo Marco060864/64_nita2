@@ -1,0 +1,6 @@
+﻿//objectcomments NEW GEST CDC 235
+global type s_cen_costi from structure
+	long		id_conto
+	long		id_cen_cos_t
+end type
+

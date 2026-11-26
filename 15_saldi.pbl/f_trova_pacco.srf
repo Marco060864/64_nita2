@@ -1,0 +1,20 @@
+﻿global type f_trova_pacco from function_object
+end type
+
+forward prototypes
+global function string f_trova_pacco (long al_id_riga_bollettina)
+end prototypes
+
+global function string f_trova_pacco (long al_id_riga_bollettina);string ls_codice
+select p.codice
+into :ls_codice
+from dba.pacco p, dba.pacco_bollettina b, dba.riga_documento r
+where r.id_riga_documento=:al_id_riga_bollettina
+and r.id_documento=b.id_bollettina
+and b.id_pacco=p.id_pacco
+;
+
+
+return ls_codice
+end function
+

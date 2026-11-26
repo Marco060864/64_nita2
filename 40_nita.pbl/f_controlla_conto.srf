@@ -1,0 +1,49 @@
+﻿global type f_controlla_conto from function_object
+end type
+
+forward prototypes
+global function long f_controlla_conto (string as_codice, long al_azienda)
+end prototypes
+
+global function long f_controlla_conto (string as_codice, long al_azienda);
+
+string  ls_sottomastro, ls_mastro
+long ll_sottomastro, ll_return
+
+if not IsNull(as_codice) AND Len(as_codice) >=4 then
+	ls_mastro = Mid(as_codice,1,2)
+	ls_sottomastro = Mid(as_codice,3,2)
+	SELECT "sottomastro"."id_sottomastro"  
+		 INTO :ll_sottomastro  
+		 FROM "azienda",   
+				"pdc",   
+				"mastro",   
+				"sottomastro"  
+		WHERE ( "pdc"."id_pdc" = "azienda"."id_pdc" ) and  
+				( "mastro"."id_pdc" = "pdc"."id_pdc" ) and  
+				( "sottomastro"."id_mastro" = "mastro"."id_mastro" ) and  
+				( ( "azienda"."id_azienda" = :al_azienda ) AND  
+				( "mastro"."codice" = :ls_mastro ) AND  
+				( "sottomastro"."codice" = :ls_sottomastro ) )   ;
+	CHOOSE CASE SQLCA.SQLCode 
+		CASE -1 
+			
+			ll_return = -1
+		CASE 100
+			
+			ll_return = -100
+		CASE ELSE
+			
+			ll_return = ll_sottomastro
+	END CHOOSE
+else
+	if IsNull(as_codice) then
+		ll_return = 0
+	else
+		
+		ll_return = -2
+	end if
+end if
+return ll_return
+end function
+

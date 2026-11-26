@@ -1,0 +1,13 @@
+﻿global type str_fil_flag from structure
+	string		filtro
+	string		flag
+	string		parametri
+	string		da_listino
+	string		a_listino
+	string		da_cod
+	string		a_cod
+	date		da_data
+	date		a_data
+	long		id_banca
+end type
+

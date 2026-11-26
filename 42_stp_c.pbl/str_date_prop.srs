@@ -1,0 +1,5 @@
+﻿global type str_date_prop from structure
+	date		data_prop_iniziale
+	string		mai_stampato
+end type
+

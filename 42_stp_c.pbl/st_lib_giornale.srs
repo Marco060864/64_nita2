@@ -1,0 +1,17 @@
+﻿global type st_lib_giornale from structure
+	long		sl_id_esercizio
+	string		ss_elab_definitiva
+	date		sdt_da_data
+	date		sdt_a_data
+	decimal { 4 }		sd_riporto
+	long		sl_ult_progressivo
+	string		las_aghi
+	string		manageriale
+	long		d_num
+	long		a_num
+	long		mod_reg
+	string		ordinamento
+	string		ord_testa
+	long		id_registro
+end type
+

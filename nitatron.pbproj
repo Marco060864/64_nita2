@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<Project>
+  <Type Name="pb"/>
+  <Application Name="nitatron"/>
+  <Libraries AppEntry="01_nita.pbl">
+    <Library Path="01_nita.pbl"/>
+    <Library Path="02_ag.pbl"/>
+    <Library Path="03_agstp.pbl"/>
+    <Library Path="04_cb.pbl"/>
+    <Library Path="05_din.pbl"/>
+    <Library Path="06_dis.pbl"/>
+    <Library Path="07_lt.pbl"/>
+    <Library Path="08_ltstp.pbl"/>
+    <Library Path="09_cat.pbl"/>
+    <Library Path="10_cl_lst.pbl"/>
+    <Library Path="11_o_din.pbl"/>
+    <Library Path="12_lega.pbl"/>
+    <Library Path="13_mag.pbl"/>
+    <Library Path="14_ordini.pbl"/>
+    <Library Path="15_saldi.pbl"/>
+    <Library Path="16_stpdoc.pbl"/>
+    <Library Path="17_stp1.pbl"/>
+    <Library Path="18_stp2.pbl"/>
+    <Library Path="19_o_uty.pbl"/>
+    <Library Path="20_c_costo.pbl"/>
+    <Library Path="21_stp_bol.pbl"/>
+    <Library Path="22_cesp.pbl"/>
+    <Library Path="23_gd.pbl"/>
+    <Library Path="24_intrastat.pbl"/>
+    <Library Path="25_lt.pbl"/>
+    <Library Path="26_pa.pbl"/>
+    <Library Path="26_pa1.pbl"/>
+    <Library Path="27_pb.pbl"/>
+    <Library Path="28_pb1_ana.pbl"/>
+    <Library Path="29_pb2_listini.pbl"/>
+    <Library Path="30_pb2_listini_rpt.pbl"/>
+    <Library Path="31_pb3_contabilizza.pbl"/>
+    <Library Path="32_pb3_documenti.pbl"/>
+    <Library Path="33_pb3_eva_batch.pbl"/>
+    <Library Path="34_pc.pbl"/>
+    <Library Path="35_riba.pbl"/>
+    <Library Path="36_rpt_contabilita.pbl"/>
+    <Library Path="37_rpt_cr_magazzino.pbl"/>
+    <Library Path="38_rpt_pb_magazzino.pbl"/>
+    <Library Path="39_sl.pbl"/>
+    <Library Path="40_nita.pbl"/>
+    <Library Path="41_nitastp.pbl"/>
+    <Library Path="42_stp_c.pbl"/>
+    <Library Path="43_uty.pbl"/>
+    <Library Path="47.pbl"/>
+    <Library Path="99.pbl"/>
+  </Libraries>
+  <Deployings>
+    <Deploying Deploy="1" Library="01_nita.pbl" Name="nitatron"/>
+    <Deploying Deploy="0" Library="26_pa1.pbl" Name="default"/>
+    <Deploying Deploy="0" Library="47.pbl" Name="utpipe"/>
+  </Deployings>
+</Project>

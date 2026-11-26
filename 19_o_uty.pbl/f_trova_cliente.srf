@@ -1,0 +1,22 @@
+﻿global type f_trova_cliente from function_object
+end type
+
+forward prototypes
+global function string f_trova_cliente (long al_id_riga_ordine)
+end prototypes
+
+global function string f_trova_cliente (long al_id_riga_ordine);string ls_codice
+
+select s.codice
+into :ls_codice
+from documento d, riga_documento r, sog_commerciale s 
+where d.id_documento=r.id_documento
+and s.id_sog_commerciale=d.id_sog_commerciale
+and r.id_riga_documento=:al_id_riga_ordine;
+if ls_codice>"" then
+	return ls_codice
+else
+	return ""
+end if
+end function
+

@@ -1,0 +1,27 @@
+﻿global type uf_trimestre from function_object
+end type
+
+forward prototypes
+global function integer uf_trimestre (integer li_mese)
+end prototypes
+
+global function integer uf_trimestre (integer li_mese);
+
+integer li_trimestre
+
+if li_mese=1 then li_trimestre=1
+if li_mese=2 then li_trimestre=1
+if li_mese=3 then li_trimestre=1
+if li_mese=4 then li_trimestre=2
+if li_mese=5 then li_trimestre=2
+if li_mese=6 then li_trimestre=2
+if li_mese=7 then li_trimestre=3
+if li_mese=8 then li_trimestre=3
+if li_mese=9 then li_trimestre=3
+if li_mese=10 then li_trimestre=4
+if li_mese=11 then li_trimestre=4
+if li_mese=12 then li_trimestre=4
+
+return li_trimestre
+end function
+

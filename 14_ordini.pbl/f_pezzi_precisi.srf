@@ -1,0 +1,21 @@
+﻿global type f_pezzi_precisi from function_object
+end type
+
+forward prototypes
+global function string f_pezzi_precisi (string as_cod_soggetto)
+end prototypes
+
+global function string f_pezzi_precisi (string as_cod_soggetto);string ls_pz_precisi
+
+
+select pz_precisi
+into :ls_pz_precisi
+from sog_commerciale
+where codice=:as_cod_soggetto
+;
+if isnull(ls_pz_precisi) then
+	ls_pz_precisi='N'
+end if
+return ls_pz_precisi
+end function
+

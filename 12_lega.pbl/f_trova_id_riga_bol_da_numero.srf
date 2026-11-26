@@ -1,0 +1,16 @@
+﻿global type f_trova_id_riga_bol_da_numero from function_object
+end type
+
+forward prototypes
+global function long f_trova_id_riga_bol_da_numero (string as_num_bollettina)
+end prototypes
+
+global function long f_trova_id_riga_bol_da_numero (string as_num_bollettina);long ll_id_riga_bol
+
+select id_riga_documento into :ll_id_riga_bol 
+from dba.documento d, dba.riga_documento r
+where r.id_documento=d.id_documento and right(d.num_documento, 7)=:as_num_bollettina
+and d.id_prof_documento=65;
+return ll_id_riga_bol
+end function
+

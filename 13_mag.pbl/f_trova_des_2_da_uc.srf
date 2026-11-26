@@ -1,0 +1,17 @@
+﻿global type f_trova_des_2_da_uc from function_object
+end type
+
+forward prototypes
+global function string f_trova_des_2_da_uc (long al_id_uc, long al_id_variazione)
+end prototypes
+
+global function string f_trova_des_2_da_uc (long al_id_uc, long al_id_variazione);string ls_des_2
+
+select des_2  into :ls_des_2
+from dba.prezzo where id_unita_confezione=:al_id_uc and id_variazione=:al_id_variazione;
+if isnull(ls_des_2) then ls_des_2=""
+
+return ls_des_2
+
+end function
+

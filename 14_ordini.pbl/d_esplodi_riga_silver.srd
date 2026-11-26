@@ -1,0 +1,241 @@
+﻿release 9;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+header(height=67 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=0 color="553648127" )
+table(column=(type=long updatewhereclause=yes identity=yes name=riga_distinta_id_riga_distinta dbname="riga_distinta.id_riga_distinta" )
+ column=(type=decimal(0) updatewhereclause=yes name=riga_distinta_num_riga dbname="riga_distinta.num_riga" )
+ column=(type=long updatewhereclause=yes name=riga_distinta_id_articolo dbname="riga_distinta.id_articolo" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_distinta_quantita dbname="riga_distinta.quantita" )
+ column=(type=char(32766) updatewhereclause=no name=riga_distinta_note dbname="riga_distinta.note" )
+ column=(type=long updatewhereclause=yes name=id_distinta dbname="riga_distinta.id_distinta" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_quantita dbname="riga_documento.quantita" )
+ column=(type=long updatewhereclause=yes identity=yes name=id_riga_documento dbname="riga_documento.id_riga_documento" )
+ column=(type=long updatewhereclause=yes name=id_riga_sorgente dbname="riga_documento.id_riga_sorgente" )
+ column=(type=long updatewhereclause=yes name=id_documento dbname="riga_documento.id_documento" )
+ column=(type=long updatewhereclause=yes name=riga_documento_id_articolo dbname="riga_documento.id_articolo" )
+ column=(type=char(255) updatewhereclause=yes name=articolo_immagine dbname="articolo.immagine" )
+ column=(type=char(32766) updatewhereclause=no name=riga_documento_descrizione dbname="riga_documento.descrizione" )
+ column=(type=char(16) updatewhereclause=yes name=documento_num_documento dbname="documento.num_documento" )
+ column=(type=char(40) updatewhereclause=yes name=sog_commerciale_gen_rag_soc_1 dbname="sog_commerciale_gen.rag_soc_1" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_dim_l dbname="riga_documento.dim_l" )
+ column=(type=date updatewhereclause=yes name=documento_data_documento dbname="documento.data_documento" )
+ column=(type=date updatewhereclause=yes name=data_doc1 dbname="data_doc1" )
+ column=(type=date updatewhereclause=yes name=data_consegna1 dbname="data_consegna1" )
+ column=(type=char(40) updatewhereclause=yes name=cliente1 dbname="cliente1" )
+ column=(type=char(255) updatewhereclause=yes name=note1 dbname="note1" )
+ column=(type=decimal(4) updatewhereclause=yes name=quantita1 dbname="quantita1" )
+ column=(type=decimal(4) updatewhereclause=yes name=misura1 dbname="misura1" )
+ column=(type=char(16) updatewhereclause=yes name=num_doc1 dbname="num_doc1" )
+ column=(type=char(80) updatewhereclause=yes name=bollo1 dbname="bollo1" )
+ column=(type=char(32766) updatewhereclause=no name=distinta_note dbname="distinta.note" )
+ column=(type=char(80) updatewhereclause=yes name=bollo dbname="documento.bollo" )
+ column=(type=long updatewhereclause=yes identity=yes name=id_titolo_distinta dbname="orafo_titolo.id_titolo" )
+ column=(type=decimal(2) updatewhereclause=yes name=titolo_distinta dbname="orafo_titolo.titolo" )
+ column=(type=long updatewhereclause=yes identity=yes name=id_titolo_riga dbname="orafo_titolo.id_titolo" )
+ column=(type=decimal(2) updatewhereclause=yes name=titolo_riga dbname="orafo_titolo.titolo" )
+ column=(type=char(1) updatewhereclause=yes name=b_prod_interna dbname="articolo.prod_interna" values="	S/	N" )
+ column=(type=char(1) updatewhereclause=yes name=articolo_prod_interna dbname="articolo.prod_interna" )
+ column=(type=long updatewhereclause=yes name=b_id_sog_commerciale dbname="articolo.id_sog_commerciale" )
+ column=(type=char(32) updatewhereclause=yes name=b_codice dbname="articolo.codice" )
+ column=(type=char(80) updatewhereclause=yes name=b_descrizione dbname="articolo.descrizione" )
+ column=(type=char(32) updatewhereclause=yes name=articolo_codice dbname="articolo.codice" )
+ column=(type=char(80) updatewhereclause=yes name=articolo_descrizione dbname="articolo.descrizione" )
+ column=(type=decimal(2) updatewhereclause=yes name=b_coef_calo dbname="articolo.coef_calo" )
+ column=(type=long updatewhereclause=yes identity=yes name=b_id_articolo dbname="articolo.id_articolo" )
+ column=(type=long updatewhereclause=yes name=b_id_titolo dbname="articolo.id_titolo" )
+ column=(type=long updatewhereclause=yes name=riga_documento_id_tab_iva dbname="riga_documento.id_tab_iva" )
+ column=(type=date updatewhereclause=yes name=documento_data_scadenza dbname="documento.data_prev_consegna" )
+ column=(type=char(8) updatewhereclause=yes name=sog_codice dbname="sog_commerciale_gen.codice" )
+ column=(type=long updatewhereclause=yes name=riga_documento_id_unita_confezione dbname="riga_documento.id_unita_confezione" )
+ column=(type=decimal(4) updatewhereclause=yes name=unita_confezione_dim_l dbname="unita_confezione.dim_l" )
+ column=(type=char(1) updatewhereclause=yes name=riga_distinta_varie dbname="riga_distinta.varie" )
+ column=(type=decimal(4) updatewhereclause=yes name=quantita15 dbname="quantita15" )
+ column=(type=decimal(4) updatewhereclause=yes name=misura15 dbname="misura15" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_peso_netto dbname="riga_documento.peso_netto" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_distinta_peso_netto dbname="riga_distinta.peso_netto" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_qta_un_base dbname="riga_documento.qta_un_base" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_qta_evasa_un_base dbname="riga_documento.qta_evasa_un_base" )
+ column=(type=decimal(2) updatewhereclause=yes name=c_infilatura dbname="c_infilatura" )
+ column=(type=char(1) updatewhereclause=yes name=riga_distinta_infilatura dbname="riga_distinta.infilatura" )
+ column=(type=char(32766) updatewhereclause=no name=documento_note_intestazione dbname="documento.note_intestazione" )
+ column=(type=char(40) updatewhereclause=yes name=articolo_des_breve dbname="articolo.des_breve" )
+ column=(type=decimal(0) updatewhereclause=yes name=documento_num_progressivo dbname="documento.num_progressivo" )
+ column=(type=long updatewhereclause=yes name=articolo_id_sog_commerciale dbname="articolo.id_sog_commerciale" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_distinta_costo dbname="riga_distinta.costo" )
+ column=(type=char(128) updatewhereclause=yes name=foto_comp dbname="foto_comp" )
+ column=(type=decimal(4) updatewhereclause=yes name=galvanica_prezzo_gr dbname="galvanica.prezzo_gr" )
+ column=(type=char(32766) updatewhereclause=no name=articolo_nota dbname="articolo.nota" )
+ column=(type=char(2) updatewhereclause=yes name=galvanica_lavorazione dbname="galvanica.lavorazione" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_dim_l dbname="riga_documento.dim_l" )
+ column=(type=long updatewhereclause=yes name=documento_id_destinazione dbname="documento.id_destinazione" )
+ column=(type=decimal(4) updatewhereclause=yes name=unita_confezione_peso_netto dbname="unita_confezione.peso_netto" )
+ retrieve=" SELECT ~"riga_distinta~".~"id_riga_distinta~",   
+         ~"riga_distinta~".~"num_riga~",   
+         ~"riga_distinta~".~"id_articolo~",   
+         ~"riga_distinta~".~"quantita~",   
+         ~"riga_distinta~".~"note~",   
+         ~"riga_distinta~".~"id_distinta~",   
+         ~"riga_documento~".~"quantita~",   
+         ~"riga_documento~".~"id_riga_documento~",   
+         ~"riga_documento~".~"id_riga_sorgente~",   
+         ~"riga_documento~".~"id_documento~",   
+         ~"riga_documento~".~"id_articolo~",   
+         ~"articolo_a~".~"immagine~",   
+         ~"riga_documento~".~"descrizione~",   
+         ~"documento~".~"num_documento~",   
+         ~"sog_commerciale_gen~".~"rag_soc_1~",   
+         ~"riga_documento~".~"dim_l~",   
+         ~"documento~".~"data_documento~",   
+         cast(null as date) as data_doc1,   
+         cast(null as date) as data_consegna1,   
+         cast(null as varchar(40)) as cliente1,   
+         cast(null as varchar(255)) as note1,   
+         cast(null as numeric(18,4)) as quantita1,   
+         cast(null as numeric(18,4)) as misura1,   
+        	cast(null as varchar(16)) as num_doc1,   
+         cast(null as varchar(80)) as bollo1,   
+         ~"distinta~".~"note~",   
+         ~"documento~".~"bollo~",   
+         ~"orafo_titolo_a~".~"id_titolo~",   
+         ~"orafo_titolo_a~".~"titolo~",   
+         ~"orafo_titolo_b~".~"id_titolo~",   
+         ~"orafo_titolo_b~".~"titolo~",   
+         ~"articolo_b~".~"prod_interna~",   
+         ~"articolo_a~".~"prod_interna~",   
+         ~"articolo_b~".~"id_sog_commerciale~",   
+         ~"articolo_b~".~"codice~",   
+         ~"articolo_b~".~"descrizione~",   
+         ~"articolo_a~".~"codice~",   
+         ~"articolo_a~".~"descrizione~",   
+         ~"articolo_b~".~"coef_calo~",   
+         ~"articolo_b~".~"id_articolo~",   
+         ~"articolo_b~".~"id_titolo~",   
+         ~"riga_documento~".~"id_tab_iva~",   
+         ~"documento~".~"data_prev_consegna~",   
+         ~"sog_commerciale_gen~".~"codice~",   
+         ~"riga_documento~".~"id_unita_confezione~",   
+         ~"unita_confezione~".~"dim_l~",   
+         ~"riga_distinta~".~"varie~",   
+         cast(fn_ordini(~"riga_distinta~".~"id_distinta~",~"riga_documento~".~"qta_un_base~" - ~"riga_documento~".~"qta_evasa_un_base~",~"riga_distinta~".~"quantita~",~"riga_documento~".~"dim_l~",~"unita_confezione~".~"dim_l~",~"riga_distinta~".~"varie~") as numeric(18,4)) as quantita15,   
+         cast(fn_dim_l(~"articolo_b~".~"id_articolo~") as numeric(18,4)) as misura15,   
+         ~"riga_documento~".~"peso_netto~",
+~"riga_distinta~".~"peso_netto~" ,
+~"riga_documento~".~"qta_un_base~",   
+~"riga_documento~".~"qta_evasa_un_base~",
+cast((select infilatura from infilatura where id_articolo=~"riga_distinta~".~"id_articolo~")as numeric(5,2))as c_infilatura,
+~"riga_distinta~".~"infilatura~",
+~"documento~".~"note_intestazione~",
+~"articolo_a~".~"des_breve~",
+~"documento~".~"num_progressivo~",
+~"articolo_a~".~"id_sog_commerciale~",
+~"riga_distinta~".~"costo~",
+cast((par_sistema.dir_immagini+'\'+(select immagine from articolo where id_articolo= ~"riga_distinta~".~"id_articolo~")) as char(128)) as foto_comp,
+~"galvanica~".~"prezzo_gr~",
+~"articolo_a~".~"nota~",
+~"galvanica~".~"lavorazione~",
+~"riga_documento~".~"dim_l~",
+~"documento~".~"id_destinazione~",
+~"unita_confezione~".~"peso_netto~"
+    FROM ~"distinta~",   
+         ~"riga_distinta~",   
+         ~"riga_documento~",   
+         ~"articolo~" ~"articolo_a~",   
+         ~"articolo~" ~"articolo_b~",   
+         ~"documento~",   
+         ~"sog_commerciale_gen~",   
+         ~"orafo_titolo~" ~"orafo_titolo_a~",   
+         ~"orafo_titolo~" ~"orafo_titolo_b~",   
+         ~"unita_confezione~",
+			~"par_sistema~",
+			~"galvanica~"
+   WHERE ( ~"riga_distinta~".~"id_distinta~" = ~"distinta~".~"id_distinta~" ) and  
+         ( ~"distinta~".~"id_articolo~" = ~"riga_documento~".~"id_articolo~" ) and  
+         ( ~"riga_distinta~".~"id_articolo~" = ~"articolo_b~".~"id_articolo~" ) and  
+         ( ~"orafo_titolo_a~".~"id_titolo~" = ~"articolo_a~".~"id_titolo~" ) and  
+         ( ~"articolo_b~".~"id_titolo~" = ~"orafo_titolo_b~".~"id_titolo~" ) and  
+         ( ~"documento~".~"id_sog_commerciale~" = ~"sog_commerciale_gen~".~"id_sog_commerciale~" ) and  
+         ( ~"riga_documento~".~"id_documento~" = ~"documento~".~"id_documento~" ) and  
+         ( ~"riga_documento~".~"id_articolo~" = ~"articolo_a~".~"id_articolo~" ) and  
+         ( ~"riga_documento~".~"id_unita_confezione~" = ~"unita_confezione~".~"id_unita_confezione~" ) and  
+         ( ( ~"riga_documento~".~"id_riga_documento~" = :rn_id_riga ) ) AND  
+         ~"articolo_a~".~"prod_interna~" = 'S'    
+and ( ~"riga_documento~".~"id_unita_confezione~"= ~"unita_confezione~".~"id_unita_confezione~")
+and (~"riga_documento~".~"id_gruppo_agenti_2~"*=~"galvanica~".~"id_galvanica~")
+
+
+" arguments=(("rn_id_riga", number))  sort="riga_documento_id_articolo A id_riga_documento A riga_distinta_id_riga_distinta A id_riga_sorgente A " )
+group(level=1 header.height=147 trailer.height=0 by=("id_riga_documento" ) newpage=yes header.color="553648127" trailer.color="536870912" )
+group(level=2 header.height=0 trailer.height=70 by=("riga_distinta_id_riga_distinta" ) header.color="553648127" trailer.color="553648127" )
+text(band=header alignment="2" text="Misura" border="2" color="0" x="1898" y="0" height="64" width="304" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=header alignment="0" text="  Codice" border="2" color="0" x="0" y="0" height="64" width="677" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=header alignment="0" text="  Descrizione" border="2" color="0" x="680" y="0" height="64" width="987" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=header alignment="0" text="Quantità" border="2" color="0" x="1671" y="0" height="64" width="219" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=header alignment="0" text="  Note" border="2" color="0" x="2209" y="0" height="64" width="929" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+column(band=header.1 id=38 alignment="0" tabsequence=32766 border="2" color="0" x="680" y="3" height="67" width="991" format="[general]" html.valueishtml="0"  name=articolo_descrizione visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="553648127~trgb(181,255,255)" )
+column(band=header.1 id=37 alignment="0" tabsequence=32766 border="2" color="0" x="0" y="3" height="67" width="677" format="[general]" html.valueishtml="0"  name=articolo_codice visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="553648127~trgb(181,255,255)" )
+compute(band=header.1 alignment="1" expression="sum( riga_documento_qta_un_base  for group 2) - sum( riga_documento_qta_evasa_un_base  for group 2)"border="2" color="0" x="1679" y="3" height="67" width="216" format="[general]" html.valueishtml="0"  name=sum_qta visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="553648127~trgb(181,255,255)" )
+column(band=header.1 id=16 alignment="1" tabsequence=32766 border="2" color="0" x="1898" y="3" height="67" width="304" format="#,0.00" html.valueishtml="0"  name=riga_documento_dim_l visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="553648127~trgb(181,255,255)" )
+column(band=header.1 id=26 alignment="0" tabsequence=32766 border="2" color="0" x="2209" y="3" height="67" width="929" format="[general]" html.valueishtml="0"  name=distinta_note visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="553648127~trgb(181,255,255)" )
+text(band=header.1 alignment="0" text="  Note" border="2" color="0" x="2209" y="80" height="64" width="929" html.valueishtml="0"  name=t_6 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=header.1 alignment="0" text="  Descrizione" border="2" color="0" x="680" y="80" height="64" width="987" html.valueishtml="0"  name=t_7 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=header.1 alignment="0" text="  Codice" border="2" color="0" x="0" y="80" height="64" width="677" html.valueishtml="0"  name=t_8 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=header.1 alignment="0" text="Quantità" border="2" color="0" x="1671" y="80" height="64" width="219" html.valueishtml="0"  name=t_9 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=header.1 alignment="2" text="Peso Gr." border="2" color="0" x="1902" y="80" height="64" width="307" html.valueishtml="0"  name=t_10 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+column(band=header.1 id=3 alignment="0" tabsequence=32766 border="0" color="0" x="3507" y="71" height="77" width="128" format="[general]" html.valueishtml="0"  name=riga_distinta_id_articolo visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="6934" y="0" height="54" width="369" format="[general]" html.valueishtml="0"  name=documento_num_documento_1 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="7303" y="0" height="54" width="922" format="[general]" html.valueishtml="0"  name=sog_commerciale_gen_rag_soc_1_1 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="0" x="9216" y="0" height="54" width="234" format="[general]" html.valueishtml="0"  name=documento_data_documento visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=28 alignment="0" tabsequence=32766 border="0" color="0" x="16022" y="0" height="54" width="995" format="[general]" html.valueishtml="0"  name=id_titolo_distinta visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=29 alignment="0" tabsequence=32766 border="0" color="0" x="17017" y="0" height="54" width="991" format="[general]" html.valueishtml="0"  name=titolo_distinta visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=30 alignment="0" tabsequence=32766 border="0" color="0" x="18008" y="0" height="54" width="991" format="[general]" html.valueishtml="0"  name=id_titolo_riga visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=37 alignment="0" tabsequence=32766 border="0" color="0" x="18999" y="0" height="54" width="735" format="[general]" html.valueishtml="0"  name=articolo_codice_1 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=38 alignment="0" tabsequence=32766 border="0" color="0" x="19734" y="0" height="54" width="1843" format="[general]" html.valueishtml="0"  name=articolo_descrizione_1 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=42 alignment="0" tabsequence=32766 border="0" color="0" x="21577" y="0" height="54" width="991" format="[general]" html.valueishtml="0"  name=riga_documento_id_tab_iva visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=43 alignment="0" tabsequence=32766 border="0" color="0" x="22568" y="0" height="54" width="234" format="[general]" html.valueishtml="0"  name=documento_data_scadenza visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=44 alignment="0" tabsequence=32766 border="0" color="0" x="22802" y="0" height="54" width="183" format="[general]" html.valueishtml="0"  name=sog_codice visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=45 alignment="0" tabsequence=32766 border="0" color="0" x="22985" y="0" height="54" width="991" format="[general]" html.valueishtml="0"  name=riga_documento_id_unita_confezione visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=46 alignment="0" tabsequence=32766 border="0" color="0" x="23976" y="0" height="54" width="991" format="[general]" html.valueishtml="0"  name=unita_confezione_dim_l visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=47 alignment="0" tabsequence=32766 border="0" color="0" x="24967" y="0" height="54" width="26" format="[general]" html.valueishtml="0"  name=riga_distinta_varie visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=50 alignment="0" tabsequence=32766 border="0" color="0" x="24993" y="0" height="54" width="991" format="[general]" html.valueishtml="0"  name=riga_documento_peso_netto visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=52 alignment="0" tabsequence=32766 border="0" color="0" x="25984" y="0" height="54" width="991" format="[general]" html.valueishtml="0"  name=riga_documento_qta_un_base visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=53 alignment="0" tabsequence=32766 border="0" color="0" x="26975" y="0" height="54" width="995" format="[general]" html.valueishtml="0"  name=riga_documento_qta_evasa_un_base visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=54 alignment="0" tabsequence=32766 border="0" color="0" x="27970" y="0" height="54" width="991" format="[general]" html.valueishtml="0"  name=c_infilatura visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=55 alignment="0" tabsequence=32766 border="0" color="0" x="28961" y="0" height="54" width="22" format="[general]" html.valueishtml="0"  name=riga_distinta_infilatura visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=56 alignment="0" tabsequence=32766 border="0" color="0" x="28983" y="0" height="54" width="2743" format="[general]" html.valueishtml="0"  name=documento_note_intestazione visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=57 alignment="0" tabsequence=32766 border="0" color="0" x="31726" y="0" height="54" width="922" format="[general]" html.valueishtml="0"  name=articolo_des_breve visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=58 alignment="0" tabsequence=32766 border="0" color="0" x="32647" y="0" height="54" width="995" format="[general]" html.valueishtml="0"  name=documento_num_progressivo visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=27 alignment="0" tabsequence=32766 border="0" color="0" x="271" y="13" height="54" width="1843" format="[general]" html.valueishtml="0"  name=bollo visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="1203" y="16" height="54" width="256" format="[general]" html.valueishtml="0"  name=id_documento visible="0" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="1031" y="4" height="58" width="373" format="[general]" html.valueishtml="0"  name=riga_documento_quantita visible="0" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="1485" y="4" height="58" width="366" format="[general]" html.valueishtml="0"  name=riga_documento_descrizione visible="0" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="1902" y="7" height="58" width="340" format="[general]" html.valueishtml="0"  name=sog_commerciale_gen_rag_soc_1 visible="0" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="2264" y="16" height="54" width="369" format="[general]" html.valueishtml="0"  name=documento_num_documento visible="0" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=39 alignment="0" tabsequence=32766 border="0" color="0" x="2714" y="29" height="54" width="88" format="[general]" html.valueishtml="0"  name=b_coef_calo visible="0~t0" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=48 alignment="0" tabsequence=32766 border="0" color="0" x="636" y="7" height="58" width="366" format="~tif( int(riga_distinta_quantita)= riga_distinta_quantita , ~"#,0~",~"#,0.00~")" html.valueishtml="0"  name=quantita15 visible="0" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="15" y="0" height="54" width="589" format="[general]" html.valueishtml="0"  name=id_riga_documento visible="0" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=59 alignment="0" tabsequence=32766 border="0" color="0" x="33642" y="0" height="54" width="991" format="[general]" html.valueishtml="0"  name=articolo_id_sog_commerciale visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=60 alignment="0" tabsequence=32766 border="0" color="0" x="34633" y="0" height="54" width="991" format="[general]" html.valueishtml="0"  name=riga_distinta_costo visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=65 alignment="0" tabsequence=32766 border="0" color="0" x="35624" y="0" height="54" width="991" format="[general]" html.valueishtml="0"  name=riga_documento_dim_l_1 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=66 alignment="0" tabsequence=32766 border="0" color="0" x="36615" y="0" height="54" width="995" format="[general]" html.valueishtml="0"  name=documento_id_destinazione visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=67 alignment="0" tabsequence=32766 border="0" color="0" x="37610" y="0" height="54" width="991" format="[general]" html.valueishtml="0"  name=unita_confezione_peso_netto visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=trailer.2 id=25 alignment="0" tabsequence=32766 border="0" color="0" x="3163" y="7" height="58" width="154" format="[general]" html.valueishtml="0"  name=bollo1 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=trailer.2 id=32 alignment="2" tabsequence=32766 border="2" color="0" x="1605" y="7" height="54" width="62" format="[general]" html.valueishtml="0"  name=b_prod_interna visible="1" checkbox.text="" checkbox.on="S" checkbox.off="N" checkbox.scale=no checkbox.threed=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.2 alignment="1" expression="sum(  quantita15  for group 2 )"border="2" color="0" x="1679" y="4" height="61" width="208" format="~tif(int( riga_distinta_quantita )= riga_distinta_quantita , ~"#,0~",~"#,0.00~")" html.valueishtml="0"  name=tq visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="553648127~tif ( id_riga_sorgente >0,   16707839 , rgb(255,255,255))" )
+compute(band=trailer.2 alignment="1" expression="tq*(riga_distinta_peso_netto/riga_distinta_quantita)"border="2" color="0" x="1902" y="4" height="61" width="296" format="#,0.00" html.valueishtml="0"  name=tot_peso_comp visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=trailer.2 id=5 alignment="0" tabsequence=32766 border="2" color="0" x="2209" y="4" height="61" width="929" format="[general]" html.valueishtml="0"  name=riga_distinta_note visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="553648127~tif ( id_riga_sorgente >0,   16707839 , rgb(255,255,255))" )
+column(band=trailer.2 id=35 alignment="0" tabsequence=32766 border="2" color="0" x="0" y="4" height="61" width="677" format="[general]" html.valueishtml="0"  name=b_codice visible="1~tif(cod_var=b_codice, 1,0)" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="553648127~tif ( id_riga_sorgente >0,   16707839 , rgb(255,255,255))" )
+compute(band=trailer.2 alignment="0" expression=" f_carica_articolo( riga_distinta_id_articolo, 'A' ) "border="2" color="0" x="0" y="4" height="61" width="677" format="[general]" html.valueishtml="0"  name=cod_var visible="1~tif(cod_var=b_codice, 0,1)"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="65535~tif ( id_riga_sorgente >0,   rgb(0,255,0) , rgb(255,255,255))" )
+column(band=trailer.2 id=36 alignment="0" tabsequence=32766 border="2" color="0" x="680" y="4" height="61" width="991" format="[general]" html.valueishtml="0"  name=b_descrizione visible="1~tif(cod_var=b_codice, 1,0)" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="553648127~tif ( id_riga_sorgente >0,   16707839 , rgb(255,255,255))" )
+compute(band=trailer.2 alignment="0" expression=" f_carica_articolo( riga_distinta_id_articolo, 'B' ) "border="2" color="0" x="680" y="4" height="61" width="991" format="[general]" html.valueishtml="0"  name=des_var visible="1~tif(cod_var=b_codice, 0,1)"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="553648127~tif ( id_riga_sorgente >0,   16707839 , rgb(255,255,255))" )
+compute(band=trailer.2 alignment="0" expression="//sum( if(  riga_distinta_varie ='C' or riga_distinta_varie ='B' or  riga_distinta_varie ='I',  //misura15 , 0 ) for all ) ERA GIUSTA COSI, MA PER ORA SI TIENE QUELLA SOTTO //(SAMY) 3 ottobre 2013
+
+sum( if(  riga_distinta_varie ='C' or  riga_distinta_varie ='I',  misura15 , 0 ) for all )"border="0" color="0" x="3694" y="0" height="77" width="256" format="[general]" html.valueishtml="0"  name=tot_fisso visible="0"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.2 alignment="0" expression=" riga_documento_qta_un_base - if(isnull( riga_documento_qta_evasa_un_base ),0, riga_documento_qta_evasa_un_base )"border="0" color="0" x="3504" y="13" height="54" width="183" format="[general]" html.valueishtml="0"  name=qta_residua visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+  

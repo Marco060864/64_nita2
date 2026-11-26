@@ -1,0 +1,9 @@
+﻿global type s_liq_iva from structure
+	decimal { 4 }		interessi
+	decimal { 4 }		iva_credito
+	decimal { 4 }		iva_debito
+	decimal { 4 }		plafond_diff
+	decimal { 4 }		per_prorata
+	integer		num_pagine_usate
+end type
+

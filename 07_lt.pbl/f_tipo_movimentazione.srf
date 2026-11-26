@@ -1,0 +1,21 @@
+﻿global type f_tipo_movimentazione from function_object
+end type
+
+forward prototypes
+global function string f_tipo_movimentazione (long al_id_articolo)
+end prototypes
+
+global function string f_tipo_movimentazione (long al_id_articolo);
+string ls_tipo
+
+SELECT m.tipo
+INTO	 :ls_tipo
+FROM	 unita_confezione u, unita_misura m
+WHERE	 m.id_unita_misura = u.id_unita_misura 
+AND	 u.id_articolo = :al_id_articolo
+AND	 u.unita_base = 'S'
+;
+
+return ls_tipo
+end function
+

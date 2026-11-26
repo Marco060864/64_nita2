@@ -1,0 +1,38 @@
+﻿global type f_conta_righe_tit_calo from function_object
+end type
+
+forward prototypes
+global function string f_conta_righe_tit_calo (long al_id_doc)
+end prototypes
+
+global function string f_conta_righe_tit_calo (long al_id_doc);datastore ds_conta_righe_calo
+decimal ldc_netto_tara=0, ldc_tare=0
+string ls_return
+boolean lb_found
+long ll_breakrow
+
+ds_conta_righe_calo=create datastore
+//ds_conta_righe_calo.dataobject="d_per_tara_di_gruppo"
+ds_conta_righe_calo.dataobject="d_per_tara_di_gruppo_no_doppio"
+ds_conta_righe_calo.settransobject(sqlca)
+ds_conta_righe_calo.retrieve(al_id_doc)
+//funzione "strana" la vuole la Samy .... il peso netto è netto+tara ...
+
+lb_found = false
+ll_breakrow = 0
+
+DO WHILE NOT (lb_found)   
+	ll_breakrow = ds_conta_righe_calo.FindGroupChange(ll_breakrow, 1)    // If no breaks are found, exit.   
+	IF ll_breakrow <= 0 THEN EXIT   
+	ldc_netto_tara+=ds_conta_righe_calo.getitemdecimal(ll_breakrow, "c_sum_netto")
+	ldc_tare+=ds_conta_righe_calo.getitemdecimal(ll_breakrow, "c_tot_tare")
+	ll_breakrow++
+loop
+ls_return=string(ldc_netto_tara, "#,0.00")+";"+string(ldc_tare, "#,0.00")
+return ls_return
+
+
+
+
+end function
+

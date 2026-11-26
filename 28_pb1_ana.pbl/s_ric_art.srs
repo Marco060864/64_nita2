@@ -1,0 +1,10 @@
+﻿global type s_ric_art from structure
+	string		s_da_art
+	string		s_a_art
+	long		s_id_sog_com
+	long		s_id_cat_com
+	string		stringa
+	string		tipo_str
+	string		sn_dist
+end type
+

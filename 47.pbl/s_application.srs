@@ -1,0 +1,18 @@
+﻿global type s_application from structure
+	string		name
+	string		version
+	string		multiaz
+	string		registry_base
+	string		description
+	string		icon
+	string		splash
+	boolean		enable_login
+	string		az_nome
+	string		az_descr
+	string		az_vendor
+	string		help_file
+	integer		error_message
+	string		error_file
+	string		error_header
+end type
+

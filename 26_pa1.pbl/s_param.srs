@@ -1,0 +1,10 @@
+﻿global type s_param from structure
+	decimal {4}	cambio
+	decimal {0}	dec_significativi
+	long		id_azienda
+	long		cod_esercizio
+	date		data_in
+	date		data_fin
+	string		tipo_stp
+end type
+

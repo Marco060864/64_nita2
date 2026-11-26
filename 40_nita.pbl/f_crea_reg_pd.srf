@@ -1,0 +1,230 @@
+﻿global type f_crea_reg_pd from function_object
+end type
+
+forward prototypes
+global function long f_crea_reg_pd (long al_id_prof_reg, date ad_data_reg, decimal adc_contanti, long al_id_conto, string as_segno, long al_id_par_aperta, long al_id_esercizio)
+end prototypes
+
+global function long f_crea_reg_pd (long al_id_prof_reg, date ad_data_reg, decimal adc_contanti, long al_id_conto, string as_segno, long al_id_par_aperta, long al_id_esercizio);
+
+long ll_id_reg_pd, ll_id_registro, ll_num_progressivo, ll_id_prof_registrazione, ll_id_valuta, ll_num_documento, ll_id_conto, ll_id_azienda 
+long ll_SQL_reg_pd, ll_SQL_reg_pd_f, ll_ok, ll_RetVal = 0
+date ld_data_competenza, ld_data_registrazione, ld_data_documento
+string ls_descrizione, ls_descr_registro,ls_prog_scritture
+decimal ldc_importo, ldc_cambio
+integer li_RetVal
+
+ll_ok = 0
+
+long ll_numero, ll_id_conto_mc, ll_id_valuta_mc, ll_prog_stampato
+decimal ldc_cambio_mc, ldc_dare, ldc_avere, ldc_null, ldc_imp_partita
+date ld_data_val_banca, ld_data_inizio_competenza, ld_data_fine_competenza, ld_null
+long ll_SQL_mov_contbile1, ll_SQL_mov_contbile2, ll_SQL_mov_partita, ll_null
+SetNull(ldc_null)
+SetNull(ld_null)
+SetNull(ll_null)
+ll_id_registro = f_proponi_registro(al_id_prof_reg, al_id_esercizio)
+SELECT "esercizio"."prog_scritture"
+INTO :ls_prog_scritture   
+FROM "esercizio",   
+		"registro"  
+WHERE ( "registro"."id_esercizio" = "esercizio"."id_esercizio" )   
+AND 	("registro"."id_registro"=:ll_id_registro);
+
+ll_num_progressivo = f_proponi_num_reg_pd(ll_id_registro,ls_prog_scritture)
+  SELECT "registro"."descrizione"  
+    INTO :ls_descr_registro  
+    FROM "registro"  
+   WHERE "registro"."id_registro" = :ll_id_registro   ;
+
+CHOOSE CASE SQLCA.SQLCode
+	CASE 100
+		ls_descr_registro = ""
+	CASE -1
+		MessageBox("Errore sul DataBase", "f_crea_reg_pd / 1")
+		RETURN ll_RetVal
+END CHOOSE
+
+ld_data_competenza = ad_data_reg
+ll_id_prof_registrazione = al_id_prof_reg
+ld_data_registrazione = ad_data_reg
+ll_id_valuta = 1
+ldc_cambio = 1
+ls_descrizione = f_proponi_descr_reg_pd(al_id_prof_reg)
+ldc_importo = u_freddie.gl_null
+ll_num_documento = u_freddie.gl_null
+ld_data_documento = u_freddie.gd_null
+ll_id_conto = u_freddie.gl_null
+ll_id_azienda = 1
+
+INSERT INTO "dba"."reg_pd"  
+         ( "id_registro",   
+           "num_progressivo",   
+           "data_competenza",   
+           "id_prof_registrazione",   
+           "data_registrazione",   
+           "id_valuta",   
+           "cambio",   
+           "descrizione",   
+           "id_azienda" )  
+VALUES ( :ll_id_registro,   
+		   :ll_num_progressivo,   
+		   :ld_data_competenza,   
+		   :ll_id_prof_registrazione,   
+		   :ld_data_registrazione,   
+		   :ll_id_valuta,   
+		   :ldc_cambio,   
+		   :ls_descrizione,   
+		   :ll_id_azienda ) USING SQLCA ;
+
+
+
+
+ll_SQL_reg_pd = SQLCA.SQLCode
+
+CHOOSE CASE ll_SQL_reg_pd
+	CASE 0
+
+		SELECT "dba"."reg_pd"."id_reg_pd"
+			INTO :ll_id_reg_pd
+			FROM "dba"."reg_pd"
+			WHERE "id_registro"          = :ll_id_registro AND 
+				  "num_progressivo"       = :ll_num_progressivo AND 
+				  "data_registrazione"    = :ld_data_registrazione;
+		ll_SQL_reg_pd_f = SQLCA.SQLCode
+		ll_RetVal = ll_id_reg_pd
+		
+		CHOOSE CASE ll_SQL_reg_pd_f 
+			CASE -1
+				MessageBox("","Errore sul DataBase")
+				RETURN ll_RetVal
+			CASE 0
+				
+				ll_numero = 1
+				ll_id_conto_mc = al_id_conto
+				ll_id_valuta_mc = 1
+				ldc_cambio_mc = 1
+				
+				CHOOSE CASE as_segno 
+					CASE "A"
+						ldc_dare = adc_contanti
+						ldc_avere = ldc_null
+					CASE "D"
+						ldc_dare = ldc_null
+						ldc_avere = adc_contanti
+					CASE ELSE
+						ldc_dare = ldc_null
+						ldc_avere = ldc_null
+				END CHOOSE
+
+				ld_data_val_banca = ad_data_reg
+				ld_data_inizio_competenza = ad_data_reg
+				ld_data_fine_competenza = ad_data_reg
+				ll_prog_stampato = 0
+		  
+				ll_SQL_mov_contbile1 = f_crea_mov_contabile(ll_id_reg_pd,               &
+																			ll_numero,                 &
+																			ll_id_conto_mc,            & 
+																			ll_id_valuta_mc,           & 
+																			ldc_cambio_mc,             &
+																			ldc_dare,                  &
+																			ldc_avere,                 &
+																			ld_data_val_banca,         &
+																			ld_data_inizio_competenza, &
+																			ld_data_fine_competenza,   &
+																			ll_prog_stampato,          &
+																			ll_id_azienda)
+
+				IF ll_SQL_mov_contbile1 > 0 THEN
+					IF IsNull(ldc_dare) THEN
+						ldc_imp_partita = ldc_avere
+					ELSEIF IsNull(ldc_avere) THEN
+						ldc_imp_partita = ldc_dare
+					END IF
+					ll_SQL_mov_partita = f_crea_mov_partita(al_id_par_aperta,      &
+																		 ll_SQL_mov_contbile1,  &
+																		 ll_id_reg_pd,          &
+																		 1,                     &
+																		 ld_null,               &
+																		 ldc_imp_partita,       &
+																		 "",                    &
+																		 ll_null)
+				END IF
+				
+				ll_numero = 2
+				  
+				  
+				  SELECT "prof_mov_contabile"."id_conto"  
+					 INTO :ll_id_conto_mc  
+					 FROM "prof_mov_contabile",   
+							"prof_registrazione"  
+					WHERE ( "prof_registrazione"."id_prof_registrazione" = "prof_mov_contabile"."id_prof_registrazione" ) and  
+							( ( "prof_registrazione"."id_prof_registrazione" = :al_id_prof_reg ) AND  
+							( "prof_mov_contabile"."num_riga" = 2 ) )   ;
+
+					CHOOSE CASE SQLCA.SQLCode
+						CASE -1
+							MessageBox("Errore creazione registrazione", "Impossibile trovare il conto della contropartita ")
+							ll_id_conto_mc = 0
+							ll_ok = 1
+					END CHOOSE
+
+				ll_id_valuta_mc = 1
+				ldc_cambio_mc = 1
+				CHOOSE CASE as_segno 
+					CASE "D"
+						ldc_dare = adc_contanti
+						ldc_avere = ldc_null
+					CASE "A"
+						ldc_dare = ldc_null
+						ldc_avere = adc_contanti
+					CASE ELSE
+						ldc_dare = ldc_null
+						ldc_avere = ldc_null
+				END CHOOSE
+
+				ld_data_val_banca = ad_data_reg
+				ld_data_inizio_competenza = ad_data_reg
+				ld_data_fine_competenza = ad_data_reg
+				ll_prog_stampato = 0
+
+				ll_SQL_mov_contbile2 = f_crea_mov_contabile(ll_id_reg_pd,               &
+																			ll_numero,                 &
+																			ll_id_conto_mc,            & 
+																			ll_id_valuta_mc,           & 
+																			ldc_cambio_mc,             &
+																			ldc_dare,                  &
+																			ldc_avere,                 &
+																			ld_data_val_banca,         &
+																			ld_data_inizio_competenza, &
+																			ld_data_fine_competenza,   &
+																			ll_prog_stampato,          &
+																			ll_id_azienda)
+																			
+				IF ll_SQL_mov_contbile1 > 0 AND ll_SQL_mov_contbile2 > 0 THEN
+					COMMIT USING SQLCA;
+					li_RetVal = MessageBox("Registrazioni Contabili","Generata la registrazione numero " + &
+												  string(ll_num_progressivo) + " con data " + &
+												  string(ld_data_registrazione) + "~rnel registro " + &
+												  ls_descr_registro + ".~rVisualizzare la registrazione?", Information!, YesNo!, 2)
+												  
+					IF li_RetVal = 1 THEN
+						f_visualizza_reg_pd(ll_id_reg_pd)
+					END IF 
+				ELSE
+					ll_ok = 1
+				END IF
+		END CHOOSE
+	CASE -1
+		ll_ok = 1
+END CHOOSE
+
+IF ll_ok = 1 THEN
+	MessageBox("Errore sul DataBase", SQLCA.SQLErrText)
+	ROLLBACK USING SQLCA;
+	RETURN ll_RetVal
+END IF
+
+RETURN ll_RetVal
+end function
+

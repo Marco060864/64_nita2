@@ -1,0 +1,7 @@
+﻿global type str_listino from structure
+	string		da_listino
+	string		a_listino
+	date		data_inizio
+	date		data_fine
+end type
+

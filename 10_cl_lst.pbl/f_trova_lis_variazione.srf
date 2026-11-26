@@ -1,0 +1,30 @@
+﻿global type f_trova_lis_variazione from function_object
+end type
+
+forward prototypes
+global function string f_trova_lis_variazione (long al_id_variazione)
+end prototypes
+
+global function string f_trova_lis_variazione (long al_id_variazione);string ls_ret, ls_codice, ls_fine, ls_inizio
+date ldt_inizio, ldt_fine
+
+select l.codice, v.data_inizio, v.data_fine
+into :ls_codice, :ldt_inizio, :ldt_fine
+from dba.listino l, dba.variazione v
+where l.id_listino=v.id_listino
+and v.id_variazione=:al_id_variazione
+;
+if ls_codice>" " then
+	if isnull(ldt_fine) then 
+		ls_fine=" - "
+	else
+		ls_fine=string(ldt_fine, "dd/mm/yy")
+	end if
+	ls_inizio=string(ldt_inizio, "dd/mm/yy")
+	ls_ret=ls_codice+" - "+ls_inizio+"-"+ls_fine
+end if
+
+
+return ls_ret
+end function
+

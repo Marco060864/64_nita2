@@ -1,0 +1,11 @@
+﻿global type f_set_column from function_object
+end type
+
+forward prototypes
+global subroutine f_set_column (datawindow f_datawindow, string f_colonna)
+end prototypes
+
+global subroutine f_set_column (datawindow f_datawindow, string f_colonna);f_datawindow.SetColumn(f_colonna)
+
+end subroutine
+

@@ -1,0 +1,26 @@
+﻿global type s_talbarcode from structure
+	long		lmessagelength
+	character		cmessagebuffer[100]
+	long		lcommentlength
+	character		ccommentbuffer[100]
+	long		lnarrowbarwidth
+	long		lbarwidthreduction
+	long		lbarcodeheight
+	long		lfgcolor
+	long		lbgcolor
+	long		lnarrowtowideratio
+	character		cmyfontname[32]
+	long		lmyfontsize
+	long		ltextcolor
+	long		lorientation
+	long		lpreferences
+	long		lhorizontaldpi
+	long		lverticaldpi
+	long		loutputoption
+	character		coutputfilename[260]
+	long		loutputhdc
+	real		rxposininches
+	real		ryposininches
+	long		lreserved
+end type
+

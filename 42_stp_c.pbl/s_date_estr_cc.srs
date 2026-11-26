@@ -1,0 +1,6 @@
+﻿//objectcomments struttura per passare le date per l'estratto conto
+global type s_date_estr_cc from structure
+	date		da_data
+	date		a_data
+end type
+

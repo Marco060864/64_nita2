@@ -1,0 +1,19 @@
+﻿global type s_variabili_stampa from structure
+	integer		i_find_profilo
+	string		s_destinazione
+	string		s_stampante
+	integer		i_numero_copie
+	string		s_stampa_tutto
+	integer		i_da_pagina
+	integer		i_a_pagina
+	string		s_nome_file_stampa
+	integer		i_formato_file_stampa
+	integer		i_sort_field_direction
+	integer		i_sort_field_n
+	string		s_sort_field_name
+	string		s_nome_campo_db_cod
+	string		s_nome_id_azienda
+	string		s_nome_campo_instampa
+	string		s_nome_group
+end type
+

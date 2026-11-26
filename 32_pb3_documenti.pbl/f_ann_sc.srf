@@ -1,0 +1,46 @@
+﻿global type f_ann_sc from function_object
+end type
+
+forward prototypes
+global function character f_ann_sc (long al_id_prof_documento, long al_id_sog_commerciale)
+end prototypes
+
+global function character f_ann_sc (long al_id_prof_documento, long al_id_sog_commerciale);
+
+long		ll_id_sog_commerciale, ll_id_prof_documento, ll_id_tipo_annotazione
+integer	li_cnt
+char		lc_bloccante
+s_ann_sc	lst
+
+SELECT t.id_tipo_annotazione, a.bloccante
+INTO	 :ll_id_tipo_annotazione, :lc_bloccante
+FROM	 tipo_ann_pd t, tipo_annotazione a
+WHERE  t.id_prof_documento = :al_id_prof_documento
+AND	 a.id_tipo_annotazione = t.id_tipo_annotazione
+AND	 a.tipo = 'D'
+AND	 a.applicabilita = 'S'
+;
+
+if sqlca.sqlcode = -1 then messagebox("dberror", sqlca.sqlerrtext)
+
+if (ll_id_tipo_annotazione > 0) then
+	SELECT COUNT(*)
+	INTO	 :li_cnt
+	FROM	 annotazione
+	WHERE  id_tipo_annotazione = :ll_id_tipo_annotazione
+	AND	 id_sog_commerciale = :al_id_sog_commerciale
+	;
+else
+	return "N"
+end if
+
+lst.id_tipo_annotazione = ll_id_tipo_annotazione
+lst.id_sog_commerciale  = al_id_sog_commerciale
+
+if li_cnt > 0 then
+	openwithparm(w_ann_sc_wz, lst)
+end if
+
+return lc_bloccante
+end function
+

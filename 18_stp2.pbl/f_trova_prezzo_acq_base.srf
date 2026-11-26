@@ -1,0 +1,42 @@
+﻿global type f_trova_prezzo_acq_base from function_object
+end type
+
+forward prototypes
+global function decimal f_trova_prezzo_acq_base (long id_u_conf, string s_tipo_um)
+end prototypes
+
+global function decimal f_trova_prezzo_acq_base (long id_u_conf, string s_tipo_um);decimal ldc_prezzo
+date ldt_data
+long ll_id_variazione
+
+ldt_data=today()
+
+select id_variazione
+into :ll_id_variazione
+from dba.variazione v, dba.listino l
+where data_inizio <= :ldt_data
+and data_fine>= :ldt_data
+and l.id_listino=v.id_listino
+and l.tipo='A'
+and l.lis_base='S'
+;
+if s_tipo_um='P' then
+	select prezzo_manifattura
+	into :ldc_prezzo
+	from dba.prezzo
+	where id_unita_confezione= :id_u_conf
+	and id_variazione= :ll_id_variazione
+	;
+else
+	select prezzo
+	into :ldc_prezzo
+	from dba.prezzo
+	where id_unita_confezione= :id_u_conf
+	and id_variazione= :ll_id_variazione
+	;
+end if
+
+
+return ldc_prezzo
+end function
+

@@ -1,0 +1,4 @@
+﻿global type s_dw_ritorna from structure
+	datastore		ds
+end type
+

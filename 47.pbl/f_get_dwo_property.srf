@@ -1,0 +1,27 @@
+﻿global type f_get_dwo_property from function_object
+end type
+
+forward prototypes
+global function string f_get_dwo_property (string as_old_property, string as_fixed_value, string as_function)
+end prototypes
+
+global function string f_get_dwo_property (string as_old_property, string as_fixed_value, string as_function);long ll_tilde_pos
+string ls_new_property
+ll_tilde_pos= Pos(as_old_property, Char(9))
+If as_fixed_value = "" then
+	if ll_tilde_pos > 0 then
+		ls_new_property= Mid(as_old_property, 1, ll_tilde_pos )
+	else
+		ls_new_property= as_old_property
+	end if
+else
+	ls_new_property= as_fixed_value
+end if
+if as_function <> "" then
+	ls_new_property= ls_new_property + Char(9)
+	ls_new_property= Char(34) + ls_new_property + as_function + Char(34)
+end if
+return ls_new_property
+		
+end function
+

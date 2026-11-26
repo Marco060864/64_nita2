@@ -1,0 +1,86 @@
+﻿global type f_crea_scadenza from function_object
+end type
+
+forward prototypes
+global function long f_crea_scadenza (character ac_tipo_scadenza, long al_id_sog_commerciale, date ad_data_scadenza, long al_id_valuta, decimal adc_cambio, decimal adc_imp_valuta, decimal adc_importo, long al_id_tipo_pagamento, long al_id_banca_azienda, long al_id_banca_sog_commerciale, string as_note, string as_ces_denominazione, string as_ces_indirizzo, string as_ces_cap, string as_ces_localita, string as_ces_provincia, string as_ces_doc_originale, date as_ces_data_documento, character ac_stato_scadenza, date ad_data_cambiamento_stato, character ac_esito_pagamento, character ac_scadenza_da_raggruppare, long al_id_riga_distinta_banca, long al_id_documento, long al_id_par_aperta, long al_id_mov_partita, long al_id_scadenza_padre, long al_id_azienda)
+end prototypes
+
+global function long f_crea_scadenza (character ac_tipo_scadenza, long al_id_sog_commerciale, date ad_data_scadenza, long al_id_valuta, decimal adc_cambio, decimal adc_imp_valuta, decimal adc_importo, long al_id_tipo_pagamento, long al_id_banca_azienda, long al_id_banca_sog_commerciale, string as_note, string as_ces_denominazione, string as_ces_indirizzo, string as_ces_cap, string as_ces_localita, string as_ces_provincia, string as_ces_doc_originale, date as_ces_data_documento, character ac_stato_scadenza, date ad_data_cambiamento_stato, character ac_esito_pagamento, character ac_scadenza_da_raggruppare, long al_id_riga_distinta_banca, long al_id_documento, long al_id_par_aperta, long al_id_mov_partita, long al_id_scadenza_padre, long al_id_azienda);
+
+
+
+long ll_id_scadenza, ll_id_azienda
+ll_id_scadenza = 0
+
+IF IsNull(al_id_azienda) THEN
+	ll_id_azienda = 1
+ELSE
+	ll_id_azienda = al_id_azienda
+END IF
+
+  INSERT INTO "scadenza"  
+         ( "tipo_scadenza",   
+           "id_sog_commerciale",   
+           "data_scadenza",   
+           "id_valuta",   
+           "cambio",   
+           "imp_valuta",   
+           "importo",   
+           "id_tipo_pagamento",   
+           "id_banca_azienda",   
+           "id_banca_sog_commerciale",   
+           "note",   
+           "ces_denominazione",   
+           "ces_indirizzo",   
+           "ces_cap",   
+           "ces_localita",   
+           "ces_provincia",   
+           "ces_doc_originale",   
+           "ces_data_documento",   
+           "stato_scadenza",   
+           "data_cambiamento_stato",   
+           "esito_pagamento",   
+           "scadenza_da_raggruppare",   
+           "id_riga_distinta_banca",   
+           "id_documento",   
+           "id_par_aperta",   
+           "id_scadenza_padre",   
+           "id_azienda" )  
+  VALUES ( :ac_tipo_scadenza,   
+           :al_id_sog_commerciale,   
+           :ad_data_scadenza,   
+           :al_id_valuta,   
+           :adc_cambio,   
+           :adc_imp_valuta,   
+           :adc_importo,   
+           :al_id_tipo_pagamento,   
+           :al_id_banca_azienda,   
+           :al_id_banca_sog_commerciale,   
+           :as_note,   
+           :as_ces_denominazione,   
+           :as_ces_indirizzo,   
+           :as_ces_cap,   
+           :as_ces_localita,   
+           :as_ces_provincia,   
+           :as_ces_doc_originale,   
+           :as_ces_data_documento,   
+           :ac_stato_scadenza,   
+           :ad_data_cambiamento_stato,   
+           :ac_esito_pagamento,   
+           :ac_scadenza_da_raggruppare,   
+           :al_id_riga_distinta_banca,   
+           :al_id_documento,   
+           :al_id_par_aperta,   
+           :al_id_scadenza_padre,   
+           :al_id_azienda )  ;
+
+
+IF SQLCA.SQLCode = 0 THEN
+	SELECT @@identity 
+		INTO :ll_id_scadenza
+		FROM "dba"."scadenza";
+END IF
+
+RETURN ll_id_scadenza
+end function
+

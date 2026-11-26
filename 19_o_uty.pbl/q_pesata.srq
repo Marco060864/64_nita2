@@ -1,0 +1,1 @@
+﻿PBSELECT( VERSION(400) TABLE(NAME="pesata" ) COLUMN(NAME="pesata.id_pesata") COLUMN(NAME="pesata.data") COLUMN(NAME="pesata.peso_lordo") COLUMN(NAME="pesata.tara") COLUMN(NAME="pesata.nota") COLUMN(NAME="pesata.num_documento") COLUMN(NAME="pesata.num_progressivo") COLUMN(NAME="pesata.id_operatore")) 

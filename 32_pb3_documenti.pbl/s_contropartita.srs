@@ -1,0 +1,8 @@
+﻿global type s_contropartita from structure
+	long		l_id_conto
+	string		s_codice
+	string		s_descrizione
+	s_riga_contropartita		str_riga[]
+	boolean		b_predefinito
+end type
+

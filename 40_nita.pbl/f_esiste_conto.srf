@@ -1,0 +1,34 @@
+﻿global type f_esiste_conto from function_object
+end type
+
+forward prototypes
+global function integer f_esiste_conto (string as_codice, long al_id_sog_conto)
+end prototypes
+
+global function integer f_esiste_conto (string as_codice, long al_id_sog_conto);
+
+long ll_id_conto, ll_ret_value
+
+	
+if IsNull(al_id_sog_conto) Or al_id_sog_conto = 0 then
+	  SELECT "conto"."id_conto"  
+	 INTO :ll_id_conto  
+	 FROM "conto"  
+	WHERE ( "conto"."codice" = :as_codice ) ;
+else
+  SELECT "conto"."id_conto"  
+	 INTO :ll_id_conto  
+	 FROM "conto"  
+	WHERE ( "conto"."codice" = :as_codice ) AND  
+			( "conto"."id_conto" = :al_id_sog_conto )   ;
+end if
+
+If (IsNull(ll_id_conto) OR ll_id_conto=0) then 
+	ll_ret_value=-1
+else
+	ll_ret_value=ll_id_conto
+end if
+
+return ll_ret_value
+end function
+

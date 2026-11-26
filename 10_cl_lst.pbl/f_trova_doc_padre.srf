@@ -1,0 +1,19 @@
+﻿global type f_trova_doc_padre from function_object
+end type
+
+forward prototypes
+global function string f_trova_doc_padre (long al_id_riga_provenienza, string al_dato_richiesto)
+end prototypes
+
+global function string f_trova_doc_padre (long al_id_riga_provenienza, string al_dato_richiesto);string ls_num_doc
+
+select num_documento
+into :ls_num_doc
+from dba.documento d, riga_documento r
+where id_riga_documento=:al_id_riga_provenienza
+and r.id_documento= d.id_documento;
+if isnull(ls_num_doc)  then ls_num_doc=""
+
+return ls_num_doc
+end function
+

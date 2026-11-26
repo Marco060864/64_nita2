@@ -1,0 +1,13 @@
+﻿global type s_peparameterfieldinfo from structure
+	integer		structsize
+	integer		valuetype
+	integer		defaultvalueset
+	integer		currentvalueset
+	character		name[256]
+	character		prompt[256]
+	character		defaultvalue[256]
+	character		currentvalue[256]
+	character		reportname[128]
+	integer		needscurrentvalue
+end type
+

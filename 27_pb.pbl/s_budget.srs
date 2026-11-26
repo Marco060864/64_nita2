@@ -1,0 +1,7 @@
+﻿global type s_budget from structure
+	integer		anno
+	integer		mese
+	decimal {4}	imponibile
+	long		id_agente
+end type
+

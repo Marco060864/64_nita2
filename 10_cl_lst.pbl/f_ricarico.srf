@@ -1,0 +1,46 @@
+﻿global type f_ricarico from function_object
+end type
+
+forward prototypes
+global function decimal f_ricarico (decimal ad_prezzo, long al_id_articolo)
+end prototypes
+
+global function decimal f_ricarico (decimal ad_prezzo, long al_id_articolo);
+integer li_ret
+datastore ds_ricarico
+string ls_tipo
+DECIMAL LD_PREZZO
+long ll_id_cat_codifica, ll_id_cat_cod_articolo
+
+select id_cat_codifica
+into :ll_id_cat_codifica
+from cat_codifica
+where codice='SEM'
+;
+if ll_id_cat_codifica>0 then
+	select id_cat_codifica
+	into :ll_id_cat_cod_articolo
+	from articolo
+	where id_articolo=:al_id_articolo;
+	if ll_id_cat_codifica=ll_id_cat_cod_articolo then return ad_prezzo
+end if
+
+ds_ricarico=create datastore
+ds_ricarico.dataobject='ds_ricarico'
+ds_ricarico.settransobject(sqlca)
+li_ret=ds_ricarico.retrieve(ad_prezzo)
+if li_ret>0 then
+	ls_tipo=ds_ricarico.getitemstring(1, "tipo")
+	ld_prezzo=ds_ricarico.getitemDECIMAL(1, "VALORE")
+	if ls_tipo='I' then
+		ld_prezzo+=ad_prezzo	
+	else
+		ld_prezzo=ad_prezzo+(ad_prezzo*ld_prezzo/100)
+	end if
+else
+	ld_prezzo=ad_prezzo
+end if
+destroy ds_ricarico
+return ld_prezzo
+end function
+

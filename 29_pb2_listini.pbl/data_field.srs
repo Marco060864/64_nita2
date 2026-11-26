@@ -1,0 +1,8 @@
+﻿//objectcomments struttura per "create script", serve per passargli i parametri
+global type data_field from structure
+	string		nome_campo
+	string		condizione
+	character		tipo_campo
+	string		valore_campo
+end type
+

@@ -1,0 +1,18 @@
+﻿global type f_intesta from function_object
+end type
+
+forward prototypes
+global function string f_intesta (string fa_intesta)
+end prototypes
+
+global function string f_intesta (string fa_intesta);
+
+string ls_ret
+string ls_sep
+
+ls_sep = " "
+ls_ret = "xxxxxxxxxxxxxxx" + ls_sep
+ls_ret = ls_ret + fa_intesta + ls_sep
+Return(ls_ret)
+end function
+

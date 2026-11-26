@@ -1,0 +1,24 @@
+﻿global type f_controllo_se_esiste_testa from function_object
+end type
+
+forward prototypes
+global subroutine f_controllo_se_esiste_testa (string as_num_doc)
+end prototypes
+
+global subroutine f_controllo_se_esiste_testa (string as_num_doc);string ls_numero
+long ll_num_prog
+date ldt_data_doc
+
+select num_progressivo, data_documento, num_documento
+into :ll_num_prog, :ldt_data_doc, :ls_numero
+from dba.documento
+where num_documento=:as_num_doc
+;
+if ll_num_prog>0 then
+	messagebox("Attenzione!", "Esiste il documento num_prog "+string(ll_num_prog)+&
+					", num_documento: "+ls_numero+", data documento: "+string(ldt_data_doc)+&
+					" che pare non abbia righe!! CONTROLLARE!")
+end if
+
+end subroutine
+

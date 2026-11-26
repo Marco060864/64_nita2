@@ -1,0 +1,30 @@
+﻿global type f_g_settimana from function_object
+end type
+
+forward prototypes
+global function string f_g_settimana (date adt_data)
+end prototypes
+
+global function string f_g_settimana (date adt_data);integer li_numero
+string ls_giorno
+
+li_numero=daynumber(adt_data)
+choose case li_numero
+	case 1
+		ls_giorno="Domenica"
+	case 2
+		ls_giorno="Lunedi"
+	case 3
+		ls_giorno="Martedi"
+	case 4
+		ls_giorno="Mercoledi"
+	case 5
+		ls_giorno="Giovedi"
+	case 6
+		ls_giorno="Venerdi"
+	case 7
+		ls_giorno="Sabato"
+end choose
+return ls_giorno
+end function
+

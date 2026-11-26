@@ -1,0 +1,6 @@
+﻿global type s_service from structure
+	string		s_dbname
+	string		s_value
+	s_service_dw		str_service_dw[]
+end type
+

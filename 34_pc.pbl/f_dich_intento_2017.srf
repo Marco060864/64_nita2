@@ -1,0 +1,106 @@
+﻿global type f_dich_intento_2017 from function_object
+end type
+
+forward prototypes
+global function string f_dich_intento_2017 (long al_id_anagrafica, date adt_data_documento, string as_tipo_doc, long al_id_doc)
+end prototypes
+
+global function string f_dich_intento_2017 (long al_id_anagrafica, date adt_data_documento, string as_tipo_doc, long al_id_doc);string ls_vs_numero, ls_ns_numero, ls_return, ls_codice, ls_num_pres_AE,ls_cod_azienda,ls_test
+date ldt_vs_data,  ldt_ns_data, ldt_data_inizio_plafond, ldt_pres_AE, ldt_data_inizio_anno
+decimal ldc_plafond, ldc_imp_iva
+long ll_righe_cast,ll_id_tab_iva
+integer i
+datastore ds_cast_iva
+//select vs_numero, vs_data, ns_numero, ns_data, plafond, valida_dal
+//into :ls_vs_numero, :ldt_vs_data,  :ls_ns_numero, :ldt_ns_data, :ldc_plafond, :ldt_data_inizio_plafond
+//from  dba.dich_intento 
+//where valida_dal<=:adt_data_documento and valida_fino>=:adt_data_documento
+//and id_anagrafica=:al_id_anagrafica;
+
+//31-12-2019: da domani (01-01-2020) cambia: non più vs_numero e vs_data, ma num_protocollo presentazione all'agenzia entrate e data presentazione
+//20240904 per labella: se non è id_iva=80 esente art 8 NON deve fare dich intento e/o plafond...
+select codice into :ls_cod_azienda from dba.azienda;
+if pos(upper(ls_cod_azienda), "LABELLA")>0 then
+	ds_cast_iva= create datastore
+	ds_cast_iva.dataobject="d_cast_iva_documento_ds"
+	ds_cast_iva.settransobject(sqlca)
+	ll_righe_cast=ds_cast_iva.retrieve(al_id_doc)
+	
+	for i = 1 to ll_righe_cast
+		ll_id_tab_iva=ds_cast_iva.getitemnumber(i, "id_tab_iva")
+		if ll_id_tab_iva=80 then 
+			ls_test='80'
+			exit
+		end if
+	next
+	if ls_test<>'80' then
+		setnull(ls_return)
+		return ls_return //20240904 DEVE fare il plafond solo se il documento è esente art 8/1  natura 3.5 ovvero id_tab_iva=80 per labella
+	end if
+end if
+
+select vs_numero, vs_data, ns_numero, ns_data, plafond, valida_dal, num_prot_ae, data_pres_ae
+into :ls_vs_numero, :ldt_vs_data,  :ls_ns_numero, :ldt_ns_data, :ldc_plafond, :ldt_data_inizio_plafond, :ls_num_pres_AE, :ldt_pres_AE
+from  dba.dich_intento 
+where valida_dal<=:adt_data_documento and valida_fino>=:adt_data_documento
+and id_anagrafica=:al_id_anagrafica
+;
+
+
+
+ldt_data_inizio_anno=date("01/01/"+string(year(adt_data_documento)))
+select sum(val_tot_imp_v*segno_iva)
+into :ldc_imp_iva
+from dba.documento d, dba.cast_iva_documento c, sog_commerciale s, registro r
+where c.id_documento=d.id_documento
+and d.id_sog_commerciale=s.id_sog_commerciale
+and c.id_tab_iva=80      //20240730 questo è sbagliato! Mic tutti hanno 8/c1 nell'80!!!!! e ora come si fa????
+and d.data_documento<=:adt_data_documento and d.data_documento>= :ldt_data_inizio_plafond                //20221116 per fare i conti dalla vallidità del plafond   //ldt_data_inizio_anno
+and s.id_anagrafica=:al_id_anagrafica
+and s.tipo='C'
+and r.id_registro=d.id_registro
+and r.tipo_registro='IV'
+;
+//messagebox("NUMERO PLAFOND RECUPERATO", ls_num_pres_AE)
+//messagebox("IMPORTO PLAFOND RECUPERATO", ldc_plafond)
+//messagebox("PLAFOND COSUMATO dall'inizio dell'anno", ldc_imp_iva)
+
+select codice
+into :ls_codice
+from dba.azienda
+;
+if isnull(ls_codice) then ls_codice=""
+if isnull(ldc_imp_iva) then ldc_imp_iva=0
+if isnull(ldc_plafond) then ldc_plafond=99999999  //aggiunto 17022022
+if ldc_plafond - ldc_imp_iva<=200000 or ls_codice='LABELLA' then
+	messagebox("Attenzione!", "Il plafond n."+ls_num_pres_AE +" ha IMPORTO: "+string(ldc_plafond, "#,0.00")+", l'IMPONIBILE consumato dall'inizio dell'anno è: "+ string(ldc_imp_iva, "#,0.00")+" dopo questa fattura rimane: "+string(ldc_plafond - ldc_imp_iva, "#,0.00"))
+end if
+
+
+if adt_data_documento>=date("2022-01-01") or as_tipo_doc="TD04" or as_tipo_doc="TD05" then //dal primo gennaio occorre anche la data (se è nota di credito o debito vale anche per gli anni precedenti più o meno. varrebbe per >31-12-2020 ma tant'è...)
+	if 	ls_num_pres_AE> " " then //and  ldt_pres_AE>date('1900-01-01') then
+		ls_return=" "+ ls_num_pres_AE  +"@"+string(ldt_pres_AE, "yyyy-mm-dd")
+	else
+		setnull(ls_return) //20240731 annullo la stringa se NON è nell'intervallo valido
+	end if
+elseif adt_data_documento<=date("2019-12-31") then
+	if ls_vs_numero> " " and ldt_vs_data>=date("2000-01-01") then
+				ls_return=" "+ ls_vs_numero+" del "+string(ldt_vs_data, "dd/mm/yyyy")+ &
+				" annotata il "+ string(  ldt_ns_data,  "dd/mm/yyyy")  +" al num.  " +  ls_ns_numero +" del ns. reg. D.L. 746 del 29/12/83." 
+	else
+		setnull(ls_return)
+	end if
+else
+	if 	ls_num_pres_AE> " " then //and  ldt_pres_AE>date('1900-01-01') then
+		ls_return=" "+ ls_num_pres_AE   //dice che basta il numero ... +" registrata il "+string(ldt_pres_AE, "dd/mm/yyyy")//+ &
+				//" annotata il "+ string(  ldt_ns_data,  "dd/mm/yyyy")  +" al num.  " +  ls_ns_numero +" del ns. reg. D.L. 746 del 29/12/83."
+	else
+		setnull(ls_return)
+	end if
+end if
+
+
+return ls_return
+
+end function
+

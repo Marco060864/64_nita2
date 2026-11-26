@@ -1,0 +1,11 @@
+﻿global type s_par_der_doc from structure
+	string		s_dbn[]
+	string		s_op[]
+	string		s_dbv[]
+	string		s_dbt[]
+	any		a_optional[]
+	string		s_mio[]
+	string		orafo_peso_ev[]
+	string		s_deriva_veloce
+end type
+

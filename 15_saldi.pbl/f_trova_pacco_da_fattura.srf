@@ -1,0 +1,30 @@
+﻿global type f_trova_pacco_da_fattura from function_object
+end type
+
+forward prototypes
+global function string f_trova_pacco_da_fattura (long as_id_riga_ddt)
+end prototypes
+
+global function string f_trova_pacco_da_fattura (long as_id_riga_ddt);string ls_codice
+
+
+select p.codice
+into :ls_codice
+from dba.pacco p, dba.pacco_bollettina b
+where b.id_bollettina=:as_id_riga_ddt
+and b.id_pacco=p.id_pacco
+;
+
+if isnull(ls_codice) or ls_codice="" then
+	select p.codice
+	into :ls_codice
+	from dba.pacco p, dba.pacco_bollettina b, dba.riga_documento r
+	where r.id_riga_documento=:as_id_riga_ddt
+	and r.id_riga_doc_provenienza=b.id_bollettina
+	and b.id_pacco=p.id_pacco
+	;
+end if
+
+return ls_codice
+end function
+

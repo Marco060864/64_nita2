@@ -1,0 +1,7 @@
+﻿global type s_window from structure
+	integer		i_voce
+	integer		i_window
+	window		w_win_instance
+	string		s_parametri
+end type
+

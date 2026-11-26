@@ -1,0 +1,30 @@
+﻿global type uf_mese from function_object
+end type
+
+forward prototypes
+global function string uf_mese (integer li_mese)
+end prototypes
+
+global function string uf_mese (integer li_mese);
+
+
+string ls_mese
+
+if li_mese=1 then ls_mese='Gennaio'
+if li_mese=2 then ls_mese='Febbraio'
+if li_mese=3 then ls_mese='Marzo'
+if li_mese=4 then ls_mese='Aprile'
+if li_mese=5 then ls_mese='Maggio'
+if li_mese=6 then ls_mese='Giugno'
+if li_mese=7 then ls_mese='Luglio'
+if li_mese=8 then ls_mese='Agosto'
+if li_mese=9 then ls_mese='Settembre'
+if li_mese=10 then ls_mese='Ottobre'
+if li_mese=11 then ls_mese='Novembre'
+if li_mese=12 then ls_mese='Dicembre'
+
+return ls_mese
+
+
+end function
+

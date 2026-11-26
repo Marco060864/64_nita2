@@ -1,0 +1,76 @@
+﻿global type f_controlla_articolo_scelte from function_object
+end type
+
+forward prototypes
+global function long f_controlla_articolo_scelte (string as_codice, long al_id_parte[], string as_in_elenco[], long al_lunghezza[], ref string as_ref_value)
+end prototypes
+
+global function long f_controlla_articolo_scelte (string as_codice, long al_id_parte[], string as_in_elenco[], long al_lunghezza[], ref string as_ref_value);string ls_parte, ls_scelta_parte[]
+long ll_count, ll_parte, ll_id_parte[], ll_size, ll_size_scelta, ll_parte_id, ll_count_scelta
+long ll_Ret_value
+integer li_len, li_pos
+boolean lb_valid_match
+constant integer codice_ok = 0
+constant integer lunghezza_errata = 1
+constant integer parte_errata = 2
+
+DECLARE lcur_scelta_parte CURSOR FOR
+SELECT scelta_parte.scelta, scelta_parte.id_cod_parte
+	 FROM scelta_parte;
+OPEN lcur_scelta_parte;
+IF sqlca.sqlcode < 0 THEN
+	MessageBox ("DataBase Error!", sqlca.sqlerrtext, exclamation!)
+	RETURN 3
+END IF
+ll_count= 0
+do while sqlca.sqlcode = 0
+	fetch lcur_scelta_parte into :ls_parte, :ll_parte ;
+	if sqlca.sqlcode = 0 then
+		ll_count++
+		ls_scelta_parte[ll_count] = ls_parte
+		ll_id_parte[ll_count] = ll_parte
+	elseif sqlca.sqlcode < 0 then
+		MessageBox("DataBase Error", sqlca.sqlerrtext, exclamation!)
+		return 3
+	else
+		exit
+	end if
+loop
+close lcur_scelta_parte;
+
+ll_Ret_Value = codice_ok
+ll_size = UpperBound(as_in_elenco)
+ll_size_scelta = UpperBound(ll_id_parte)
+li_pos = 1
+for ll_count = 1 to ll_size
+	if as_in_elenco[ll_count] = "S" then
+		
+		ll_parte_id = al_id_parte[ll_count]
+		lb_valid_match = FALSE
+		
+		for ll_count_scelta = 1 to ll_size_scelta
+			if ll_id_parte[ll_count_scelta] = ll_parte_id then
+				
+				ls_parte = Mid(as_codice, li_pos, al_lunghezza[ll_count])
+				if ls_scelta_parte[ll_count_scelta] = ls_parte then
+					lb_valid_match = TRUE
+				end if
+			end if
+		next
+		
+		if not lb_valid_match AND ll_Ret_Value = codice_ok then
+			ll_Ret_Value = parte_errata
+			SELECT parte_regola.descrizione
+				INTO :as_ref_value
+	 			FROM cod_parte, parte_regola 
+				WHERE cod_parte.id_cod_parte = :ll_parte_id AND parte_regola.id_parte_regola = cod_parte.id_parte_regola;
+		end if
+	end if
+	
+	li_pos = li_pos + al_lunghezza[ll_count]
+next
+Return ll_Ret_Value
+
+
+end function
+

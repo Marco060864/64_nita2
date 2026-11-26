@@ -1,0 +1,4 @@
+﻿global type s_num_righe from structure
+	long		id_riga_documento[]
+end type
+

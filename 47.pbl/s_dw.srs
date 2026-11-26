@@ -1,0 +1,11 @@
+﻿global type s_dw from structure
+	transaction		transaction
+	u_dw_main		parent_dw
+	string		parent_link[1]
+	boolean		is_shared
+	boolean		allow_insert
+	boolean		allow_append
+	boolean		allow_delete
+	boolean		allow_update
+end type
+

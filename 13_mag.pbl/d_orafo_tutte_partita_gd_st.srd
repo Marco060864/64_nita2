@@ -1,0 +1,55 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=656 color="536870912"  height.autosize=yes)
+table(column=(type=char(16) updatewhereclause=yes name=documento_num_documento dbname="documento.num_documento" )
+ column=(type=date updatewhereclause=yes name=documento_data_documento dbname="documento.data_documento" )
+ column=(type=decimal(2) updatewhereclause=yes name=orafo_aper_partita_val_apertura dbname="orafo_aper_partita.val_apertura" )
+ column=(type=decimal(2) updatewhereclause=yes name=orafo_aper_partita_val_scarico dbname="orafo_aper_partita.val_scarico" )
+ column=(type=long updatewhereclause=yes identity=yes name=sog_commerciale_gen_id_sog_commerciale dbname="sog_commerciale_gen.id_sog_commerciale" )
+ column=(type=char(40) updatewhereclause=yes name=sog_commerciale_gen_rag_soc_1 dbname="sog_commerciale_gen.rag_soc_1" )
+ column=(type=char(1) updatewhereclause=yes name=orafo_aper_partita_stato dbname="orafo_aper_partita.stato" )
+ column=(type=long updatewhereclause=yes name=orafo_aper_partita_id_titolo dbname="orafo_aper_partita.id_titolo" )
+ column=(type=long updatewhereclause=yes identity=yes name=orafo_aper_partita_id_partita dbname="orafo_aper_partita.id_partita" )
+ column=(type=decimal(2) updatewhereclause=yes name=orafo_titolo_titolo dbname="orafo_titolo.titolo" )
+ retrieve="  SELECT ~"documento~".~"num_documento~",   
+         ~"documento~".~"data_documento~",   
+         ~"orafo_aper_partita~".~"val_apertura~",   
+         ~"orafo_aper_partita~".~"val_scarico~",   
+         ~"sog_commerciale_gen~".~"id_sog_commerciale~",   
+         ~"sog_commerciale_gen~".~"rag_soc_1~",   
+         ~"orafo_aper_partita~".~"stato~",   
+         ~"orafo_aper_partita~".~"id_titolo~",   
+         ~"orafo_aper_partita~".~"id_partita~",   
+         ~"orafo_titolo~".~"titolo~"  
+    FROM ~"documento~",   
+         ~"orafo_aper_partita~",   
+         ~"sog_commerciale_gen~",   
+         ~"orafo_titolo~"  
+   WHERE ( ~"orafo_aper_partita~".~"id_documento~" = ~"documento~".~"id_documento~" ) and  
+         ( ~"documento~".~"id_sog_commerciale~" = ~"sog_commerciale_gen~".~"id_sog_commerciale~" ) and  
+         ( ~"orafo_titolo~".~"id_titolo~" = ~"orafo_aper_partita~".~"id_titolo~" ) and  
+         ( ( ~"sog_commerciale_gen~".~"id_sog_commerciale~" >= :rn_id_sogg1 ) AND  
+         ( ~"sog_commerciale_gen~".~"id_sog_commerciale~" <= :rn_id_sogg2 ))        
+
+
+
+ " arguments=(("rn_id_sogg1", number),("rn_id_sogg2", number)) )
+rectangle(band=detail x="101" y="20" height="612" width="3195" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="8421504"  background.mode="1" background.color="553648127" )
+text(band=detail alignment="0" text="Num Documento"border="2" color="0" x="174" y="72" height="56" width="421"  name=documento_num_documento_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="0" text="Data Documento"border="2" color="0" x="617" y="72" height="56" width="489"  name=documento_data_documento_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="0" text="Val Scarico"border="2" color="0" x="1509" y="72" height="56" width="329"  name=orafo_aper_partita_val_scarico_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="0" text="Sog Commerciale"border="2" color="0" x="1861" y="72" height="56" width="955"  name=sog_commerciale_gen_rag_soc_1_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="0" text="Stato"border="2" color="0" x="2848" y="72" height="56" width="151"  name=orafo_aper_partita_stato_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="0" text="Titolo"border="2" color="0" x="3026" y="72" height="56" width="183"  name=orafo_aper_partita_id_titolo_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+report(band=detail dataobject="d_scarico_partite" x="178" y="244" height="324" width="3045" border="2" criteria="" nest_arguments=(("orafo_aper_partita_id_partita")) trail_footer = yes  slideleft=yes  slideup=directlyabove )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="174" y="148" height="68" width="421" format="[general]"  name=documento_num_documento edit.limit=16 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="617" y="148" height="68" width="489" format="[general]"  name=documento_data_documento edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1509" y="148" height="68" width="329" format="[general]"  name=orafo_aper_partita_val_scarico edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="1865" y="148" height="68" width="951" format="[general]"  name=sog_commerciale_gen_rag_soc_1 edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="2853" y="148" height="68" width="151" format="[general]"  name=orafo_aper_partita_stato edit.limit=1 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="3026" y="148" height="68" width="178" format="[general]"  name=orafo_titolo_titolo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Val Apertura"border="2" color="0" x="1129" y="72" height="56" width="357"  name=orafo_aper_partita_val_apertura_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1125" y="148" height="68" width="357" format="[general]"  name=orafo_aper_partita_val_apertura edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

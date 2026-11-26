@@ -1,0 +1,12 @@
+﻿global type s_con_provvigione from structure
+	long		id_gruppo_agenti
+	long		id_sog_commerciale
+	long		id_unita_confezione
+	long		id_articolo
+	date		data
+	string		sconto_perc
+	decimal {4}	sconto_imp
+	long		id_valuta
+	long		id_con_lis_articolo
+end type
+

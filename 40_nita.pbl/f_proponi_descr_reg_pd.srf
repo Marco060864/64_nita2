@@ -1,0 +1,23 @@
+﻿global type f_proponi_descr_reg_pd from function_object
+end type
+
+forward prototypes
+global function string f_proponi_descr_reg_pd (long al_id_prof_registrazione)
+end prototypes
+
+global function string f_proponi_descr_reg_pd (long al_id_prof_registrazione);
+
+string ls_Descrizione_Profilo
+
+IF NOT (IsNull(al_id_prof_registrazione) OR al_id_prof_registrazione = 0) THEN
+	SELECT "prof_registrazione"."des_contabile"
+		INTO :ls_Descrizione_Profilo
+		FROM "prof_registrazione"
+		WHERE "prof_registrazione"."id_prof_registrazione" = :al_id_prof_registrazione;
+
+	RETURN ls_Descrizione_Profilo
+END IF
+
+RETURN ""
+end function
+

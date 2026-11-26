@@ -1,0 +1,13 @@
+﻿global type f_trova_codice_articolo from function_object
+end type
+
+forward prototypes
+global function string f_trova_codice_articolo (long al_id_art)
+end prototypes
+
+global function string f_trova_codice_articolo (long al_id_art);string ls_codice
+select codice into :ls_codice from dba.articolo where id_articolo=:al_id_art;
+
+return ls_codice
+end function
+

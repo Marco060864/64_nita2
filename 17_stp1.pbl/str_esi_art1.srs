@@ -1,0 +1,12 @@
+﻿global type str_esi_art1 from structure
+	string		filtro
+	string		parametri
+	string		da_articolo
+	string		a_articolo
+	long		anno
+	long		mese
+	string		da_mag
+	string		a_mag
+	long		id_esercizio
+end type
+

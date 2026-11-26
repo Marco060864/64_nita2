@@ -1,0 +1,16 @@
+﻿global type f_trova_max_pacco from function_object
+end type
+
+forward prototypes
+global function string f_trova_max_pacco (date adt_oggi)
+end prototypes
+
+global function string f_trova_max_pacco (date adt_oggi);string ls_num_pacco
+
+select max(codice)  into :ls_num_pacco from dba.pacco where left(codice, 1)='A' and date(dataora)=:adt_oggi;
+
+if isnull(ls_num_pacco) then ls_num_pacco=""
+
+return ls_num_pacco
+end function
+

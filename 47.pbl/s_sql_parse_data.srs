@@ -1,0 +1,9 @@
+﻿global type s_sql_parse_data from structure
+	integer		i_sql_toknum
+	long		l_start
+	long		l_finish
+	string		s_sql_name
+	integer		i_level
+	integer		i_position
+end type
+

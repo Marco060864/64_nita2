@@ -1,0 +1,10 @@
+﻿global type s_partite_zoppe from structure
+	long		s_ll_id_titolo
+	decimal {2}	s_ld_coef_calo
+	long		s_ll_id_sog_comm
+	decimal {2}	s_ld_legato
+	decimal {2}	s_qta_da_scaricare
+	integer		s_flag
+	long		s_ll_id_doc
+end type
+

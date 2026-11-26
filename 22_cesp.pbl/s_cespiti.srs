@@ -1,0 +1,14 @@
+﻿global type s_cespiti from structure
+	long		s_id_cespite
+	long		s_id_reg_pd
+	date		s_data_registrazione
+	string		s_tipo_movimento
+	long		s_importo
+	string		da_cespite
+	string		a_cespite
+	string		da_cat
+	string		a_cat
+	date		da_data
+	date		a_data
+end type
+

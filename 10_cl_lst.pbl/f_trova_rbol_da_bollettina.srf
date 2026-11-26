@@ -1,0 +1,19 @@
+﻿global type f_trova_rbol_da_bollettina from function_object
+end type
+
+forward prototypes
+global function long f_trova_rbol_da_bollettina (long al_id_bollettina)
+end prototypes
+
+global function long f_trova_rbol_da_bollettina (long al_id_bollettina);long ll_id_riga_rbol
+
+select id_riga_documento
+into :ll_id_riga_rbol
+from dba.riga_documento
+where id_riga_doc_provenienza=:al_id_bollettina
+;
+if isnull(ll_id_riga_rbol) then ll_id_riga_rbol=0
+
+return ll_id_riga_rbol
+end function
+

@@ -1,0 +1,6 @@
+﻿global type st_prz from structure
+	datawindow		dw
+	date		data1
+	date		data2
+end type
+

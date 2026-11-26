@@ -1,0 +1,9 @@
+﻿//objectcomments Struttura usata per  il login
+global type s_login from structure
+	integer		i_successo
+	integer		i_idutente
+	string		s_utente
+	integer		i_idmenu
+	string		s_winxp
+end type
+

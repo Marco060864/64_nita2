@@ -1,0 +1,11 @@
+﻿global type f_prova from function_object
+end type
+
+forward prototypes
+global function string f_prova ()
+end prototypes
+
+global function string f_prova ();
+RETURN w_spesa_ff.dw_spesa_ff.object.tipo_importo[1]
+end function
+

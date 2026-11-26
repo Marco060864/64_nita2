@@ -1,0 +1,9 @@
+﻿global type s_spese_calcolate from structure
+	long		id_spesa[]
+	decimal {4}	percentuale[]
+	decimal {4}	importo[]
+	long		id_tab_iva[]
+	character		mod_cal_iva[]
+	character		app_rateale[]
+end type
+

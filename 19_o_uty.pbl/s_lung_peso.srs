@@ -1,0 +1,7 @@
+﻿global type s_lung_peso from structure
+	long		id_sog_commerciale
+	string		cod_articolo
+	decimal {2}	lunghezza
+	decimal {2}	peso_unitario
+end type
+

@@ -1,0 +1,5 @@
+﻿global type s_vettori_stringa from structure
+	string		s_causali[]
+	string		s_rag_sociale[]
+end type
+

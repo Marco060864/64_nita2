@@ -1,0 +1,21 @@
+﻿global type s_ric_param from structure
+	string		s_filter_name
+	string		s_filter_value
+	string		s_sql_cond
+	string		s_caller_column
+	string		s_main_value
+	string		s_id_seg_value[]
+	string		s_ausil_value[]
+	string		s_datawindow
+	string		s_titolo_finestra
+	integer		i_modo
+	boolean		b_imm_retrieve
+	boolean		b_imm_insert
+	boolean		b_imm_maint
+	boolean		b_asneeded
+	integer		i_width
+	integer		i_height
+	long		l_id_doc
+	string		metallo
+end type
+

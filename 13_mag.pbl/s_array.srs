@@ -1,0 +1,8 @@
+﻿global type s_array from structure
+	long		ll_id_doc[]
+	decimal		ldc_legato[]
+	string		as_string[]
+	long		ll_id_prof[]
+	integer		li_anno[]
+end type
+

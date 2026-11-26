@@ -1,0 +1,238 @@
+﻿global type f_rec_righe_comp041212 from function_object
+end type
+
+forward prototypes
+global subroutine f_rec_righe_comp041212 (u_tv_distinta tv_dis, long ll_root, boolean lb_con, long id, date data_inizio, date data_fine, long id_testa, boolean variante)
+end prototypes
+
+global subroutine f_rec_righe_comp041212 (u_tv_distinta tv_dis, long ll_root, boolean lb_con, long id, date data_inizio, date data_fine, long id_testa, boolean variante);
+long id_base,id_f,ll_child,id_art,id_var,ll_app,ll_id_riga,ll_num_riga,ll_id_componente
+boolean controllo
+decimal  qt, cs
+string cod,tg,pt,testa,path,des, ls_dist
+treeviewitem tvi 
+dati dat
+s_art_fittizio ls_art_app
+controllo=false
+string ls_fine,ls_inizio
+ls_fine=string(data_fine,'yy/mm/dd')
+ls_inizio=string(data_inizio,'yy/mm/dd')
+//mm inserito per esplodere le distinte che hanno due articoli uguali fra le righe 150110
+//select st_dis_tale_quale
+//into :ls_dist
+//from orafo_par_sistema
+//;
+
+
+//CURSORE PER RECUPERARE DATI DALLA DISTINTA
+DECLARE recupera CURSOR FOR
+  SELECT "articolo"."codice", 
+  			"articolo"."descrizione", 
+  			"articolo"."id_articolo",	
+			"articolo"."immagine",
+			"riga_distinta"."tipo_riga",            
+         "riga_distinta"."quantita",   
+         "riga_distinta"."costo",    
+			"riga_distinta"."id_dis_figlio",
+			"riga_distinta"."id_riga_distinta",
+			"riga_distinta"."num_riga",
+			"riga_distinta"."id_componente"
+    FROM "articolo",   
+         "riga_distinta",   
+       	"distinta"  ,
+   WHERE ( "articolo"."id_articolo" = "riga_distinta"."id_articolo" ) and  
+         ( "distinta"."id_distinta" = "riga_distinta"."id_distinta" ) and 
+			(( dateformat("riga_distinta"."data_fine",'yy/mm/dd')>=:ls_inizio )and 
+			( dateformat("riga_distinta"."data_fine",'yy/mm/dd')<=:ls_fine ) OR
+			("riga_distinta"."data_fine"  is null) and ("riga_distinta"."data_fine" is null )) and
+			(("riga_distinta"."id_distinta" =  :id_base )  or
+          ("riga_distinta"."id_distinta" = :id_var and  "riga_distinta"."id_dis_var"=null) or
+			 ("riga_distinta"."id_dis_var"=:id_var) and ("riga_distinta"."id_distinta" =:id_testa))  and
+			("riga_distinta"."id_riga_distinta" not in (select "var_riga_distinta"."id_riga_distinta"
+			from "var_riga_distinta" where "var_riga_distinta"."id_dis_variante"=:id_testa))
+	ORDER BY "riga_distinta"."num_riga" ;     
+ll_app=ll_root
+if lb_con=true then
+	select articolo.id_articolo,articolo.codice,articolo.immagine
+	into:id_art,:testa,:path
+	from articolo,distinta
+	where distinta.id_distinta=:id
+	and articolo.id_articolo=distinta.id_articolo;
+	dat.quantita=1
+	dat.path=path
+	dat.id_dis_figlio=id
+	dat.id_articolo=id_art
+	dat.id_distinta=id
+	tvi.data=dat
+	tvi.label=testa
+	tvi.pictureindex=4
+	tvi.selectedpictureindex=4
+	tvi.Expanded=true
+	ll_root=tv_dis.insertitemfirst(0,tvi)
+	
+	ll_app=ll_root
+end if
+if ll_root<> -1 then
+	tv_dis.getitem(ll_root,tvi)
+	dat=tvi.data
+	id_var=dat.id_dis_figlio
+	select id_dis_base
+	into :id_base
+	from distinta
+	where id_distinta=:id_var;
+	if isnull(id_base) then id_base=id_var
+end if
+
+open recupera;
+
+do while sqlca.sqlcode=0
+	fetch recupera into :cod,:des,:id_art,:pt,:tg,:qt,:cs,:id_f,:ll_id_riga,:ll_num_riga,:ll_id_componente;
+	if sqlca.sqlcode=0 then 
+		if id_f>0 then controllo=true
+		if ll_id_componente>0 and not isnull(ll_id_componente) then
+			select codice
+			into :cod
+			from componente
+			where id_componente=:ll_id_componente;
+			if upperbound(tv_dis.is_comp)>0 then
+				integer count
+				boolean lb_nuovo
+				lb_nuovo=true
+				for count=1 to upperbound(tv_dis.is_comp) 
+					if tv_dis.is_comp[count].id_componente=ll_id_componente then
+						lb_nuovo=false
+					end if
+				next
+				if lb_nuovo=true then
+					tv_dis.is_comp[count].id_componente=ll_id_componente
+				end if
+			else
+				tv_dis.is_comp[1].id_componente=ll_id_componente
+			end if
+		end if
+		dat.path=pt
+		dat.id_articolo=id_art
+		dat.id_dis_figlio=id_f
+		dat.id_distinta=id_f
+		dat.id_riga=ll_id_riga
+		dat.quantita=qt
+		dat.costo=cs
+		dat.codice=cod
+		dat.descrizione=des
+		dat.tipo_riga=tg
+		dat.num_riga=ll_num_riga
+		if id_f>0 then
+			tvi.Expanded=true
+		else	
+			tvi.Expanded=false
+		end if
+		tvi.data=dat
+		
+		tvi.label=string(ll_num_riga) +" - "+cod+" "+STRING(QT)
+		if id_f>0 then
+			choose case tg
+				case 'E'
+					tvi.pictureindex=2
+					tvi.selectedpictureindex=3
+				case 'N'
+					tvi.pictureindex=6
+					tvi.selectedpictureindex=11
+				case 'R'
+					tvi.pictureindex=7
+					tvi.selectedpictureindex=12
+				case 'F'
+					tvi.pictureindex=8
+					tvi.selectedpictureindex=13
+				case 'C'
+					tvi.pictureindex=9
+					tvi.selectedpictureindex=14
+				case 'D'
+					tvi.pictureindex=10
+					tvi.selectedpictureindex=15
+			end choose
+			
+			controllo=true
+		else
+			choose case tg
+				case 'E'
+					tvi.pictureindex=17
+					tvi.selectedpictureindex=17
+				case 'N'
+					tvi.pictureindex=16
+					tvi.selectedpictureindex=16
+				case 'R'
+					tvi.pictureindex=5
+					tvi.selectedpictureindex=5
+				case 'F'
+					tvi.pictureindex=20
+					tvi.selectedpictureindex=20
+				case 'C'
+					tvi.pictureindex=18
+					tvi.selectedpictureindex=18
+				case 'D'
+					tvi.pictureindex=19
+					tvi.selectedpictureindex=19
+			end choose
+			
+		end if
+		
+		
+		if tg='F' and variante=false then
+			s_art_fittizio ls_art
+			ls_art=ls_art_app
+			ls_art.id_articolo=id_art
+			ls_art.id_distinta=id_var
+			openwithparm(w_art_fittizio_ff,ls_art)
+			ls_art=message.powerobjectparm
+			if isvalid(ls_art) then 
+				if ls_art.id_articolo>0 then
+					long ll_figlio
+					tvi.label=string(ll_num_riga) +" - " +ls_art.codice_art+" "+STRING(QT)
+					dat.path=pt
+					dat.id_articolo=ls_art.id_articolo
+					select id_distinta
+					into :ll_figlio
+					from distinta
+					where id_articolo=:ls_art.id_articolo;
+					if ll_figlio<=0 then setnull(ll_figlio)
+					dat.id_dis_figlio=ll_figlio
+					dat.id_distinta=id_f
+					dat.id_riga=ll_id_riga					
+					update riga_distinta set 
+					id_articolo=:ls_art.id_articolo,
+					id_dis_figlio=:ll_figlio,
+					tipo_riga=:ls_art.tipo_riga
+					where id_riga_distinta=:ll_id_riga;
+					dat.quantita=qt
+					dat.costo=cs
+					dat.codice=cod
+					dat.descrizione=des
+					dat.tipo_riga=tg
+					dat.num_riga=ll_num_riga
+				end if
+			end if
+		end if
+		
+		
+		tvi.expanded=false
+		ll_child=tv_dis.insertitemlast(ll_root,tvi)
+	end if
+loop
+close recupera;
+//MM AGGIUNTO PER NON GESTIRE DISTINTA MULTILIVELLO
+//if ls_dist<> 'S' then
+	ll_root=ll_app
+	ll_root=tv_dis.finditem(childtreeitem!,ll_root)
+	
+	do while ll_root<> -1 
+		f_rec_righe_comp(tv_dis,ll_root,false,0,data_inizio,data_fine,id_testa,variante)
+		ll_root=tv_dis.finditem(Nexttreeitem!,ll_root)
+	loop
+//END IF
+
+
+
+
+
+end subroutine
+

@@ -1,0 +1,8 @@
+﻿global type s_rit_wp from structure
+	string		s_modo_rit
+	string		s_identifica[]
+	long		l_identifica[]
+	long		s_dbname[]
+	any		a_user[]
+end type
+

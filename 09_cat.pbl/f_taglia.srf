@@ -1,0 +1,43 @@
+﻿global type f_taglia from function_object
+end type
+
+forward prototypes
+global function s_bitmap f_taglia (integer al_dim_x, integer al_dim_y, integer x1, integer y1, integer x2, integer y2)
+end prototypes
+
+global function s_bitmap f_taglia (integer al_dim_x, integer al_dim_y, integer x1, integer y1, integer x2, integer y2);
+
+decimal rapp_x, rapp_y, rapporto_finale
+s_bitmap ls_bitmap
+
+rapp_x=al_dim_x/(x2 - x1)
+rapp_y=al_dim_y/(y2 - y1)
+
+ls_bitmap.x1=x1
+ls_bitmap.y1=y1
+ls_bitmap.x2=x2
+ls_bitmap.y2=y2
+
+ls_bitmap.rect_x1=0
+ls_bitmap.rect_y1=0
+
+if rapp_x<rapp_y then
+	
+	ls_bitmap.rect_x2=al_dim_x
+	ls_bitmap.rect_y2=(y2 - y1)*rapp_x
+end if
+if rapp_y<rapp_x then
+	
+	ls_bitmap.rect_x2=(x2 - x1)*rapp_y
+	ls_bitmap.rect_y2=al_dim_y
+end if
+if rapp_y=rapp_x then
+	
+	ls_bitmap.rect_x2=al_dim_x
+	ls_bitmap.rect_y2=al_dim_y
+end if
+
+return ls_bitmap
+
+end function
+

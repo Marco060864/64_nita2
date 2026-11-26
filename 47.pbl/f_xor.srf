@@ -1,0 +1,35 @@
+﻿global type f_xor from function_object
+end type
+
+forward prototypes
+global function string f_xor (string as_binary_number, string as_binary_mask)
+end prototypes
+
+global function string f_xor (string as_binary_number, string as_binary_mask);
+
+long ll_size, ll_count, ll_size_mask
+char lch_binary_number[], lch_binary_mask[], lch_binary_return[]
+
+lch_binary_number=as_binary_number
+lch_binary_mask=as_binary_mask
+ll_size = UpperBound(lch_binary_number)
+ll_size_mask= UpperBound(lch_binary_mask)
+if ll_size > ll_size_mask then
+	FOR ll_count = ll_size_mask + 1 to ll_size
+		lch_binary_return[ll_count]= lch_binary_number[ll_count]
+	NEXT
+	ll_size = ll_size_mask
+end if
+
+FOR ll_count = 1 to ll_size
+	if lch_binary_number[ll_count] = lch_binary_mask[ll_count] then 
+		lch_binary_return[ll_count] = "0"
+	else
+		lch_binary_return[ll_count] = "1"
+	end if
+NEXT
+
+RETURN lch_binary_return
+
+end function
+

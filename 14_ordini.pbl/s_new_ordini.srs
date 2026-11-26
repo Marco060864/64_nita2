@@ -1,0 +1,7 @@
+﻿global type s_new_ordini from structure
+	long		s_ll_id_cliente
+	long		s_ll_id_art_originale
+	long		s_ll_id_documento
+	long		s_ll_id_sorgente
+end type
+

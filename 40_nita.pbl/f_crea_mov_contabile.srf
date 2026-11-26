@@ -1,0 +1,59 @@
+﻿global type f_crea_mov_contabile from function_object
+end type
+
+forward prototypes
+global function long f_crea_mov_contabile (long al_id_reg_pd, long al_numero, long al_id_conto, long al_id_valuta, decimal adc_cambio, decimal adc_dare, decimal adc_avere, date ad_data_val_banca, date ad_data_inizio_competenza, date ad_data_fine_competenza, long al_prog_stampato, long al_id_azienda)
+end prototypes
+
+global function long f_crea_mov_contabile (long al_id_reg_pd, long al_numero, long al_id_conto, long al_id_valuta, decimal adc_cambio, decimal adc_dare, decimal adc_avere, date ad_data_val_banca, date ad_data_inizio_competenza, date ad_data_fine_competenza, long al_prog_stampato, long al_id_azienda);
+
+long ll_RetVal, ll_id_mov_contabile, ll_SQL_INSERT, ll_SQL_SELECT
+
+ll_RetVal = 0
+
+INSERT INTO "mov_contabile"  
+	( "id_reg_pd",   
+	  "numero",   
+	  "id_conto",   
+	  "id_valuta",   
+	  "cambio",   
+	  "dare",   
+	  "avere",   
+	  "data_val_banca",   
+	  "data_inizio_competenza",   
+	  "data_fine_competenza",   
+	  "prog_stampato",   
+	  "id_azienda" )  
+VALUES ( :al_id_reg_pd,   
+		  :al_numero,   
+		  :al_id_conto,   
+		  :al_id_valuta,   
+		  :adc_cambio,   
+		  :adc_dare,   
+		  :adc_avere,   
+		  :ad_data_val_banca,   
+		  :ad_data_inizio_competenza,   
+		  :ad_data_fine_competenza,   
+		  :al_prog_stampato,   
+		  :al_id_azienda )  ;
+
+ll_SQL_INSERT = SQLCA.SQLCode
+
+CHOOSE CASE ll_SQL_INSERT 
+	CASE 0
+		SELECT "mov_contabile"."id_mov_contabile"
+			INTO :ll_id_mov_contabile
+			FROM "mov_contabile"
+			WHERE "mov_contabile"."id_reg_pd" = :al_id_reg_pd AND
+					"mov_contabile"."numero" = :al_numero;
+		ll_SQL_SELECT = SQLCA.SQLCode
+		CHOOSE CASE ll_SQL_SELECT 
+			CASE 0
+				ll_RetVal = ll_id_mov_contabile
+		END CHOOSE
+
+END CHOOSE
+
+RETURN ll_RetVal
+end function
+

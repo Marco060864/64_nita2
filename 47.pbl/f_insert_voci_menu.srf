@@ -1,0 +1,44 @@
+﻿global type f_insert_voci_menu from function_object
+end type
+
+forward prototypes
+global function long f_insert_voci_menu (long al_id_voci_menu, long al_id_voci_menu_padre, string as_chi)
+end prototypes
+
+global function long f_insert_voci_menu (long al_id_voci_menu, long al_id_voci_menu_padre, string as_chi);
+
+long	ll_id_voci_menu
+
+if as_chi = "V" then
+	//aggiunto header_menu 281213
+	INSERT INTO dba.voci_menu
+		( id_voci_menu_padre, vmenu_voce, vmenu_micro_help, vmenu_help,
+		 id_oggetti, vmenu_parametri, vmenu_order, header_menu)
+	SELECT :al_id_voci_menu_padre, vmenu_voce, vmenu_micro_help, vmenu_help,   
+		 id_oggetti, vmenu_parametri, vmenu_order, header_menu 
+	  FROM dba.voci_menu
+	  WHERE voci_menu.id_voci_menu = :al_id_voci_menu ;
+	  sqlca.identity(ll_id_voci_menu);
+elseif as_chi = "M" then
+	INSERT INTO dba.voci_menu
+		( id_menu, vmenu_voce, vmenu_micro_help, vmenu_help,
+		 id_oggetti, vmenu_parametri, vmenu_order, header_menu)
+	SELECT :al_id_voci_menu_padre, vmenu_voce, vmenu_micro_help, vmenu_help,   
+		 id_oggetti, vmenu_parametri, vmenu_order, header_menu
+	  FROM dba.voci_menu
+	  WHERE voci_menu.id_voci_menu = :al_id_voci_menu ;
+	  sqlca.identity(ll_id_voci_menu);
+else
+	Return -1
+end if
+if SQLCA.SQLCode = 0 then
+	Return ll_id_voci_menu
+else
+	MessageBox("Errore Inserimento riga nel DataBase", string(SQLCA.SQLCode) + " -> " + &
+					SQLCA.SQLErrText + &
+					", ~rper copia dell'id n. " + string(al_id_voci_menu), Exclamation!)
+	Return -1
+end if
+
+end function
+

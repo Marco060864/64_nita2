@@ -1,0 +1,35 @@
+﻿global type f_trova_pacco_aperto from function_object
+end type
+
+forward prototypes
+global function long f_trova_pacco_aperto (date adt_oggi)
+end prototypes
+
+global function long f_trova_pacco_aperto (date adt_oggi);long ll_id_pacco
+
+select id_pacco into :ll_id_pacco
+from dba.pacco 
+where left(codice,1)='A' and 
+(chiuso='N' or chiuso is null) and date(dataora)=:adt_oggi
+;
+//order by id_pacco desc;
+
+return ll_id_pacco
+
+//select first(p.id_pacco) into :ll_id_pacco 
+//from dba.pacco p, dba.pacco_bollettina pb
+//where left(codice,1)='A' and  p.id_pacco=pb.id_pacco and 
+//(p.chiuso='N' or p.chiuso is null) and pb.data_pacco=:adt_oggi
+//order by p.id_pacco desc;
+
+
+
+
+//select first(p.id_pacco) into :ll_id_pacco 
+//from dba.pacco p, dba.pacco_bollettina pb
+//where left(codice,1)='A' and  p.id_pacco=pb.id_pacco and 
+//(select sum(r.peso_netto) from riga_documento r, pacco_bollettina pa
+//where pa.id_bollettina=r.id_riga_documento and pa.id_pacco=p.id_pacco)<18000
+//order by p.id_pacco desc;
+end function
+

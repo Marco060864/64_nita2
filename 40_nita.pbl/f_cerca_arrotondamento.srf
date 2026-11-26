@@ -1,0 +1,44 @@
+﻿global type f_cerca_arrotondamento from function_object
+end type
+
+forward prototypes
+global function integer f_cerca_arrotondamento (decimal adc_prezzo, long al_idvalu, ref decimal adc_valart, ref string as_tiparr)
+end prototypes
+
+global function integer f_cerca_arrotondamento (decimal adc_prezzo, long al_idvalu, ref decimal adc_valart, ref string as_tiparr);
+long		ll_scode, ll_idaz
+decimal	ldc_1
+string	ls_1
+
+ll_idaz = 1
+
+
+	DECLARE mycur CURSOR FOR
+		SELECT "arrotondamento"."val_arrotondamento", "arrotondamento"."tipo_arrotondamento"
+		FROM "dba"."arrotondamento"
+		WHERE	( "arrotondamento"."id_valuta" = :al_idvalu ) AND
+				( "arrotondamento"."id_azienda" = :ll_idaz ) AND
+				( "arrotondamento"."da_prezzo" <= :adc_prezzo) AND
+				( "arrotondamento"."a_prezzo" >= :adc_prezzo);
+
+	ll_scode = sqlca.sqlcode
+	if ll_scode=0 then
+		open mycur;
+		ll_scode=0
+		do while ll_scode=0
+			fetch mycur into :ldc_1, :ls_1;
+			if ll_scode=0 then
+				adc_valart = ldc_1
+				as_tiparr = ls_1
+				ll_scode=1
+			end if
+		loop
+		close mycur;
+	end if
+
+return 0
+
+
+
+end function
+

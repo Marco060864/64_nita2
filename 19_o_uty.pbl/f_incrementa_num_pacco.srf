@@ -1,0 +1,30 @@
+﻿global type f_incrementa_num_pacco from function_object
+end type
+
+forward prototypes
+global function string f_incrementa_num_pacco (string as_num_pacco, date adt_oggi)
+end prototypes
+
+global function string f_incrementa_num_pacco (string as_num_pacco, date adt_oggi);//f_incrementa_num_pacco (20220711)
+//incrementa il codice del pacco (che è una stringa siffatta: "A"+"yyyymmdd"+"-"+string(num_pacco)
+//il numero effettivo del pacco giornaliero o settimanale che sia è nelle ultime 3 lettere della stringa del codice.
+
+integer li_numero, li_len
+
+if as_num_pacco> "A" then
+	li_numero=integer(trim(right(as_num_pacco, 3)))
+	if li_numero>0 then
+		li_numero++
+	else
+		li_numero=1
+	end if
+else
+	li_numero=1
+end if
+
+li_len=len(string(li_numero))	
+as_num_pacco=space(3 - li_len) +string(li_numero)
+as_num_pacco="A"+string(adt_oggi, "yyyymmdd")+"-"+as_num_pacco
+return as_num_pacco
+end function
+

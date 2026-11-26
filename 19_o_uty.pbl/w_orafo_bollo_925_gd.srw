@@ -1,0 +1,143 @@
+﻿forward
+global type w_orafo_bollo_925_gd from w_np_single_data
+end type
+type cb_stampa from commandbutton within w_orafo_bollo_925_gd
+end type
+type cb_ord_codice from commandbutton within w_orafo_bollo_925_gd
+end type
+type cb_1 from commandbutton within w_orafo_bollo_925_gd
+end type
+end forward
+
+global type w_orafo_bollo_925_gd from w_np_single_data
+integer height = 1028
+cb_stampa cb_stampa
+cb_ord_codice cb_ord_codice
+cb_1 cb_1
+end type
+global w_orafo_bollo_925_gd w_orafo_bollo_925_gd
+
+forward prototypes
+public subroutine wf_proponi_valore ()
+end prototypes
+
+public subroutine wf_proponi_valore ();string ls_valore, ls_val_dx, ls_val_sx
+integer li_ascii
+
+ls_valore=dw_single.getitemstring(1, "c_max")
+li_ascii= asc(right(ls_valore, 1))
+if li_ascii<90 then
+	ls_val_dx=char(li_ascii+1)
+	ls_val_sx=left(ls_valore, 1)
+else
+	ls_val_dx="A"
+	li_ascii= asc(left(ls_valore, 1))
+	if li_ascii<90 then
+		ls_val_sx=char(li_ascii+1)
+	end if
+end if
+dw_single.setitem(dw_single.getrow(), "codice", ls_val_sx+ls_val_dx)
+		
+
+end subroutine
+
+on w_orafo_bollo_925_gd.create
+int iCurrent
+call super::create
+this.cb_stampa=create cb_stampa
+this.cb_ord_codice=create cb_ord_codice
+this.cb_1=create cb_1
+iCurrent=UpperBound(this.Control)
+this.Control[iCurrent+1]=this.cb_stampa
+this.Control[iCurrent+2]=this.cb_ord_codice
+this.Control[iCurrent+3]=this.cb_1
+end on
+
+on w_orafo_bollo_925_gd.destroy
+call super::destroy
+destroy(this.cb_stampa)
+destroy(this.cb_ord_codice)
+destroy(this.cb_1)
+end on
+
+event resize;dw_single.Width = newwidth - 80
+dw_single.Height = newheight - 250
+end event
+
+type p_msg_log from w_np_single_data`p_msg_log within w_orafo_bollo_925_gd
+end type
+
+type p_crescente from w_np_single_data`p_crescente within w_orafo_bollo_925_gd
+end type
+
+type p_decrescente from w_np_single_data`p_decrescente within w_orafo_bollo_925_gd
+end type
+
+type dw_single from w_np_single_data`dw_single within w_orafo_bollo_925_gd
+integer y = 136
+string dataobject = "d_orafo_bollo_925"
+end type
+
+event dw_single::ue_insert;call super::ue_insert;post wf_proponi_valore()
+end event
+
+type cb_stampa from commandbutton within w_orafo_bollo_925_gd
+integer x = 1577
+integer y = 20
+integer width = 343
+integer height = 100
+integer taborder = 10
+boolean bringtotop = true
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+string text = "Stampa"
+end type
+
+event clicked;printsetup()
+dw_single.print()
+end event
+
+type cb_ord_codice from commandbutton within w_orafo_bollo_925_gd
+integer x = 251
+integer y = 24
+integer width = 443
+integer height = 100
+integer taborder = 20
+boolean bringtotop = true
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+string text = "Ordina per Codice"
+end type
+
+event clicked;dw_single.setsort("codice")
+dw_single.sort()
+end event
+
+type cb_1 from commandbutton within w_orafo_bollo_925_gd
+integer x = 736
+integer y = 24
+integer width = 553
+integer height = 100
+integer taborder = 30
+boolean bringtotop = true
+integer textsize = -8
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+string text = "Ordina per Descrizione"
+end type
+
+event clicked;dw_single.setsort("Descrizione")
+dw_single.sort()
+end event
+

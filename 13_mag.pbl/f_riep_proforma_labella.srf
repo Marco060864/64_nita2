@@ -1,0 +1,230 @@
+﻿//objectcomments LaBella: riepilogo scarichi per proforma (una riga per proforma e metallo) da mettere in fondo alle note della fattura c/lav.
+global type f_riep_proforma_labella from function_object
+end type
+
+forward prototypes
+global function string f_riep_proforma_labella (long al_id_documento)
+end prototypes
+
+global function string f_riep_proforma_labella (long al_id_documento);//==========================================================================================
+// f_riep_proforma_labella  -  20261015, modificata 20261017
+//
+// Costruisce il riepilogo degli scarichi di metallo fatti dal documento al_id_documento
+// (di norma la FATTURA C/LAVORAZIONE, prof. FATLAV) sulle partite aperte dalle proforma
+// (RICEVUTO C/LAVORAZIONE DA CLIENTE). E' il testo che il cliente scriveva a mano in fondo
+// alla fattura, nella forma:
+//
+//   scarico parziale vs proforma 901264 del 25/09/26 AG per grammi 3856,50 pari euro 6956,16
+//   scarico parziale vs proforma 901264 del 25/09/26 OT per grammi 609,50 pari euro 0,00
+//   ...
+//   totale valore metallo euro 65939,04****
+//
+// Come si arriva agli scarichi:
+//   riga fattura --(id_riga_doc_provenienza)--> riga DDT --(id_riga_partita)--> orafo_scar_partita
+//   (si guarda anche id_riga_partita della riga fattura stessa, nel caso scarichi direttamente)
+//   orafo_scar_partita.id_riga_documento contiene l'id_riga_partita della riga che scarica:
+//   per le righe importate da w_excel_labella coincide con id_riga_documento, per le righe
+//   inserite a mano (es. scarti "saldo vs proforma") e' un numero generato a parte.
+//
+// Regole:
+//   - una riga per NUMERO PROFORMA (senza il suffisso "/b") e METALLO (AG, OT, ...)
+//   - grammi  = LEGATO scaricato = fino scaricato * peso_netto / fino della riga che scarica
+//               (= peso della riga se scarica una sola partita)
+//   - euro    = fino scaricato * prezzo_metallo della riga della proforma con lo stesso titolo
+//               (per OT, per ora, prezzo_metallo=0 => "pari euro 0,00")
+//   - "totale" se TUTTE le partite del gruppo risultano chiuse (stato 'C') e nessun documento
+//               con data successiva a questo le scarica; altrimenti "parziale"
+//
+// 20261017 righe DDT fatturate in piu' fatture (evasione parziale):
+//   - ogni fattura prende solo la SUA quota dello scarico della riga DDT:
+//       quota = peso_netto delle righe di questa fattura che evadono la riga DDT / peso_netto riga DDT
+//       (se la riga DDT non ha peso uso la quantita'; massimo 1)
+//   - "totale" solo se, contando le fatture fino a questa (data e id), ogni riga DDT coinvolta
+//     risulta fatturata per intero (o chiusa a forza, forza_chius_evasione='S', senza fatture dopo)
+//   - la riga fattura che ha lo stesso id_riga_partita della riga DDT (lo copia l'evasione)
+//     non viene piu' contata due volte: si conta solo attraverso la riga DDT
+//
+// Ritorna il testo (righe separate da ~r~n) oppure "" se il documento non scarica partite.
+//==========================================================================================
+datastore lds_riep
+string ls_sql, ls_syntax, ls_err, ls_testo, ls_riga, ls_id_doc
+string ls_num, ls_base, ls_met, ls_chiusa
+string ls_quota, ls_quota_cum, ls_fino_a_qui, ls_dopo  //20261017
+string ls_g_base, ls_g_met, ls_g_tipo
+date   ldt_data, ldt_g_data
+decimal ldc_titolo, ldc_fino, ldc_prezzo, ldc_legato, ldc_valore
+decimal ldc_g_legato, ldc_g_valore, ldc_tot_valore
+decimal ldc_quota_cum  //20261017
+long   ll_righe, i, ll_pos
+boolean lb_g_aperto, lb_g_chiuso
+
+ls_testo=""
+if isnull(al_id_documento) or al_id_documento<=0 then return ls_testo
+ls_id_doc=string(al_id_documento)
+
+//------------------------------------------------------------------------------------------
+// 1) una riga per PARTITA scaricata dal documento, con fino scaricato, prezzo e chiusura
+//------------------------------------------------------------------------------------------
+//20261017 quota della riga DDT: peso fatturato qui / peso della riga DDT (o quantita'), max 1
+ls_quota = &
+"case when isnull(p.peso_netto,0)>0 then " + &
+"       (case when sum(isnull(r.peso_netto,0))>=p.peso_netto then 1 else sum(isnull(r.peso_netto,0))/p.peso_netto end) " + &
+"     when isnull(p.quantita,0)>0 then " + &
+"       (case when sum(isnull(r.quantita,0))>=p.quantita then 1 else sum(isnull(r.quantita,0))/p.quantita end) " + &
+"     else 1 end"
+
+//20261017 quota cumulata: tutte le righe che evadono la riga DDT in documenti fino a questo
+//         (data minore, oppure stessa data e id_documento minore o uguale)
+ls_fino_a_qui = &
+"from dba.riga_documento x, dba.documento dx where x.id_riga_doc_provenienza=p.id_riga_documento " + &
+"and dx.id_documento=x.id_documento " + &
+"and (dx.data_documento<f.data_documento or (dx.data_documento=f.data_documento and dx.id_documento<=f.id_documento))"
+ls_dopo = &
+"from dba.riga_documento x, dba.documento dx where x.id_riga_doc_provenienza=p.id_riga_documento " + &
+"and dx.id_documento=x.id_documento " + &
+"and (dx.data_documento>f.data_documento or (dx.data_documento=f.data_documento and dx.id_documento>f.id_documento))"
+ls_quota_cum = &
+"case when p.forza_chius_evasione='S' and not exists(select 1 " + ls_dopo + ") then 1 " + &
+"     when isnull(p.peso_netto,0)>0 then isnull((select sum(isnull(x.peso_netto,0)) " + ls_fino_a_qui + "),0)/p.peso_netto " + &
+"     when isnull(p.quantita,0)>0 then isnull((select sum(isnull(x.quantita,0)) " + ls_fino_a_qui + "),0)/p.quantita " + &
+"     else 1 end"
+
+ls_sql = &
+"select a.id_partita, pf.num_documento, pf.data_documento, trim(m.codice) as metallo, t.titolo, " + &
+"       sum(s.val_scarico*(case when rr.quota>1 then 1 else rr.quota end)) as fino_scaricato, " + &
+"       isnull((select max(rp.prezzo_metallo) from dba.riga_documento rp, dba.articolo ap " + &
+"                where rp.id_documento=pf.id_documento and ap.id_articolo=rp.id_articolo " + &
+"                and ap.id_titolo=a.id_titolo), 0) as prezzo_metallo, " + &
+"       case when a.stato='C' and not exists(select 1 from dba.orafo_scar_partita s2, dba.riga_documento x2, dba.documento d2 " + &
+"                where s2.id_partita=a.id_partita and x2.id_riga_partita=s2.id_riga_documento " + &
+"                and d2.id_documento=x2.id_documento " + &
+"                and d2.data_documento>(select f.data_documento from dba.documento f where f.id_documento=" + ls_id_doc + ")) " + &
+"       then 'T' else 'P' end as chiusa, " + &
+"       case when locate(pf.num_documento,'/')>0 then left(pf.num_documento, locate(pf.num_documento,'/')-1) " + &
+"       else pf.num_documento end as num_base, " + &
+"       sum(case when rr.fino>0 then s.val_scarico*(case when rr.quota>1 then 1 else rr.quota end)*rr.peso_netto/rr.fino " + &
+"           else s.val_scarico*(case when rr.quota>1 then 1 else rr.quota end)*1000/t.titolo end) as legato, " + &
+"       min(rr.quota_cum) as quota_cum " + &
+"from dba.orafo_scar_partita s, dba.orafo_aper_partita a, dba.documento pf, dba.orafo_titolo t, dba.orafo_metallo m, " + &
+"     ( select p.id_riga_partita, p.peso_netto, p.fino, " + ls_quota + " as quota, " + ls_quota_cum + " as quota_cum " + &
+"        from dba.riga_documento r, dba.riga_documento p, dba.documento f " + &
+"        where r.id_documento=" + ls_id_doc + " and f.id_documento=" + ls_id_doc + " " + &
+"        and p.id_riga_documento=r.id_riga_doc_provenienza and p.id_riga_partita is not null " + &
+"        group by p.id_riga_documento, p.id_riga_partita, p.peso_netto, p.fino, p.quantita, p.forza_chius_evasione, " + &
+"                 f.data_documento, f.id_documento " + &
+"       union all " + &
+"       select distinct r.id_riga_partita, r.peso_netto, r.fino, 1, 1 from dba.riga_documento r " + &
+"        where r.id_documento=" + ls_id_doc + " and r.id_riga_partita is not null " + &
+"        and not exists(select 1 from dba.riga_documento p where p.id_riga_documento=r.id_riga_doc_provenienza " + &
+"                       and p.id_riga_partita=r.id_riga_partita) ) rr " + &
+"where s.id_partita=a.id_partita and pf.id_documento=a.id_documento " + &
+"and t.id_titolo=a.id_titolo and m.id_metallo=t.id_metallo " + &
+"and s.id_riga_documento=rr.id_riga_partita " + &
+"group by a.id_partita, a.id_titolo, a.stato, pf.id_documento, pf.num_documento, pf.data_documento, m.codice, t.titolo " + &
+"order by num_base, metallo, pf.num_documento, a.id_partita"
+
+ls_err=""
+ls_syntax=SyntaxFromSQL(sqlca, ls_sql, "style(type=grid)", ls_err)
+if ls_err<>"" then
+	messagebox("Attenzione!", "Riepilogo proforma NON calcolato (sintassi):~r~n"+ls_err)
+	return ""
+end if
+
+lds_riep=create datastore
+if lds_riep.create(ls_syntax, ls_err)<>1 then
+	messagebox("Attenzione!", "Riepilogo proforma NON calcolato (datastore):~r~n"+ls_err)
+	destroy lds_riep
+	return ""
+end if
+lds_riep.settransobject(sqlca)
+ll_righe=lds_riep.retrieve()
+if ll_righe<=0 then
+	destroy lds_riep
+	return ""
+end if
+
+//------------------------------------------------------------------------------------------
+// 2) raggruppo per proforma (senza "/b") + metallo: le righe arrivano gia' ordinate cosi'
+//    colonne: 1 id_partita, 2 num_documento, 3 data_documento, 4 metallo, 5 titolo,
+//             6 fino_scaricato, 7 prezzo_metallo, 8 chiusa, 9 num_base, 10 legato, 11 quota_cum
+//------------------------------------------------------------------------------------------
+ldc_tot_valore=0
+lb_g_aperto=false
+
+for i=1 to ll_righe
+	ls_num     =trim(lds_riep.getitemstring(i, 2))
+	ldt_data   =lds_riep.getitemdate(i, 3)
+	ls_met     =upper(trim(lds_riep.getitemstring(i, 4)))
+	ldc_titolo =lds_riep.getitemdecimal(i, 5)
+	ldc_fino   =lds_riep.getitemdecimal(i, 6)
+	ldc_prezzo =lds_riep.getitemdecimal(i, 7)
+	ls_chiusa  =lds_riep.getitemstring(i, 8)
+	ls_base    =trim(lds_riep.getitemstring(i, 9))
+	ldc_legato =lds_riep.getitemdecimal(i, 10)
+	ldc_quota_cum=lds_riep.getitemdecimal(i, 11)
+	//20261017 se una riga DDT di questa partita non e' ancora fatturata per intero
+	//         (contando le fatture fino a questa) lo scarico per questa fattura e' parziale
+	if isnull(ldc_quota_cum) or ldc_quota_cum<0.999 then ls_chiusa="P"
+	if isnull(ls_met) or ls_met="" then ls_met="??"
+	if isnull(ldc_fino) then ldc_fino=0
+	if isnull(ldc_prezzo) then ldc_prezzo=0
+	if isnull(ls_base) or ls_base="" then ls_base=ls_num
+
+	//legato: lo calcola la select in proporzione al peso della riga che scarica (peso_netto/fino),
+	//        cosi' torna uguale al peso scritto in fattura; se manca lo ricavo dal fino col titolo
+	if isnull(ldc_legato) then
+		if isnull(ldc_titolo) or ldc_titolo<=0 then
+			ldc_legato=ldc_fino
+		else
+			ldc_legato=ldc_fino*1000/ldc_titolo
+		end if
+	end if
+	ldc_valore=round(ldc_fino*ldc_prezzo, 2)
+
+	//cambia gruppo? chiudo quello precedente
+	if lb_g_aperto and (ls_base<>ls_g_base or ls_met<>ls_g_met) then
+		if lb_g_chiuso then ls_g_tipo="totale" else ls_g_tipo="parziale"
+		ls_riga="scarico "+ls_g_tipo+" vs proforma "+ls_g_base+" del "+string(ldt_g_data, "dd/mm/yy")+" "+ls_g_met+ &
+		        " per grammi "+f_riep_proforma_labella_num(ldc_g_legato)+" pari euro "+f_riep_proforma_labella_num(ldc_g_valore)
+		if ls_testo<>"" then ls_testo+="~r~n"
+		ls_testo+=ls_riga
+		ldc_tot_valore+=ldc_g_valore
+		lb_g_aperto=false
+	end if
+
+	//apro un gruppo nuovo
+	if not lb_g_aperto then
+		ls_g_base=ls_base
+		ls_g_met=ls_met
+		ldt_g_data=ldt_data
+		ldc_g_legato=0
+		ldc_g_valore=0
+		lb_g_chiuso=true
+		lb_g_aperto=true
+	end if
+
+	//la data e' quella della proforma "base" (senza /b), se c'e' nel gruppo
+	if ls_num=ls_base then ldt_g_data=ldt_data
+	ldc_g_legato+=ldc_legato
+	ldc_g_valore+=ldc_valore
+	if ls_chiusa<>"T" then lb_g_chiuso=false
+next
+
+//ultimo gruppo
+if lb_g_aperto then
+	if lb_g_chiuso then ls_g_tipo="totale" else ls_g_tipo="parziale"
+	ls_riga="scarico "+ls_g_tipo+" vs proforma "+ls_g_base+" del "+string(ldt_g_data, "dd/mm/yy")+" "+ls_g_met+ &
+	        " per grammi "+f_riep_proforma_labella_num(ldc_g_legato)+" pari euro "+f_riep_proforma_labella_num(ldc_g_valore)
+	if ls_testo<>"" then ls_testo+="~r~n"
+	ls_testo+=ls_riga
+	ldc_tot_valore+=ldc_g_valore
+end if
+
+if ls_testo<>"" then
+	ls_testo+="~r~ntotale valore metallo euro "+f_riep_proforma_labella_num(ldc_tot_valore)+"****"
+end if
+
+destroy lds_riep
+return ls_testo
+end function
+

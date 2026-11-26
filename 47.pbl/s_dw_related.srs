@@ -1,0 +1,5 @@
+﻿global type s_dw_related from structure
+	datawindow		dw_control
+	boolean		b_shared
+end type
+

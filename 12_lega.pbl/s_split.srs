@@ -1,0 +1,6 @@
+﻿global type s_split from structure
+	string		as_text
+	string		as_delimitatore
+	string		as_array[]
+end type
+

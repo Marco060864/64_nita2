@@ -1,0 +1,49 @@
+﻿global type f_dati_azienda from function_object
+end type
+
+forward prototypes
+global function string f_dati_azienda (string ls_campo)
+end prototypes
+
+global function string f_dati_azienda (string ls_campo);string ls_rag1, ls_rag2, ls_par_iva, ls_indirizzo, ls_cap, ls_localita, ls_pr, ls_nz
+string ls_return
+
+select rag_soc_1, rag_soc_2, par_iva, indirizzo, cap,
+localita, provincia, nazione
+into :ls_rag1, :ls_rag2, :ls_par_iva, :ls_indirizzo, :ls_cap, 
+:ls_localita, :ls_pr, :ls_nz
+from azienda a, sede s
+where s.tipo_sede='L'
+and s.id_azienda=a.id_azienda
+and a.id_azienda=1;
+
+if isnull(ls_rag2) then ls_rag2=""
+if isnull(ls_par_iva) then ls_par_iva=""
+if isnull(ls_indirizzo) then ls_indirizzo=""
+if isnull(ls_cap) then ls_cap=""
+if isnull(ls_localita) then ls_localita=""
+if isnull(ls_pr) then ls_pr=""
+if isnull(ls_nz) then ls_nz=""
+
+
+choose case ls_campo
+	case "rag_soc_1"
+		ls_return=ls_rag1
+	case "rag_soc_2"
+		ls_return=ls_rag2
+	case "indirizzo"
+		ls_return=ls_indirizzo+" "+ ls_cap+" - "+ ls_localita+" ("+ ls_pr+") - "+ ls_nz
+	case "par_iva"
+		ls_return=ls_par_iva
+	case "localita"
+		ls_return=ls_localita
+	case "provincia"
+		ls_return=ls_pr
+	case "nazione"
+		ls_return=ls_nz
+	case "tutto"
+		ls_return=ls_rag1+" "+ ls_rag2+" "+ ls_indirizzo+" "+ ls_cap+" "+ ls_localita+" "+ ls_pr+" "+ ls_nz+" - Par. Iva:"+ ls_par_iva
+end choose
+return ls_return
+end function
+

@@ -1,0 +1,19 @@
+﻿global type f_quotazione_rodio from function_object
+end type
+
+forward prototypes
+global function decimal f_quotazione_rodio ()
+end prototypes
+
+global function decimal f_quotazione_rodio ();decimal ldc_rodio
+
+select quotazione 
+into :ldc_rodio
+from dba.orafo_metallo
+where codice='RH'
+;
+if isnull(ldc_rodio) then ldc_rodio=0
+return ldc_rodio
+
+end function
+

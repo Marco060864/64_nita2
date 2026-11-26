@@ -1,0 +1,1 @@
+﻿PBSELECT( VERSION(400) TABLE(NAME="sog_commerciale_gen" ) COLUMN(NAME="sog_commerciale_gen.id_sog_commerciale") COLUMN(NAME="sog_commerciale_gen.codice") COLUMN(NAME="sog_commerciale_gen.rag_soc_1")) 

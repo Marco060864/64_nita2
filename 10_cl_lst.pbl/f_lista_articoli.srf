@@ -1,0 +1,17 @@
+﻿global type f_lista_articoli from function_object
+end type
+
+forward prototypes
+global function s_key_articoli f_lista_articoli ()
+end prototypes
+
+global function s_key_articoli f_lista_articoli ();s_key_articoli st_chiavi
+openwithparm(w_lista_art_def_cx, 1)
+
+st_chiavi=message.powerobjectparm
+
+return st_chiavi
+
+
+end function
+

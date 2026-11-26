@@ -1,0 +1,41 @@
+﻿global type f_trova_perc_agente from function_object
+end type
+
+forward prototypes
+global function decimal f_trova_perc_agente (long id_doc, long id_agente, long id_articolo)
+end prototypes
+
+global function decimal f_trova_perc_agente (long id_doc, long id_agente, long id_articolo);long ll_id_gruppo
+decimal ld_perc
+date ldt_data_doc
+long ll_id_sog_agente
+
+
+select id_gruppo_articoli
+into :ll_id_gruppo
+from dba.articolo
+where id_articolo=:id_articolo
+;
+select data_documento
+into :ldt_data_doc
+from dba.documento
+where id_documento=:id_doc;
+
+select id_sog_com_capo_area
+into :ll_id_sog_agente
+from dba.gruppo_agenti
+where id_gruppo_agenti=:id_agente
+;
+
+//con il gruppoart, l'agente e la data doc trovo la percentuale
+select percentuale
+into :ld_perc
+from dba.provvigioni
+where id_gruppo_articoli=:ll_id_gruppo
+and id_sog_commerciale=:ll_id_sog_agente
+and data_valido<= :ldt_data_doc
+and data_fine_valido>= :ldt_data_doc
+;
+return ld_perc
+end function
+

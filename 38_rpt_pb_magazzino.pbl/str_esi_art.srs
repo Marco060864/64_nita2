@@ -1,0 +1,19 @@
+﻿global type str_esi_art from structure
+	string		da_articolo
+	string		a_articolo
+	integer		id_esercizio
+	integer		anno
+	integer		mese
+	string		parametri
+	string		filtro
+	string		da_magazzino
+	string		a_magazzino
+	string		flag
+	date		da_data
+	date		a_data
+	string		da_doc
+	string		a_doc
+	long		id_soggetto_commerciale
+	string		utilizzabile
+end type
+

@@ -1,0 +1,28 @@
+﻿global type f_int_to_binary from function_object
+end type
+
+forward prototypes
+global function string f_int_to_binary (long al_number)
+end prototypes
+
+global function string f_int_to_binary (long al_number);
+
+string ls_ret_value
+long  ll_number
+
+ll_number= Truncate(al_number, 0)
+
+ls_ret_value=""
+DO WHILE ll_number >= 1
+	if Mod(ll_number, 2) = 1 then
+		ls_ret_value= "1" + ls_ret_value
+		ll_number= (ll_number - 1) * 0.5
+	else
+		ls_ret_value= "0" + ls_ret_value
+		ll_number= ll_number * 0.5
+	end if
+LOOP
+
+return ls_ret_value
+end function
+

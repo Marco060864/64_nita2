@@ -1,0 +1,187 @@
+﻿release 9;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+header(height=602 color="536870912" )
+summary(height=83 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=0 color="536870912"  height.autosize=yes)
+table(column=(type=decimal(0) updatewhereclause=yes name=num_distinta dbname="dis_banca.num_distinta" )
+ column=(type=date updatewhereclause=yes name=data_distinta dbname="dis_banca.data_distinta" )
+ column=(type=decimal(4) updatewhereclause=yes name=tot_distinta dbname="dis_banca.tot_distinta" )
+ column=(type=decimal(0) updatewhereclause=yes name=num_riga dbname="riga_dis_banca.num_riga" )
+ column=(type=decimal(4) updatewhereclause=yes name=imp_totale dbname="riga_dis_banca.imp_totale" )
+ column=(type=char(40) updatewhereclause=yes name=rif_documento dbname="riga_dis_banca.rif_documento" )
+ column=(type=char(20) updatewhereclause=yes name=conto_corrente dbname="banca_azienda.conto_corrente" )
+ column=(type=char(40) updatewhereclause=yes name=rag_1_az dbname="azienda.rag_1_az" )
+ column=(type=char(40) updatewhereclause=yes name=rag_2_az dbname="azienda.rag_2_az" )
+ column=(type=char(40) updatewhereclause=yes name=banca_appoggio_den_abi_az dbname="banca_appoggio.den_abi_az" )
+ column=(type=char(40) updatewhereclause=yes name=banca_appoggio_den_cab_az dbname="banca_appoggio.den_cab_az" )
+ column=(type=date updatewhereclause=yes name=data_scadenza dbname="scadenza.data_scadenza" )
+ column=(type=decimal(4) updatewhereclause=yes name=importo dbname="scadenza.importo" )
+ column=(type=char(40) updatewhereclause=yes name=rag_soc_1 dbname="anagrafica.rag_soc_1" )
+ column=(type=char(40) updatewhereclause=yes name=rag_soc_2 dbname="anagrafica.rag_soc_2" )
+ column=(type=char(40) updatewhereclause=yes name=indirizzo dbname="anagrafica.indirizzo" )
+ column=(type=char(10) updatewhereclause=yes name=cap dbname="anagrafica.cap" )
+ column=(type=char(40) updatewhereclause=yes name=localita dbname="anagrafica.localita" )
+ column=(type=char(5) updatewhereclause=yes name=provincia dbname="anagrafica.provincia" )
+ column=(type=char(16) updatewhereclause=yes name=cod_fiscale dbname="anagrafica.cod_fiscale" )
+ column=(type=char(16) updatewhereclause=yes name=par_iva dbname="anagrafica.par_iva" )
+ column=(type=char(5) updatewhereclause=yes name=cod_abi dbname="banca_appoggio.cod_abi" )
+ column=(type=char(40) updatewhereclause=yes name=den_abi dbname="banca_appoggio.den_abi" )
+ column=(type=char(5) updatewhereclause=yes name=cod_cab dbname="banca_appoggio.cod_cab" )
+ column=(type=char(40) updatewhereclause=yes name=den_cab dbname="banca_appoggio.den_cab" )
+ column=(type=char(40) updatewhereclause=yes name=des_indirizzo dbname="destinazione.des_indirizzo" )
+ column=(type=char(10) updatewhereclause=yes name=des_cap dbname="destinazione.des_cap" )
+ column=(type=char(40) updatewhereclause=yes name=des_loc dbname="destinazione.des_loc" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_destinazione dbname="destinazione.tipo_destinazione" )
+ column=(type=char(1) updatewhereclause=yes name=scadenza_scadenza_da_raggruppare dbname="scadenza.scadenza_da_raggruppare" )
+ column=(type=char(40) updatewhereclause=yes name=banca_appoggio_den_abi dbname="banca_appoggio.den_abi" )
+ retrieve="  SELECT ~"dis_banca~".~"num_distinta~",   
+         ~"dis_banca~".~"data_distinta~",   
+         ~"dis_banca~".~"tot_distinta~",   
+         ~"riga_dis_banca~".~"num_riga~",   
+         ~"riga_dis_banca~".~"imp_totale~",   
+         ~"riga_dis_banca~".~"rif_documento~",   
+         ~"banca_azienda~".~"conto_corrente~",   
+         ~"azienda~".~"rag_soc_1~" as rag_1_az,   
+         ~"azienda~".~"rag_soc_2~" as rag_2_az,   
+         ~"banca_appoggio_b~".~"den_abi~" as den_abi_az,   
+         ~"banca_appoggio_b~".~"den_cab~"as den_cab_az,   
+         ~"scadenza~".~"data_scadenza~",   
+         ~"scadenza~".~"importo~",   
+         ~"anagrafica~".~"rag_soc_1~",   
+         ~"anagrafica~".~"rag_soc_2~",   
+         ~"anagrafica~".~"indirizzo~",   
+         ~"anagrafica~".~"cap~",   
+         ~"anagrafica~".~"localita~",   
+         ~"anagrafica~".~"provincia~",   
+         ~"anagrafica~".~"cod_fiscale~",   
+         ~"anagrafica~".~"par_iva~",   
+         ~"banca_appoggio_a~".~"cod_abi~",   
+         ~"banca_appoggio_a~".~"den_abi~",   
+         ~"banca_appoggio_a~".~"cod_cab~",   
+         ~"banca_appoggio_a~".~"den_cab~",   
+         ~"destinazione~".~"indirizzo~" as des_indirizzo,   
+         ~"destinazione~".~"cap~" as des_cap,   
+         ~"destinazione~".~"localita~" as des_loc,   
+         ~"destinazione~".~"tipo_destinazione~",
+			~"scadenza~".~"scadenza_da_raggruppare~",
+			~"banca_appoggio_b~".~"den_abi~"
+    FROM {oj  ~"sog_commerciale~"  LEFT OUTER JOIN ~"destinazione~"  ON 
+~"sog_commerciale~".~"id_sog_commerciale~" = ~"destinazione~".~"id_sog_commerciale~" AND
+    destinazione.~"tipo_destinazione~"='R'},
+ {oj ~"scadenza~"  LEFT OUTER JOIN ~"banca_sog_commerciale~"  
+ON ~"scadenza~".~"id_banca_sog_commerciale~" = ~"banca_sog_commerciale~".~"id_banca_sog_commerciale~"}
+ ,
+ {oj ~"banca_sog_commerciale~"  LEFT OUTER JOIN ~"banca_appoggio~" banca_appoggio_a  
+ON ~"banca_sog_commerciale~".~"id_banca_appoggio~" = ~"banca_appoggio_a~".~"id_banca_appoggio~"},   
+         ~"anagrafica~",   
+         ~"azienda~",   
+         ~"banca_azienda~",   
+         ~"dis_banca~",   
+         ~"riga_dis_banca~",   
+         ~"banca_appoggio~" ~"banca_appoggio_b~"  
+   WHERE ( ~"riga_dis_banca~".~"id_distinta_banca~" = ~"dis_banca~".~"id_distinta_banca~" ) and  
+         ( ~"riga_dis_banca~".~"id_riga_distinta_banca~" = ~"scadenza~".~"id_riga_distinta_banca~" ) and  
+         ( ~"scadenza~".~"id_sog_commerciale~" = ~"sog_commerciale~".~"id_sog_commerciale~" ) and  
+         ( ~"sog_commerciale~".~"id_anagrafica~" = ~"anagrafica~".~"id_anagrafica~" ) and  
+         ( ~"dis_banca~".~"id_banca_azienda~" = ~"banca_azienda~".~"id_banca_azienda~" ) and  
+         ( ~"dis_banca~".~"id_azienda~" = ~"azienda~".~"id_azienda~" ) and  
+         ( ~"banca_azienda~".~"id_banca_appoggio~" = ~"banca_appoggio_b~".~"id_banca_appoggio~" )  
+and   ( ~"dis_banca~".~"id_distinta_banca~" = :id_dis)
+" arguments=(("id_dis", number))  sort="data_scadenza A rag_soc_1 A " )
+text(band=header alignment="2" text="Stampa Distinta Effetti" border="0" color="0" x="1072" y="13" height="80" width="1079" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header id=1 alignment="1" tabsequence=32766 border="0" color="0" x="358" y="125" height="54" width="274" format="[general]" html.valueishtml="0"  name=num_distinta visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Data Distinta:" border="0" color="0" x="655" y="125" height="54" width="402" html.valueishtml="0"  name=data_distinta_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=2 alignment="0" tabsequence=32766 border="0" color="0" x="1075" y="125" height="54" width="355" format="[general]" html.valueishtml="0"  name=data_distinta visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=9 alignment="0" tabsequence=32766 border="0" color="0" x="1591" y="355" height="58" width="1137" format="[general]" html.valueishtml="0"  name=rag_2_az visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=8 alignment="0" tabsequence=32766 border="0" color="0" x="132" y="355" height="58" width="1397" format="[general]" html.valueishtml="0"  name=rag_1_az visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Numero" border="0" color="0" x="33" y="541" height="54" width="230" html.valueishtml="0"  name=num_riga_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Debitore" border="0" color="0" x="282" y="541" height="54" width="940" html.valueishtml="0"  name=rag_soc_1_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cod. Denominazione abi/cab" border="0" color="0" x="1240" y="541" height="54" width="900" html.valueishtml="0"  name=conto_corrente_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Scadenza" border="0" color="0" x="2158" y="541" height="54" width="293" html.valueishtml="0"  name=tot_distinta_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Importo" border="0" color="0" x="2458" y="541" height="54" width="296" html.valueishtml="0"  name=imp_totale_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Rif Documento:" border="0" color="0" x="2761" y="541" height="54" width="366" html.valueishtml="0"  name=rif_documento_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Num Distinta:" border="0" color="0" x="26" y="125" height="54" width="318" html.valueishtml="0"  name=num_distinta_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Presentata a:" border="0" color="0" x="26" y="205" height="54" width="325" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Per Salvo Buon Fine" border="0" color="0" x="26" y="282" height="54" width="611" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="da" border="0" color="0" x="26" y="355" height="58" width="84" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="da accreditare sul conto corrente n°" border="0" color="0" x="26" y="435" height="58" width="830" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=7 alignment="0" tabsequence=32766 border="0" color="0" x="889" y="435" height="58" width="589" format="[general]" html.valueishtml="0"  name=conto_corrente visible="1" edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=31 alignment="0" tabsequence=32766 border="0" color="0" x="1518" y="435" height="58" width="1569" format="[general]" html.valueishtml="0"  name=banca_appoggio_den_abi visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+rectangle(band=detail x="7" y="0" height="426" width="3138"  name=r_1 visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="4" pen.color="33554432"  background.mode="2" background.color="0" )
+compute(band=detail alignment="1" expression="//getrow()
+cumulativesum( c_righe )"border="0" color="0" x="51" y="16" height="58" width="183" format="#,0" html.valueishtml="0"  name=c_riga visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="260" y1="3" x2="260" y2="425"  name=l_1 visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+" pen.style="0" pen.width="4" pen.color="33554432"  background.mode="2" background.color="16777215" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="282" y="12" height="54" width="940" format="[general]" html.valueishtml="0"  name=rag_soc_1 visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+" edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=22 alignment="0" tabsequence=32766 border="0" color="0" x="1284" y="12" height="54" width="282" format="[general]" html.valueishtml="0"  name=cod_abi visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+" edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=24 alignment="0" tabsequence=32766 border="0" color="0" x="1627" y="16" height="58" width="278" format="[general]" html.valueishtml="0"  name=cod_cab visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+" edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="0" tabsequence=32766 border="0" color="0" x="282" y="80" height="58" width="940" format="[general]" html.valueishtml="0"  name=des_indirizzo visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=28 alignment="0" tabsequence=32766 border="0" color="0" x="282" y="147" height="58" width="702" format="[general]" html.valueishtml="0"  name=des_loc visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=27 alignment="0" tabsequence=32766 border="0" color="0" x="1002" y="147" height="58" width="219" format="[general]" html.valueishtml="0"  name=des_cap visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="0" x="282" y="217" height="54" width="940" format="[general]" html.valueishtml="0"  name=indirizzo visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+" edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="0" x="282" y="284" height="54" width="527" format="[general]" html.valueishtml="0"  name=localita visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+" edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="0" x="823" y="284" height="54" width="249" format="[general]" html.valueishtml="0"  name=cap visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+" edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="0" x="1083" y="284" height="54" width="139" format="[general]" html.valueishtml="0"  name=provincia visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+" edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=23 alignment="0" tabsequence=32766 border="0" color="0" x="1240" y="80" height="58" width="900" format="[general]" html.valueishtml="0"  name=den_abi visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+" height.autosize=yes edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=25 alignment="0" tabsequence=32766 border="0" color="0" x="1240" y="217" height="54" width="900" format="[general]" html.valueishtml="0"  name=den_cab visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+" height.autosize=yes edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="2768" y="16" height="58" width="358" format="[general]" html.valueishtml="0"  name=rif_documento visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+" height.autosize=yes edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="2158" y="16" height="58" width="329" format="[general]" html.valueishtml="0"  name=data_scadenza visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="2209" y="147" height="58" width="545" format="#,0.00" html.valueishtml="0"  name=imp_totale visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="1229" y1="3" x2="1229" y2="425"  name=l_2 visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+" pen.style="0" pen.width="4" pen.color="33554432"  background.mode="2" background.color="16777215" )
+line(band=detail x1="2150" y1="3" x2="2150" y2="425"  name=l_3 visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+" pen.style="0" pen.width="4" pen.color="33554432"  background.mode="2" background.color="16777215" )
+line(band=detail x1="2757" y1="3" x2="2757" y2="425"  name=l_4 visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+" pen.style="0" pen.width="4" pen.color="33554432"  background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="if( par_iva >~" ~",  par_iva ,  cod_fiscale )"border="0" color="0" x="282" y="352" height="58" width="940" format="[general]" html.valueishtml="0"  name=pi_cf visible="1~tif( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)
+"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="if( scadenza_scadenza_da_raggruppare ='S' and scadenza_scadenza_da_raggruppare
+[-1]='S' and imp_totale=imp_totale[-1] and  rag_soc_1 = rag_soc_1[-1], 0,1)"border="0" color="0" x="2827" y="80" height="51" width="176" format="[GENERAL]" html.valueishtml="0"  name=c_righe visible="0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=summary alignment="1" text="Tot. Distinta:" border="0" color="0" x="1774" y="6" height="64" width="377" html.valueishtml="0"  name=t_6 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=summary id=3 alignment="1" tabsequence=32766 border="0" color="0" x="2161" y="6" height="64" width="600" format="#,0.00" html.valueishtml="0"  name=tot_distinta visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+  

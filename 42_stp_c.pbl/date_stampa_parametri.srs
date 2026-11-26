@@ -1,0 +1,5 @@
+﻿global type date_stampa_parametri from structure
+	string		tipologia
+	long		id_esercizio
+end type
+

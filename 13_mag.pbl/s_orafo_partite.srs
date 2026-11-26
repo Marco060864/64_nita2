@@ -1,0 +1,17 @@
+﻿global type s_orafo_partite from structure
+	long		s_ll_id_sog_com
+	decimal { 4 }		s_ld_quantita_da_scaricare
+	long		s_ll_id_riga_partita
+	decimal { 4 }		s_ld_quantita_selezionata
+	long		s_ll_id_titolo
+	datastore		s_dw_aper_partita
+	datastore		s_dw_scar_partita
+	decimal { 4 }		s_ld_quantita_legato
+	decimal { 2 }		s_ld_coef_calo
+	long		s_id_documento
+	integer		s_li_flag_partite_zoppe
+	string		s_tipo_partita
+	string		s_scarica_ogni_titolo
+	integer		s_i_partite_da_derivazione
+end type
+

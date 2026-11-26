@@ -1,0 +1,79 @@
+﻿global type f_xls_in_txt from function_object
+end type
+
+forward prototypes
+global function integer f_xls_in_txt (string as_xls, string as_txt)
+end prototypes
+
+global function integer f_xls_in_txt (string as_xls, string as_txt);//20261030 converte il foglio attivo di un .xls in .txt separato da tab, come faceva
+//ole_1.object.activesheet.saveas(ls_file, 21): con PB 2025 R2 il controllo OLE da' l'errore 39 su activesheet.
+//NON si usa SaveAs dall'automazione: scriverebbe 477.4 invece di 477,4. Si legge il testo delle celle (.Text),
+//cioe' quello che si vede in Excel: provato su 3 file Binder, stesse righe del vecchio .txt.
+//Ritorna 1 = fatto, -1 = errore (messaggio gia' dato).
+oleobject lole_excel, lole_wb, lole_sheet, lole_used
+integer li_file, li_ret
+long ll_riga, ll_col, ll_righe, ll_colonne, ll_riga_1, ll_col_1
+string ls_riga, ls_cella, ls_nome
+
+li_ret = -1
+li_file = -1
+lole_excel = create oleobject
+if lole_excel.ConnectToNewObject("excel.application") <> 0 then
+	messagebox("Errore!", "Impossibile avviare Excel.")
+	destroy lole_excel
+	return -1
+end if
+
+try
+	lole_excel.DisplayAlerts = false
+	lole_wb = lole_excel.Workbooks.Open(as_xls, 0, true)
+	lole_sheet = lole_wb.ActiveSheet
+	lole_used = lole_sheet.UsedRange
+	ll_riga_1 = lole_used.Row
+	ll_col_1 = lole_used.Column
+	ll_righe = lole_used.Rows.Count
+	ll_colonne = lole_used.Columns.Count
+
+	li_file = FileOpen(as_txt, LineMode!, Write!, LockWrite!, Replace!, EncodingANSI!)
+	if li_file < 1 then
+		messagebox("Errore!", "Impossibile scrivere il file:~r~n" + as_txt)
+	else
+		li_ret = 1
+		for ll_riga = 0 to ll_righe - 1
+			ls_riga = ""
+			for ll_col = 0 to ll_colonne - 1
+				ls_cella = string(lole_sheet.Cells(ll_riga_1 + ll_riga, ll_col_1 + ll_col).Text)
+				if isnull(ls_cella) then ls_cella = ""
+				//colonna troppo stretta: Excel mostra ### invece del valore
+				if left(ls_cella, 2) = "##" then
+					messagebox("Errore!", "Colonna troppo stretta in Excel (riga " + string(ll_riga_1 + ll_riga) + &
+								", colonna " + string(ll_col_1 + ll_col) + ").~r~nAllargarla nel file e riprovare:~r~n" + as_xls)
+					li_ret = -1
+					exit
+				end if
+				if ll_col > 0 then ls_riga += "~t"
+				ls_riga += ls_cella
+			next
+			if li_ret <> 1 then exit
+			FileWriteEx(li_file, ls_riga)
+		next
+	end if
+catch (runtimeerror lerr)
+	messagebox("Errore!", "Lettura del file non riuscita:~r~n" + as_xls + "~r~n" + lerr.getmessage())
+	li_ret = -1
+end try
+
+if li_file > 0 then FileClose(li_file)
+if li_ret <> 1 and fileexists(as_txt) then filedelete(as_txt)
+
+try
+	if isvalid(lole_wb) then lole_wb.Close(false)
+	lole_excel.Quit()
+catch (runtimeerror lerr2)
+end try
+lole_excel.DisconnectObject()
+destroy lole_excel
+
+return li_ret
+end function
+

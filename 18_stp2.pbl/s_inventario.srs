@@ -1,0 +1,8 @@
+﻿global type s_inventario from structure
+	string		cod_art[]
+	string		des_art[]
+	long		id_art[]
+	decimal { 2 }		disponibilita[]
+	string		bollo[]
+end type
+

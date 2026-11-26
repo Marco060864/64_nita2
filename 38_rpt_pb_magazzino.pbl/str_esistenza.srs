@@ -1,0 +1,5 @@
+﻿global type str_esistenza from structure
+	string		esi_fisica
+	string		esi_fiscale
+end type
+

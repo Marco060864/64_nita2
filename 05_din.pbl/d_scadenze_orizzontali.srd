@@ -1,0 +1,46 @@
+﻿release 9;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no rows_per_detail = 4 )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=76 color="536870912" )
+table(column=(type=date updatewhereclause=yes name=scadenza_data_scadenza dbname="scadenza.data_scadenza" )
+ column=(type=decimal(4) updatewhereclause=yes name=scadenza_imp_valuta dbname="scadenza.imp_valuta" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"scadenza~" )  TABLE(NAME=~"documento~" ) COLUMN(NAME=~"scadenza.data_scadenza~") COLUMN(NAME=~"scadenza.imp_valuta~")    JOIN (LEFT=~"documento.id_documento~"    OP =~"=~"RIGHT=~"scadenza.id_documento~" )WHERE(    EXP1 =~"~~~"scadenza~~~".~~~"id_documento~~~"~"   OP =~"=~"    EXP2 =~":id_doc~" ) ) ARG(NAME = ~"id_doc~" TYPE = number) " arguments=(("id_doc", number)) )
+text(band=header alignment="2" text="Scadenza
+Data Scadenza" border="0" color="33554432" x="5" y="4" height="112" width="338" html.valueishtml="0"  name=scadenza_data_scadenza_t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Scadenza
+Imp Valuta" border="0" color="33554432" x="347" y="4" height="112" width="274" html.valueishtml="0"  name=scadenza_imp_valuta_t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lingua
+Codice" border="0" color="33554432" x="626" y="4" height="112" width="151" html.valueishtml="0"  name=lingua_codice_t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Scadenza
+Data Scadenza" border="0" color="33554432" x="786" y="4" height="112" width="338" html.valueishtml="0"  name=scadenza_data_scadenza_t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Scadenza
+Imp Valuta" border="0" color="33554432" x="1129" y="4" height="112" width="274" html.valueishtml="0"  name=scadenza_imp_valuta_t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lingua
+Codice" border="0" color="33554432" x="1408" y="4" height="112" width="151" html.valueishtml="0"  name=lingua_codice_t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Scadenza
+Data Scadenza" border="0" color="33554432" x="1573" y="4" height="112" width="338" html.valueishtml="0"  name=scadenza_data_scadenza_t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Scadenza
+Imp Valuta" border="0" color="33554432" x="1915" y="4" height="112" width="274" html.valueishtml="0"  name=scadenza_imp_valuta_t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lingua
+Codice" border="0" color="33554432" x="2194" y="4" height="112" width="151" html.valueishtml="0"  name=lingua_codice_t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Scadenza
+Data Scadenza" border="0" color="33554432" x="2354" y="4" height="112" width="338" html.valueishtml="0"  name=scadenza_data_scadenza_t_4 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Scadenza
+Imp Valuta" border="0" color="33554432" x="2697" y="4" height="112" width="274" html.valueishtml="0"  name=scadenza_imp_valuta_t_4 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Lingua
+Codice" border="0" color="33554432" x="2976" y="4" height="112" width="151" html.valueishtml="0"  name=lingua_codice_t_4 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="5" y="4" height="68" width="274" format="[general]" html.valueishtml="0" row_in_detail=1  name=scadenza_data_scadenza_1 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="622" y="4" height="68" width="274" format="[general]" html.valueishtml="0" row_in_detail=2  name=scadenza_data_scadenza_2 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="1239" y="4" height="68" width="274" format="[general]" html.valueishtml="0" row_in_detail=3  name=scadenza_data_scadenza_3 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="1847" y="4" height="68" width="274" format="[general]" html.valueishtml="0" row_in_detail=4  name=scadenza_data_scadenza_4 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="33554432" x="302" y="4" height="68" width="274" format="#,0.00" html.valueishtml="0" row_in_detail=1  name=scadenza_imp_valuta_1 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="33554432" x="919" y="4" height="68" width="274" format="#,0.00" html.valueishtml="0" row_in_detail=2  name=scadenza_imp_valuta_2 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="33554432" x="1536" y="4" height="68" width="274" format="#,0.00" html.valueishtml="0" row_in_detail=3  name=scadenza_imp_valuta_3 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="33554432" x="2139" y="4" height="68" width="274" format="#,0.00" html.valueishtml="0" row_in_detail=4  name=scadenza_imp_valuta_4 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="1" xslfop.print="0" )
+  

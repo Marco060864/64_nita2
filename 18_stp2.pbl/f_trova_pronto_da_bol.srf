@@ -1,0 +1,26 @@
+﻿global type f_trova_pronto_da_bol from function_object
+end type
+
+forward prototypes
+global function decimal f_trova_pronto_da_bol (long al_id_bollettina)
+end prototypes
+
+global function decimal f_trova_pronto_da_bol (long al_id_bollettina);decimal ldc_pronto
+datastore ds_pronto
+long ll_righe
+
+ds_pronto=create datastore
+ds_pronto.dataobject="d_prod_trova_qta_pronto"
+ds_pronto.settransobject(sqlca)
+ll_righe=ds_pronto.retrieve(al_id_bollettina)
+if ll_righe>0 then
+	ldc_pronto=ds_pronto.getitemdecimal(ll_righe, "quantita")
+else
+	ldc_pronto=0
+end if
+
+
+
+return ldc_pronto
+end function
+

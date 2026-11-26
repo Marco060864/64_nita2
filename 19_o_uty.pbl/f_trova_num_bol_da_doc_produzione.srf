@@ -1,0 +1,18 @@
+﻿global type f_trova_num_bol_da_doc_produzione from function_object
+end type
+
+forward prototypes
+global function string f_trova_num_bol_da_doc_produzione (long al_id_riga_doc_produzione)
+end prototypes
+
+global function string f_trova_num_bol_da_doc_produzione (long al_id_riga_doc_produzione);string ls_numero
+select num_documento
+into :ls_numero
+from dba.produzione_2011 p, dba.documento d
+where p.id_doc_produzione=:al_id_riga_doc_produzione
+and p.id_bollettina=d.id_documento
+;
+if isnull(ls_numero) then  ls_numero=""
+return ls_numero
+end function
+

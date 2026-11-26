@@ -1,0 +1,5 @@
+﻿global type s_dberr from structure
+	long		l_sqlcode
+	string		s_sqlerrtext
+end type
+

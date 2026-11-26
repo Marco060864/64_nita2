@@ -1,0 +1,7 @@
+﻿global type s_metafilepict from structure
+	long		lmapmode
+	long		lxdimension
+	long		lydimension
+	long		lhandle
+end type
+

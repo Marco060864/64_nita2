@@ -1,0 +1,6 @@
+﻿global type s_ricalcola_distinta from structure
+	long		id_articolo
+	decimal {4}	vecchio_peso
+	decimal {4}	nuovo_peso
+end type
+

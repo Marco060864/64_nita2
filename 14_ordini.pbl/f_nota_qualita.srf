@@ -1,0 +1,17 @@
+﻿global type f_nota_qualita from function_object
+end type
+
+forward prototypes
+global function string f_nota_qualita (long al_id_riga)
+end prototypes
+
+global function string f_nota_qualita (long al_id_riga);string ls_nota
+
+select nota_qualita
+into :ls_nota
+from nota_riga_documento
+where note_id_riga_doc=:al_id_riga
+;
+return ls_nota
+end function
+

@@ -1,0 +1,25 @@
+﻿global type f_carica_articolo from function_object
+end type
+
+forward prototypes
+global function string f_carica_articolo (long id_art, string controllo)
+end prototypes
+
+global function string f_carica_articolo (long id_art, string controllo);string cod, des, ls_ret
+
+select codice, descrizione
+into :cod, :des
+from articolo
+where id_articolo=:id_art;
+
+
+if controllo='A' then
+	ls_ret=cod 
+else
+	ls_ret=des
+end if	
+	
+	
+return ls_ret	
+end function
+

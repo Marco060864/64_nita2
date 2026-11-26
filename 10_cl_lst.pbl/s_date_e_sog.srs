@@ -1,0 +1,8 @@
+﻿global type s_date_e_sog from structure
+	date		da_data
+	date		a_data
+	long		id_sog_com
+	string		filtro
+	string		flag
+end type
+

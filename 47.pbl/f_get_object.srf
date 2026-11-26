@@ -1,0 +1,42 @@
+﻿global type f_get_object from function_object
+end type
+
+forward prototypes
+global function powerobject f_get_object (string as_name, powerobject apwo_current)
+end prototypes
+
+global function powerobject f_get_object (string as_name, powerobject apwo_current);long ll_size, ll_count
+windowobject lwo_array[], ldwo_item 
+powerobject lpwo_ret_value
+object ldwo1
+window lw_instance
+tab ltab_instance
+
+CHOOSE CASE apwo_current.TypeOf()
+	CASE Window!
+		lw_instance= apwo_current
+		lwo_array=lw_instance.control
+	CASE Tab!
+		ltab_instance= apwo_current
+		lwo_array=ltab_instance.control
+END CHOOSE
+
+ll_size= UpperBound(lwo_array)
+for ll_count= 1 to ll_size
+	ldwo_item= lwo_array[ll_count]
+	ldwo1=ldwo_item.TypeOf()
+	CHOOSE CASE ldwo_item.TypeOf()
+		CASE Tab!
+			If IsNull(lpwo_ret_value) then lpwo_ret_value=f_get_object(as_name,ldwo_item)
+		CASE Window!
+			If IsNull(lpwo_ret_value) then lpwo_ret_value=f_get_object(as_name,ldwo_item)		
+		CASE Userobject!
+			If IsNull(lpwo_ret_value) then lpwo_ret_value=f_get_object(as_name,ldwo_item)		
+
+	END CHOOSE
+	ldwo1=ldwo_item.typeof()
+	
+next
+return ldwo_item
+end function
+

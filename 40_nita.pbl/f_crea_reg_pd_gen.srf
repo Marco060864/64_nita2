@@ -1,0 +1,271 @@
+﻿global type f_crea_reg_pd_gen from function_object
+end type
+
+forward prototypes
+global function long f_crea_reg_pd_gen (long al_id_prof_registrazione, long al_id_esercizio, ref long al_id_registro, ref long al_num_progressivo, ref date ad_data_registrazione, date ad_data_competenza, string as_descrizione, long al_id_valuta, decimal adc_cambio, decimal adc_importo, long al_id_conto, string as_num_documento, date ad_data_documento, long al_id_azienda, decimal adc_imponibile[], long al_id_tab_iva[], decimal adc_imposta[], long al_id_conto_mc[], character ac_segno_mc[], decimal adc_importo_mc[], long al_id_par_aperta[], boolean ab_invert_mov_partita, boolean ab_crea_mov_partita, boolean ab_mc_iva[])
+end prototypes
+
+global function long f_crea_reg_pd_gen (long al_id_prof_registrazione, long al_id_esercizio, ref long al_id_registro, ref long al_num_progressivo, ref date ad_data_registrazione, date ad_data_competenza, string as_descrizione, long al_id_valuta, decimal adc_cambio, decimal adc_importo, long al_id_conto, string as_num_documento, date ad_data_documento, long al_id_azienda, decimal adc_imponibile[], long al_id_tab_iva[], decimal adc_imposta[], long al_id_conto_mc[], character ac_segno_mc[], decimal adc_importo_mc[], long al_id_par_aperta[], boolean ab_invert_mov_partita, boolean ab_crea_mov_partita, boolean ab_mc_iva[]);
+
+long ll_RetVal, ll_i, ll_id_reg_pd_new, ll_id_prof_esiste, ll_id_mov_contabile, ll_id_esercizio
+long ll_id_valuta, ll_id_azienda, ll_num_progressivo, ll_id_registro, ll_numero
+decimal ldc_tot_dare, ldc_tot_avere, ldc_saldo, ldc_imp_valuta, ldc_importo_dare
+decimal ldc_importo_avere, ldc_NULL, ldc_cambio
+integer li_invert
+date ld_data_competenza, ld_data_registrazione
+string ls_descrizione,ls_prog_scritture
+CONSTANT CHAR LCC_DARE = 'D'
+CONSTANT CHAR LCC_AVERE = 'A'
+ldc_tot_dare = 0
+ldc_tot_avere = 0
+SetNull(ldc_NULL)
+
+ll_id_esercizio = al_id_esercizio
+ld_data_competenza = ad_data_competenza
+ls_descrizione = as_descrizione
+ll_id_valuta = al_id_valuta
+ldc_cambio = adc_cambio
+ll_id_azienda = al_id_azienda
+
+ll_id_registro = al_id_registro
+ll_num_progressivo = al_num_progressivo
+ld_data_registrazione = ad_data_registrazione
+
+IF IsNull(al_id_azienda) THEN ll_id_azienda = 1
+
+CHOOSE CASE ab_invert_mov_partita
+   CASE TRUE
+      li_invert = -1
+   CASE FALSE
+      li_invert = 1
+END CHOOSE
+
+
+IF (UpperBound(al_id_conto_mc) = UpperBound(ac_segno_mc)) AND &
+   (UpperBound(ac_segno_mc) = UpperBound(adc_importo_mc)) THEN
+   FOR ll_i = 1 TO UpperBound(al_id_conto_mc)
+
+      CHOOSE CASE ac_segno_mc[ll_i]
+         CASE LCC_DARE
+            ldc_tot_dare = ldc_tot_dare + adc_importo_mc[ll_i]
+         CASE LCC_AVERE
+            ldc_tot_avere = ldc_tot_avere + adc_importo_mc[ll_i]
+      END CHOOSE
+
+   NEXT
+   ldc_saldo = ldc_tot_dare - ldc_tot_avere
+   IF NOT ((ldc_tot_dare > 0) AND (ldc_tot_avere > 0) AND (ldc_saldo = 0)) THEN
+      
+      RETURN -1
+   END IF
+ELSE
+   
+   RETURN -2
+END IF
+
+IF al_id_prof_registrazione > 0 THEN
+   SELECT Count(*) 
+      INTO :ll_id_prof_esiste
+      FROM dba.prof_registrazione
+      WHERE id_prof_registrazione = :al_id_prof_registrazione;
+ELSE
+   
+   RETURN -3
+END IF
+
+IF ll_id_prof_esiste = 1 THEN
+   
+   IF IsNull(al_id_esercizio) OR (al_id_esercizio = 0) THEN
+      SELECT dba.azienda.id_esercizio
+         INTO :ll_id_esercizio
+         FROM dba.azienda
+         WHERE dba.azienda.id_azienda = :ll_id_azienda   ;
+      
+      IF IsNull(ll_id_esercizio) OR (ll_id_esercizio = 0) THEN
+         
+         RETURN -4
+      END IF
+   END IF
+   
+   
+   IF IsNull(al_id_registro) OR (al_id_registro = 0) THEN
+      ll_id_registro = f_proponi_registro(al_id_prof_registrazione, ll_id_esercizio)
+   END IF
+   SELECT "esercizio"."prog_scritture"
+	INTO :ls_prog_scritture   
+	FROM "esercizio",   
+			"registro"  
+	WHERE ( "registro"."id_esercizio" = "esercizio"."id_esercizio" )   
+	AND 	("registro"."id_registro"=:ll_id_registro);
+   
+   IF IsNull(al_num_progressivo) OR (al_num_progressivo = 0) THEN
+      ll_num_progressivo = f_proponi_num_reg_pd(ll_id_registro,ls_prog_scritture)
+   END IF
+   
+   
+   IF IsNull(ad_data_registrazione) THEN
+      ld_data_registrazione = f_proponi_data_reg_pd(ll_id_registro,ls_prog_scritture)
+   END IF
+   
+   
+   IF IsNull(ad_data_competenza) THEN ld_data_competenza = ld_data_registrazione
+   
+   
+   IF IsNull(as_descrizione) OR as_descrizione = "" THEN
+      ls_descrizione = f_proponi_descr_reg_pd(al_id_prof_registrazione)
+   END IF
+   
+   
+   IF IsNull(al_id_valuta) OR (al_id_valuta = 0) THEN
+      ll_id_valuta = f_proponi_valuta(u_freddie.gl_NULL, al_id_prof_registrazione)
+   END IF
+   
+   
+   IF IsNull(adc_cambio) OR (adc_cambio = 0) THEN
+      ldc_cambio = f_proponi_cambio(ll_id_valuta)
+   END IF
+   
+   
+   IF al_id_conto > 0 THEN
+      ldc_imp_valuta = adc_importo / ldc_cambio
+      
+      
+      IF IsNull(as_num_documento) THEN
+         as_num_documento = f_proponi_num_documento(ll_id_registro,ls_prog_scritture)
+      END IF
+      
+      
+      IF IsNull(ad_data_documento) THEN
+         ad_data_documento = f_proponi_data_documento(ll_id_registro,ls_prog_scritture)
+      END IF
+   END IF
+   
+   INSERT INTO "reg_pd"  
+         ( "id_registro",   
+           "num_progressivo",   
+           "data_competenza",   
+           "id_prof_registrazione",   
+           "data_registrazione",   
+           "id_valuta",   
+           "cambio",   
+           "importo",   
+           "imp_valuta",   
+           "descrizione",   
+           "num_documento",   
+           "data_documento",   
+           "id_conto",   
+           "id_azienda" )  
+  VALUES ( :ll_id_registro,
+           :ll_num_progressivo,   
+           :ld_data_competenza,   
+           :al_id_prof_registrazione,   
+           :ld_data_registrazione,   
+           :ll_id_valuta,
+           :ldc_cambio,   
+           :adc_importo,
+           :ldc_imp_valuta,   
+           :ls_descrizione,   
+           :as_num_documento,   
+           :ad_data_documento,   
+           :al_id_conto,   
+           :ll_id_azienda )  ;
+
+
+		SELECT reg_pd.id_reg_pd
+			INTO :ll_id_reg_pd_new
+			FROM dba.reg_pd
+			WHERE (reg_pd.num_progressivo = :ll_num_progressivo) AND
+			      (reg_pd.data_registrazione = :ld_data_registrazione) AND
+			      (reg_pd.id_registro  = :ll_id_registro) ;
+
+   IF ll_id_reg_pd_new > 0 THEN
+		
+		FOR ll_i = 1 TO UpperBound(adc_imponibile)
+			  INSERT INTO "mov_iva"  
+							( "id_reg_pd",   
+							  "imponibile",   
+							  "id_tab_iva",   
+							  "imposta",   
+							  "id_azienda" )  
+				  VALUES ( :ll_id_reg_pd_new,   
+							  :adc_imponibile[ll_i],   
+							  :al_id_tab_iva[ll_i],   
+							  :adc_imposta[ll_i],   
+							  :ll_id_azienda )  ;
+
+		NEXT
+		
+		
+      FOR ll_i = 1 TO UpperBound(al_id_conto_mc)
+         CHOOSE CASE ac_segno_mc[ll_i]
+            CASE "D"
+               ldc_importo_dare = adc_importo_mc[ll_i]
+               ldc_importo_avere = ldc_NULL
+            CASE "A"
+               ldc_importo_dare = ldc_NULL
+               ldc_importo_avere =adc_importo_mc[ll_i]
+         END CHOOSE
+			
+			IF ab_mc_iva[ll_i] = TRUE THEN
+				ll_numero = 9999
+			ELSE
+				ll_numero = ll_i
+			END IF
+         
+           INSERT INTO "mov_contabile"  
+                     ( "id_reg_pd",   
+                       "numero",   
+                       "id_conto",   
+                       "id_valuta",   
+                       "cambio",   
+                       "des_contabile",   
+                       "dare",   
+                       "avere",   
+                       "data_inizio_competenza",   
+                       "data_fine_competenza",   
+                       "id_azienda" )  
+              VALUES ( :ll_id_reg_pd_new,   
+                       :ll_numero,   
+                       :al_id_conto_mc[ll_i],   
+                       :ll_id_valuta,   
+                       :ldc_cambio,   
+                       :ls_descrizione,   
+                       :ldc_importo_dare,   
+                       :ldc_importo_avere,   
+                       :ld_data_registrazione,
+                       :ld_data_registrazione,
+                       :ll_id_azienda )  ;
+         
+         SELECT @@identity
+            INTO :ll_id_mov_contabile
+            FROM dba.mov_contabile ;
+
+         IF UpperBound(al_id_par_aperta) > 0 THEN
+				IF (NOT IsNull(al_id_par_aperta[ll_i])) AND (ab_crea_mov_partita = TRUE) THEN
+					f_crea_mov_partita(al_id_par_aperta[ll_i],               &
+											 ll_id_mov_contabile,                  &
+											 ll_id_reg_pd_new,                     &
+											 u_freddie.gl_NULL,                    &
+											 u_freddie.gd_NULL,                    &
+											 (adc_importo_mc[ll_i] * li_invert),   &
+											 u_freddie.gs_NULL,                    &
+											 u_freddie.gl_NULL)
+				END IF
+         END IF
+      NEXT
+      
+      COMMIT USING SQLCA;
+      
+   END IF
+ELSE
+   
+   RETURN -5
+END IF
+
+al_id_registro        = ll_id_registro
+al_num_progressivo    = ll_num_progressivo
+ad_data_registrazione = ld_data_registrazione
+
+RETURN ll_id_reg_pd_new
+end function
+

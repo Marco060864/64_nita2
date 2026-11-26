@@ -1,0 +1,5 @@
+﻿global type stampanti from structure
+	string		stampanti[]
+	string		defoult
+end type
+

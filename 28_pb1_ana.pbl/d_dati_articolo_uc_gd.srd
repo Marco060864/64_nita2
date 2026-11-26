@@ -1,0 +1,40 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=128 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=long updatewhereclause=yes identity=yes name=id_unita_confezione dbname="unita_confezione.id_unita_confezione" )
+ column=(type=long updatewhereclause=yes name=unita_confezione_id_articolo dbname="unita_confezione.id_articolo" )
+ column=(type=char(8) updatewhereclause=yes name=unita_confezione_codice dbname="unita_confezione.codice" )
+ column=(type=char(40) updatewhereclause=yes name=unita_confezione_descrizione dbname="unita_confezione.descrizione" )
+ column=(type=long updatewhereclause=yes identity=yes name=cod_barre_id_cod_barre dbname="cod_barre.id_cod_barre" )
+ column=(type=long updatewhereclause=yes name=cod_barre_id_tipo_cod_barre dbname="cod_barre.id_tipo_cod_barre" )
+ column=(type=char(20) updatewhereclause=yes name=cod_barre_codice dbname="cod_barre.codice" )
+ column=(type=char(1) updatewhereclause=yes name=cod_barre_gen_automatica dbname="cod_barre.gen_automatica" values="	S/	N" )
+ column=(type=char(1) updatewhereclause=yes name=unita_confezione_unita_base dbname="unita_confezione.unita_base" values="	S/	N" )
+ column=(type=long updatewhereclause=yes name=unita_confezione_id_unita_misura dbname="unita_confezione.id_unita_misura" )
+ column=(type=char(40) updatewhereclause=yes name=unita_misura_descrizione dbname="unita_misura.descrizione" )
+ column=(type=char(1) updatewhereclause=yes name=unita_misura_tipo dbname="unita_misura.tipo" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"unita_confezione~" )  TABLE(NAME=~"cod_barre~" )  TABLE(NAME=~"unita_misura~" ) COLUMN(NAME=~"unita_confezione.id_unita_confezione~") COLUMN(NAME=~"unita_confezione.id_articolo~") COLUMN(NAME=~"unita_confezione.codice~") COLUMN(NAME=~"unita_confezione.descrizione~") COLUMN(NAME=~"cod_barre.id_cod_barre~") COLUMN(NAME=~"cod_barre.id_tipo_cod_barre~") COLUMN(NAME=~"cod_barre.codice~") COLUMN(NAME=~"cod_barre.gen_automatica~") COLUMN(NAME=~"unita_confezione.unita_base~") COLUMN(NAME=~"unita_confezione.id_unita_misura~") COLUMN(NAME=~"unita_misura.descrizione~") COLUMN(NAME=~"unita_misura.tipo~")    JOIN (LEFT=~"cod_barre.id_unita_confezione~"    OP =~"=~"RIGHT=~"unita_confezione.id_unita_confezione~"    OUTER2 =~"unita_confezione.id_unita_confezione~" )    JOIN (LEFT=~"unita_misura.id_unita_misura~"    OP =~"=~"RIGHT=~"unita_confezione.id_unita_misura~"    OUTER2 =~"unita_confezione.id_unita_misura~" )WHERE(    EXP1 =~"~~~"unita_confezione~~~".~~~"id_articolo~~~"~"   OP =~"=~"    EXP2 =~":rn_id_articolo~" ) ) ARG(NAME = ~"rn_id_articolo~" TYPE = number) " arguments=(("rn_id_articolo", number)) )
+text(band=header alignment="2" text="Unita Confezione
+Codice"border="0" color="0" x="9" y="8" height="112" width="375"  name=unita_confezione_codice_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Tipo Cod Barre"border="0" color="0" x="2043" y="8" height="112" width="384"  name=cod_barre_id_tipo_cod_barre_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cod Barre
+Codice"border="0" color="0" x="2437" y="8" height="112" width="480"  name=cod_barre_codice_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Unita Confezione
+Descrizione"border="0" color="0" x="393" y="8" height="112" width="937"  name=unita_confezione_descrizione_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Generazione 
+Automatica"border="0" color="0" x="2926" y="8" height="112" width="306"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Unità
+Base"border="0" color="0" x="1339" y="8" height="112" width="165"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Unità
+Misura"border="0" color="0" x="1513" y="8" height="112" width="521"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="33554432" x="9" y="0" height="64" width="375" format="[general]"  name=unita_confezione_codice edit.limit=8 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="33554432" x="2043" y="0" height="64" width="384" format="[general]"  name=cod_barre_id_tipo_cod_barre dddw.name=d_tipo_cod_barre_des_sl dddw.displaycolumn=descrizione dddw.datacolumn=id_tipo_cod_barre dddw.percentwidth=200 dddw.lines=0 dddw.limit=0 dddw.allowedit=no dddw.useasborder=yes dddw.case=any dddw.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="33554432" x="2437" y="0" height="64" width="480" format="[general]"  name=cod_barre_codice edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=8 alignment="2" tabsequence=32766 border="0" color="33554432" x="2930" y="0" height="64" width="302" format="[general]"  name=cod_barre_gen_automatica checkbox.text="" checkbox.on="S" checkbox.off="N" checkbox.scale=no checkbox.threed=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="33554432" x="393" y="0" height="64" width="937" format="[general]"  name=unita_confezione_descrizione edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=9 alignment="2" tabsequence=32766 border="0" color="33554432" x="1344" y="0" height="64" width="160" format="[general]"  name=unita_confezione_unita_base checkbox.text="" checkbox.on="S" checkbox.off="N" checkbox.scale=no checkbox.threed=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="33554432" x="1513" y="0" height="64" width="521" format="[general]"  name=unita_misura_descrizione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

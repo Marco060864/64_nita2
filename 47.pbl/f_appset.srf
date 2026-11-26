@@ -1,0 +1,93 @@
+﻿global type f_appset from function_object
+end type
+
+forward prototypes
+global function boolean f_appset (ref s_application astr_app, ref s_database astr_db, boolean ab_leggi, boolean ab_scrivi)
+end prototypes
+
+global function boolean f_appset (ref s_application astr_app, ref s_database astr_db, boolean ab_leggi, boolean ab_scrivi);
+
+string			ls_keypathapp, ls_keypathdat, ls_apptype
+string			ls_1, ls_errmsg
+
+
+ls_keypathapp = astr_app.registry_base+"\"+astr_app.name+"\"+astr_app.version+"\Application"
+if astr_app.multiaz= "Yes" then
+	ls_keypathdat = astr_app.registry_base+"\"+astr_app.name+"\"+astr_app.version+"\Multi_db"
+else
+	ls_keypathdat = astr_app.registry_base+"\"+astr_app.name+"\"+astr_app.version+"\Database"
+	ls_keypathdat = ls_keypathdat +"\"+astr_db.key
+end if
+	
+if ab_scrivi then
+	
+	choose case astr_app.error_message
+		case 2
+			ls_1 = "2"
+		case else
+			ls_1 = "1"
+	end choose
+	ls_1 = f_regstr(ls_keypathapp,"Errtype",			ls_1, true)
+	
+	ls_1 = f_regstr(ls_keypathapp,"ErrFile",			astr_app.error_file,true)
+	ls_1 = f_regstr(ls_keypathapp,"name",				astr_app.name,true)
+	ls_1 = f_regstr(ls_keypathapp,"version",			astr_app.version,true)
+	ls_1 = f_regstr(ls_keypathapp,"multiaz",			astr_app.multiaz,true)
+	ls_1 = f_regstr(ls_keypathapp,"registry_base",	astr_app.registry_base,true)
+	ls_1 = f_regstr(ls_keypathapp,"description",		astr_app.description,true)
+	ls_1 = f_regstr(ls_keypathapp,"icon",				astr_app.icon,true)
+	ls_1 = f_regstr(ls_keypathapp,"splash",			astr_app.splash,true)
+	ls_1 = f_regstr(ls_keypathapp,"az_vendor",		astr_app.az_vendor,true)
+	ls_1 = f_regstr(ls_keypathapp,"az_nome",			astr_app.az_nome,true)
+	ls_1 = f_regstr(ls_keypathapp,"az_descr",			astr_app.az_descr,true)
+	if astr_app.enable_login = true then
+		ls_1 = "yes"
+	else
+		ls_1 = "no"
+	end if
+	ls_1 = f_regstr(ls_keypathapp,"EnableLogin",ls_1,true)
+	
+	ls_1 = f_regstr(ls_keypathdat,"dbname",			astr_db.name,true)
+	ls_1 = f_regstr(ls_keypathdat,"vendor",			astr_db.vendor,true)
+	ls_1 = f_regstr(ls_keypathdat,"description",		astr_db.description,true)
+	
+end if
+
+if ab_leggi then
+	
+	ls_1 = f_regstr(ls_keypathapp,"Errtype", ls_1, false)
+	if ls_1 = "2" then
+		astr_app.error_message = 2
+	else
+		astr_app.error_message = 1
+	end if
+	
+	astr_app.error_file		= f_regstr(ls_keypathapp,"ErrFile", astr_app.error_file,false)
+	astr_app.name				= f_regstr(ls_keypathapp,"name", astr_app.name,false)
+	astr_app.version			= f_regstr(ls_keypathapp,"version", astr_app.version,false)
+	astr_app.multiaz			= f_regstr(ls_keypathapp,"multiaz", astr_app.multiaz,false)
+	astr_app.registry_base	= f_regstr(ls_keypathapp,"registry_base", astr_app.registry_base,false)
+	astr_app.description		= f_regstr(ls_keypathapp,"description", astr_app.description,false)
+	astr_app.icon 				= f_regstr(ls_keypathapp,"icon", astr_app.icon,false)
+	astr_app.splash			= f_regstr(ls_keypathapp,"splash", astr_app.splash,false)
+	astr_app.az_nome			= f_regstr(ls_keypathapp,"az_nome",	astr_app.az_nome,true)
+	astr_app.az_descr			= f_regstr(ls_keypathapp,"az_descr", astr_app.az_descr,true)
+	
+	ls_1 = f_regstr(ls_keypathapp,"EnableLogin","",false)
+	if ls_1 = "yes" then
+		astr_app.enable_login = true
+	else
+		astr_app.enable_login = false
+	end if
+	
+	astr_db.name			= f_regstr(ls_keypathdat,"dbname", astr_db.name,false)
+	astr_db.vendor			= f_regstr(ls_keypathdat,"vendor", astr_db.vendor,false)
+	astr_db.description	= f_regstr(ls_keypathdat,"Description", astr_db.description,false)
+	
+end if
+
+return true
+
+
+end function
+

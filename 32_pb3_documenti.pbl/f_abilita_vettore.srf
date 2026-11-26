@@ -1,0 +1,23 @@
+﻿global type f_abilita_vettore from function_object
+end type
+
+forward prototypes
+global function integer f_abilita_vettore (long al_id_azienda)
+end prototypes
+
+global function integer f_abilita_vettore (long al_id_azienda);
+integer	li_return = 0
+
+SELECT 1
+INTO	 :li_return
+FROM	 azienda
+WHERE	 id_azienda = :al_id_azienda
+AND	 codice = 'GIESSE'
+;
+
+RETURN li_return
+
+
+
+end function
+

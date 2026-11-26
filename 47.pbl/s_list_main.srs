@@ -1,0 +1,20 @@
+﻿global type s_list_main from structure
+	string		s_modo
+	long		l_identifica[]
+	string		s_identifica[]
+	string		s_sql_ident[]
+	string		s_par_value[]
+	string		s_par_name[]
+	string		s_colonne_drop[]
+	string		s_win_chiave[]
+	long		l_win_chiave[]
+	string		s_win_zoom
+	string		s_win_parametri
+	datastore		ds_righe_ordine
+	string		s_aux[]
+	string		s_provenienza
+	long		l_id_provenienza
+	long		l_id_varie
+	long		l_id_riga[]
+end type
+

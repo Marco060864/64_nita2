@@ -1,0 +1,28 @@
+﻿global type f_proponi_num_distinta from function_object
+end type
+
+forward prototypes
+global function long f_proponi_num_distinta (long al_id_esercizio)
+end prototypes
+
+global function long f_proponi_num_distinta (long al_id_esercizio);
+
+long ll_max_num_distinta, ll_RetVal
+
+SELECT Max("dba"."dis_banca"."num_distinta")
+	INTO :ll_max_num_distinta
+	FROM "dba"."dis_banca"  
+	WHERE "dba"."dis_banca"."id_esercizio" = :al_id_esercizio   ;
+
+CHOOSE CASE SQLCA.SQLCode
+	CASE 0
+		IF IsNull(ll_max_num_distinta) THEN ll_max_num_distinta = 0
+		ll_RetVal = ll_max_num_distinta + 1
+	CASE -1
+		MessageBox("Errore sul DataBase", "f_proponi_num_distinta / 1")
+		ll_RetVal = 0
+END CHOOSE
+
+RETURN ll_RetVal
+end function
+

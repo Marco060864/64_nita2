@@ -1,0 +1,143 @@
+﻿release 9;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+header(height=333 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=58 color="536870912" )
+detail(height=70 color="536870912" )
+table(column=(type=char(32) updatewhereclause=yes name=articolo_codice dbname="articolo.codice" )
+ column=(type=char(40) updatewhereclause=yes name=articolo_des_breve dbname="articolo.des_breve" )
+ column=(type=char(5) updatewhereclause=yes name=unita_misura_simbolo dbname="unita_misura.simbolo" )
+ column=(type=decimal(6) updatewhereclause=yes name=prezzo dbname="prezzo" )
+ column=(type=char(40) updatewhereclause=yes name=valuta dbname="valuta" )
+ column=(type=long updatewhereclause=yes name=id_valuta dbname="id_valuta" )
+ column=(type=char(8) updatewhereclause=yes name=cat_com_articolo_codice dbname="cat_com_articolo.codice" )
+ column=(type=char(8) updatewhereclause=yes name=cat_merceologica_codice dbname="cat_merceologica.codice" )
+ column=(type=char(8) updatewhereclause=yes name=cat_fiscale_codice dbname="cat_fiscale.codice" )
+ column=(type=decimal(4) updatewhereclause=yes name=unita_confezione_peso_netto dbname="unita_confezione.peso_netto" )
+ column=(type=decimal(4) updatewhereclause=yes name=unita_confezione_dim_l dbname="unita_confezione.dim_l" )
+ column=(type=char(1) updatewhereclause=yes name=articolo_prod_interna dbname="articolo.prod_interna" )
+ column=(type=decimal(6) updatewhereclause=yes name=prezzo_manifattura dbname="prezzo_manifattura" )
+ column=(type=char(1) updatewhereclause=yes name=unita_misura_tipo dbname="unita_misura.tipo" )
+ column=(type=char(40) updatewhereclause=yes name=azienda_rag_soc_2 dbname="azienda.rag_soc_2" )
+ column=(type=decimal(2) updatewhereclause=yes name=articolo_coef_calo dbname="articolo.coef_calo" )
+ column=(type=char(40) updatewhereclause=yes name=des_listino dbname="des_listino" )
+ column=(type=real updatewhereclause=yes name=coef_calo dbname="coef_calo" )
+ column=(type=decimal(6) updatewhereclause=yes name=galvanica dbname="galvanica" )
+ column=(type=long updatewhereclause=yes name=articolo_id_cat_codifica dbname="articolo.id_cat_codifica" )
+ column=(type=char(80) updatewhereclause=yes name=articolo_descrizione dbname="articolo.descrizione" )
+ column=(type=long updatewhereclause=yes identity=yes name=id_unita_confezione dbname="unita_confezione.id_unita_confezione" )
+ column=(type=char(40) updatewhereclause=yes name=azienda_rag_soc_1 dbname="azienda.rag_soc_1" )
+ column=(type=char(40) updatewhereclause=yes name=azienda_rag_soc_2 dbname="azienda.rag_soc_2" )
+ column=(type=char(16) updatewhereclause=yes name=azienda_par_iva dbname="azienda.par_iva" )
+ column=(type=char(40) updatewhereclause=yes name=sede_indirizzo dbname="sede.indirizzo" )
+ column=(type=char(10) updatewhereclause=yes name=sede_cap dbname="sede.cap" )
+ column=(type=char(40) updatewhereclause=yes name=sede_localita dbname="sede.localita" )
+ column=(type=char(5) updatewhereclause=yes name=sede_provincia dbname="sede.provincia" )
+ retrieve="SELECT ~"articolo~".~"codice~",   
+         ~"articolo~".~"des_breve~",   
+         ~"unita_misura~".~"simbolo~",   
+         CAST((SELECT ~"prezzo~" FROM ~"prezzo~" 
+WHERE ~"id_variazione~" = :rl_id_variazione AND
+ ~"id_unita_confezione~" = ~"unita_confezione~".~"id_unita_confezione~") 
+AS decimal(20,6)) AS prezzo,   
+         CAST((SELECT ~"valuta~".~"descrizione~" 
+FROM ~"valuta~" WHERE  ~"valuta~".~"id_valuta~" =:ra_id_valuta) AS CHAR) AS Valuta,   
+          CAST((SELECT ~"valuta~".~"id_valuta~" 
+FROM ~"valuta~", ~"variazione~", ~"listino~" WHERE
+ ~"variazione~".~"id_variazione~" = :rl_id_variazione
+AND ~"listino~".~"id_listino~" = ~"variazione~".~"id_listino~" 
+AND ~"valuta~".~"id_valuta~" = ~"listino~".~"id_valuta~") AS integer) AS id_valuta,  
+         ~"cat_com_articolo~".~"codice~",   
+         ~"cat_merceologica~".~"codice~",   
+         ~"cat_fiscale~".~"codice~",   
+         ~"unita_confezione~".~"peso_netto~",   
+         ~"unita_confezione~".~"dim_l~",   
+         ~"articolo~".~"prod_interna~",   
+         CAST((SELECT ~"prezzo_manifattura~" FROM ~"prezzo~" 
+WHERE ~"id_variazione~" = :rl_id_variazione AND
+ ~"id_unita_confezione~" = ~"unita_confezione~".~"id_unita_confezione~")
+ AS decimal(20,6)) AS prezzo_manifattura,   
+         ~"unita_misura~".~"tipo~",   
+         ~"azienda~".~"rag_soc_2~",   
+         ~"articolo~".~"coef_calo~",   
+         CAST((SELECT ~"listino~".~"descrizione~" FROM ~"listino~", ~"variazione~"
+ WHERE ~"variazione~".~"id_variazione~" = :rl_id_variazione
+and ~"listino~".~"id_listino~"=~"variazione~".~"id_listino~") as char(40) )as des_listino,
+CAST((SELECT ~"coef_calo~" FROM ~"prezzo~" 
+WHERE ~"id_variazione~" = :rl_id_variazione 
+AND ~"id_unita_confezione~" = ~"unita_confezione~".~"id_unita_confezione~") 
+AS FLOAT(4)) AS coef_calo,
+CAST((SELECT ~"galvanica~" FROM ~"prezzo~" 
+WHERE ~"id_variazione~" = :rl_id_variazione AND
+ ~"id_unita_confezione~" = ~"unita_confezione~".~"id_unita_confezione~") 
+AS decimal(20,6)) AS galvanica,
+articolo.id_cat_codifica , articolo.descrizione, unita_confezione.id_unita_confezione,
+azienda.rag_soc_1,  azienda.rag_soc_2,   azienda.par_iva, sede.indirizzo, 
+sede.cap, sede.localita, sede.provincia
+FROM {oj ~"unita_confezione~"  LEFT OUTER JOIN ~"unita_misura~" 
+ ON ~"unita_confezione~".~"id_unita_misura~" = ~"unita_misura~".~"id_unita_misura~"}, 
+{oj ~"articolo~"  LEFT OUTER JOIN ~"cat_merceologica~" 
+ ON ~"articolo~".~"id_cat_merceologica~" = ~"cat_merceologica~".~"id_cat_merceologica~"},
+ {oj ~"articolo~"  LEFT OUTER JOIN ~"cat_fiscale~" 
+ ON ~"articolo~".~"id_cat_fiscale~" = ~"cat_fiscale~".~"id_cat_fiscale~"}, {oj ~"articolo~"  
+LEFT OUTER JOIN ~"unita_confezione~"  
+ON ~"articolo~".~"id_articolo~" = ~"unita_confezione~".~"id_articolo~"},   
+         ~"cat_com_articolo~",   
+         ~"azienda~", ~"sede~"  
+   WHERE ( ~"cat_com_articolo~".~"id_cat_com_articolo~" =
+ ~"articolo~".~"id_cat_com_articolo~" ) and  
+         ( ~"azienda~".~"id_azienda~" = ~"unita_confezione~".~"id_azienda~" ) and 
+			(  ~"azienda~".~"id_azienda~"=~"sede~".~"id_azienda~") and
+         ( ( ~"articolo~".~"codice~" >= :rs_da_codice ) AND  
+         ( ~"articolo~".~"codice~" <= :rs_a_codice ) )  
+" arguments=(("rl_id_variazione", number),("rs_da_codice", string),("rs_a_codice", string),("ra_id_valuta", number),("ra_cambio", number),("num_dec_arr", number),("tipo_arr", string))  sort="articolo_codice A " )
+compute(band=header alignment="0" expression="~"Da Articolo ~"+rs_da_codice+~" ad Articolo ~"+rs_a_codice"border="0" color="0" x="2213" y="19" height="58" width="1057" format="[general]" html.valueishtml="0"  name=sss visible="0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="~"Listino ~"+ des_listino "border="2" color="0" x="26" y="186" height="64" width="2395" format="[GENERAL]" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=24 alignment="0" tabsequence=32766 border="0" color="0" x="22" y="77" height="51" width="881" format="[general]" html.valueishtml="0"  name=azienda_rag_soc_2 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=23 alignment="0" tabsequence=32766 border="0" color="0" x="22" y="6" height="61" width="881" format="[general]" html.valueishtml="0"  name=azienda_rag_soc_1 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="  sede_indirizzo + ~"~~r~~n~"+sede_cap + ~"  ~"+ sede_localita +~" - ~"+ sede_provincia "border="0" color="0" x="944" y="16" height="115" width="1159" format="[GENERAL]" html.valueishtml="0"  name=compute_4 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+rectangle(band=header x="7" y="3" height="144" width="2158"  name=r_1 visible="1" brush.hatch="7" brush.color="536870912" pen.style="0" pen.width="7" pen.color="0"  background.mode="2" background.color="0" )
+line(band=detail x1="22" y1="73" x2="2794" y2="73"  name=l_1 visible="1" pen.style="4" pen.width="4" pen.color="79741120"  background.mode="1" background.color="553648127" )
+compute(band=footer alignment="0" expression="~"Stampato il ~"+string(today(), ~"dd/mm/yy~") + ~" alle ~"+string(now(), ~"hh:mm~")+~" da SILVEDREAMS s.n.c. ~" "border="0" color="33554432" x="37" y="7" height="51" width="3218" format="[GENERAL]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="1" expression="'Page ' + page() + ' of ' + pageCount()"border="0" color="0" x="2626" y="3" height="51" width="706" format="[general]" html.valueishtml="0"  name=page_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="26" y="3" height="70" width="775" format="[general]" html.valueishtml="0"  name=articolo_codice visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="ARTICOLO" border="2" color="0" x="22" y="266" height="61" width="775" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=21 alignment="0" tabsequence=32766 border="0" color="0" x="812" y="3" height="70" width="1499" format="[general]" html.valueishtml="0"  name=articolo_descrizione visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="DESCRIZIONE" border="2" color="0" x="812" y="266" height="58" width="1499" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="1" text="Rodio+Man2016" border="2" color="0" x="2904" y="266" height="58" width="413" html.valueishtml="0"  name=t_6 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="1" expression="f_round(if(c_prezzo_anno_succ>0,c_prezzo_anno_succ + f_quotazione_rodio(),0)/ ra_cambio, num_dec_arr , tipo_arr ) "border="0" color="0" x="2904" y="3" height="70" width="413" format="#,0.0000~tcase(  num_dec_arr  
+when 0 then ~"#,0~" 
+when -1 then ~"#,0.0~"
+when -2 then ~"#,0.00~"
+when -3 then ~"#,0.000~"
+when -4 then ~"#,0.0000~"
+when -5 then ~"#,0.00000~"
+when -6 then ~"#,0.000000~"
+)" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="€/gr. 2016 " border="2" color="0" x="2615" y="266" height="58" width="274" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="1" expression="f_round(f_recupera_prezzo_anno_successivo( id_unita_confezione ,  rl_id_variazione ),
+ num_dec_arr , tipo_arr ) "border="0" color="0" x="2640" y="0" height="70" width="249" format="#,0.0000~tcase(  num_dec_arr  
+when 0 then ~"#,0~" 
+when -1 then ~"#,0.0~"
+when -2 then ~"#,0.00~"
+when -3 then ~"#,0.000~"
+when -4 then ~"#,0.0000~"
+when -5 then ~"#,0.00000~"
+when -6 then ~"#,0.000000~"
+)" html.valueishtml="0"  name=c_prezzo_anno_succ visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="f_round(if(prezzo_manifattura>0,  prezzo_manifattura  / ra_cambio, prezzo/ ra_cambio), num_dec_arr , tipo_arr ) "border="0" color="0" x="2352" y="0" height="70" width="249" format="#,0.0000~tcase(  num_dec_arr  
+when 0 then ~"#,0~" 
+when -1 then ~"#,0.0~"
+when -2 then ~"#,0.00~"
+when -3 then ~"#,0.000~"
+when -4 then ~"#,0.0000~"
+when -5 then ~"#,0.00000~"
+when -6 then ~"#,0.000000~"
+)" html.valueishtml="0"  name=prezzo_valuta visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="€./gr. 2015 " border="2" color="0" x="2326" y="266" height="58" width="274" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+  

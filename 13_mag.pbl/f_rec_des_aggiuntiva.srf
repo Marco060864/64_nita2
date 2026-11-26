@@ -1,0 +1,19 @@
+﻿global type f_rec_des_aggiuntiva from function_object
+end type
+
+forward prototypes
+global function string f_rec_des_aggiuntiva (long al_id_doc, integer al_num_riga, long al_id_riga_doc)
+end prototypes
+
+global function string f_rec_des_aggiuntiva (long al_id_doc, integer al_num_riga, long al_id_riga_doc);string ls_des_aggiuntiva
+
+select des_aggiuntiva
+into :ls_des_aggiuntiva
+from dba.riga_documento_2
+where (id_documento=:al_id_doc
+and num_riga=:al_num_riga) or (id_riga_documento=:al_id_riga_doc)
+;
+if isnull(ls_des_aggiuntiva) then ls_des_aggiuntiva=""
+return ls_des_aggiuntiva
+end function
+

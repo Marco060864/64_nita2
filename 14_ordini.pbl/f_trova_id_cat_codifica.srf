@@ -1,0 +1,18 @@
+﻿global type f_trova_id_cat_codifica from function_object
+end type
+
+forward prototypes
+global function long f_trova_id_cat_codifica (long id_art)
+end prototypes
+
+global function long f_trova_id_cat_codifica (long id_art);long ll_id_cat_codifica
+
+select id_cat_codifica
+into :ll_id_cat_codifica
+from dba.articolo
+where id_articolo=:id_art
+;
+
+return ll_id_cat_codifica
+end function
+

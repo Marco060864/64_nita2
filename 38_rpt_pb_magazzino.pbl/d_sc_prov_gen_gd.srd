@@ -1,0 +1,100 @@
+﻿release 5;
+datawindow(units=0 timer_interval=0 color=79741120 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no grid.lines=0 )
+header(height=217 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="553648127" )
+detail(height=89 color="553648127" )
+table(column=(type=char(1) update=yes updatewhereclause=yes name=tipo_sconto dbname="scag_provvigione.tipo_sconto" values="Percentuale	P/Importo	I/" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=scag_provvigione_da_per_sconto dbname="scag_provvigione.da_per_sconto" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=scag_provvigione_a_per_sconto dbname="scag_provvigione.a_per_sconto" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=scag_provvigione_tipo_applicazione dbname="scag_provvigione.tipo_applicazione" values="Percentuale	P/Importo	I/" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=scag_provvigione_per_prov_capo_area dbname="scag_provvigione.per_prov_capo_area" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=scag_provvigione_imp_prov_capo_area dbname="scag_provvigione.imp_prov_capo_area" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=scag_provvigione_per_prov_agente dbname="scag_provvigione.per_prov_agente" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=scag_provvigione_imp_prov_agente dbname="scag_provvigione.imp_prov_agente" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=scag_provvigione_per_prov_sub_agente dbname="scag_provvigione.per_prov_sub_agente" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=scag_provvigione_imp_prov_sub_agente dbname="scag_provvigione.imp_prov_sub_agente" )
+ column=(type=long update=yes updatewhereclause=yes name=scag_provvigione_id_valuta dbname="scag_provvigione.id_valuta" )
+ column=(type=long update=yes updatewhereclause=yes key=yes identity=yes name=id_scag_provvigione dbname="scag_provvigione.id_scag_provvigione" )
+ column=(type=long update=yes updatewhereclause=yes name=scag_provvigione_id_azienda dbname="scag_provvigione.id_azienda" initial="1" )
+ column=(type=long update=yes updatewhereclause=yes name=scag_provvigione_id_con_provvigione dbname="scag_provvigione.id_con_provvigione" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=da_imp_sconto dbname="scag_provvigione.da_imp_sconto" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=a_imp_sconto dbname="scag_provvigione.a_imp_sconto" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"scag_provvigione~" ) COLUMN(NAME=~"scag_provvigione.tipo_sconto~") COLUMN(NAME=~"scag_provvigione.da_per_sconto~") COLUMN(NAME=~"scag_provvigione.a_per_sconto~") COLUMN(NAME=~"scag_provvigione.tipo_applicazione~") COLUMN(NAME=~"scag_provvigione.per_prov_capo_area~") COLUMN(NAME=~"scag_provvigione.imp_prov_capo_area~") COLUMN(NAME=~"scag_provvigione.per_prov_agente~") COLUMN(NAME=~"scag_provvigione.imp_prov_agente~") COLUMN(NAME=~"scag_provvigione.per_prov_sub_agente~") COLUMN(NAME=~"scag_provvigione.imp_prov_sub_agente~") COLUMN(NAME=~"scag_provvigione.id_valuta~") COLUMN(NAME=~"scag_provvigione.id_scag_provvigione~") COLUMN(NAME=~"scag_provvigione.id_azienda~") COLUMN(NAME=~"scag_provvigione.id_con_provvigione~") COLUMN(NAME=~"scag_provvigione.da_imp_sconto~") COLUMN(NAME=~"scag_provvigione.a_imp_sconto~")WHERE(    EXP1 =~"~~~"scag_provvigione~~~".~~~"id_con_provvigione~~~"~"   OP =~"is~"    EXP2 =~"null~" ) ) ORDER(NAME=~"scag_provvigione.tipo_sconto~" ASC=yes )  ORDER(NAME=~"scag_provvigione.da_per_sconto~" ASC=yes )  ORDER(NAME=~"scag_provvigione.da_imp_sconto~" ASC=yes )  ORDER(NAME=~"scag_provvigione.a_per_sconto~" ASC=yes )  ORDER(NAME=~"scag_provvigione.a_imp_sconto~" ASC=yes ) " update="scag_provvigione" updatewhere=1 updatekeyinplace=yes  sort="tipo_sconto A scag_provvigione_da_per_sconto A da_imp_sconto A " )
+column(band=detail id=5 alignment="1" tabsequence=80 border="0" color="0" x="2634" y="8" height="65" width="138" format="[general]" protect="0~tif ( scag_provvigione_tipo_applicazione = 'P', 
+0 ,
+1 )"  name=scag_provvigione_per_prov_capo_area edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tif ( scag_provvigione_tipo_applicazione = 'P', 
+16777215 ,
+12632256 )" )
+column(band=detail id=6 alignment="1" tabsequence=90 border="0" color="0" x="2780" y="8" height="65" width="577" format="[general]" protect="0~tif ( scag_provvigione_tipo_applicazione = 'I', 
+0 ,
+1 )"  name=scag_provvigione_imp_prov_capo_area edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tif ( scag_provvigione_tipo_applicazione = 'I', 
+16777215 ,
+12632256 )" )
+column(band=detail id=7 alignment="1" tabsequence=100 border="0" color="0" x="3365" y="8" height="65" width="133" format="[general]" protect="0~tif ( scag_provvigione_tipo_applicazione = 'P', 
+0 ,
+1 )"  name=scag_provvigione_per_prov_agente edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tif ( scag_provvigione_tipo_applicazione = 'P', 
+16777215 ,
+12632256 )" )
+column(band=detail id=8 alignment="1" tabsequence=110 border="0" color="0" x="3507" y="8" height="65" width="586" format="[general]" protect="0~tif ( scag_provvigione_tipo_applicazione = 'I', 
+0 ,
+1 )"  name=scag_provvigione_imp_prov_agente edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tif ( scag_provvigione_tipo_applicazione = 'I', 
+16777215 ,
+12632256 )" )
+column(band=detail id=9 alignment="1" tabsequence=120 border="0" color="0" x="4101" y="8" height="65" width="133" format="[general]" protect="0~tif ( scag_provvigione_tipo_applicazione = 'P', 
+0 ,
+1 )"  name=scag_provvigione_per_prov_sub_agente edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tif ( scag_provvigione_tipo_applicazione = 'P', 
+16777215 ,
+12632256 )" )
+column(band=detail id=10 alignment="1" tabsequence=130 border="0" color="0" x="4243" y="8" height="65" width="535" format="[general]" protect="0~tif ( scag_provvigione_tipo_applicazione = 'I', 
+0 ,
+1 )"  name=scag_provvigione_imp_prov_sub_agente edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tif ( scag_provvigione_tipo_applicazione = 'I', 
+16777215 ,
+12632256 )" )
+column(band=detail id=15 alignment="0" tabsequence=30 border="0" color="0" x="549" y="8" height="65" width="577" format="[general]" protect="0~tif ( tipo_sconto= 'P', 1 ,0 )"  name=da_imp_sconto edit.limit=0 edit.case=any edit.autoselect=yes edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tif ( tipo_sconto= 'P'  ,12632256, 16777215 )" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="0" color="0" x="412" y="8" height="65" width="129" format="[general]" protect="0~tif ( tipo_sconto= 'P', 0 ,1 )"  name=scag_provvigione_da_per_sconto edit.limit=18 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tif ( tipo_sconto= 'P', 16777215 ,12632256 )" )
+column(band=detail id=3 alignment="0" tabsequence=40 border="0" color="0" x="1134" y="8" height="65" width="133" format="[general]" protect="0~tif ( tipo_sconto= 'P', 0 ,1 )"  name=scag_provvigione_a_per_sconto edit.limit=18 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tif ( tipo_sconto= 'P', 16777215 ,12632256 )" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="0" x="10" y="8" height="69" width="394" format="[general]"  name=tipo_sconto ddlb.limit=0 ddlb.allowedit=yes ddlb.case=any ddlb.nilisnull=yes ddlb.useasborder=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=16 alignment="0" tabsequence=50 border="0" color="0" x="1276" y="8" height="65" width="577" format="[general]" protect="0~tif ( tipo_sconto= 'P', 1 ,0 )"  name=a_imp_sconto edit.limit=0 edit.case=any edit.autoselect=yes edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tif ( tipo_sconto= 'P'  ,12632256, 16777215 )" )
+column(band=detail id=4 alignment="0" tabsequence=60 border="0" color="0" x="1861" y="8" height="65" width="407" format="[general]" protect="0~t1"  name=scag_provvigione_tipo_applicazione ddlb.limit=0 ddlb.allowedit=yes ddlb.case=any  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=11 alignment="0" tabsequence=70 border="0" color="0" x="2277" y="8" height="65" width="348" format="[general]"  name=scag_provvigione_id_valuta dddw.name=d_valuta_des_sl dddw.displaycolumn=descrizione dddw.datacolumn=id_valuta dddw.percentwidth=100 dddw.lines=0 dddw.limit=0 dddw.allowedit=yes dddw.useasborder=yes dddw.case=any dddw.nilisnull=yes dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+rectangle(band=foreground x="10" y="148" height="73" width="4782"  name=ret2 brush.hatch="6" brush.color="79741120" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+rectangle(band=foreground x="10" y="4" height="145" width="4782"  name=ret1 brush.hatch="6" brush.color="79741120" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+line(band=foreground x1="389" y1="84" x2="1861" y2="84" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="33554432" )
+text(band=foreground alignment="2" text="Importo"border="0" color="0" x="3507" y="148" height="57" width="577"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=foreground alignment="2" text="Importo"border="0" color="0" x="540" y="148" height="57" width="581"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=foreground alignment="2" text="%"border="0" color="0" x="1130" y="148" height="57" width="138"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=foreground alignment="2" text="importo"border="0" color="0" x="1276" y="148" height="57" width="572"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=foreground alignment="2" text="%"border="0" color="0" x="412" y="148" height="57" width="119"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=foreground alignment="2" text="Da"border="0" color="0" x="394" y="84" height="57" width="727"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=foreground alignment="2" text="A"border="0" color="0" x="1139" y="84" height="57" width="700"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=foreground alignment="2" text="Sconto"border="0" color="0" x="403" y="20" height="57" width="1441"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=foreground alignment="2" text="Applicazione"border="0" color="0" x="1857" y="20" height="57" width="398"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=foreground alignment="2" text="Valuta"border="0" color="0" x="2263" y="20" height="57" width="348"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=foreground alignment="2" text="Provvigione
+Capo Area"border="0" color="0" x="2625" y="20" height="113" width="709"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=foreground alignment="2" text="Provvigione
+Agente"border="0" color="0" x="3370" y="20" height="113" width="705"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=foreground alignment="2" text="%"border="0" color="0" x="2620" y="148" height="57" width="133"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=foreground alignment="2" text="Importo"border="0" color="0" x="2762" y="148" height="57" width="577"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=foreground alignment="2" text="%"border="0" color="0" x="3365" y="148" height="57" width="133"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=foreground alignment="2" text="%"border="0" color="0" x="4101" y="148" height="57" width="133"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=foreground alignment="2" text="Importo"border="0" color="0" x="4215" y="148" height="57" width="540"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=foreground x1="403" y1="4" x2="403" y2="212" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="33554432" )
+line(band=foreground x1="1852" y1="4" x2="1852" y2="212" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="33554432" )
+line(band=foreground x1="2273" y1="4" x2="2273" y2="212" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="33554432" )
+line(band=foreground x1="2625" y1="4" x2="2625" y2="212" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="33554432" )
+line(band=foreground x1="3356" y1="4" x2="3356" y2="212" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="33554432" )
+line(band=foreground x1="4092" y1="4" x2="4092" y2="212" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="33554432" )
+line(band=foreground x1="4234" y1="148" x2="4234" y2="212" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="33554432" )
+line(band=foreground x1="3498" y1="148" x2="3498" y2="212" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="33554432" )
+line(band=foreground x1="2771" y1="148" x2="2771" y2="212" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="33554432" )
+line(band=foreground x1="1267" y1="148" x2="1267" y2="212" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="33554432" )
+line(band=foreground x1="1125" y1="148" x2="1125" y2="212" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="33554432" )
+line(band=foreground x1="540" y1="148" x2="540" y2="212" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="33554432" )
+line(band=foreground x1="1125" y1="84" x2="1125" y2="148" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="33554432" )
+text(band=foreground alignment="2" text="Tipo
+Sconto"border="0" color="0" x="28" y="20" height="113" width="375"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=foreground alignment="2" text="Provvigione
+SubAgente"border="0" color="0" x="4083" y="20" height="113" width="668"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+  

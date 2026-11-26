@@ -1,0 +1,7 @@
+﻿global type s_cod_art_cliente from structure
+	string		s_cod_art
+	long		l_id_sog
+	long		l_id_art
+	decimal { 0 }		dc_prezzo
+end type
+

@@ -1,0 +1,68 @@
+﻿global type f_contropartita from function_object
+end type
+
+forward prototypes
+global function string f_contropartita (long reg_pd, long id_conto)
+end prototypes
+
+global function string f_contropartita (long reg_pd, long id_conto);decimal ldc_dare, ldc_avere
+string  ls_cod 
+long ll_id_chiusura, ll_id_apertura, ll_id_prof_registrazione
+
+select id_prof_reg_apertura, id_prof_reg_chiusura
+into :ll_id_apertura, :ll_id_chiusura
+from dba.par_sistema
+;
+if ll_id_apertura>0 and ll_id_chiusura>0 then
+	select id_prof_registrazione
+	into :ll_id_prof_registrazione
+	from dba.reg_pd
+	where id_reg_pd=:reg_pd
+	;
+	if ll_id_prof_registrazione=ll_id_apertura or ll_id_prof_registrazione=ll_id_chiusura then
+		return "---"
+	end if
+
+	select dare
+	into :ldc_dare
+	from mov_contabile
+	where id_conto = :id_conto
+	and id_reg_pd=:reg_pd;
+	
+	if ldc_dare>0 then
+		//messagebox("W", "Dare")
+		select max(avere)  
+		into :ldc_avere
+		from mov_contabile m
+		where m.id_reg_pd=:reg_pd
+		and (dare=0 or dare is null) and numero<9000
+		and m.id_conto<> :id_conto;
+			
+		select c.codice 
+		into :ls_cod
+		from conto c, mov_contabile m
+		where c.id_conto=m.id_conto and m.id_reg_pd=:reg_pd
+		and ( dare=0 or dare is null) and numero<9000
+		and m.id_conto<> :id_conto and avere=:ldc_avere;
+	else
+		//messagebox("W", "aVERE")
+		select max(dare)  
+		into :ldc_dare
+		from mov_contabile m
+		where m.id_reg_pd=:reg_pd
+		and ( avere=0 or avere is null) and numero<9000
+		and m.id_conto<> :id_conto;
+			
+		select c.codice 
+		into :ls_cod
+		from conto c, mov_contabile m
+		where c.id_conto=m.id_conto and m.id_reg_pd=:reg_pd
+		and ( avere=0 or avere is null) and numero<9000
+		and m.id_conto<> :id_conto and dare=:ldc_dare;
+	end if
+	
+			
+end if
+return ls_cod
+end function
+

@@ -1,0 +1,133 @@
+﻿release 9;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+header(height=476 color="536870912" )
+summary(height=4 color="536870912" )
+footer(height=96 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=char(32) updatewhereclause=yes name=codice dbname="unita_confezione.codice" )
+ column=(type=char(40) updatewhereclause=yes name=des_breve dbname="unita_confezione.des_breve" )
+ column=(type=decimal(2) updatewhereclause=yes name=coef_calo dbname="unita_confezione.coef_calo" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso_non_prezioso dbname="unita_confezione.peso_non_prezioso" )
+ column=(type=char(5) updatewhereclause=yes name=simbolo dbname="unita_misura.simbolo" )
+ column=(type=char(2) updatewhereclause=yes name=cat_com_articolo_codice dbname="orafo_metallo.codice" )
+ column=(type=decimal(2) updatewhereclause=yes name=titolo dbname="orafo_titolo.titolo" )
+ column=(type=char(8) updatewhereclause=yes name=cat_merceologica_codice dbname="cat_com_articolo.codice" )
+ column=(type=char(8) updatewhereclause=yes name=cat_fiscale_codice dbname="unita_confezione.codice" )
+ column=(type=char(8) updatewhereclause=yes name=codice dbname="unita_confezione.codice" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso_netto dbname="unita_confezione.peso_netto" )
+ column=(type=decimal(4) updatewhereclause=yes name=dim_l dbname="unita_confezione.dim_l" )
+ column=(type=decimal(6) updatewhereclause=yes name=prezzo_manifattura dbname="prezzo.prezzo_manifattura" )
+ column=(type=decimal(6) updatewhereclause=yes name=prezzo dbname="prezzo.prezzo" )
+ column=(type=char(1) updatewhereclause=yes name=prod_interna dbname="unita_confezione.prod_interna" )
+ column=(type=char(32) updatewhereclause=yes name=cod_metallo dbname="unita_confezione.codice" )
+ column=(type=decimal(2) updatewhereclause=yes name=per_aliquota dbname="unita_confezione.per_aliquota" )
+ column=(type=long updatewhereclause=yes name=id_valuta dbname="par_sistema.id_valuta" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso_tot_dist dbname="peso_tot_dist" )
+ retrieve="SELECT ~"articolo~".~"codice~",   
+         ~"articolo~".~"des_breve~",
+			articolo.coef_calo,
+			unita_confezione.peso_non_prezioso,   
+         ~"unita_misura~".~"simbolo~",  
+			orafo_metallo.codice,
+			orafo_titolo.titolo, 
+         ~"cat_com_articolo~".~"codice~",   
+         ~"cat_merceologica~".~"codice~",   
+         ~"cat_fiscale~".~"codice~",   
+          ~"unita_confezione~".~"peso_netto~",   
+         ~"unita_confezione~".~"dim_l~",  
+			prezzo.prezzo_manifattura,
+			prezzo.prezzo, 
+         ~"articolo~".~"prod_interna~",   
+         ~"distinta~".~"codice~",   
+         ~"tab_iva~".~"per_aliquota~",
+			par_sistema.id_valuta,
+	cast((select sum(peso_netto) from riga_distinta 
+where riga_distinta.id_distinta=distinta.id_distinta) 
+	as decimal) as  peso_tot_dist
+
+
+
+
+    FROM {oj {oj {oj ~"unita_confezione~"  LEFT OUTER JOIN ~"unita_misura~" 
+ ON ~"unita_confezione~".~"id_unita_misura~" = ~"unita_misura~".~"id_unita_misura~"}, 
+{oj ~"articolo~"  LEFT OUTER JOIN ~"tab_iva~"  ON ~"articolo~".~"id_tab_iva~" = 
+~"tab_iva~".~"id_tab_iva~"} LEFT OUTER JOIN ~"cat_merceologica~"  
+ON ~"articolo~".~"id_cat_merceologica~" = ~"cat_merceologica~".~"id_cat_merceologica~"}, 
+{oj ~"articolo~"  LEFT OUTER JOIN ~"cat_fiscale~"  ON ~"articolo~".~"id_cat_fiscale~" 
+= ~"cat_fiscale~".~"id_cat_fiscale~"}, {oj ~"articolo~"  LEFT OUTER JOIN ~"distinta~" 
+ ON ~"articolo~".~"id_articolo~" = ~"distinta~".~"id_articolo~"} 
+LEFT OUTER JOIN ~"unita_confezione~"  ON ~"articolo~".~"id_articolo~" =
+ ~"unita_confezione~".~"id_articolo~"},   
+{oj ~"unita_confezione~"  LEFT OUTER JOIN ~"prezzo~"  ON ~"unita_confezione~".~"id_unita_confezione~" =
+ ~"prezzo~".~"id_unita_confezione~"},
+{oj ~"prezzo~"  LEFT OUTER JOIN ~"variazione~"  ON ~"prezzo~".~"id_variazione~" =
+ ~"variazione~".~"id_variazione~"},
+{oj ~"variazione~"  LEFT OUTER JOIN ~"listino~"  ON ~"variazione~".~"id_listino~" =
+ ~"listino~".~"id_listino~"},
+         ~"cat_com_articolo~", orafo_metallo, orafo_titolo , par_sistema
+   WHERE ( ~"cat_com_articolo~".~"id_cat_com_articolo~" = ~"articolo~".~"id_cat_com_articolo~" ) and  
+         ( ( ~"articolo~".~"codice~" >= :rs_da_codice) AND  
+         ( ~"articolo~".~"codice~" <= :rs_a_codice ) AND  
+         ( ~"unita_confezione~".~"unita_base~" = 'S' ) )  
+and (orafo_metallo.codice>=:rs_da_cod_metallo 
+and orafo_metallo.codice<=:rs_a_cod_metallo)
+and (orafo_titolo.titolo>=:rs_da_titolo
+and  orafo_titolo.titolo<=:rs_a_titolo)
+
+and orafo_metallo.id_metallo=orafo_titolo.id_metallo
+and orafo_titolo.id_titolo=articolo.id_titolo
+and variazione.data_inizio<=date(today()) and (variazione.data_fine>= 
+date(today()) or variazione.data_fine is null)
+and listino.lis_base='S' and listino.tipo='V'" arguments=(("rs_da_codice", string),("rs_a_codice", string),("parametri", string),("rs_da_cod_metallo", string),("rs_a_cod_metallo", string),("rs_da_titolo", number),("rs_a_titolo", number))  sort="codice A " )
+rectangle(band=header x="14" y="396" height="80" width="4654"  name=r_1 visible="1" brush.hatch="6" brush.color="15793151" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+text(band=header alignment="2" text="Stampa Anagrafica Articoli" border="0" color="0" x="169" y="28" height="132" width="3118" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-20" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Parametri di stampa:" border="0" color="0" x="14" y="248" height="56" width="617" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression=" parametri "border="0" color="0" x="18" y="324" height="56" width="3269" format="[general]" html.valueishtml="0"  name=par visible="1~t0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+text(band=header alignment="1" text="Da Articolo:" border="0" color="0" x="654" y="248" height="56" width="274" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression=" rs_da_codice "border="0" color="0" x="942" y="248" height="56" width="471" format="[general]" html.valueishtml="0"  name=da_arti visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Ad Articolo:" border="0" color="0" x="1454" y="248" height="56" width="288" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression=" rs_a_codice "border="0" color="0" x="1755" y="248" height="56" width="658" format="[general]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" Articolo" border="0" color="0" x="18" y="420" height="44" width="238" html.valueishtml="0"  name=articolo_codice_t visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Met." border="0" color="0" x="1577" y="420" height="44" width="128" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Titolo" border="0" color="0" x="1696" y="420" height="44" width="165" html.valueishtml="0"  name=t_6 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Coef. Calo" border="0" color="0" x="1865" y="420" height="44" width="302" html.valueishtml="0"  name=t_7 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="CM" border="0" color="0" x="2162" y="420" height="44" width="96" html.valueishtml="0"  name=t_8 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text=" U.M." border="0" color="0" x="2290" y="420" height="44" width="119" html.valueishtml="0"  name=unita_misura_simbolo_t visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Peso N. P." border="0" color="0" x="2427" y="420" height="44" width="210" html.valueishtml="0"  name=t_10 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cod. Distinta" border="0" color="0" x="3259" y="420" height="44" width="379" html.valueishtml="0"  name=t_11 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cat. Comm." border="0" color="0" x="3707" y="420" height="44" width="242" html.valueishtml="0"  name=t_12 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Prezzo Man." border="0" color="0" x="3936" y="420" height="44" width="375" html.valueishtml="0"  name=t_13 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Prezzo Pz." border="0" color="0" x="4247" y="420" height="44" width="325" html.valueishtml="0"  name=t_14 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="P.I." border="0" color="0" x="4549" y="420" height="44" width="96" html.valueishtml="0"  name=t_15 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=detail x1="18" y1="68" x2="4631" y2="68"  name=l_1 visible="1" pen.style="2" pen.width="5" pen.color="79741120"  background.mode="1" background.color="553648127" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="18" y="4" height="64" width="576" format="[general]" html.valueishtml="0"  name=codice visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="608" y="4" height="64" width="965" format="[general]" html.valueishtml="0"  name=des_breve visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="2" tabsequence=32766 border="0" color="0" x="1591" y="4" height="64" width="105" format="[general]" html.valueishtml="0"  name=cat_com_articolo_codice visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="1710" y="4" height="64" width="142" format="#,0" html.valueishtml="0"  name=titolo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="1865" y="4" height="64" width="256" format="[general]" html.valueishtml="0"  name=coef_calo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="1" tabsequence=32766 border="0" color="0" x="2135" y="4" height="64" width="146" format="#,0.00" html.valueishtml="0"  name=dim_l visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="2" tabsequence=32766 border="0" color="0" x="2295" y="4" height="64" width="110" format="[general]" html.valueishtml="0"  name=simbolo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="2" tabsequence=32766 border="0" color="0" x="3707" y="4" height="64" width="261" format="[general]" html.valueishtml="0"  name=cat_merceologica_codice visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=13 alignment="1" tabsequence=32766 border="0" color="0" x="3982" y="4" height="64" width="283" format="[general]~tf_valu_mask(id_valuta)" html.valueishtml="0"  name=prezzo_manifattura visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="2" tabsequence=32766 border="0" color="0" x="3237" y="4" height="64" width="448" format="[general]" html.valueishtml="0"  name=cod_metallo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="1" tabsequence=32766 border="0" color="0" x="4279" y="4" height="64" width="256" format="[general]~tf_valu_mask(id_valuta)" html.valueishtml="0"  name=prezzo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="2" expression="if( prod_interna ='S', 'S', 'N')"border="0" color="0" x="4553" y="4" height="64" width="96" format="[general]" html.valueishtml="0"  name=prod_int visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=4 alignment="2" tabsequence=32766 border="0" color="0" x="2423" y="4" height="64" width="219" format="#,0.00" html.valueishtml="0"  name=peso_non_prezioso visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+text(band=footer alignment="1" text="Stampato il " border="0" color="0" x="32" y="24" height="64" width="265" html.valueishtml="0"  name=t_16 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="0" expression="today()"border="0" color="0" x="311" y="24" height="64" width="215" format="[general]" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+text(band=footer alignment="1" text="alle" border="0" color="0" x="535" y="24" height="64" width="82" html.valueishtml="0"  name=t_17 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+rectangle(band=footer x="187" y="324" height="88" width="3205"  name=r_2 visible="1" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="33554432"  background.mode="2" background.color="0" )
+compute(band=footer alignment="1" expression="'Page ' + page() + ' of ' + pageCount()"border="0" color="0" x="4128" y="24" height="64" width="567" format="[general]" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=footer x1="5" y1="8" x2="4704" y2="8"  name=l_2 visible="1" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="now()"border="0" color="0" x="631" y="24" height="64" width="242" format="[time]" html.valueishtml="0"  name=compute_4 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="0" expression="~"Articoli Caricati: ~"+string(rowcount())"border="0" color="0" x="1010" y="24" height="64" width="846" format="[general]" html.valueishtml="0"  name=righe visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="0" color="0" x="2670" y="4" height="64" width="242" format="#,0.00" html.valueishtml="0"  name=peso_netto visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Legato" border="0" color="0" x="2711" y="416" height="44" width="201" html.valueishtml="0"  name=t_9 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="1" tabsequence=32766 border="0" color="0" x="2930" y="4" height="64" width="288" format="#,0.00" html.valueishtml="0"  name=peso_tot_dist visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="1" background.color="536870912" )
+text(band=header alignment="1" text="Peso Distinta" border="0" color="0" x="2944" y="420" height="44" width="274" html.valueishtml="0"  name=t_18 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+  

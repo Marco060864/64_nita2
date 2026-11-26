@@ -1,0 +1,15 @@
+﻿global type f_peso_accessorio_k from function_object
+end type
+
+forward prototypes
+global function decimal f_peso_accessorio_k (string as_cod_articolo)
+end prototypes
+
+global function decimal f_peso_accessorio_k (string as_cod_articolo);decimal ldc_peso
+select peso_netto into :ldc_peso from unita_confezione u, articolo a
+where a.id_articolo=u.id_articolo and u.unita_base='S' and a.codice=:as_cod_articolo;
+if isnull(ldc_peso) then ldc_peso=0
+//ldc_peso=round(ldc_peso, -3)
+return ldc_peso
+end function
+

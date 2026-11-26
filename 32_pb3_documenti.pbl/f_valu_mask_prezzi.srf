@@ -1,0 +1,39 @@
+﻿global type f_valu_mask_prezzi from function_object
+end type
+
+forward prototypes
+global function string f_valu_mask_prezzi (long al_id_valuta)
+end prototypes
+
+global function string f_valu_mask_prezzi (long al_id_valuta);
+
+string 		ls_mask,  ls_simbolo
+decimal 		ldc_cambio
+integer		ll_arrot, li_decimali
+integer 		li_count
+boolean 		lb_simbolo
+
+SELECT simbolo, cambio, cifra_arrotondamento
+INTO   :ls_simbolo, :ldc_cambio, :ll_arrot 
+FROM 	 valuta
+WHERE  id_valuta = :al_id_valuta  
+;
+
+ls_mask= "#,0"
+if SQLCA.SQLCode =0 then
+	ll_arrot = - ll_arrot
+	if ll_arrot > 0 then
+		ls_mask = ls_mask + "."
+		
+		FOR li_count = 1 to ll_arrot
+			ls_mask = ls_mask + "0"
+		NEXT
+	end if
+end if
+
+if ls_simbolo <> "" AND lb_simbolo then ls_mask = ls_simbolo + " " + ls_mask
+
+return ls_mask
+
+end function
+

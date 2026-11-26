@@ -1,0 +1,8 @@
+﻿global type s_dinamica from structure
+	string		ls_nome
+	string		ls_tipo
+	string		ls_testo
+	string		cancella
+	integer		id_conf_oggetti
+end type
+

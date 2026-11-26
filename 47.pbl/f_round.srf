@@ -1,0 +1,36 @@
+﻿global type f_round from function_object
+end type
+
+forward prototypes
+global function decimal f_round (decimal adc_numero, integer ai_arrotondamento, string as_tipo_arrotondamento)
+end prototypes
+
+global function decimal f_round (decimal adc_numero, integer ai_arrotondamento, string as_tipo_arrotondamento);
+decimal 	ldc_ret_number, ldc_precisione
+
+If ai_arrotondamento >= 0 then
+	ldc_precisione = 10^ai_arrotondamento
+else
+	ai_arrotondamento= - ai_arrotondamento
+	ldc_precisione = 1 / (10^ai_arrotondamento)
+end if
+
+CHOOSE CASE as_tipo_arrotondamento
+	CASE "I"
+		
+		ldc_ret_number = adc_numero / ldc_precisione
+		ldc_ret_number = Truncate(ldc_ret_number, 0) * ldc_precisione
+	CASE "M"
+	
+		ldc_ret_number = adc_numero / ldc_precisione
+		ldc_ret_number = Round(ldc_ret_number, 0) * ldc_precisione
+	CASE "S"
+		
+		ldc_ret_number = adc_numero / ldc_precisione
+		ldc_ret_number = Ceiling(ldc_ret_number) * ldc_precisione
+	CASE ELSE
+END CHOOSE
+
+RETURN ldc_ret_number
+end function
+

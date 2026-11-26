@@ -1,0 +1,6 @@
+﻿global type s_pacco from structure
+	long		s_id_pacco[]
+	decimal		s_peso
+	long		s_id_bollettina
+end type
+

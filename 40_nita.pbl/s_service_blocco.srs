@@ -1,0 +1,9 @@
+﻿//objectcomments Struttura per u_service funzione uf_blocco_doc
+global type s_service_blocco from structure
+	string		s_ser_blo_1_desc_stato
+	string		s_ser_blo_2_old_stato
+	string		s_ser_blo_3_password
+	string		s_ser_blo_4_new_stato
+	string		s_ser_blo_5_modo
+end type
+

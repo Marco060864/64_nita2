@@ -1,0 +1,16 @@
+﻿global type f_rag_soc_az from function_object
+end type
+
+forward prototypes
+global function string f_rag_soc_az ()
+end prototypes
+
+global function string f_rag_soc_az ();string ls_ret
+
+select rag_soc_1
+into :ls_ret
+from dba.azienda;
+
+return ls_ret
+end function
+

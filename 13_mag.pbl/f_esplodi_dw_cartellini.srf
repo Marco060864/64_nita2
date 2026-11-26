@@ -1,0 +1,240 @@
+﻿type ls_quotazioni from structure
+	string		codice
+	decimal {0}	valore
+end type
+
+global type f_esplodi_dw_cartellini from function_object
+end type
+
+forward prototypes
+global function decimal f_esplodi_dw_cartellini (treeview tv_dis, long ll_root, boolean lb_con, long id, date data_inizio, date data_fine, long id_testa, string tipo_calcolo, string tipo_applicazione, long ll_magazzino, boolean lb_distinta, datawindow dw_esplodi, long id_articolo, decimal ad_quantita, string as_padre, integer ai_ritorno, boolean primo, ref s_quotazioni as_quotazioni[])
+end prototypes
+
+global function decimal f_esplodi_dw_cartellini (treeview tv_dis, long ll_root, boolean lb_con, long id, date data_inizio, date data_fine, long id_testa, string tipo_calcolo, string tipo_applicazione, long ll_magazzino, boolean lb_distinta, datawindow dw_esplodi, long id_articolo, decimal ad_quantita, string as_padre, integer ai_ritorno, boolean primo, ref s_quotazioni as_quotazioni[]);
+decimal ld_tot_carati
+long id_base,id_f,ll_child,id_art,id_var,ll_app,ll_id_riga,ll_num_riga,ll_figlio, ll_titolo, ll_id_sog_com
+long ll_riga_trovata,ll_padre
+boolean controllo
+decimal{4} cs,app,qt,ld_quantita,ld_costo,ld_qt_app, ld_peso, calo
+string cod,tg,pt,testa,path,des,ls_cod_app, ls_rag_soc_1
+treeviewitem tvi ,ltvi_app
+s_val ls_app,ls_ritorno
+dati dat,dat_app
+controllo=false
+string ls_fine,ls_inizio
+ls_fine=string(data_fine,'yyyy/mm/dd')
+ls_inizio=string(data_inizio,'yyyy/mm/dd')
+if primo=true then 
+	select id_distinta
+	into :id
+	from distinta
+	where id_articolo=:id_articolo;
+	id_testa=id
+end if
+DECLARE recupera CURSOR FOR
+  SELECT "articolo"."codice", 
+  			"articolo"."descrizione", 
+  			"articolo"."id_articolo",	
+			"articolo"."immagine",
+			"riga_distinta"."tipo_riga",            
+         "riga_distinta"."quantita",   
+         "riga_distinta"."costo",    
+			"riga_distinta"."id_dis_figlio",
+			"riga_distinta"."id_riga_distinta",
+			"riga_distinta"."num_riga",
+			"riga_distinta"."calo"
+    FROM "articolo",   
+         "riga_distinta",   
+       	"distinta"  ,
+   WHERE ( "articolo"."id_articolo" = "riga_distinta"."id_articolo" ) and  
+         ( "distinta"."id_distinta" = "riga_distinta"."id_distinta" ) and 
+			(( dateformat("riga_distinta"."data_fine",'yyyy/mm/dd')>=:ls_inizio )and 
+			( dateformat("riga_distinta"."data_fine",'yyyy/mm/dd')<=:ls_fine ) OR
+			("riga_distinta"."data_fine"  is null) and ("riga_distinta"."data_fine" is null )) and
+			(("riga_distinta"."id_distinta" =  :id_base )  or
+          ("riga_distinta"."id_distinta" = :id_var and  "riga_distinta"."id_dis_var"=null) or
+			 ("riga_distinta"."id_dis_var"=:id_var) and ("riga_distinta"."id_distinta" =:id_testa))  and
+			("riga_distinta"."id_riga_distinta" not in (select "var_riga_distinta"."id_riga_distinta"
+			from "var_riga_distinta" where "var_riga_distinta"."id_dis_variante"=:id_testa))
+	ORDER BY "riga_distinta"."num_riga" ;
+ll_app=ll_root
+if lb_con=true then
+	select articolo.id_articolo,articolo.codice,articolo.immagine
+	into:id_art,:testa,:path
+	from articolo,distinta
+	where distinta.id_distinta=:id
+	and articolo.id_articolo=distinta.id_articolo;
+	dat.quantita=1
+	dat.path=path
+	dat.id_dis_figlio=id
+	dat.id_articolo=id_art
+	dat.id_distinta=id
+	tvi.data=dat
+	tvi.label=testa
+	tvi.pictureindex=4
+	tvi.selectedpictureindex=4
+	tvi.Expanded=true
+	ll_root=tv_dis.insertitemfirst(0,tvi)
+	ll_app=ll_root
+end if
+if ll_root<> -1 then
+	tv_dis.getitem(ll_root,tvi)
+	dat=tvi.data
+	id_var=dat.id_dis_figlio
+	select id_dis_base
+	into :id_base
+	from distinta
+	where id_distinta=:id_var;
+	if isnull(id_base) then id_base=id_var
+end if
+ld_tot_carati=0
+
+open recupera;
+fetch recupera into :cod,:des,:id_art,:pt,:tg,:qt,:cs,:id_f,:ll_id_riga,:ll_num_riga, :calo;
+do while sqlca.sqlcode=0
+	if sqlca.sqlcode=0 then
+		if id_f>0 then controllo=true
+		dat.path=pt
+		dat.id_articolo=id_art
+		boolean lb_inserisci
+		string ls_cat_cod, ls_temp, ls_um
+		decimal ld_prezzo, ld_titolo
+		decimal ld_quotazione
+		long ll_peso, i, ll_num_righe_esplose, ll_id_pietra
+		
+		lb_inserisci=true
+		if (tg<>'C')and(tg<>'D')and(tg<>'P') then
+			
+			select "cat_codifica"."codice"
+			into :ls_cat_cod
+			from "articolo","cat_codifica"
+			where ("articolo"."id_articolo"=:id_art)and("articolo"."id_cat_codifica"="cat_codifica"."id_cat_codifica");
+			select "unita_confezione"."peso_netto"
+			into :ld_peso
+			from "unita_confezione"
+			where ("unita_confezione"."id_articolo"=:id_art) and ("unita_confezione"."unita_base"='S');
+			
+			ls_temp=string(ld_peso)
+			ls_temp=replace(ls_temp, Pos(ls_temp, ",", 1), 1, ".") 
+			if ls_cat_cod="PIET" then
+				select id_pietra
+				into :ll_id_pietra
+				from articolo
+				where articolo.id_articolo=:id_art;
+				select prezzo
+				into :ld_prezzo
+				from orafo_prezzi_pietre
+				where (id_pietra=:ll_id_pietra)and(da_carato<=convert(decimal, :ls_temp))and(a_carato>=convert(decimal, :ls_temp));
+				ld_prezzo=ld_prezzo*qt
+				ld_peso=ld_peso*qt
+			else
+				select "articolo"."id_titolo", "orafo_titolo"."titolo"
+				into :ll_titolo, :ld_titolo
+				from "articolo", "orafo_titolo"
+				where ("articolo"."id_articolo"=:id_art)and("articolo"."id_titolo"="orafo_titolo"."id_titolo");
+				if Not(IsNull(ll_titolo)) then
+					select "orafo_metallo"."descrizione"
+					into :ls_temp
+					from "orafo_metallo", "orafo_titolo"
+					where ("orafo_metallo"."Id_metallo"="orafo_titolo"."id_metallo")and("orafo_titolo"."id_titolo"=:ll_titolo);
+					ls_temp=ls_temp
+					ld_quotazione=0
+					for i=1 to UpperBound(as_quotazioni)
+						if as_quotazioni[i].codice=ls_temp then
+							ld_quotazione=as_quotazioni[i].valore
+							exit
+						end if
+					next
+					if ld_quotazione=0 then
+						
+						OpenWithParm(w_orafo_quot_met_wz,ls_temp)
+						
+						ld_quotazione=message.DoubleParm
+						as_quotazioni[UpperBound(as_quotazioni)+1].codice=ls_temp
+						as_quotazioni[UpperBound(as_quotazioni)].valore=ld_quotazione
+					end if
+				end if
+				
+				select simbolo
+				into :ls_um
+				from unita_misura, unita_confezione
+				where ("unita_confezione"."id_articolo"=:id_art) and ("unita_confezione"."unita_base"='S')
+				and("unita_confezione"."id_unita_misura"="unita_misura"."id_unita_misura");
+			choose case ls_um
+				case 'G'
+					
+					
+					if IsNull(calo) then calo=ld_titolo
+					ld_prezzo=cs*qt
+					ld_prezzo=ld_prezzo+((qt*calo)/1000)*ld_quotazione
+				case 'PZ'
+					
+					ld_prezzo=cs*qt
+			end choose
+			end if
+		else
+			choose case tg
+				case 'P'
+					
+					ll_num_righe_esplose=dw_esplodi.RowCount()
+					for i =1 to ll_num_righe_esplose
+						ld_quotazione=dw_esplodi.getItemNumber(i,"prezzo")
+						dw_esplodi.SetItem(i,"prezzo",ld_quotazione+((ld_quotazione/100)*qt))
+					next
+					
+					lb_inserisci=false
+				case 'C'
+					
+					ld_prezzo=qt
+			end choose
+		end if
+		dat.id_dis_figlio=id_f
+		dat.id_distinta=id_f
+		dat.id_riga=ll_id_riga
+		dat.quantita=qt
+		dat.costo=cs
+		dat.codice=cod
+		dat.descrizione=des
+		dat.tipo_riga=tg
+		dat.num_riga=ll_num_riga
+		
+		if isnull(cs) then cs=0
+		if id_f>0 then
+			tvi.Expanded=true
+		else	
+			tvi.Expanded=false
+		end if
+		tvi.data=dat
+		ll_child=tv_dis.insertitemlast(ll_root,tvi)
+		if id_f>0 then
+		elseif lb_inserisci then
+			
+			ai_ritorno ++
+			ll_riga_trovata=dw_esplodi.insertrow(0)
+			dw_esplodi.setitem(ll_riga_trovata,"cod_padre",as_padre)
+			dw_esplodi.setitem(ll_riga_trovata,"quantita",qt*ad_quantita)
+			dw_esplodi.setitem(ll_riga_trovata,"prezzo",ld_prezzo*ad_quantita)
+			dw_esplodi.setitem(ll_riga_trovata,"c_articolo_cod",cod)
+			dw_esplodi.setitem(ll_riga_trovata,"riga_documento_descrizione",des)
+			dw_esplodi.setitem(ll_riga_trovata,"riga_documento_id_articolo",id_art)
+			dw_esplodi.setitem(ll_riga_trovata,"id_titolo",ll_titolo)			
+			dw_esplodi.setitem(ll_riga_trovata,"id_sog_commerciale",ll_id_sog_com)						
+			dw_esplodi.setitem(ll_riga_trovata,"rag_soc_1",ls_rag_soc_1)
+			dw_esplodi.setitem(ll_riga_trovata,"riga_documento_peso_netto",ld_peso*ad_quantita)
+			if (ls_cat_cod='PIET')and(tg<>'C') then ld_tot_carati=ld_tot_carati+(ld_peso*ad_quantita)
+	
+		end if
+		tvi.expanded=false
+
+	end if
+	fetch recupera into :cod,:des,:id_art,:pt,:tg,:qt,:cs,:id_f,:ll_id_riga,:ll_num_riga, :calo;
+loop
+close recupera;
+
+return ld_tot_carati
+
+
+
+
+end function
+

@@ -1,0 +1,63 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=64 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=long update=yes updatewhereclause=yes key=yes name=cast_iva_documento_id_documento dbname="cast_iva_documento.id_documento" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=cast_iva_documento_id_tab_iva dbname="cast_iva_documento.id_tab_iva" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=cast_iva_documento_val_omaggi dbname="cast_iva_documento.val_omaggi" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=cast_iva_documento_val_imponibile dbname="cast_iva_documento.val_imponibile" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=cast_iva_documento_val_imp_scontato dbname="cast_iva_documento.val_imp_scontato" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=cast_iva_documento_val_spese dbname="cast_iva_documento.val_spese" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=cast_iva_documento_val_tot_imp_v dbname="cast_iva_documento.val_tot_imp_v" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=cast_iva_documento_val_tot_imp_l dbname="cast_iva_documento.val_tot_imp_l" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=cast_iva_documento_val_tot_iva_v dbname="cast_iva_documento.val_tot_iva_v" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=cast_iva_documento_val_tot_iva_l dbname="cast_iva_documento.val_tot_iva_l" )
+ retrieve="  SELECT   
+         ~"cast_iva_documento~".~"id_documento~",   
+         ~"cast_iva_documento~".~"id_tab_iva~",   
+         ~"cast_iva_documento~".~"val_omaggi~",   
+         ~"cast_iva_documento~".~"val_imponibile~",   
+         ~"cast_iva_documento~".~"val_imp_scontato~",   
+         ~"cast_iva_documento~".~"val_spese~",   
+         ~"cast_iva_documento~".~"val_tot_imp_v~",   
+         ~"cast_iva_documento~".~"val_tot_imp_l~",   
+         ~"cast_iva_documento~".~"val_tot_iva_v~",   
+         ~"cast_iva_documento~".~"val_tot_iva_l~"  
+    FROM ~"caus_magazzino~",   
+         ~"documento~",   
+         ~"sog_commerciale~",   
+         ~"cast_iva_documento~"  
+   WHERE ( ~"documento~".~"id_caus_magazzino~" = ~"caus_magazzino~".~"id_caus_magazzino~" ) and  
+         ( ~"sog_commerciale~".~"id_sog_commerciale~" = ~"documento~".~"id_sog_commerciale~" ) and  
+         ( ~"cast_iva_documento~".~"id_documento~" = ~"documento~".~"id_documento~" ) and  
+         ( ( ~"caus_magazzino~".~"codice~" >= :da_caus ) AND  
+         ( ~"caus_magazzino~".~"codice~" <= :a_caus ) AND  
+         (( ~"documento~".~"data_documento~" >= :da_data ) AND  
+         ( ~"documento~".~"data_documento~" <= :a_data ) or 
+			~"documento~".~"data_documento~" is null) AND  
+         ( ~"sog_commerciale~".~"codice~" >= :da_sog ) AND  
+         ( ~"sog_commerciale~".~"codice~" <= :a_sog ) )    
+" update="cast_iva_documento" updatewhere=0 updatekeyinplace=no arguments=(("da_data", date),("a_data", date),("da_sog", string),("a_sog", string),("da_caus", string),("a_caus", string)) )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="0" height="56" width="978" format="[general]"  name=cast_iva_documento_id_documento edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="997" y="0" height="56" width="978" format="[general]"  name=cast_iva_documento_id_tab_iva edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1984" y="0" height="56" width="978" format="[general]"  name=cast_iva_documento_val_omaggi edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="2971" y="0" height="56" width="978" format="[general]"  name=cast_iva_documento_val_imponibile edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="3959" y="0" height="56" width="978" format="[general]"  name=cast_iva_documento_val_imp_scontato edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="4946" y="0" height="56" width="978" format="[general]"  name=cast_iva_documento_val_spese edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="5934" y="0" height="56" width="978" format="[general]"  name=cast_iva_documento_val_tot_imp_v edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="6921" y="0" height="56" width="978" format="[general]"  name=cast_iva_documento_val_tot_imp_l edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="7909" y="0" height="56" width="978" format="[general]"  name=cast_iva_documento_val_tot_iva_v edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="8896" y="0" height="56" width="978" format="[general]"  name=cast_iva_documento_val_tot_iva_l edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Cast Iva Documento Id Documento"border="0" color="0" x="9" y="4" height="56" width="978"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cast Iva Documento Id Tab Iva"border="0" color="0" x="997" y="4" height="56" width="978"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cast Iva Documento Val Omaggi"border="0" color="0" x="1984" y="4" height="56" width="978"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cast Iva Documento Val Imponibile"border="0" color="0" x="2971" y="4" height="56" width="978"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cast Iva Documento Val Imp Scontato"border="0" color="0" x="3959" y="4" height="56" width="978"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cast Iva Documento Val Spese"border="0" color="0" x="4946" y="4" height="56" width="978"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cast Iva Documento Val Tot Imp V"border="0" color="0" x="5934" y="4" height="56" width="978"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cast Iva Documento Val Tot Imp L"border="0" color="0" x="6921" y="4" height="56" width="978"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cast Iva Documento Val Tot Iva V"border="0" color="0" x="7909" y="4" height="56" width="978"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Cast Iva Documento Val Tot Iva L"border="0" color="0" x="8896" y="4" height="56" width="978"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

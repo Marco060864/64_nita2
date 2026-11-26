@@ -1,0 +1,11 @@
+﻿//objectcomments struttura usate per la stampa delle partite
+global type s_param_partite from structure
+	string		codice1
+	string		codice2
+	date		dat1
+	date		dat2
+	string		stato
+	string		da_gruppo_agente
+	string		a_gruppo_agente
+end type
+

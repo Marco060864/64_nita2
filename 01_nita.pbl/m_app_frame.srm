@@ -1,0 +1,372 @@
+﻿forward
+global type m_app_frame from m_mdi_frame
+end type
+end forward
+
+global type m_app_frame from m_mdi_frame
+end type
+global m_app_frame m_app_frame
+
+on m_app_frame.create
+m_app_frame=this
+call super::create
+end on
+
+on m_app_frame.destroy
+call super::destroy
+end on
+
+type m_file from m_mdi_frame`m_file within m_app_frame
+end type
+
+on m_file.create
+call super::create
+end on
+
+on m_file.destroy
+call super::destroy
+end on
+
+type m_apri from m_mdi_frame`m_apri within m_file
+end type
+
+on m_apri.create
+call super::create
+end on
+
+on m_apri.destroy
+call super::destroy
+end on
+
+type m_ripetilogin from m_mdi_frame`m_ripetilogin within m_file
+end type
+
+on m_ripetilogin.create
+call super::create
+end on
+
+on m_ripetilogin.destroy
+call super::destroy
+end on
+
+type m_chiudi from m_mdi_frame`m_chiudi within m_file
+end type
+
+on m_chiudi.create
+call super::create
+end on
+
+on m_chiudi.destroy
+call super::destroy
+end on
+
+type m_salvaconnome from m_mdi_frame`m_salvaconnome within m_file
+end type
+
+on m_salvaconnome.create
+call super::create
+end on
+
+on m_salvaconnome.destroy
+call super::destroy
+end on
+
+type m_salvapaginahtml from m_mdi_frame`m_salvapaginahtml within m_file
+end type
+
+on m_salvapaginahtml.create
+call super::create
+end on
+
+on m_salvapaginahtml.destroy
+call super::destroy
+end on
+
+type m__2 from m_mdi_frame`m__2 within m_file
+end type
+
+on m__2.create
+call super::create
+end on
+
+on m__2.destroy
+call super::destroy
+end on
+
+type m_impostastampante from m_mdi_frame`m_impostastampante within m_file
+end type
+
+on m_impostastampante.create
+call super::create
+end on
+
+on m_impostastampante.destroy
+call super::destroy
+end on
+
+type m_stampa from m_mdi_frame`m_stampa within m_file
+end type
+
+on m_stampa.create
+call super::create
+end on
+
+on m_stampa.destroy
+call super::destroy
+end on
+
+type m__4 from m_mdi_frame`m__4 within m_file
+end type
+
+on m__4.create
+call super::create
+end on
+
+on m__4.destroy
+call super::destroy
+end on
+
+type m_esci from m_mdi_frame`m_esci within m_file
+end type
+
+on m_esci.create
+call super::create
+end on
+
+on m_esci.destroy
+call super::destroy
+end on
+
+type m_modifica from m_mdi_frame`m_modifica within m_app_frame
+end type
+
+on m_modifica.create
+call super::create
+end on
+
+on m_modifica.destroy
+call super::destroy
+end on
+
+type m_inserisci from m_mdi_frame`m_inserisci within m_modifica
+end type
+
+on m_inserisci.create
+call super::create
+this.toolbaritemtext = "Inserisci in coda"
+end on
+
+on m_inserisci.destroy
+call super::destroy
+end on
+
+type m_aggiungiincoda from m_mdi_frame`m_aggiungiincoda within m_modifica
+end type
+
+on m_aggiungiincoda.create
+call super::create
+this.toolbaritemtext = "Aggiungi in posizione corrente"
+end on
+
+on m_aggiungiincoda.destroy
+call super::destroy
+end on
+
+type m_salva from m_mdi_frame`m_salva within m_modifica
+end type
+
+on m_salva.create
+call super::create
+end on
+
+on m_salva.destroy
+call super::destroy
+end on
+
+type m_elimina from m_mdi_frame`m_elimina within m_modifica
+end type
+
+on m_elimina.create
+call super::create
+end on
+
+on m_elimina.destroy
+call super::destroy
+end on
+
+type m__1 from m_mdi_frame`m__1 within m_modifica
+end type
+
+on m__1.create
+call super::create
+end on
+
+on m__1.destroy
+call super::destroy
+end on
+
+type m_copia from m_mdi_frame`m_copia within m_modifica
+end type
+
+on m_copia.create
+call super::create
+end on
+
+on m_copia.destroy
+call super::destroy
+end on
+
+type m_taglia from m_mdi_frame`m_taglia within m_modifica
+end type
+
+on m_taglia.create
+call super::create
+end on
+
+on m_taglia.destroy
+call super::destroy
+end on
+
+type m_incolla from m_mdi_frame`m_incolla within m_modifica
+end type
+
+on m_incolla.create
+call super::create
+end on
+
+on m_incolla.destroy
+call super::destroy
+end on
+
+type m__3 from m_mdi_frame`m__3 within m_modifica
+end type
+
+on m__3.create
+call super::create
+end on
+
+on m__3.destroy
+call super::destroy
+end on
+
+type m_ricerca from m_mdi_frame`m_ricerca within m_modifica
+end type
+
+on m_ricerca.create
+call super::create
+end on
+
+on m_ricerca.destroy
+call super::destroy
+end on
+
+type m_record from m_mdi_frame`m_record within m_app_frame
+end type
+
+on m_record.create
+call super::create
+end on
+
+on m_record.destroy
+call super::destroy
+end on
+
+type m_primorecord from m_mdi_frame`m_primorecord within m_record
+end type
+
+on m_primorecord.create
+call super::create
+end on
+
+on m_primorecord.destroy
+call super::destroy
+end on
+
+type m_recordprecedente from m_mdi_frame`m_recordprecedente within m_record
+end type
+
+on m_recordprecedente.create
+call super::create
+end on
+
+on m_recordprecedente.destroy
+call super::destroy
+end on
+
+type m_vaialsuccessivo from m_mdi_frame`m_vaialsuccessivo within m_record
+end type
+
+on m_vaialsuccessivo.create
+call super::create
+end on
+
+on m_vaialsuccessivo.destroy
+call super::destroy
+end on
+
+type m_ultimorecord from m_mdi_frame`m_ultimorecord within m_record
+end type
+
+on m_ultimorecord.create
+call super::create
+end on
+
+on m_ultimorecord.destroy
+call super::destroy
+end on
+
+type m_finestre from m_mdi_frame`m_finestre within m_app_frame
+end type
+
+on m_finestre.create
+call super::create
+end on
+
+on m_finestre.destroy
+call super::destroy
+end on
+
+type m_disponiacascata from m_mdi_frame`m_disponiacascata within m_finestre
+end type
+
+on m_disponiacascata.create
+call super::create
+end on
+
+on m_disponiacascata.destroy
+call super::destroy
+end on
+
+type m_disponiorizzontalmente from m_mdi_frame`m_disponiorizzontalmente within m_finestre
+end type
+
+on m_disponiorizzontalmente.create
+call super::create
+end on
+
+on m_disponiorizzontalmente.destroy
+call super::destroy
+end on
+
+type m_guida from m_mdi_frame`m_guida within m_app_frame
+end type
+
+on m_guida.create
+call super::create
+end on
+
+on m_guida.destroy
+call super::destroy
+end on
+
+type m_informazioni from m_mdi_frame`m_informazioni within m_guida
+end type
+
+on m_informazioni.create
+call super::create
+end on
+
+on m_informazioni.destroy
+call super::destroy
+end on
+

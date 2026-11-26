@@ -1,0 +1,68 @@
+﻿global type f_dati_doc from function_object
+end type
+
+forward prototypes
+global function string f_dati_doc (long ll_id_riga, string ls_campo)
+end prototypes
+
+global function string f_dati_doc (long ll_id_riga, string ls_campo);string ls_nota, ls_codice, ls_rag_soc
+decimal ldc_cambio
+
+
+
+choose case ls_campo 
+	case	"note_intestazione"
+		select note_intestazione
+		into :ls_nota
+		from documento d, riga_documento r 
+		where d.id_documento=r.id_documento
+		and id_riga_documento=:ll_id_riga;
+	case "bollo"
+		select bollo
+		into :ls_nota
+		from documento d, riga_documento r 
+		where d.id_documento=r.id_documento
+		and id_riga_documento=:ll_id_riga;
+	case "pagamento"
+		select c.descrizione
+		into :ls_nota
+		from documento d, riga_documento r, con_pagamento c 
+		where d.id_documento=r.id_documento
+		and c.id_con_pagamento=d.id_con_pagamento
+		and id_riga_documento=:ll_id_riga;
+		
+	case "valuta"
+		select v.codice
+		into :ls_nota
+		from documento d, riga_documento r, valuta v 
+		where d.id_documento=r.id_documento
+		and d.id_valuta=v.id_valuta
+		and id_riga_documento=:ll_id_riga;
+	case "cambio"
+		select d.cambio
+		into :ldc_cambio
+		from documento d, riga_documento r 
+		where d.id_documento=r.id_documento
+		and id_riga_documento=:ll_id_riga;
+		ls_nota=string(ldc_cambio)
+	case "id_titolo"
+		select titolo
+		into :ldc_cambio
+		from orafo_titolo t, riga_documento r, articolo a
+		where id_riga_documento=:ll_id_riga
+		and r.id_articolo=a.id_articolo
+		and t.id_titolo=a.id_titolo;
+		ls_nota=string(ldc_cambio)
+	case "intestatario"
+		select s.codice, s.rag_soc_1
+		into :ls_codice, :ls_rag_soc
+		from sog_commerciale_gen s, riga_documento r, documento d
+		where d.id_documento=r.id_documento
+		and d.id_sog_commerciale=s.id_sog_commerciale
+		and r.id_riga_documento=:ll_id_riga;
+		ls_nota="INTESTATARIO: "+ls_rag_soc +" - "+ls_codice
+end choose
+return ls_nota
+
+end function
+

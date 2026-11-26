@@ -1,0 +1,107 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=1220 color="536870912" )
+table(column=(type=long update=yes updatewhereclause=yes name=id_conto dbname="id_conto" )
+ column=(type=char(8) updatewhereclause=yes name=conto_codice dbname="codice" )
+ column=(type=char(40) updatewhereclause=yes name=conto_descrizione dbname="descrizione" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=importo dbname="importo" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=chiusa_forzatamente dbname="chiusa_forzatamente" initial="N" values="	S/	N" validation=" gettext()  = 'S' OR  gettext()  = 'N'" validationmsg="'Immettere: S, N'" )
+ column=(type=long update=yes updatewhereclause=yes name=id_azienda dbname="id_azienda" initial="1" )
+ column=(type=long update=yes updatewhereclause=yes key=yes identity=yes name=id_par_aperta dbname="id_par_aperta" )
+ column=(type=decimal(4) updatewhereclause=yes name=cs dbname="s" )
+ column=(type=long update=yes updatewhereclause=yes name=par_aperta_id_reg_pd dbname="id_reg_pd" )
+ column=(type=date update=yes updatewhereclause=yes name=par_aperta_data_creazione dbname="data_creazione" )
+ column=(type=date update=yes updatewhereclause=yes name=par_aperta_data_scadenza dbname="data_scadenza" )
+ column=(type=char(32766) update=yes updatewhereclause=no name=par_aperta_note dbname="note" )
+ column=(type=decimal(4) updatewhereclause=yes name=csaldo dbname="saldo" )
+ column=(type=char(16) update=yes updatewhereclause=yes name=par_aperta_num_partita dbname="num_partita" )
+ column=(type=date update=yes updatewhereclause=yes name=par_aperta_data_partita dbname="data_partita" )
+ column=(type=char(47) updatewhereclause=yes name=cinfo_registro dbname="info_registro" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=stato dbname="stato" initial="A" values="Aperta	A/Chiusa	C/" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=tipo_fattura dbname="tipo_fattura" initial="N" values="Normale	N/Nota di Credito	C/Nota di Debito	D/" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=segno_iva dbname="segno_iva" initial="1" )
+ column=(type=long update=yes updatewhereclause=yes name=id_valuta dbname="id_valuta" )
+ retrieve="  SELECT ~"par_aperta~".~"id_conto~",   
+         ~"conto~".~"codice~",   
+         ~"conto~".~"descrizione~",   
+         ~"par_aperta~".~"importo~",   
+         ~"par_aperta~".~"chiusa_forzatamente~",   
+         ~"par_aperta~".~"id_azienda~",   
+         ~"par_aperta~".~"id_par_aperta~",   
+         sum( 0 + ~"mov_partita~".~"importo~") S,   
+         ~"par_aperta~".~"id_reg_pd~",   
+         ~"par_aperta~".~"data_creazione~",   
+         ~"par_aperta~".~"data_scadenza~",   
+         ~"par_aperta~".~"note~",   
+         (~"par_aperta~".~"importo~" - S) as Saldo,   
+         ~"par_aperta~".~"num_partita~",   
+         ~"par_aperta~".~"data_partita~",   
+         IfNull(~"par_aperta~".~"id_reg_pd~",Null,'Esercizio: ' || ~"esercizio~".~"codice~" || ' - Tipo: ' || ~"registro~".~"tipo_registro~" || ' - Numero: ' || ~"registro~".~"numero~") as info_registro,   
+         ~"par_aperta~".~"stato~",   
+         ~"par_aperta~".~"tipo_fattura~",   
+         ~"par_aperta~".~"segno_iva~",   
+         ~"par_aperta~".~"id_valuta~"  
+    FROM {oj {oj {oj ~"par_aperta~"  LEFT OUTER JOIN ~"reg_pd~"  ON ~"par_aperta~".~"id_reg_pd~" = ~"reg_pd~".~"id_reg_pd~"} LEFT OUTER JOIN ~"registro~"  ON ~"reg_pd~".~"id_registro~" = ~"registro~".~"id_registro~"} LEFT OUTER JOIN ~"esercizio~"  ON ~"registro~".~"id_esercizio~" = ~"esercizio~".~"id_esercizio~"}, {oj ~"par_aperta~"  LEFT OUTER JOIN ~"mov_partita~"  ON ~"par_aperta~".~"id_par_aperta~" = ~"mov_partita~".~"id_par_aperta~"},   
+         ~"conto~"  
+   WHERE ( ~"conto~".~"id_conto~" = ~"par_aperta~".~"id_conto~" ) and  
+         ( ( ~"par_aperta~".~"id_azienda~" in (0, 1) ) )   
+GROUP BY ~"par_aperta~".~"id_par_aperta~",   
+         ~"par_aperta~".~"id_conto~",   
+         ~"par_aperta~".~"stato~",   
+         ~"par_aperta~".~"data_partita~",   
+         ~"reg_pd~".~"data_registrazione~",   
+         ~"par_aperta~".~"num_partita~",   
+         ~"reg_pd~".~"num_progressivo~",   
+         ~"conto~".~"descrizione~",   
+         ~"conto~".~"codice~",   
+         ~"par_aperta~".~"id_azienda~",   
+         ~"par_aperta~".~"chiusa_forzatamente~",   
+         ~"par_aperta~".~"importo~",   
+         ~"par_aperta~".~"note~",   
+         ~"par_aperta~".~"data_scadenza~",   
+         ~"par_aperta~".~"data_creazione~",   
+         ~"registro~".~"tipo_registro~",   
+         ~"par_aperta~".~"id_reg_pd~",   
+         ~"esercizio~".~"codice~",   
+         ~"registro~".~"numero~",   
+         ~"par_aperta~".~"tipo_fattura~",   
+         ~"par_aperta~".~"segno_iva~" ,   
+         ~"par_aperta~".~"id_valuta~"   
+ORDER BY ~"par_aperta~".~"id_conto~" ASC   
+" update="par_aperta" updatewhere=1 updatekeyinplace=yes )
+rectangle(band=detail x="2194" y="452" height="168" width="416" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="15780518"  background.mode="2" background.color="0" )
+bitmap(band=detail filename="S:\PB\CommonFrameWork\search.bmp" x="2149" y="24" height="64" width="73" border="6"  name=conto_descrizione_sw )
+column(band=detail id=3 alignment="0" tabsequence=20 border="5" color="33554432" x="1029" y="24" height="64" width="1102" format="[general]"  name=conto_descrizione edit.name="es_Descrizione" edit.limit=40 edit.case=any edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+bitmap(band=detail filename="S:\PB\CommonFrameWork\search.bmp" x="914" y="24" height="64" width="73" border="6"  name=conto_codice_sw )
+column(band=detail id=18 alignment="0" tabsequence=30 border="5" color="33554432" x="1838" y="124" height="68" width="389" format="[general]"  name=tipo_fattura ddlb.limit=0 ddlb.allowedit=no ddlb.case=any ddlb.nilisnull=yes ddlb.vscrollbar=yes ddlb.useasborder=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Tipo fattura:"border="0" color="33554432" x="1545" y="128" height="56" width="270"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="1" text="del"border="0" color="33554432" x="1010" y="224" height="56" width="87"  name=par_aperta_data_partita_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="0" tabsequence=50 border="5" color="33554432" x="1129" y="224" height="64" width="302" format="dd/mm/yyyy"  name=par_aperta_data_partita edit.name="es_Data" edit.limit=10 edit.case=any edit.format="dd/mm/yyyy" edit.autoselect=yes edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="0" x="2290" y="196" height="76" width="293" format="[general]"  name=segno_iva visible="1~t0" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=10 border="5" color="33554432" x="434" y="24" height="64" width="462" format="[general]"  name=conto_codice edit.name="es_Cod_A8" edit.limit=8 edit.case=upper edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="5" color="33554432" x="434" y="124" height="64" width="1079" format="[general]"  name=cinfo_registro edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Conto:"border="0" color="33554432" x="23" y="24" height="56" width="384"  name=conto_codice_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Registro:"border="0" color="33554432" x="23" y="124" height="56" width="384"  name=cinfo_registro_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="1" text="Num. Documento:"border="0" color="33554432" x="23" y="224" height="56" width="384"  name=par_aperta_num_partita_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Importo:"border="0" color="33554432" x="183" y="332" height="56" width="224"  name=importo_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Valuta:"border="0" color="33554432" x="1193" y="332" height="56" width="201"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=20 alignment="0" tabsequence=70 border="5" color="33554432" x="1458" y="332" height="64" width="503" format="[general]"  name=id_valuta dddw.name=d_valuta_gd dddw.displaycolumn=descrizione dddw.datacolumn=id_valuta dddw.percentwidth=250 dddw.lines=0 dddw.limit=0 dddw.allowedit=yes dddw.useasborder=yes dddw.case=any dddw.nilisnull=yes dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Creata il:"border="0" color="33554432" x="23" y="440" height="56" width="384"  name=par_aperta_data_creazione_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=10 alignment="0" tabsequence=80 border="5" color="33554432" x="434" y="440" height="64" width="352" format="dd/mm/yyyy"  name=par_aperta_data_creazione edit.name="es_Data" edit.limit=10 edit.case=any edit.format="dd/mm/yyyy" edit.autoselect=yes edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Scadenza:"border="0" color="33554432" x="823" y="440" height="56" width="265"  name=par_aperta_data_scadenza_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=11 alignment="0" tabsequence=90 border="5" color="33554432" x="1125" y="440" height="64" width="302" format="dd/mm/yyyy"  name=par_aperta_data_scadenza edit.name="es_Data" edit.limit=10 edit.case=any edit.format="dd/mm/yyyy" edit.autoselect=yes edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Chiusa Forz.:"border="0" color="33554432" x="1545" y="440" height="56" width="329"  name=chiusa_forzatamente_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=100 border="0" color="33554432" x="1902" y="440" height="60" width="69" format="[general]"  name=chiusa_forzatamente edit.name="es_Boolean" checkbox.text="" checkbox.on="S" checkbox.off="N" checkbox.scale=no checkbox.threed=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="2" text="Stato partita:"border="0" color="0" x="2208" y="424" height="56" width="343"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="1" text="Tot. movimenti:"border="0" color="33554432" x="23" y="552" height="56" width="384"  name=cs_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="5" color="33554432" x="434" y="552" height="64" width="526" format="#,0.00"  name=cs edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="1" text="Saldo:"border="0" color="33554432" x="1029" y="552" height="56" width="155"  name=csaldo_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=13 alignment="1" tabsequence=32766 border="5" color="33554432" x="1211" y="552" height="64" width="517" format="#,0"  name=csaldo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=17 alignment="2" tabsequence=110 border="0" color="0" x="2217" y="484" height="128" width="375" format="[general]"  name=stato radiobuttons.columns=1 radiobuttons.lefttext=yes radiobuttons.scale=no radiobuttons.threed=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="1" text="Note:"border="0" color="33554432" x="23" y="652" height="56" width="384"  name=par_aperta_note_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=12 alignment="0" tabsequence=120 border="5" color="33554432" x="434" y="652" height="252" width="2167" format="[general]"  name=par_aperta_note edit.name="es_Note" edit.limit=0 edit.case=any edit.autoselect=yes edit.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=14 alignment="1" tabsequence=40 border="5" color="33554432" x="434" y="224" height="64" width="539" format="[general]"  name=par_aperta_num_partita edit.name="es_Num_Documento" edit.limit=16 edit.case=any edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=4 alignment="1" tabsequence=60 border="5" color="33554432" x="434" y="332" height="64" width="539" format="#,0.00"  name=importo edit.limit=0 edit.case=any edit.format="#,0.00" edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

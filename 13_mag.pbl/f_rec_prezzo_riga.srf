@@ -1,0 +1,314 @@
+﻿global type f_rec_prezzo_riga from function_object
+end type
+
+forward prototypes
+global function s_rec_prezzo f_rec_prezzo_riga (readonly datawindow adw_riga, readonly datawindow adw_testata, long al_row, decimal adc_qta, long al_id_documento, decimal adc_cambio, long al_id_val_az, string as_rag_soc_azienda, string as_tipo_arrotondamento, integer ai_nr_cifre_arrot)
+end prototypes
+
+global function s_rec_prezzo f_rec_prezzo_riga (readonly datawindow adw_riga, readonly datawindow adw_testata, long al_row, decimal adc_qta, long al_id_documento, decimal adc_cambio, long al_id_val_az, string as_rag_soc_azienda, string as_tipo_arrotondamento, integer ai_nr_cifre_arrot);//======================================================================
+// PROPOSTA 20260702 - refactoring di ue_rec_prezzo in 3 pezzi:
+//   1) struttura s_rec_prezzo        (risultati del calcolo)
+//   2) funzione globale f_rec_prezzo_riga  (SOLO lettura e calcolo, nessun setitem)
+//   3) nuovo corpo dell'evento ue_rec_prezzo (fa tutti i setitem)
+// Le dw passate servono in SOLA LETTURA; altri oggetti possono chiamare
+// la funzione purché le loro dw abbiano le stesse colonne:
+//   riga:    riga_documento_id_caus_magazzino, riga_documento_id_listino,
+//            riga_documento_id_articolo, c_articolo_cod,
+//            riga_documento_id_unita_confezione, id_locazione_1, tipo_um,
+//            riga_documento_id_valuta, provv_agente_2, id_riga_doc_padre
+//   testata: data_registrazione, id_sog_commerciale, id_prof_documento
+//======================================================================
+//======================================================================
+// 1) STRUTTURA s_rec_prezzo
+//======================================================================
+//esito:           1 = valori calcolati; 0 = non recuperare (riga esplosa,
+//                 prezzo confermato, manca data, riga non valida)
+//azzera_prezzi:   true = il chiamante deve azzerare prezzo e
+//                 prezzo_manifattura (caso Silver Dreams), da fare
+//                 ANCHE se esito=0 per data mancante
+//id_variazione:   >0 = da riportare in riga_documento_id_listino
+//tipo_prezzo:     "PZ" prezzo + prezzo_complessivo
+//                 "CO" solo prezzo_complessivo (azzera manifattura)
+//                 "MA" solo prezzo_manifattura (azzera complessivo)
+//                 "AZ" azzera complessivo e manifattura
+//                 ""   non toccare i prezzi
+//coef_calo:       parsato dal ritorno di f_recupera_prezzo_manifattura,
+//                 finora mai applicato alla riga (in attesa di decisione)
+//======================================================================
+// 2) FUNZIONE GLOBALE f_rec_prezzo_riga  returns s_rec_prezzo
+//======================================================================
+// Argomenti (nell'ordine):
+//   datawindow	adw_riga					dw righe documento (sola lettura)
+//   datawindow	adw_testata				dw testata documento (sola lettura)
+//   long			al_row					riga in esame
+//   decimal		adc_qta					quantità
+//   long			al_id_documento		ex il_id_documento
+//   decimal		adc_cambio				ex idc_cambio
+//   long			al_id_val_az			id valuta azienda
+//   string			as_rag_soc_azienda	ex is_rag_soc_azienda (test Silver Dreams)
+//   string			as_tipo_arrotondamento	ex is_tipo_arrotondamento
+//   long			al_nr_cifre_arrot		ex il_arrotondamento
+//======================================================================
+s_rec_prezzo	lstr
+integer		li_confermato, li_pos, i
+long			ll_riga_testata, ll_caus_magazzino
+long			ll_id_listino, ll_id_var, ll_sog_com, ll_id_cat_com_sc
+long			ll_id_art_in_esame, ll_id_cat_com_articolo, ll_sog_com_fornitore, ll_id_produttore
+long			ll_id_U_C_in_esame, ll_id_magazzino, ll_id_prof, ll_valuta
+long			ll_id_titolo, ll_tipo_prezzo
+string		ls_app, ls_proponi_manifattura, ls_tipo_applicazione
+string		ls_cod_art_in_esame, ls_um, ls_um_prezzo, ls_manifattura
+string		ls_prezzo, ls_app1, ls_lis_variazione
+decimal		ld_prezzo, ld_var_prezzo, ldc_prezzo_spazzo
+decimal{4}	ld_qta
+long			ll_id_var_riga, ll_lis_var, ll_val_var   //20261105 variazione della riga
+decimal		ld_pr_var, ld_cc_var, ld_pm_var, ldc_cambio_var, ldc_cambio_doc_var   //20261105
+
+lstr.l_esito = 0
+lstr.b_azzera_prezzi = false
+lstr.l_id_variazione = 0
+lstr.s_tipo_prezzo = ""
+lstr.dc_prezzo = 0
+lstr.b_set_sconto_riga = false
+lstr.dc_sconto_riga = 0
+lstr.b_set_sconto_perc = false
+lstr.s_sconto_perc = ""
+lstr.b_set_sconto_fin = false
+lstr.s_sconto_finanziario = ""
+lstr.s_coef_calo = ""
+
+if al_row < 1 then al_row = adw_riga.getrow()
+//if al_row < 1 then return lstr
+
+//20261126 64_nita2 (Labella): tolta la parte Silver Dreams (righe esplose, X, azzeramento prezzi)
+
+//data documento obbligatoria
+//ll_riga_testata = adw_testata.getrow()
+//if isnull(adw_testata.getitemdate(ll_riga_testata, "data_documento")) then
+//	messagebox("Attenzione!", "Specificare la data del documento")
+//	return lstr
+//end if
+
+//causale magazzino: tipo valorizzazione + proponi prezzo manifattura
+ll_caus_magazzino = adw_riga.getitemnumber(al_row, "riga_documento_id_caus_magazzino")
+ls_app = ''
+ls_proponi_manifattura = ''
+select tipo_valorizzazione, proponi_prezzo_manifattura
+into :ls_app, :ls_proponi_manifattura
+from caus_magazzino
+where id_caus_magazzino = :ll_caus_magazzino;
+if isnull(ls_app) or ls_app = '' then ls_app = 'V'
+if isnull(ls_proponi_manifattura) then ls_proponi_manifattura = ''
+
+//listino della riga (variazione); se manca, listino e cat.com. del soggetto
+ll_id_listino = adw_riga.getitemnumber(al_row, "riga_documento_id_listino")
+//20261105 (utente) la variazione indicata sulla riga comanda su tutto: il prezzo si prende da lei e si
+//         cambia solo se sulla riga non c e (riga_documento.id_listino contiene la VARIAZIONE)
+ll_id_var_riga = ll_id_listino
+if isnull(ll_id_var_riga) then ll_id_var_riga = 0
+ll_sog_com = adw_testata.getitemnumber(1, "id_sog_commerciale")
+ll_id_cat_com_sc = 0
+if isnull(ll_id_listino) then
+	select id_cat_com_sc, id_listino
+	into :ll_id_cat_com_sc, :ll_id_listino
+	from sog_commerciale
+	where id_sog_commerciale = :ll_sog_com;
+end if
+if isnull(ll_id_cat_com_sc) then ll_id_cat_com_sc = 0
+if isnull(ll_id_listino) then ll_id_listino = 0
+
+//dati articolo
+ll_id_art_in_esame = adw_riga.getitemnumber(al_row, "riga_documento_id_articolo")
+if isnull(ll_id_art_in_esame) then ll_id_art_in_esame = 0
+//qui andreabbe bloccatto: NOn c'è articolo di che si parla??? 20260715
+
+select codice into :ls_cod_art_in_esame from dba.articolo where id_articolo=:ll_id_art_in_esame;
+//ls_cod_art_in_esame = adw_riga.getitemstring(al_row, "c_articolo_cod")
+setnull(ll_id_cat_com_articolo)
+setnull(ll_sog_com_fornitore)
+setnull(ll_id_produttore)
+select id_cat_com_articolo, id_sog_commerciale, id_anagrafica
+into :ll_id_cat_com_articolo, :ll_sog_com_fornitore, :ll_id_produttore
+from articolo
+where id_articolo = :ll_id_art_in_esame;
+if isnull(ll_id_cat_com_articolo) then ll_id_cat_com_articolo = 0
+if isnull(ll_sog_com_fornitore) then ll_sog_com_fornitore = 0
+if isnull(ll_id_produttore) then ll_id_produttore = 0
+
+ll_id_U_C_in_esame = adw_riga.getitemnumber(al_row, "riga_documento_id_unita_confezione")
+if isnull(ll_id_U_C_in_esame) then ll_id_U_C_in_esame = 0
+
+ld_qta = adc_qta
+if isnull(ld_qta) then ld_qta = 0
+
+ll_id_magazzino = adw_riga.getitemnumber(al_row, "id_locazione_1")
+if ll_id_magazzino < 1 then
+	messagebox("Attenzione!", "Non è stato specificato alcun magazzino~r~n" &
+		+ "per questa riga!")
+end if
+
+if isnull(ai_nr_cifre_arrot) then ai_nr_cifre_arrot = 0
+
+ll_valuta = adw_riga.getitemnumber(1, "riga_documento_id_valuta") //NB: riga 1, si assume valuta unica per il documento
+ls_um = adw_riga.getitemstring(al_row, "tipo_um")
+if isnull(ls_um) then ls_um = ''
+if ls_um = 'P' then
+	ls_um_prezzo = 'PS'
+else
+	ls_um_prezzo = 'PZ'
+end if
+ll_id_prof = adw_testata.getitemnumber(1, "id_prof_documento")
+
+for i = 1 to 4
+	choose case i
+		case 1
+			ls_tipo_applicazione = "P"		//prezzo
+		case 2
+			ls_tipo_applicazione = "R"		//sconto riga a importo
+		case 3
+			ls_tipo_applicazione = "S"		//sconto in percentuale
+		case 4
+			ls_tipo_applicazione = "D"		//sconto finanziario documento
+	end choose
+
+	ll_id_var = ll_id_listino
+
+	//20261126 64_nita2: tolta la spazzolatura Karizia (profili 228 e 229, che su Labella sono altri documenti)
+	if i = 1 and ll_id_var_riga > 0 then
+		//20261105 prezzo dalla variazione della riga, come f_rec_prezzo_da_tab_prezzo ma senza scegliere la
+		//         variazione per data: se l articolo non ha prezzo in quella variazione il prezzo resta 0
+		//         e la variazione della riga non cambia
+		ld_pr_var = 0
+		ld_cc_var = 0
+		ld_pm_var = 0
+		ll_lis_var = 0
+		select p.prezzo, p.coef_calo, p.prezzo_manifattura, v.id_listino
+		into :ld_pr_var, :ld_cc_var, :ld_pm_var, :ll_lis_var
+		from dba.prezzo p, dba.variazione v
+		where p.id_variazione = :ll_id_var_riga
+		and v.id_variazione = p.id_variazione
+		and p.id_unita_confezione = :ll_id_U_C_in_esame;
+		if sqlca.sqlcode <> 0 then
+			ld_pr_var = 0
+			ld_cc_var = 0
+			ld_pm_var = 0
+		end if
+		if isnull(ld_pr_var) then ld_pr_var = 0
+		if isnull(ld_cc_var) then ld_cc_var = 0
+		if isnull(ld_pm_var) then ld_pm_var = 0
+		if ll_lis_var > 0 then
+			ll_val_var = 0
+			select id_valuta into :ll_val_var from dba.listino where id_listino = :ll_lis_var;
+			if ll_val_var > 0 and ll_val_var <> ll_valuta then
+				select cambio into :ldc_cambio_var from dba.valuta where id_valuta = :ll_val_var;
+				if isnull(ldc_cambio_var) or ldc_cambio_var <= 0 then ldc_cambio_var = 1
+				ldc_cambio_doc_var = adc_cambio
+				if isnull(ldc_cambio_doc_var) or ldc_cambio_doc_var <= 0 then ldc_cambio_doc_var = 1
+				ld_pr_var = ld_pr_var / ldc_cambio_doc_var * ldc_cambio_var
+				ld_pm_var = ld_pm_var / ldc_cambio_doc_var * ldc_cambio_var
+			end if
+		end if
+		if ls_um_prezzo = 'PZ' then
+			ls_prezzo = string(ld_pr_var)
+		else
+			ls_prezzo = string(ld_pm_var)
+		end if
+		ls_prezzo += "!" + string(ld_cc_var) + "!" + string(ll_id_var_riga)
+	else
+		ls_prezzo = f_recupera_prezzo_manifattura(ls_app, ll_id_U_C_in_esame, ll_sog_com, ll_id_cat_com_sc, ls_cod_art_in_esame, &
+			ll_id_cat_com_articolo, ll_sog_com_fornitore, ll_id_produttore, &
+			ld_qta, ls_tipo_applicazione, ll_id_art_in_esame, ll_id_magazzino, &
+			ll_valuta, ls_um_prezzo, adc_cambio, al_id_val_az)
+	end if
+
+	//formato di ritorno: prezzo!coef_calo!id_variazione
+	ls_app1 = ls_prezzo
+	li_pos = pos(ls_app1, "!")
+	if li_pos > 0 then
+		ls_prezzo = left(ls_app1, li_pos - 1)						//prezzo vero e proprio
+		ls_app1 = right(ls_app1, len(ls_app1) - li_pos)
+	end if
+	li_pos = pos(ls_app1, "!")
+	if li_pos > 0 then
+		lstr.s_coef_calo = left(ls_app1, li_pos - 1)					//mai applicato alla riga (vedi nota)
+		ls_lis_variazione = right(ls_app1, len(ls_app1) - li_pos)	//id_variazione da riportare in riga
+		ll_id_var = long(ls_lis_variazione)
+		if ll_id_var > 0 then lstr.l_id_variazione = ll_id_var
+	else
+		lstr.s_coef_calo = ls_app1
+	end if
+
+	choose case i
+		case 1 //prezzo
+			ld_prezzo = dec(ls_prezzo)
+			ld_prezzo = f_round(ld_prezzo, ai_nr_cifre_arrot, as_tipo_arrotondamento)
+
+			if not (ls_um = 'P') then
+				if ld_prezzo >= 0 then
+					lstr.s_tipo_prezzo = "PZ"
+					lstr.dc_prezzo = ld_prezzo
+				end if
+			else
+				if ls_proponi_manifattura = 'S' then
+					ls_manifattura = ''
+					setnull(ll_id_titolo)
+					select u.unita_produzione, a.id_titolo
+					into :ls_manifattura, :ll_id_titolo
+					from unita_confezione u, articolo a
+					where u.id_unita_confezione = :ll_id_U_C_in_esame
+					and u.id_articolo = a.id_articolo;
+
+					//se il prezzo fosse stato aggiornato dopo la data del documento
+					//attuale NON si dovrebbe recuperare (controllo da valutare)
+					ld_var_prezzo = 0
+					setnull(ll_tipo_prezzo)
+					select prezzo, id_unita_conf_base
+					into :ld_var_prezzo, :ll_tipo_prezzo
+					from prezzo_documento
+					where id_documento = :al_id_documento
+					and id_titolo = :ll_id_titolo;
+					if ld_var_prezzo > 0 then ld_prezzo += ld_var_prezzo
+
+					if ld_prezzo >= 0 then
+						if ll_tipo_prezzo = 2 then
+							ls_manifattura = 'C'
+						elseif ll_tipo_prezzo = 1 then
+							ls_manifattura = 'S'
+						end if
+						if ls_manifattura = 'S' then
+							lstr.s_tipo_prezzo = "CO"	//solo prezzo complessivo
+						else
+							lstr.s_tipo_prezzo = "MA"	//solo manifattura
+						end if
+						lstr.dc_prezzo = ld_prezzo
+					else
+						lstr.s_tipo_prezzo = "AZ"		//azzera entrambi
+					end if
+				end if
+			end if
+
+		case 2 //sconto riga a importo
+			ld_prezzo = dec(ls_prezzo)
+			if ld_prezzo >= 0 then
+				lstr.b_set_sconto_riga = true
+				lstr.dc_sconto_riga = ld_prezzo * ld_qta
+			end if
+
+		case 3 //sconto in percentuale (la politica di sovrascrittura la decide il chiamante)
+			lstr.b_set_sconto_perc = true
+			lstr.s_sconto_perc = ls_prezzo
+
+		case 4 //sconto finanziario in testata
+			lstr.b_set_sconto_fin = true
+			lstr.s_sconto_finanziario = ls_prezzo
+	end choose
+
+next
+
+lstr.l_esito = 1
+return lstr
+
+
+
+end function
+

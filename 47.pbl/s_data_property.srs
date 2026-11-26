@@ -1,0 +1,5 @@
+﻿global type s_data_property from structure
+	long		l_id_value
+	string		s_user_defined
+end type
+

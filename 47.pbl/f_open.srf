@@ -1,0 +1,67 @@
+﻿global type f_open from function_object
+end type
+
+forward prototypes
+global subroutine f_open (s_application astr_application, s_database astr_database)
+end prototypes
+
+global subroutine f_open (s_application astr_application, s_database astr_database);
+string	ls_multi, ls_ini_loc, ls_azi, ls_azienda, ls_pwd
+integer	li_pos
+
+u_freddie = CREATE u_freddie
+u_debug = CREATE u_debug
+
+
+
+//ls_multi = astr_application.multiaz
+//if upper(ls_multi) = "YES" then
+//	
+//	
+//	
+//	u_freddie.istr_application = astr_application
+//	u_freddie.istr_database = astr_database
+//	u_freddie.istr_database.name = astr_application.az_nome
+//	u_freddie.istr_database.vendor = astr_application.az_vendor
+//	
+//	ls_azi = u_freddie.select_azienda(false)
+//	if ls_azi <= " " then
+//		close(w_app_frame)
+//		return
+//	end if
+//	li_pos = pos (ls_azi,",")
+//	if li_pos>0 then
+//		ls_pwd = mid(ls_azi,li_pos+1)
+//	end if
+//	
+//else
+//	
+	
+	
+	astr_application.az_nome = ""
+	astr_application.az_descr = ""
+	astr_application.multiaz = "No"
+	u_freddie.istr_application = astr_application
+	u_freddie.istr_database = astr_database
+	ls_azi = ""
+	
+//end if
+
+
+u_freddie.splashscreen(true)
+if u_freddie.dbconnect(true,ls_pwd) = 0 then
+	open(w_app_frame)
+	u_freddie.splashscreen(false)
+	
+	if u_freddie.login()<0 then 
+		close(w_app_frame)
+	else
+		
+		u_freddie.openmenu()
+	end if
+else
+	halt close
+end if
+
+end subroutine
+

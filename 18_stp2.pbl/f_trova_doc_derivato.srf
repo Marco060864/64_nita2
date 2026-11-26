@@ -1,0 +1,38 @@
+﻿global type f_trova_doc_derivato from function_object
+end type
+
+forward prototypes
+global function string f_trova_doc_derivato (long al_id_riga, string as_tipo)
+end prototypes
+
+global function string f_trova_doc_derivato (long al_id_riga, string as_tipo);//gli passo id_riga_doc_provewnienza dlella riga della quale voglio trovare il padre e mi restituisce i dati del padre (a seconda di cosa chiedo nel II parametro
+
+string ls_ret
+datastore ds_trova_doc_derivato
+long ll_righe
+integer i
+decimal ldc_qta
+
+ds_trova_doc_derivato=create datastore
+ds_trova_doc_derivato.dataobject="ds_trova_doc_derivato"
+ds_trova_doc_derivato.settransobject(sqlca)
+ll_righe=ds_trova_doc_derivato.retrieve(al_id_riga)
+if ll_righe>0 then
+	choose case as_tipo
+		case 'qta' 
+			ldc_qta=ds_trova_doc_derivato.getitemdecimal(ll_righe, "quantita")
+			
+			ls_ret=string(ldc_qta, "#,0")
+		case "num"
+			ls_ret=ds_trova_doc_derivato.getitemstring(ll_righe, "num_documento")
+		case "data"
+			ls_ret=string(ds_trova_doc_derivato.getitemdate(ll_righe, "data_documento"))
+		case "riga"
+			ls_ret=string(ds_trova_doc_derivato.getitemnumber(ll_righe, "num_riga"))
+			
+	end choose
+end if
+destroy ds_trova_doc_derivato
+return ls_ret
+end function
+

@@ -1,0 +1,114 @@
+﻿global type f_gruppo_agenti from function_object
+end type
+
+forward prototypes
+global subroutine f_gruppo_agenti (ref datawindow adw_dati_agenti, integer ai_row, integer ai_gruppo, string as_chiamante)
+end prototypes
+
+global subroutine f_gruppo_agenti (ref datawindow adw_dati_agenti, integer ai_row, integer ai_gruppo, string as_chiamante);
+long		ll_id_gruppo_agenti, ll_id_gruppo_agenti_2
+long		ll_id_sog_com_capo_area, ll_id_sog_com_agente, ll_id_sog_com_sub_agente
+string	ls_codice1, ls_rag_soc_11, ls_codice2, ls_rag_soc_12, ls_codice3, ls_rag_soc_13
+long	   ll_null
+string 	ls_null
+
+choose case as_chiamante
+	case "M"
+		ll_id_gruppo_agenti 	 = adw_dati_agenti.getitemnumber(ai_row, "id_gruppo_agenti")
+		ll_id_gruppo_agenti_2 = adw_dati_agenti.getitemnumber(ai_row, "id_gruppo_agenti_2")
+	case "R"
+		ll_id_gruppo_agenti 	 = long(adw_dati_agenti.getitemstring(ai_row, "id_gruppo_agenti_des"))
+		ll_id_gruppo_agenti_2 = adw_dati_agenti.getitemnumber(ai_row, "id_gruppo_agenti_2_des")
+end choose
+
+if (ll_id_gruppo_agenti > 0) and (ai_gruppo = 0 or ai_gruppo = 1) then
+	SELECT id_sog_com_capo_area, id_sog_com_agente, id_sog_com_sub_agente,
+			 s1.codice, s1.rag_soc_1, s2.codice, s2.rag_soc_1, s3.codice, s3.rag_soc_1
+	INTO 	 :ll_id_sog_com_capo_area, :ll_id_sog_com_agente, :ll_id_sog_com_sub_agente,
+			 :ls_codice1, :ls_rag_soc_11, :ls_codice2, :ls_rag_soc_12, :ls_codice3, :ls_rag_soc_13
+	FROM 	 gruppo_agenti g, sog_commerciale_gen s1, sog_commerciale_gen s2, sog_commerciale_gen s3
+	WHERE  id_gruppo_agenti = :ll_id_gruppo_agenti
+	AND	 s1.id_sog_commerciale =* g.id_sog_com_capo_area
+	AND	 s2.id_sog_commerciale =* g.id_sog_com_agente
+	AND	 s3.id_sog_commerciale =* g.id_sog_com_sub_agente
+	;
+	
+	if (SQLCA.SQLCODE = -1) then messagebox("DBError", SQLCA.SQLERRTEXT)
+
+	choose case as_chiamante
+		case "M"
+			adw_dati_agenti.setitem(ai_row, "gruppo_agenti_a_id_sog_com_capo_area", ll_id_sog_com_capo_area)
+			adw_dati_agenti.setitem(ai_row, "capo_area_a_codice", ls_codice1)	
+			adw_dati_agenti.setitem(ai_row, "capo_area_a_rag_soc_1", ls_rag_soc_11)		
+			
+			adw_dati_agenti.setitem(ai_row, "gruppo_agenti_a_id_sog_com_agente", ll_id_sog_com_agente)
+			adw_dati_agenti.setitem(ai_row, "agente_a_codice", ls_codice2)	
+			adw_dati_agenti.setitem(ai_row, "agente_a_rag_soc_1", ls_rag_soc_12)		
+			
+			adw_dati_agenti.setitem(ai_row, "gruppo_agenti_a_id_sog_com_sub_agente", ll_id_sog_com_sub_agente)	
+			adw_dati_agenti.setitem(ai_row, "sub_agente_a_codice", ls_codice3)	
+			adw_dati_agenti.setitem(ai_row, "sub_agente_a_rag_soc_1", ls_rag_soc_13)		
+		case "R"
+			adw_dati_agenti.setitem(ai_row, "codice_capo", ls_codice1)	
+			adw_dati_agenti.setitem(ai_row, "rag_capo", ls_rag_soc_11)		
+			
+			adw_dati_agenti.setitem(ai_row, "codice_agente", ls_codice2)	
+			adw_dati_agenti.setitem(ai_row, "rag_agente", ls_rag_soc_12)		
+			
+			adw_dati_agenti.setitem(ai_row, "codice_sub_agente", ls_codice3)	
+			adw_dati_agenti.setitem(ai_row, "rag_sub_agente", ls_rag_soc_13)		
+	end choose
+
+end if
+
+setnull(ll_id_sog_com_capo_area)
+setnull(ll_id_sog_com_agente)
+setnull(ll_id_sog_com_sub_agente)
+setnull(ls_codice1)
+setnull(ls_rag_soc_11)
+setnull(ls_codice2)
+setnull(ls_rag_soc_12)
+setnull(ls_codice3)
+setnull(ls_rag_soc_13)
+
+if (ll_id_gruppo_agenti_2 > 0) and ( ai_gruppo= 0 or ai_gruppo = 2) then
+	SELECT id_sog_com_capo_area, id_sog_com_agente, id_sog_com_sub_agente,
+			 s1.codice, s1.rag_soc_1, s2.codice, s2.rag_soc_1, s3.codice, s3.rag_soc_1
+	INTO 	 :ll_id_sog_com_capo_area, :ll_id_sog_com_agente, :ll_id_sog_com_sub_agente,
+			 :ls_codice1, :ls_rag_soc_11, :ls_codice2, :ls_rag_soc_12, :ls_codice3, :ls_rag_soc_13
+	FROM 	 gruppo_agenti g, sog_commerciale_gen s1, sog_commerciale_gen s2, sog_commerciale_gen s3
+	WHERE  id_gruppo_agenti = :ll_id_gruppo_agenti_2
+	AND	 s1.id_sog_commerciale =* g.id_sog_com_capo_area
+	AND	 s2.id_sog_commerciale =* g.id_sog_com_agente
+	AND	 s3.id_sog_commerciale =* g.id_sog_com_sub_agente
+	;
+	
+	if (SQLCA.SQLCODE = -1) then messagebox("DBError", SQLCA.SQLERRTEXT)
+
+choose case as_chiamante
+	case "M"
+		adw_dati_agenti.setitem(ai_row, "gruppo_agenti_b_id_sog_com_capo_area", ll_id_sog_com_capo_area)
+		adw_dati_agenti.setitem(ai_row, "capo_area_b_codice", ls_codice1)	
+		adw_dati_agenti.setitem(ai_row, "capo_area_b_rag_soc_1", ls_rag_soc_11)		
+			
+		adw_dati_agenti.setitem(ai_row, "gruppo_agenti_b_id_sog_com_agente", ll_id_sog_com_agente)
+		adw_dati_agenti.setitem(ai_row, "agente_b_codice", ls_codice2)	
+		adw_dati_agenti.setitem(ai_row, "agente_b_rag_soc_1", ls_rag_soc_12)		
+		
+		adw_dati_agenti.setitem(ai_row, "gruppo_agenti_b_id_sog_com_sub_agente", ll_id_sog_com_sub_agente)
+		adw_dati_agenti.setitem(ai_row, "sub_agente_b_codice", ls_codice3)
+		adw_dati_agenti.setitem(ai_row, "sub_agente_b_rag_soc_1", ls_rag_soc_13)
+		
+	case "R"
+		adw_dati_agenti.setitem(ai_row, "codice_capo_2", ls_codice1)	
+		adw_dati_agenti.setitem(ai_row, "rag_capo_2", ls_rag_soc_11)		
+			
+		adw_dati_agenti.setitem(ai_row, "codice_agente_2", ls_codice2)	
+		adw_dati_agenti.setitem(ai_row, "rag_agente_2", ls_rag_soc_12)		
+			
+		adw_dati_agenti.setitem(ai_row, "codice_sub_agente_2", ls_codice3)	
+		adw_dati_agenti.setitem(ai_row, "rag_sub_agente_2", ls_rag_soc_13)		
+	end choose
+end if
+end subroutine
+

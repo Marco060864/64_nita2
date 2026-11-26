@@ -1,0 +1,19 @@
+﻿global type s_param1 from structure
+	long		id_esercizio
+	long		id_attivita
+	date		data_in
+	date		data_fin
+	decimal { 4 }		acconto
+	string		flag
+	string		mese
+	integer		trimestre
+	decimal { 4 }		c_imposta
+	decimal { 4 }		c_periodo
+	boolean		ges_periodo
+	string		las_aghi
+	string		rif_dich
+	string		tipo_dich
+	string		dich_per
+	string		s_calcola_credito
+end type
+

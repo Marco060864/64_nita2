@@ -1,0 +1,29 @@
+﻿global type f_crea_serialnum from function_object
+end type
+
+forward prototypes
+global function boolean f_crea_serialnum (string as_ragsoc, string as_piva, ref string as_serial)
+end prototypes
+
+global function boolean f_crea_serialnum (string as_ragsoc, string as_piva, ref string as_serial);
+
+
+string		ls_ragsoc, ls_piva, ls_totale
+integer		li_l1, li_l2, li_i
+long			li_chk1, li_chk2
+
+
+ls_ragsoc = mid ((trim(as_ragsoc)+fill(char(127),40)),1,40)
+ls_piva = mid ((trim(as_piva)+fill(char(127),16)),1,16)
+ls_totale = ls_ragsoc+ls_piva
+
+for li_i = 1 to 56 step 2
+	
+next
+
+
+
+
+RETURN TRUE
+end function
+

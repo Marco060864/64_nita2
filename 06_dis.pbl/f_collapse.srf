@@ -1,0 +1,30 @@
+﻿global type f_collapse from function_object
+end type
+
+forward prototypes
+global subroutine f_collapse (treeview tv, integer root, integer curr_liv, integer liv_richiesto)
+end prototypes
+
+global subroutine f_collapse (treeview tv, integer root, integer curr_liv, integer liv_richiesto);
+long ll_root,ll_parent,ll_app,ll_next,ll_child
+if(curr_liv=0) then
+  ll_root=tv.finditem(roottreeitem!,0)
+else
+	ll_root=root
+end if
+ll_next=tv.finditem(nexttreeitem!,ll_root)
+if (ll_next<> -1) then f_collapse(tv,ll_next,curr_liv,liv_richiesto)
+ll_child=tv.finditem(childtreeitem!,ll_root)
+if (ll_child<> -1) then
+	curr_liv ++
+	f_collapse(tv,ll_child,curr_liv,liv_richiesto)
+	curr_liv --
+end if
+if curr_liv >= liv_richiesto then
+  if (ll_next<> -1) then tv.collapseitem(ll_next)
+  if (ll_child<> -1) then tv.collapseitem(ll_child)
+end if
+return
+
+end subroutine
+

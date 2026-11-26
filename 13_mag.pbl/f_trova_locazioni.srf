@@ -1,0 +1,79 @@
+﻿global type f_trova_locazioni from function_object
+end type
+
+forward prototypes
+global function string f_trova_locazioni (integer i, long ll_id_caus_magazzino, long ll_id_articolo, long ll_mag_1, long ll_mag_2)
+end prototypes
+
+global function string f_trova_locazioni (integer i, long ll_id_caus_magazzino, long ll_id_articolo, long ll_mag_1, long ll_mag_2);
+string  ls_mag_par, ls_mag_des, ls_verifica, ls_locazione,ll_null, ls_ges_loc
+integer a
+long ll_riga_corrente, ll_id_caus_mag, ll_id_mag, ll_ret, ll_id_loc,ll_causale,ll_riga
+long ll_articolo, ls_ges_locazioni[2]
+decimal ld_qta, ld_sc_riga
+string ls_return
+setnull(ll_null)
+
+ll_causale=ll_id_caus_magazzino
+select mag_par_richiesto,mag_des_richiesto
+into :ls_mag_par, :ls_mag_des
+from caus_magazzino
+where id_caus_magazzino=:ll_causale;
+if sqlca.sqlcode<>0 then messagebox("Errore","Si è verificato un errore recuperando i dati della causale",stopsign!)
+select ges_locazioni
+into :ls_ges_loc
+from par_sistema;
+datastore ds_locazione_mag_lt
+ds_locazione_mag_lt=create datastore
+ds_locazione_mag_lt.dataobject="d_locazione_mag_lt"
+ds_locazione_mag_lt.settransobject(sqlca)
+ds_locazione_mag_lt.retrieve()
+if ls_ges_loc="N" or isnull(ls_ges_loc) then
+	ls_ges_locazioni[1]=ds_locazione_mag_lt.getitemnumber(1, "locazione_id_locazione")
+	ls_ges_locazioni[2]=ds_locazione_mag_lt.getitemnumber(1, "locazione_id_locazione")
+else
+	select mag_par_richiesto, mag_des_richiesto
+	into :ls_mag_par, :ls_mag_des
+	from caus_magazzino
+	where id_caus_magazzino= :ll_id_caus_magazzino;
+	if sqlca.sqlcode=0 then
+		
+		if ls_mag_par='S' then
+				ds_locazione_mag_lt.setfilter("locazione_id_magazzino="+string(ll_mag_1))
+				ll_ret=ds_locazione_mag_lt.filter()
+			if ll_ret<>1 then messagebox("Errore!", "Filtro non corretto")
+				
+				
+					ll_id_loc=ds_locazione_mag_lt.getitemnumber(1,"locazione_id_locazione")
+				
+					
+					
+					ls_ges_locazioni[1]=ll_id_loc
+				
+				ds_locazione_mag_lt.setfilter("")
+				ds_locazione_mag_lt.filter()
+			end if
+		end if
+		
+		if ls_mag_des='S' then
+				ds_locazione_mag_lt.setfilter("locazione_id_magazzino="+string(ll_mag_2))
+				ll_ret=ds_locazione_mag_lt.filter()				
+			if ll_ret<>1 then messagebox("Errore!", "Filtro non corretto")
+				
+				
+					ll_id_loc=ds_locazione_mag_lt.getitemnumber(1,"locazione_id_locazione")
+				
+					
+					
+					ls_ges_locazioni[2]=ll_id_loc
+				
+				ds_locazione_mag_lt.setfilter("")
+				ds_locazione_mag_lt.filter()
+		end if
+end if
+	
+destroy ds_locazione_mag_lt
+ls_return=string(ls_ges_locazioni[1])+"-"+string(ls_ges_locazioni[2])
+return (ls_return)
+end function
+

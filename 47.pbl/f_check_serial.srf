@@ -1,0 +1,10 @@
+﻿global type f_check_serial from function_object
+end type
+
+forward prototypes
+global function boolean f_check_serial (string as_check_serial)
+end prototypes
+
+global function boolean f_check_serial (string as_check_serial);Return True
+end function
+

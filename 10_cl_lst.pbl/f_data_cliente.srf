@@ -1,0 +1,17 @@
+﻿global type f_data_cliente from function_object
+end type
+
+forward prototypes
+global function string f_data_cliente (string as_num_bollettina)
+end prototypes
+
+global function string f_data_cliente (string as_num_bollettina);date ldt_data_settimana
+string ls_cliente
+
+//prende il cliente dal num bollettina e cerca nella sped_lista_k la data di scadenza, ilgiorno di consenga della settimana
+//ritorna stringa formatta "yyyy-mm-dd"
+ls_cliente=left(as_num_bollettina, pos(as_num_bollettina, "-") - 1)
+select s_data into :ldt_data_settimana from sped_lista_k where cliente=:ls_cliente;
+return string(ldt_data_settimana, "yyyy-mm-dd")
+end function
+

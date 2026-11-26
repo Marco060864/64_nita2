@@ -1,0 +1,6 @@
+﻿global type s_stringa_data_prog from structure
+	string		as_numero
+	date		adt_data
+	long		al_prog
+end type
+

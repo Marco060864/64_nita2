@@ -1,0 +1,6 @@
+﻿global type s_correggi_provenienza from structure
+	long		l_id_riga_provenienza
+	string		s_campo
+	decimal { 2}		dc_qta_peso
+end type
+

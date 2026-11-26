@@ -1,0 +1,215 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=236 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=56 color="536870912" )
+detail(height=0 color="553648127"  height.autosize=yes)
+table(column=(type=long updatewhereclause=yes identity=yes name=riga_documento_id_riga_documento dbname="riga_documento.id_riga_documento" )
+ column=(type=long updatewhereclause=yes name=riga_documento_id_documento dbname="riga_documento.id_documento" )
+ column=(type=long updatewhereclause=yes name=riga_documento_id_articolo dbname="riga_documento.id_articolo" )
+ column=(type=char(32) updatewhereclause=yes name=articolo_codice dbname="articolo.codice" )
+ column=(type=char(80) updatewhereclause=yes name=articolo_descrizione dbname="articolo.descrizione" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_quantita dbname="riga_documento.quantita" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_qta_un_base dbname="riga_documento.qta_un_base" )
+ column=(type=long updatewhereclause=yes name=riga_documento_id_locazione_1 dbname="riga_documento.id_locazione_1" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_prezzo dbname="riga_documento.prezzo" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_peso_netto dbname="riga_documento.peso_netto" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_dim_l dbname="riga_documento.dim_l" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_tot_riga_val_riga dbname="riga_documento.tot_riga_val_riga" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_calo dbname="riga_documento.calo" )
+ column=(type=decimal(2) updatewhereclause=yes name=riga_documento_coef_calo dbname="riga_documento.coef_calo" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_fino dbname="riga_documento.fino" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_prezzo_metallo dbname="riga_documento.prezzo_metallo" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_prezzo_manifattura dbname="riga_documento.prezzo_manifattura" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_prezzo_complessivo dbname="riga_documento.prezzo_complessivo" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_peso_non_prezioso dbname="riga_documento.peso_non_prezioso" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_importo_manifattura_val dbname="riga_documento.importo_manifattura_val" )
+ column=(type=char(16) updatewhereclause=yes name=documento_num_documento dbname="documento.num_documento" )
+ column=(type=decimal(0) updatewhereclause=yes name=documento_num_progressivo dbname="documento.num_progressivo" )
+ column=(type=date updatewhereclause=yes name=documento_data_documento dbname="documento.data_documento" )
+ column=(type=char(40) updatewhereclause=yes name=sog_commerciale_gen_rag_soc_1 dbname="sog_commerciale_gen.rag_soc_1" )
+ column=(type=char(8) updatewhereclause=yes name=sog_commerciale_gen_codice dbname="sog_commerciale_gen.codice" )
+ column=(type=char(1) updatewhereclause=yes name=caus_magazzino_segno dbname="caus_magazzino.segno" )
+ column=(type=decimal(2) updatewhereclause=yes name=orafo_titolo_titolo dbname="orafo_titolo.titolo" )
+ column=(type=char(2) updatewhereclause=yes name=orafo_metallo_codice dbname="orafo_metallo.codice" )
+ column=(type=char(8) updatewhereclause=yes name=caus_magazzino_codice dbname="caus_magazzino.codice" )
+ column=(type=char(40) updatewhereclause=yes name=azienda_rag_soc_1 dbname="azienda.rag_soc_1" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_importo_manifattura dbname="riga_documento.importo_manifattura" )
+ column=(type=char(1) updatewhereclause=yes name=caus_magazzino_segno_lire dbname="caus_magazzino.segno_lire" )
+ column=(type=decimal(0) updatewhereclause=yes name=num_riga dbname="riga_documento.num_riga" )
+ column=(type=decimal(4) updatewhereclause=yes name=tot_riga_val_az dbname="riga_documento.tot_riga_val_az" )
+ column=(type=char(1) updatewhereclause=yes name=caus_magazzino_saldi_cl_fino dbname="caus_magazzino.saldi_cl_fino" )
+ column=(type=char(1) updatewhereclause=yes name=caus_magazzino_saldi_cl_lire dbname="caus_magazzino.saldi_cl_lire" )
+ column=(type=long updatewhereclause=yes name=documento_id_valuta dbname="documento.id_valuta" )
+ column=(type=long updatewhereclause=yes name=unita_confezione_id_unita_misura dbname="unita_confezione.id_unita_misura" )
+ column=(type=char(1) updatewhereclause=yes name=unita_misura_tipo dbname="unita_misura.tipo" )
+ column=(type=char(40) updatewhereclause=yes name=caus_magazzino_descrizione dbname="caus_magazzino.descrizione" )
+ column=(type=char(32766) updatewhereclause=no name=documento_note_intestazione dbname="documento.note_intestazione" )
+ retrieve="  SELECT ~"riga_documento~".~"id_riga_documento~",   
+         ~"riga_documento~".~"id_documento~",   
+         ~"riga_documento~".~"id_articolo~",   
+         ~"articolo~".~"codice~",   
+         ~"articolo~".~"descrizione~",   
+         ~"riga_documento~".~"quantita~",   
+         ~"riga_documento~".~"qta_un_base~",   
+         ~"riga_documento~".~"id_locazione_1~",   
+         ~"riga_documento~".~"prezzo~",   
+         ~"riga_documento~".~"peso_netto~",   
+         ~"riga_documento~".~"dim_l~",   
+         ~"riga_documento~".~"tot_riga_val_riga~",   
+         ~"riga_documento~".~"calo~",   
+         ~"riga_documento~".~"coef_calo~",   
+         ~"riga_documento~".~"fino~",   
+         ~"riga_documento~".~"prezzo_metallo~",   
+         ~"riga_documento~".~"prezzo_manifattura~",   
+         ~"riga_documento~".~"prezzo_complessivo~",   
+         ~"riga_documento~".~"peso_non_prezioso~",   
+         ~"riga_documento~".~"importo_manifattura_val~",   
+         ~"documento~".~"num_documento~", 
+~"documento~".~"num_progressivo~",  
+         ~"documento~".~"data_documento~",   
+         ~"sog_commerciale_gen~".~"rag_soc_1~",   
+         ~"sog_commerciale_gen~".~"codice~",   
+         ~"caus_magazzino~".~"segno~",   
+         ~"orafo_titolo~".~"titolo~",   
+         ~"orafo_metallo~".~"codice~",   
+         ~"caus_magazzino~".~"codice~",   
+         ~"azienda~".~"rag_soc_1~",   
+         ~"riga_documento~".~"importo_manifattura~",   
+         ~"caus_magazzino~".~"segno_lire~",   
+         ~"riga_documento~".~"num_riga~",   
+         ~"riga_documento~".~"tot_riga_val_az~",   
+         ~"caus_magazzino~".~"saldi_cl_fino~",   
+         ~"caus_magazzino~".~"saldi_cl_lire~",   
+         ~"documento~".~"id_valuta~",   
+         ~"unita_confezione~".~"id_unita_misura~",   
+         ~"unita_misura~".~"tipo~"  ,
+~"caus_magazzino~".~"descrizione~",
+~"documento~".~"note_intestazione~" 
+    FROM ~"riga_documento~",   
+         ~"caus_magazzino~",   
+         ~"documento~",   
+         ~"sog_commerciale_gen~",   
+         ~"articolo~",   
+         ~"orafo_metallo~",   
+         ~"orafo_titolo~",   
+         ~"azienda~",   
+         ~"unita_confezione~",   
+         ~"unita_misura~"  
+   WHERE ( ~"caus_magazzino~".~"id_caus_magazzino~" = ~"riga_documento~".~"id_caus_magazzino~" ) and  
+         ( ~"documento~".~"id_documento~" = ~"riga_documento~".~"id_documento~" ) and  
+         ( ~"documento~".~"id_sog_commerciale~" = ~"sog_commerciale_gen~".~"id_sog_commerciale~" ) and  
+         ( ~"articolo~".~"id_articolo~" = ~"riga_documento~".~"id_articolo~" ) and  
+         ( ~"orafo_titolo~".~"id_metallo~" = ~"orafo_metallo~".~"id_metallo~" ) and  
+         ( ~"orafo_titolo~".~"id_titolo~" = ~"articolo~".~"id_titolo~" ) and  
+         ( ~"azienda~".~"id_azienda~" = ~"documento~".~"id_azienda~" ) and  
+         ( ~"unita_confezione~".~"id_unita_confezione~" = ~"riga_documento~".~"id_unita_confezione~" ) and  
+         ( ~"unita_misura~".~"id_unita_misura~" = ~"unita_confezione~".~"id_unita_misura~" ) and  
+         (~"documento~".~"data_documento~" >= :data_inizio_es AND  
+         ~"documento~".~"data_documento~" <= :a_data) AND  
+         (~"articolo~".~"codice~" >= :da_cod AND  
+         ~"articolo~".~"codice~" <= :a_cod)    
+" arguments=(("da_cod", string),("a_cod", string),("da_data", date),("a_data", date),("data_inizio_es", date),("filtro", string))  sort="orafo_metallo_codice A articolo_codice A documento_data_documento A documento_num_progressivo A documento_num_documento A riga_documento_id_documento A num_riga A " )
+group(level=1 header.height=0 trailer.height=232 by=("orafo_metallo_codice" ) header.color="553648127" trailer.color="15793151" )
+group(level=2 header.height=72 trailer.height=252 by=("articolo_codice" ) header.color="553648127" trailer.color="553648127" )
+group(level=3 header.height=0 trailer.height=0 by=("documento_num_documento" , "documento_data_documento" , "riga_documento_id_documento" ) header.color="536870912" trailer.color="536870912" )
+compute(band=header alignment="0" expression="/* ~"Scarico Gr. ~"+  legato_fino  */"border="0" color="0" x="1906" y="352" height="56" width="288" format="[general]"  name=scr visible="1~t0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="2" expression="~"Fino+Calo~""border="0" color="0" x="2231" y="344" height="56" width="297" format="[general]"  name=car visible="1~t0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="filtro"border="0" color="0" x="215" y="8" height="64" width="4283" format="[general]"  name=filtro_z  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="1" text="Filtro:"border="0" color="0" x="27" y="8" height="64" width="169"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Data Doc."border="0" color="0" x="215" y="96" height="56" width="219"  name=documento_data_documento_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Causale"border="0" color="0" x="453" y="96" height="56" width="242"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="N. Doc."border="0" color="0" x="23" y="96" height="56" width="178"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Rag.Soc."border="0" color="0" x="1861" y="96" height="56" width="448"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Carichi"border="0" color="0" x="2327" y="96" height="56" width="722"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Scarichi"border="0" color="0" x="3067" y="96" height="56" width="699"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Saldi Progressivi"border="0" color="0" x="3785" y="96" height="56" width="722"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Quantità"border="0" color="0" x="2327" y="164" height="56" width="297"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Valore"border="0" color="0" x="2651" y="164" height="56" width="393"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Quantità"border="0" color="0" x="3067" y="164" height="56" width="288"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Valore"border="0" color="0" x="3374" y="164" height="56" width="393"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Quantità"border="0" color="0" x="3785" y="164" height="56" width="315"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Valore"border="0" color="0" x="4114" y="164" height="56" width="393"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="       Descrizione Causale"border="0" color="0" x="718" y="96" height="56" width="745"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header x1="32" y1="80" x2="4489" y2="80" visible="1~tif(( riga_documento_id_documento <> riga_documento_id_documento [-1] or getrow()=rowcount()) and  documento_data_documento >= da_data , 1,0)" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=header x1="32" y1="232" x2="4489" y2="232" visible="1~tif(( riga_documento_id_documento <> riga_documento_id_documento [-1] or getrow()=rowcount()) and  documento_data_documento >= da_data , 1,0)" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=header.2 alignment="1" text="Articolo:"border="0" color="0" x="27" y="4" height="64" width="279"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.2 id=4 alignment="0" tabsequence=32766 border="0" color="0" x="343" y="4" height="64" width="1102" format="[general]"  name=articolo_codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="2" expression="if( unita_misura_tipo ='P', 'GR', 'PZ')"border="0" color="0" x="1472" y="4" height="64" width="215" format="[general]"  name=mov  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=21 alignment="2" tabsequence=32766 border="0" color="0" x="14" y="8" height="68" width="187" format="[general]"  name=documento_num_documento visible="1~tif( documento_data_documento >= da_data, 1, 0)" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=23 alignment="0" tabsequence=32766 border="0" color="0" x="215" y="8" height="68" width="219" format="dd/mm/yy"  name=documento_data_documento visible="1~tif( documento_data_documento >= da_data, 1, 0)" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=29 alignment="0" tabsequence=32766 border="0" color="0" x="448" y="8" height="68" width="242" format="[general]"  name=caus_magazzino_codice visible="1~tif( documento_data_documento >= da_data, 1, 0)" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=40 alignment="0" tabsequence=32766 border="0" color="0" x="718" y="8" height="68" width="1125" format="[general]"  name=caus_magazzino_descrizione visible="1~tif( documento_data_documento >= da_data, 1, 0)" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=41 alignment="0" tabsequence=32766 border="0" color="0" x="718" y="80" height="68" width="1125" format="[general]"  name=documento_note_intestazione visible="1~tif( documento_data_documento >= da_data and  documento_note_intestazione>'' and  (riga_documento_id_documento <> riga_documento_id_documento [-1] or isnull(riga_documento_id_documento [-1] )), 1, 0)" height.autosize=yes edit.limit=0 edit.case=any edit.autoselect=yes edit.nilisnull=yes edit.autovscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=24 alignment="0" tabsequence=32766 border="0" color="0" x="1861" y="8" height="68" width="448" format="[general]"  name=sog_commerciale_gen_rag_soc_1 visible="1~tif( documento_data_documento >= da_data, 1, 0)" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="1" expression="cumulativeSum(  val_c   for group 1 ) - cumulativeSum(  val_s   for group 1 )"border="0" color="0~tif(tot_val>=0,0,255)" x="4114" y="8" height="68" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=tot_val visible="1~tif( documento_data_documento >= da_data, 1, 0)"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="1" expression="cumulativeSum(  grc   for group 1 ) - cumulativeSum(  grs   for group 1 )"border="0" color="0~tif( prog_grammi <0, 255, 0)" x="3785" y="8" height="68" width="315" format="#,00.00"  name=prog_grammi visible="1~tif( documento_data_documento >= da_data, 1, 0)"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="1" expression="if( caus_magazzino_segno_lire ='S',   tot_riga_val_az  ,  0)"border="0" color="0" x="3374" y="8" height="68" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=val_s visible="1~tif( documento_data_documento >= da_data, 1, 0)"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="1" expression=" if( caus_magazzino_segno ='C' , if(unita_misura_tipo='P',  riga_documento_peso_netto ,  riga_documento_quantita ) , 0) "border="0" color="0" x="2327" y="8" height="68" width="297" format="#,00.00"  name=grc visible="1~tif( documento_data_documento >= da_data, 1, 0)"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="1" expression="if( caus_magazzino_segno_lire ='C',   tot_riga_val_az  ,  0)"border="0" color="0" x="2651" y="8" height="68" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=val_c visible="1~tif( documento_data_documento >= da_data, 1, 0)"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="1" expression=" if( caus_magazzino_segno ='S' , if(unita_misura_tipo='P',  riga_documento_peso_netto ,  riga_documento_quantita ) , 0) "border="0" color="0" x="3067" y="8" height="68" width="288" format="#,00.00"  name=grs visible="1~tif( documento_data_documento >= da_data, 1, 0)"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=trailer.2 x1="2331" y1="8" x2="4512" y2="8" pen.style="0" pen.width="9" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=trailer.2 alignment="1" text="Saldo Prec.:"border="0" color="0" x="1911" y="28" height="56" width="398"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="sum(if( documento_data_documento <  da_data , grC, 0) for group 2) "border="0" color="0" x="2327" y="28" height="56" width="297" format="#,00.00"  name=saldo_grc  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="sum(if( documento_data_documento <  da_data , val_c, 0) for group 2) "border="0" color="0" x="2651" y="28" height="56" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=somma_val_c_prec  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.2 alignment="1" expression="sum(if( documento_data_documento <  da_data , grs, 0) for group 2) "border="0" color="0" x="3067" y="28" height="56" width="288" format="#,00.00"  name=saldo_grs  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="sum(if( documento_data_documento <  da_data , val_s, 0) for group 2) "border="0" color="0" x="3378" y="28" height="56" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=somma_val_s_prec  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.2 alignment="1" expression="saldo_grc - saldo_grs"border="0" color="0~tif( saldo_prog_grammi <0, 255, 0)" x="3785" y="28" height="56" width="315" format="#,00.00"  name=saldo_prog_grammi  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="somma_val_c_prec - somma_val_s_prec"border="0" color="0~tif(saldo_val_prec>=0, 0,255)" x="4114" y="28" height="56" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=saldo_val_prec  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=trailer.2 x1="2322" y1="96" x2="4503" y2="96" pen.style="0" pen.width="9" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=trailer.2 alignment="1" text="Totale:"border="0" color="0" x="2107" y="108" height="56" width="201"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="sum(grc for group 2)"border="0" color="0" x="2327" y="108" height="56" width="297" format="#,00.00"  name=somma_grc  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="sum(  val_c  for group 2) "border="0" color="0" x="2656" y="108" height="56" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=saldo_val_c  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.2 alignment="1" expression="sum(grs for group 2)"border="0" color="0" x="3067" y="108" height="56" width="288" format="#,00.00"  name=somma_grs  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="sum(  val_s  for group 2) "border="0" color="0" x="3378" y="108" height="56" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=saldo_val_s  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.2 alignment="1" expression="somma_grc - somma_grs"border="0" color="0~tif( somma_prog_grammi <0, 255, 0)" x="3785" y="108" height="56" width="315" format="#,00.00"  name=somma_prog_grammi  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="saldo_val_c - saldo_val_s"border="0" color="0~tif(saldo_val>=0, 0,255)" x="4114" y="108" height="56" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=saldo_val  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=trailer.2 x1="2322" y1="176" x2="4503" y2="176" pen.style="0" pen.width="9" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=trailer.2 alignment="1" text="Mov. di periodo:"border="0" color="0" x="1911" y="188" height="56" width="398"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="sum(if( documento_data_documento >=  da_data , grC, 0) for group 2) "border="0" color="0" x="2327" y="188" height="56" width="297" format="#,00.00"  name=diff_grc  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression=" sum(if( documento_data_documento >=  da_data ,  val_c, 0) for group 2)   "border="0" color="0" x="2656" y="188" height="56" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=diff_val_c  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.2 alignment="1" expression="sum(if( documento_data_documento >=  da_data , grs, 0) for group 2) "border="0" color="0" x="3067" y="188" height="56" width="288" format="#,00.00"  name=diff_grs  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression=" sum(if( documento_data_documento >=  da_data ,  val_s, 0) for group 2)   "border="0" color="0" x="3378" y="188" height="56" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=diff_val_s  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.2 alignment="1" expression="diff_grC - DIFF_grS "border="0" color="0~tif( diff_prog_grammi <0, 255, 0)" x="3785" y="188" height="56" width="315" format="#,00.00"  name=diff_prog_grammi  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="diff_val_c - diff_val_s"border="0" color="0~tif(diff_saldo_val>=0, 0,255)" x="4114" y="188" height="56" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=diff_saldo_val  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="0" expression=" ~"Metallo: ~"+orafo_metallo_codice "border="0" color="0" x="256" y="8" height="68" width="448" format="[general]"  name=met_g  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="1" text="Saldo Prec.:"border="0" color="0" x="1911" y="8" height="56" width="398"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(if( documento_data_documento <  da_data , grC, 0) for group 1) "border="0" color="0" x="2327" y="8" height="56" width="297" format="#,00.00"  name=saldo_grc1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(if( documento_data_documento <  da_data , val_c, 0) for group 1) "border="0" color="0" x="2651" y="8" height="56" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=somma_val_c_prec1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum(if( documento_data_documento <  da_data , grs, 0) for group 1) "border="0" color="0" x="3067" y="8" height="56" width="288" format="#,00.00"  name=saldo_grs1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(if( documento_data_documento <  da_data , val_s, 0) for group 1) "border="0" color="0" x="3378" y="8" height="56" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=somma_val_s_prec1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="saldo_grc1 - saldo_grs1"border="0" color="0~tif( saldo_prog_grammi1 <0, 255, 0)" x="3785" y="8" height="56" width="315" format="#,00.00"  name=saldo_prog_grammi1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="somma_val_c_prec1 - somma_val_s_prec1"border="0" color="0~tif(saldo_val_prec1>=0, 0,255)" x="4114" y="8" height="56" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=saldo_val_prec1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=trailer.1 x1="2322" y1="76" x2="4503" y2="76" pen.style="0" pen.width="9" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="1" text="Totale:"border="0" color="0" x="2107" y="88" height="56" width="201"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(grc for group 1)"border="0" color="0" x="2327" y="88" height="56" width="297" format="#,00.00"  name=somma_grc1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(  val_c  for group 1) "border="0" color="0" x="2656" y="88" height="56" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=saldo_val_c1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum(grs for group 1)"border="0" color="0" x="3067" y="88" height="56" width="288" format="#,00.00"  name=somma_grs1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(  val_s  for group 1) "border="0" color="0" x="3378" y="88" height="56" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=saldo_val_s1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="somma_grc1 - somma_grs1"border="0" color="0~tif( somma_prog_grammi1 <0, 255, 0)" x="3785" y="88" height="56" width="315" format="#,00.00"  name=somma_prog_grammi1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="saldo_val_c1 - saldo_val_s1"border="0" color="0~tif(saldo_val1>=0, 0,255)" x="4114" y="88" height="56" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=saldo_val1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=trailer.1 x1="2322" y1="156" x2="4503" y2="156" pen.style="0" pen.width="9" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="1" text="Mov. di periodo:"border="0" color="0" x="1911" y="168" height="56" width="398"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(if( documento_data_documento >=  da_data , grC, 0) for group 1) "border="0" color="0" x="2327" y="168" height="56" width="297" format="#,00.00"  name=diff_grc1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression=" sum(if( documento_data_documento >=  da_data ,  val_c, 0) for group 1)   "border="0" color="0" x="2656" y="168" height="56" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=diff_val_c1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum(if( documento_data_documento >=  da_data , grs, 0) for group 1) "border="0" color="0" x="3067" y="168" height="56" width="288" format="#,00.00"  name=diff_grs1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression=" sum(if( documento_data_documento >=  da_data ,  val_s, 0) for group 1)   "border="0" color="0" x="3378" y="168" height="56" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=diff_val_s1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="diff_grC1 - DIFF_grS1 "border="0" color="0~tif( diff_prog_grammi1 <0, 255, 0)" x="3785" y="168" height="56" width="315" format="#,00.00"  name=diff_prog_grammi1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="diff_val_c1 - diff_val_s1"border="0" color="0~tif(diff_saldo_val1>=0, 0,255)" x="4114" y="168" height="56" width="393" format="#,0.00~tf_valu_mask(documento_id_valuta)"  name=diff_saldo_val1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=summary alignment="0" text="Grantotale Lire"border="0" color="0" x="59" y="16" height="64" width="462"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=summary alignment="1" text="Saldo Prec.:"border="0" color="0" x="558" y="16" height="56" width="398"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(if( documento_data_documento <  da_data , val_c, 0) for all) "border="0" color="0" x="1298" y="20" height="56" width="393" format="[general]~tf_valu_mask(documento_id_valuta)"  name=somma_val_c_prec2  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="sum(if( documento_data_documento <  da_data , val_s, 0) for all) "border="0" color="0" x="2025" y="20" height="56" width="393" format="[general]~tf_valu_mask(documento_id_valuta)"  name=somma_val_s_prec2  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=summary x1="969" y1="88" x2="3150" y2="88" pen.style="0" pen.width="9" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=summary alignment="1" text="Totale:"border="0" color="0" x="754" y="96" height="56" width="201"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(  val_c  for all) "border="0" color="0" x="1303" y="100" height="56" width="393" format="[general]~tf_valu_mask(documento_id_valuta)"  name=saldo_val_c2  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="sum(  val_s  for all) "border="0" color="0" x="2025" y="100" height="56" width="393" format="[general]~tf_valu_mask(documento_id_valuta)"  name=saldo_val_s2  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=summary x1="969" y1="168" x2="3150" y2="168" pen.style="0" pen.width="9" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=summary alignment="1" text="Mov. di periodo:"border="0" color="0" x="558" y="176" height="56" width="398"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression=" sum(if( documento_data_documento >=  da_data ,  val_c, 0) for all)   "border="0" color="0" x="1303" y="180" height="56" width="393" format="[general]~tf_valu_mask(documento_id_valuta)"  name=diff_val_c2  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression=" sum(if( documento_data_documento >=  da_data ,  val_s, 0) for all)   "border="0" color="0" x="2025" y="180" height="56" width="393" format="[general]~tf_valu_mask(documento_id_valuta)"  name=diff_val_s2  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="somma_val_c_prec1 - somma_val_s_prec1"border="0" color="0~tif(saldo_val_prec2>=0, 0,255)" x="2761" y="20" height="56" width="393" format="[general]~tf_valu_mask(documento_id_valuta)"  name=saldo_val_prec2  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="saldo_val_c1 - saldo_val_s1"border="0" color="0~tif(saldo_val2>=0, 0,255)" x="2761" y="100" height="56" width="393" format="[general]~tf_valu_mask(documento_id_valuta)"  name=saldo_val2  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="diff_val_c1 - diff_val_s1"border="0" color="0~tif(diff_saldo_val2>=0, 0,255)" x="2761" y="180" height="56" width="393" format="[general]~tf_valu_mask(documento_id_valuta)"  name=diff_saldo_val2  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="0" expression="~"Stampato il ~"+string(today())"border="0" color="0" x="41" y="0" height="56" width="1170" format="[general]"  name=stampato  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

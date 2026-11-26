@@ -1,0 +1,79 @@
+﻿global type f_calc_progressivo from function_object
+end type
+
+forward prototypes
+global function string f_calc_progressivo (string as_parte[], s_cod_parte astr_cod_parte[], ref integer ai_num_parte)
+end prototypes
+
+global function string f_calc_progressivo (string as_parte[], s_cod_parte astr_cod_parte[], ref integer ai_num_parte);
+long		ll_ret_value, ll_max,ll_id_cat_codifica
+integer	li_sqlerr, li_counter, li_size, li_pos_progr, li_lungh_progr, li_posizione
+integer	li_pos_match[], li_lungh_match[],li_count_match
+string	ls_sql_statement, ls_parte[], ls_parte_progressiva, ls_riempimento, ls_max
+
+li_size= UpperBound(astr_cod_parte)
+li_count_match=0
+li_posizione=1
+FOR li_counter = 1 TO li_size
+	li_count_match++
+	if astr_cod_parte[li_counter].s_progressivo = "S" then
+		li_pos_progr= li_posizione
+		li_lungh_progr= astr_cod_parte[li_counter].l_lunghezza
+		ai_num_parte=li_counter
+		exit
+	else
+		li_pos_match[li_count_match]= li_posizione
+		li_lungh_match[li_count_match]= astr_cod_parte[li_counter].l_lunghezza
+		ls_riempimento=astr_cod_parte[li_counter].s_car_riempimento
+		If IsNull(ls_riempimento) OR ls_riempimento="" then ls_riempimento="_"
+		ls_parte[li_count_match]= f_rpad(as_parte[li_counter], ls_riempimento,astr_cod_parte[li_counter].l_lunghezza)
+	end if
+	li_posizione= li_posizione + astr_cod_parte[li_counter].l_lunghezza
+next
+ls_sql_statement = "SELECT Max(Substr(~"articolo~".~"codice~"," + String(li_pos_progr) + "," +  String(li_lungh_progr) + ")) FROM ~"dba~".~"articolo~"  WHERE "
+ls_sql_statement = ls_sql_statement + "Substr(~"articolo~".~"codice~"," + String(li_pos_progr) + "," + String(li_lungh_progr) + ") < '" + Fill("9",li_lungh_progr) + "' "
+li_size= UpperBound(li_pos_match)
+FOR li_counter = 1 TO li_size
+	ls_sql_statement = ls_sql_statement + "AND Substr(~"articolo~".~"codice~"," + String(li_pos_match[li_counter]) + "," + String(li_lungh_match[li_counter]) + ") = '" + ls_parte[li_counter] + "' "
+NEXT
+ls_sql_statement= ls_sql_statement +";"
+li_sqlerr = sqlca.sqlcode
+IF li_sqlerr <> 0 THEN
+	if li_sqlerr <> 100 then
+		MessageBox("Errore nel calcolo del progressivo", "Errore Sql NR. "+String(li_sqlerr))
+	else
+		MessageBox("Informazione!", " Nessun Articolo Progressivo esistente ~r~n Verra inizializzato il contatore del progressivo" )
+	end if
+	RETURN ""
+END IF
+DECLARE lcursor DYNAMIC CURSOR FOR SQLSA;
+li_sqlerr = sqlca.sqlcode
+IF li_sqlerr <> 0 THEN
+	MessageBox("Errore nel calcolo del progressivo", "Errore Sql NR. "+String(li_sqlerr))
+	RETURN ""
+END IF
+
+PREPARE sqlsa FROM :ls_sql_statement;
+
+OPEN DYNAMIC lcursor USING DESCRIPTOR SQLDA;
+li_sqlerr = sqlca.sqlcode
+IF li_sqlerr <> 0 THEN
+	
+	RETURN ""
+END IF
+FETCH lcursor INTO :ll_max;
+li_sqlerr = sqlca.sqlcode
+IF li_sqlerr <> 0 THEN
+	MessageBox("Errore nel calcolo del progressivo", String(li_sqlerr))
+	ls_max= ""
+else
+	If IsNull(ll_max) then ll_max=0
+	ll_max++
+	ls_max= f_lpad(String(ll_max), "0",li_lungh_progr)
+END IF
+CLOSE lcursor;
+
+
+RETURN ls_max
+end function
+

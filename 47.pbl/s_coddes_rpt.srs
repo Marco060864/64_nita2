@@ -1,0 +1,17 @@
+﻿//objectcomments Passaggio parametri da w_stampa a w_default_coddes_rpt
+global type s_coddes_rpt from structure
+	string		titolo_finestra
+	string		nome_report
+	string		nome_campo_db_cod
+	string		nome_campo_db_des
+	string		nome_id_azienda
+	string		nome_campo_instampa
+	string		nome_group
+	string		nome_dddw_sl
+	string		nome_dddw_codice
+	string		nome_dddw_descrizione
+	boolean		tipo_serve
+	boolean		no_param
+	boolean		use_completa_semplificata
+end type
+

@@ -1,0 +1,4 @@
+﻿global type s_vet_articolo from structure
+	long		sl_id_art[]
+end type
+

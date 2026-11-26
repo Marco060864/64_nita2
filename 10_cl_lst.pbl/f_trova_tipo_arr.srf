@@ -1,0 +1,20 @@
+﻿global type f_trova_tipo_arr from function_object
+end type
+
+forward prototypes
+global function string f_trova_tipo_arr (long al_id_crea_prezzi)
+end prototypes
+
+global function string f_trova_tipo_arr (long al_id_crea_prezzi);string ls_ret
+
+select tipo_arrotondamento
+into :ls_ret
+from dba.prezzi_crea
+where id_crea_prezzi=:al_id_crea_prezzi
+;
+IF ISNULL(ls_ret) THEN
+	ls_ret='M'
+end if
+return ls_ret
+end function
+

@@ -1,0 +1,86 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=80133307 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=128 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=decimal(0) updatewhereclause=yes name=documento_num_progressivo dbname="documento.num_progressivo" )
+ column=(type=date updatewhereclause=yes name=documento_data_registrazione dbname="documento.data_registrazione" )
+ column=(type=char(16) updatewhereclause=yes name=documento_num_documento dbname="documento.num_documento" )
+ column=(type=date updatewhereclause=yes name=documento_data_documento dbname="documento.data_documento" )
+ column=(type=char(8) updatewhereclause=yes name=sog_commerciale_gen_codice dbname="sog_commerciale_gen.codice" )
+ column=(type=char(40) updatewhereclause=yes name=sog_commerciale_gen_rag_soc_1 dbname="sog_commerciale_gen.rag_soc_1" )
+ column=(type=char(40) updatewhereclause=yes name=registro_descrizione dbname="registro.descrizione" )
+ column=(type=long updatewhereclause=yes name=prof_documento_id_prof_registrazione dbname="prof_documento.id_prof_registrazione" )
+ column=(type=char(40) updatewhereclause=yes name=prof_documento_descrizione dbname="prof_documento.descrizione" )
+ column=(type=char(8) updatewhereclause=yes name=prof_documento_codice dbname="prof_documento.codice" )
+ column=(type=long updatewhereclause=yes name=id_riga_doc_provenienza dbname="riga_documento.id_riga_doc_provenienza" )
+ column=(type=long updatewhereclause=yes name=id_documento dbname="riga_documento.id_documento" )
+ column=(type=char(32) updatewhereclause=yes name=articolo_codice dbname="articolo.codice" )
+ column=(type=char(80) updatewhereclause=yes name=articolo_descrizione dbname="articolo.descrizione" )
+ column=(type=decimal(0) updatewhereclause=yes name=riga_documento_num_riga dbname="riga_documento.num_riga" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_quantita dbname="riga_documento.quantita" )
+ column=(type=char(1) updatewhereclause=yes name=riga_doc dbname="riga_doc" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_prezzo dbname="riga_documento.prezzo" )
+ retrieve="  SELECT ~"documento~".~"num_progressivo~",   
+         ~"documento~".~"data_registrazione~",   
+         ~"documento~".~"num_documento~",   
+         ~"documento~".~"data_documento~",   
+         ~"sog_commerciale_gen~".~"codice~",   
+         ~"sog_commerciale_gen~".~"rag_soc_1~",   
+         ~"registro~".~"descrizione~",   
+         ~"prof_documento~".~"id_prof_registrazione~",   
+         ~"prof_documento~".~"descrizione~",   
+         ~"prof_documento~".~"codice~",   
+         ~"riga_documento~".~"id_riga_doc_provenienza~",   
+         ~"riga_documento~".~"id_documento~",   
+         ~"articolo~".~"codice~",   
+         ~"articolo~".~"descrizione~",   
+         ~"riga_documento~".~"num_riga~",   
+         ~"riga_documento~".~"quantita~",   
+         cast('S' as char(1)) as riga_doc,   
+         ~"riga_documento~".~"prezzo~"  
+    FROM ~"documento~",   
+         ~"sog_commerciale_gen~",   
+         ~"prof_documento~",   
+         ~"registro~",   
+         ~"riga_documento~",   
+         ~"articolo~"  
+   WHERE ( ~"documento~".~"id_sog_commerciale~" = ~"sog_commerciale_gen~".~"id_sog_commerciale~" ) and  
+         ( ~"prof_documento~".~"id_prof_documento~" = ~"documento~".~"id_prof_documento~" ) and  
+         ( ~"registro~".~"id_registro~" = ~"documento~".~"id_registro~" ) and  
+         ( ~"documento~".~"id_documento~" = ~"riga_documento~".~"id_documento~" ) and  
+         ( ~"articolo~".~"id_articolo~" = ~"riga_documento~".~"id_articolo~" ) and  
+         ( ( ~"riga_documento~".~"id_documento~" = :ra_id_riga_documento ) )    
+" arguments=(("ra_id_riga_documento", number)) )
+text(band=header alignment="2" text="Documento
+Num. Doc."border="0" color="0" x="1083" y="8" height="112" width="261"  name=documento_num_documento_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Documento
+Data Doc."border="0" color="0" x="1353" y="8" height="112" width="261"  name=documento_data_documento_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Sog. Comm.
+Codice"border="0" color="0" x="3086" y="8" height="112" width="261"  name=sog_commerciale_gen_codice_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Sog. Commerciale
+Rag. Sociale"border="0" color="0" x="3355" y="8" height="112" width="919"  name=sog_commerciale_gen_rag_soc_1_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Registro
+Descrizione"border="0" color="0" x="782" y="8" height="112" width="293"  name=registro_descrizione_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Prof Documento
+Descrizione"border="0" color="0" x="192" y="8" height="112" width="581"  name=prof_documento_descrizione_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Prof. Doc.
+ Codice"border="0" color="0" x="9" y="8" height="112" width="174"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Articolo Codice"border="0" color="0" x="1623" y="8" height="112" width="338"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80133307" )
+text(band=header alignment="2" text="Articolo Descrizione"border="0" color="0" x="1970" y="8" height="112" width="850"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80133307" )
+text(band=header alignment="2" text="Quantita"border="0" color="0" x="2830" y="8" height="112" width="247"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80133307" )
+text(band=header alignment="0" text="Riga Documento Prezzo"border="0" color="0" x="4343" y="4" height="76" width="978"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1083" y="8" height="68" width="261" format="[general]"  name=documento_num_documento edit.limit=16 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090387453~tif(  riga_doc = 'S', RGB(162,200,240), RGB(255,255,255) )" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1353" y="8" height="68" width="261" format="[general]"  name=documento_data_documento edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090387453~tif(  riga_doc = 'S', RGB(162,200,240), RGB(255,255,255) )" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="3086" y="8" height="68" width="261" format="[general]"  name=sog_commerciale_gen_codice edit.limit=8 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090387453~tif(  riga_doc = 'S', RGB(162,200,240), RGB(255,255,255) )" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="3355" y="8" height="68" width="919" format="[general]"  name=sog_commerciale_gen_rag_soc_1 edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090387453~tif(  riga_doc = 'S', RGB(162,200,240), RGB(255,255,255) )" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="782" y="8" height="68" width="293" format="[general]"  name=registro_descrizione edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090387453~tif(  riga_doc = 'S', RGB(162,200,240), RGB(255,255,255) )" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="192" y="8" height="68" width="581" format="[general]"  name=prof_documento_descrizione edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090387453~tif(  riga_doc = 'S', RGB(162,200,240), RGB(255,255,255) )" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="8" height="68" width="174" format="[general]"  name=prof_documento_codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090387453~tif(  riga_doc = 'S', RGB(162,200,240), RGB(255,255,255) )" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="1623" y="8" height="68" width="338" format="[general]"  name=articolo_codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090387453~tif(  riga_doc = 'S', RGB(162,200,240), RGB(255,255,255) )" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="1970" y="8" height="68" width="850" format="[general]"  name=articolo_descrizione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090387453~tif(  riga_doc = 'S', RGB(162,200,240), RGB(255,255,255) )" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="0" x="2830" y="8" height="68" width="247" format="[general]"  name=riga_documento_quantita edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090387453~tif(  riga_doc = 'S', RGB(162,200,240), RGB(255,255,255) )" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="0" x="4283" y="8" height="76" width="50" format="[general]"  name=riga_doc visible="1~t0" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="0" x="4343" y="0" height="56" width="978" format="[general]"  name=riga_documento_prezzo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090387453" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

@@ -1,0 +1,38 @@
+﻿global type f_inserisci_pacco from function_object
+end type
+
+forward prototypes
+global function long f_inserisci_pacco (string as_num_pacco, datetime adt_datatora)
+end prototypes
+
+global function long f_inserisci_pacco (string as_num_pacco, datetime adt_datatora);long ll_id_pacco, ll_riga_inserita
+DATASTORE DS_PACCO	
+integer li_ret
+//string ls_dataora
+//
+//ls_dataora=string(year(date(adt_datatora)))+"/"+string(month(date(adt_datatora)), "00")+"/"+string(day(date(adt_datatora)),  "00")+" 00:00"
+ds_pacco=create datastore
+
+ds_pacco.dataobject="ds_ins_new_pacco"
+ds_pacco.settransobject(sqlca)
+ll_riga_inserita=ds_pacco.insertrow(0)
+ds_pacco.setitem(ll_riga_inserita, "codice", as_num_pacco)
+ds_pacco.setitem(ll_riga_inserita, "chiuso", 'N')
+ds_pacco.setitem(ll_riga_inserita, "dataora", adt_datatora)
+
+//insert dba.pacco (codice, chiuso, dataora)
+//values (:as_num_pacco, 'N', datetime(ls_dataora));
+li_ret=ds_pacco.update()
+//if sqlca.sqlNrows>0 then
+if li_ret=1 then
+	commit;
+	select id_pacco into :ll_id_pacco from dba.pacco where codice=:as_num_pacco;
+else
+	rollback;
+	messagebox("Attenzione!", "Testa pacco NON salvata!")
+	ll_id_pacco=0
+end if
+destroy ds_pacco
+return ll_id_pacco
+end function
+

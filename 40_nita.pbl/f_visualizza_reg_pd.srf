@@ -1,0 +1,19 @@
+﻿global type f_visualizza_reg_pd from function_object
+end type
+
+forward prototypes
+global subroutine f_visualizza_reg_pd (long al_id_reg_pd)
+end prototypes
+
+global subroutine f_visualizza_reg_pd (long al_id_reg_pd);
+
+s_list_main lstr_list
+
+lstr_list.s_modo = modo_modifica
+lstr_list.s_identifica[1] = "id_reg_pd"
+lstr_list.l_identifica[1] = al_id_reg_pd
+
+OpenWithParm(w_reg_pd_cx, lstr_list)
+
+end subroutine
+

@@ -1,0 +1,11 @@
+﻿global type str_cron_doc from structure
+	string		da_prof_cod
+	string		a_prof_cod
+	date		da_data_reg
+	date		a_data_reg
+	decimal {0}	da_prot
+	decimal {0}	a_prot
+	string		filtro
+	string		parametri
+end type
+

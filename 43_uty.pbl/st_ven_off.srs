@@ -1,0 +1,9 @@
+﻿global type st_ven_off from structure
+	datawindow		dw
+	date		data1
+	date		data2
+	integer		anno
+	integer		mese
+	date		data_stampa
+end type
+

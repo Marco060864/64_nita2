@@ -1,0 +1,249 @@
+﻿global type f_esplodi_dw_gest_ord2 from function_object
+end type
+
+forward prototypes
+global function s_ordine f_esplodi_dw_gest_ord2 (treeview tv_dis, long ll_root, boolean lb_con, long id, date data_inizio, date data_fine, long id_testa, string tipo_calcolo, string tipo_applicazione, long ll_magazzino, boolean lb_distinta, datawindow dw_esplodi, long id_articolo, decimal ad_quantita, s_ordine as_ordine, integer ai_ritorno, boolean primo)
+end prototypes
+
+global function s_ordine f_esplodi_dw_gest_ord2 (treeview tv_dis, long ll_root, boolean lb_con, long id, date data_inizio, date data_fine, long id_testa, string tipo_calcolo, string tipo_applicazione, long ll_magazzino, boolean lb_distinta, datawindow dw_esplodi, long id_articolo, decimal ad_quantita, s_ordine as_ordine, integer ai_ritorno, boolean primo);
+long id_base,id_f,ll_child,id_art,id_var,ll_app,ll_id_riga,ll_num_riga,ll_figlio, ll_titolo, ll_id_sog_com, ll_temp
+long ll_riga_trovata,ll_padre, ll_id_cat_cod, ll_contr_righe_dis, ll_id_un_conf
+boolean controllo
+decimal{4} cs,app,qt,ld_quantita,ld_costo,ld_qt_app, ld_peso
+string cod,tg,pt,testa,path,des,ls_cod_app, ls_rag_soc_1, ls_prod_interna
+treeviewitem tvi ,ltvi_app
+s_val ls_app,ls_ritorno
+dati dat,dat_app
+controllo=false
+char lc_varie
+string ls_fine,ls_inizio, ls_um
+ls_fine=string(data_fine,'yyyy/mm/dd')
+ls_inizio=string(data_inizio,'yyyy/mm/dd')
+if primo=true then 
+	select id_distinta
+	into :id
+	from distinta
+	where id_articolo=:id_articolo;
+	id_testa=id
+end if
+DECLARE recupera CURSOR FOR
+  SELECT "articolo"."codice", 
+  			"articolo"."descrizione", 
+  			"articolo"."id_articolo",	
+			"articolo"."immagine",
+			"riga_distinta"."tipo_riga",            
+         "riga_distinta"."quantita",   
+         "riga_distinta"."costo",    
+			"riga_distinta"."id_dis_figlio",
+			"riga_distinta"."id_riga_distinta",
+			"riga_distinta"."num_riga",
+			"riga_distinta"."varie"
+    FROM "articolo",   
+         "riga_distinta",   
+       	"distinta"  ,
+   WHERE ( "articolo"."id_articolo" = "riga_distinta"."id_articolo" ) and  
+         ( "distinta"."id_distinta" = "riga_distinta"."id_distinta" ) and 
+			(( dateformat("riga_distinta"."data_fine",'yyyy/mm/dd')>=:ls_inizio )and 
+			( dateformat("riga_distinta"."data_fine",'yyyy/mm/dd')<=:ls_fine ) OR
+			("riga_distinta"."data_fine"  is null) and ("riga_distinta"."data_fine" is null )) and
+			(("riga_distinta"."id_distinta" =  :id_base )  or
+          ("riga_distinta"."id_distinta" = :id_var and  "riga_distinta"."id_dis_var"=null) or
+			 ("riga_distinta"."id_dis_var"=:id_var) and ("riga_distinta"."id_distinta" =:id_testa))  and
+			("riga_distinta"."id_riga_distinta" not in (select "var_riga_distinta"."id_riga_distinta"
+			from "var_riga_distinta" where "var_riga_distinta"."id_dis_variante"=:id_testa))
+	ORDER BY "riga_distinta"."num_riga" ;
+ll_app=ll_root
+if lb_con=true then
+	select articolo.id_articolo,articolo.codice,articolo.immagine
+	into:id_art,:testa,:path
+	from articolo,distinta
+	where distinta.id_distinta=:id
+	and articolo.id_articolo=distinta.id_articolo;
+	dat.quantita=1
+	dat.path=path
+	dat.id_dis_figlio=id
+	dat.id_articolo=id_art
+	dat.id_distinta=id
+	tvi.data=dat
+	tvi.label=testa
+	tvi.pictureindex=4
+	tvi.selectedpictureindex=4
+	tvi.Expanded=true
+	ll_root=tv_dis.insertitemfirst(0,tvi)
+	ll_app=ll_root
+end if
+if ll_root<> -1 then
+	tv_dis.getitem(ll_root,tvi)
+	dat=tvi.data
+	id_var=dat.id_dis_figlio
+	select id_dis_base
+	into :id_base
+	from distinta
+	where id_distinta=:id_var;
+	if isnull(id_base) then id_base=id_var
+end if
+
+open recupera;
+fetch recupera into :cod,:des,:id_art,:pt,:tg,:qt,:cs,:id_f,:ll_id_riga,:ll_num_riga, :lc_varie;
+do while sqlca.sqlcode=0
+	if sqlca.sqlcode=0 then
+		dat.path=pt
+		dat.id_articolo=id_art
+		ll_temp=ll_id_sog_com
+		if id_f>0 then
+			controllo=true
+			select Min("riga_distinta"."id_riga_distinta")
+			into :ll_contr_righe_dis
+			from "riga_distinta"
+			where "riga_distinta"."id_distinta"=:id_f;
+			if sqlca.sqlcode<>0 then id_f=0
+		end if
+		select "articolo"."id_titolo", "articolo"."id_sog_commerciale", "articolo"."prod_interna"
+		into :ll_titolo, :ll_id_sog_com, :ls_prod_interna
+		from "articolo"
+		where ("articolo"."id_articolo"=:id_art);
+		if IsNull(ll_id_sog_com) then ll_id_sog_com=ll_temp
+		select "sog_commerciale_gen"."rag_soc_1"
+		into :ls_rag_soc_1
+		from "sog_commerciale_gen"
+		where ("sog_commerciale_gen"."id_sog_commerciale"=:ll_id_sog_com);
+		select "unita_confezione"."peso_netto", "unita_confezione"."id_unita_confezione"
+		into :ld_peso, :ll_id_un_conf
+		from "unita_confezione"
+		where ("unita_confezione"."id_articolo"=:id_art) and ("unita_confezione"."unita_base"='S');
+		dat.id_dis_figlio=id_f
+		dat.id_distinta=id_f
+		dat.id_riga=ll_id_riga
+		dat.quantita=qt
+		dat.costo=cs
+		dat.codice=cod
+		dat.descrizione=des
+		dat.tipo_riga=tg
+		dat.num_riga=ll_num_riga
+		
+		if isnull(cs) then cs=0
+		if id_f>0 then
+			tvi.Expanded=true
+		else	
+			tvi.Expanded=false
+		end if
+		tvi.data=dat
+		ll_child=tv_dis.insertitemlast(ll_root,tvi)
+		if id_f>0 then
+		else
+			
+			
+			
+			if (tg<>'C')and(tg<>'D')and(tg<>'P') then
+				ll_riga_trovata=dw_esplodi.find("riga_documento_id_articolo="+string(id_art),1,dw_esplodi.rowcount())
+				if (ll_riga_trovata>0) then
+					ai_ritorno ++
+					ld_quantita=dw_esplodi.getitemnumber(ll_riga_trovata,"quantita")
+					as_ordine.cod_figlio[ai_ritorno]=cod
+					as_ordine.varie_figlio[ai_ritorno]=lc_varie
+					if lc_varie='C' then	
+						ll_num_riga=ll_num_riga * (-1)
+					end if
+					as_ordine.riga_figlio[ai_ritorno]=ll_num_riga
+					as_ordine.id_figlio[ai_ritorno]=id_art
+					as_ordine.qta_figlio[ai_ritorno]=qt*ad_quantita
+					as_ordine.des_figlio[ai_ritorno]=des
+					as_ordine.prod_interna_figlio[ai_ritorno]=ls_prod_interna
+					if Not(IsNull(ld_quantita)) then	 
+						ld_quantita=ld_quantita+qt*ad_quantita
+					else
+						ld_quantita=qt*ad_quantita				
+					end if
+					dw_esplodi.setitem(ll_riga_trovata,"quantita",ld_quantita)
+					ld_costo=dw_esplodi.getitemnumber(ll_riga_trovata,"prezzo")
+					if Not(IsNull(ld_costo)) then	 
+						ld_costo=ld_costo+cs*ad_quantita*qt
+					else
+						ld_costo=cs*ad_quantita*qt
+					end if
+					dw_esplodi.setitem(ll_riga_trovata,"prezzo",ld_costo)
+					
+					ld_costo=dw_esplodi.getitemnumber(ll_riga_trovata,"riga_documento_peso_netto")
+					if Not(IsNull(ld_costo)) then	 
+						ld_costo=ld_costo+ld_peso*ad_quantita*qt
+					else
+						ld_costo=ld_peso*ad_quantita*qt
+					end if
+					dw_esplodi.setitem(ll_riga_trovata,"riga_documento_peso_netto",ld_costo)
+				else
+					ai_ritorno ++
+					ll_riga_trovata=dw_esplodi.insertrow(0)
+					as_ordine.cod_figlio[ai_ritorno]=cod
+					as_ordine.varie_figlio[ai_ritorno]=lc_varie
+					as_ordine.id_figlio[ai_ritorno]=id_art
+					as_ordine.qta_figlio[ai_ritorno]=qt*ad_quantita
+					as_ordine.des_figlio[ai_ritorno]=des
+					as_ordine.prod_interna_figlio[ai_ritorno]=ls_prod_interna					
+					
+					select unita_misura.simbolo
+					into :ls_um
+					from unita_confezione, unita_misura
+					where (unita_confezione.id_unita_confezione=:ll_id_un_conf)
+					and (unita_misura.id_unita_misura=unita_confezione.id_unita_mis_volume);
+					as_ordine.u_misura_figlio[ai_ritorno]=ls_um
+					dw_esplodi.setitem(ll_riga_trovata,"unita_misura_b_simbolo",ls_um)
+					setnull(ls_um)
+					
+					select unita_misura.simbolo
+					into :ls_um
+					from unita_confezione, unita_misura
+					where (unita_confezione.id_unita_confezione=:ll_id_un_conf)
+					and(unita_misura.id_unita_misura=unita_confezione.id_unita_mis_peso);
+					as_ordine.u_peso_figlio[ai_ritorno]=ls_um
+					dw_esplodi.setitem(ll_riga_trovata,"usimbolo",ls_um)					
+					dw_esplodi.setitem(ll_riga_trovata,"quantita",qt*ad_quantita)
+					dw_esplodi.setitem(ll_riga_trovata,"prezzo",cs*ad_quantita)
+					dw_esplodi.setitem(ll_riga_trovata,"c_articolo_cod",cod)
+					dw_esplodi.setitem(ll_riga_trovata,"riga_documento_descrizione",des)
+					dw_esplodi.setitem(ll_riga_trovata,"riga_documento_id_articolo",id_art)
+					dw_esplodi.setitem(ll_riga_trovata,"id_titolo",ll_titolo)
+					dw_esplodi.setitem(ll_riga_trovata,"prod_interna",ls_prod_interna)
+					dw_esplodi.setitem(ll_riga_trovata,"riga_documento_id_unita_confezione",ll_id_un_conf)
+					dw_esplodi.setitem(ll_riga_trovata,"proponi_prezzo_manifattura",lc_varie)
+					if lc_varie='C' then	
+						ll_num_riga=ll_num_riga * (-1)
+					end if
+					as_ordine.riga_figlio[ai_ritorno]=ll_num_riga
+					dw_esplodi.setitem(ll_riga_trovata,"riga_documento_num_riga",ll_num_riga)
+					
+					if ls_prod_interna='S' then
+						dw_esplodi.setitem(ll_riga_trovata,"id_sog_commerciale",0)
+						dw_esplodi.setitem(ll_riga_trovata,"rag_soc_1",'produzione interna')
+					else
+						dw_esplodi.setitem(ll_riga_trovata,"id_sog_commerciale",ll_id_sog_com)						
+						dw_esplodi.setitem(ll_riga_trovata,"rag_soc_1",ls_rag_soc_1)
+					end if
+					dw_esplodi.setitem(ll_riga_trovata,"riga_documento_peso_netto",ld_peso*ad_quantita*qt)
+		
+				end if
+			end if
+		end if
+		tvi.expanded=false
+
+	end if
+	fetch recupera into :cod,:des,:id_art,:pt,:tg,:qt,:cs,:id_f,:ll_id_riga,:ll_num_riga, :lc_varie;
+loop
+close recupera;
+
+ll_root=ll_app
+ll_root=tv_dis.finditem(childtreeitem!,ll_root)
+do while ll_root<> -1
+	tv_dis.getItem(ll_root,tvi)
+	dat=tvi.data
+	as_ordine=f_esplodi_dw_gest_ord2(tv_dis,ll_root,false,0,data_inizio,data_fine,id_testa,"","",0,false,dw_esplodi,id_articolo,&
+					ad_quantita*dat.quantita,as_ordine,ai_ritorno,false)
+	ai_ritorno=UpperBound(as_ordine.cod_figlio)
+	ll_root=tv_dis.finditem(Nexttreeitem!,ll_root)
+loop
+return as_ordine
+
+
+
+
+end function
+

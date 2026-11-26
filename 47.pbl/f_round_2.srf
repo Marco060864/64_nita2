@@ -1,0 +1,40 @@
+﻿global type f_round_2 from function_object
+end type
+
+forward prototypes
+global function decimal f_round_2 (integer ll_valuta, decimal adc_numero)
+end prototypes
+
+global function decimal f_round_2 (integer ll_valuta, decimal adc_numero);decimal 	ldc_ret_number, ldc_precisione, ld_arrot
+string ls_tipo_arr
+
+select cifra_arrotondamento, tipo_arrotondamento into :ld_arrot, :ls_tipo_arr
+from valuta where id_valuta=:ll_valuta;
+
+
+If ld_arrot >= 0 then
+	ldc_precisione = 10^ld_arrot
+else
+	ld_arrot= - ld_arrot
+	ldc_precisione = 1 / (10^ld_arrot)
+end if
+
+CHOOSE CASE ls_tipo_arr
+	CASE "I"
+		
+		ldc_ret_number = adc_numero / ldc_precisione
+		ldc_ret_number = Truncate(ldc_ret_number, 0) * ldc_precisione
+	CASE "M"
+	
+		ldc_ret_number = adc_numero / ldc_precisione
+		ldc_ret_number = Round(ldc_ret_number, 0) * ldc_precisione
+	CASE "S"
+		
+		ldc_ret_number = adc_numero / ldc_precisione
+		ldc_ret_number = Ceiling(ldc_ret_number) * ldc_precisione
+	CASE ELSE
+END CHOOSE
+
+RETURN ldc_ret_number
+end function
+

@@ -1,0 +1,46 @@
+﻿global type f_recupera_prezzo_des_2 from function_object
+end type
+
+forward prototypes
+global function string f_recupera_prezzo_des_2 (long al_id_riga)
+end prototypes
+
+global function string f_recupera_prezzo_des_2 (long al_id_riga);string ls_des_2
+long ll_id_variazione, ll_id_uc, ll_id_art
+date ldt_data_doc
+
+select d.data_documento
+into :ldt_data_doc
+from dba.riga_documento r, dba.documento d
+where r.id_documento= d.id_documento
+and id_riga_documento= :al_id_riga
+;
+select id_unita_confezione, id_articolo
+into :ll_id_uc, :ll_id_art
+from dba.riga_documento
+where id_riga_documento= :al_id_riga
+;
+
+if ll_id_art=281  then return ""
+
+//select d.data_documento, r.id_unita_confezione
+//into :ldt_data_doc, :ll_id_uc
+//from dba.riga_documento r, dba.documento d
+//where r.id_documento= d.id_documento
+//and id_riga_documento= :al_id_riga
+//;
+select id_variazione 
+into :ll_id_variazione from dba.variazione
+where id_listino=18 and data_inizio<=:ldt_data_doc and data_fine>=:ldt_data_doc;
+select des_2
+into :ls_des_2 from dba.prezzo
+where id_variazione=:ll_id_variazione and id_unita_confezione=:ll_id_uc
+;
+if ls_des_2> " " then
+	return ls_des_2
+else
+	return ""
+end if
+
+end function
+

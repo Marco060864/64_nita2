@@ -1,0 +1,17 @@
+﻿global type s_dich_intento from structure
+	string		da_sog
+	string		a_sog
+	string		dogana
+	string		uff_iva
+	string		n_op
+	date		data_documento
+	string		art_esenzione
+	integer		anno1
+	string		nota
+	decimal {4}	lire_concorrenza
+	string		da_giorno
+	string		a_giorno
+	string		da_mese
+	string		a_mese
+end type
+

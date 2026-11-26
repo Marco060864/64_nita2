@@ -1,0 +1,49 @@
+﻿global type f_trova_varianti from function_object
+end type
+
+forward prototypes
+global function string f_trova_varianti (long al_id_cat_codifica, string as_codice)
+end prototypes
+
+global function string f_trova_varianti (long al_id_cat_codifica, string as_codice);
+long ll_id_scomposizione,ll_rigcorrente, ll_num_sez
+
+integer li_lunghezza
+
+if al_id_cat_codifica>0 then
+	select id_scomposizione
+	into :ll_id_scomposizione
+	from cat_codifica
+	where id_cat_codifica=:al_id_cat_codifica;
+	if sqlca.sqlcode<>0 then
+		messagebox("Errore!", "Id_scomposizione non trovato")
+	else
+		
+		
+		select num_sezione 
+		into :ll_num_sez
+		from parte_regola
+		where variante='S'
+		and id_scomposizione=:ll_id_scomposizione;
+		if ll_num_sez>0 then
+		else
+			return ""
+		end if
+	end if
+else
+	messagebox("Errore!", "Categoria di codifica non trovata")
+end if
+if isnull(as_codice) or as_codice="" then 
+	messagebox("Errore!", "Nessun codice articolo trovato")
+	return ""
+end if
+select sum(lunghezza)
+into :li_lunghezza
+from parte_regola
+where num_sezione< :ll_num_sez
+and id_scomposizione=:ll_id_scomposizione;
+
+as_codice=left(as_codice, li_lunghezza)
+return as_codice
+end function
+

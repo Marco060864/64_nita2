@@ -1,0 +1,29 @@
+﻿global type f_cerca_bol_fe from function_object
+end type
+
+forward prototypes
+global function string f_cerca_bol_fe (long al_id_riga_fat)
+end prototypes
+
+global function string f_cerca_bol_fe (long al_id_riga_fat);string ls_num_doc
+long ll_id_riga_ddt
+
+select id_riga_doc_provenienza
+into :ll_id_riga_ddt
+from dba.riga_documento
+where id_riga_Documento=:al_id_riga_fat;
+
+select num_documento
+into :ls_num_doc
+from dba.documento d, dba.riga_documento r
+where d.id_documento=r.id_documento
+and id_riga_documento=(select id_riga_doc_provenienza from dba.riga_documento where id_riga_documento=:ll_id_riga_ddt)
+;
+if len(ls_num_doc) < 9 then
+	ls_num_doc=""
+else
+	ls_num_doc=right(ls_num_doc, 5)
+end if
+return ls_num_doc
+end function
+

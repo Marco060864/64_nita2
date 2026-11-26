@@ -1,0 +1,26 @@
+﻿global type s_ordine from structure
+	long		id_padre
+	string		cod_padre
+	string		u_peso
+	string		u_misura
+	decimal {4}	quantita
+	character		ordinato
+	long		riga
+	string		cod_figlio[]
+	string		varie_figlio[]
+	long		riga_figlio[]
+	long		id_figlio[]
+	decimal {4}	qta_figlio[]
+	string		u_misura_figlio[]
+	string		u_peso_figlio[]
+	string		des_figlio[]
+	character		prod_interna_figlio[]
+	decimal {4}	peso_num
+	decimal {4}	misura_num
+	boolean		passato
+	string		clienti
+	string		ordini
+	string		bolli
+	date		data_scad
+end type
+

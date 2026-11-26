@@ -1,0 +1,38 @@
+﻿global type f_sposta_in_mail from function_object
+end type
+
+forward prototypes
+global subroutine f_sposta_in_mail (string as_path_file, date adt_data)
+end prototypes
+
+global subroutine f_sposta_in_mail (string as_path_file, date adt_data);integer li_FileNum, li_pos
+string ls_file, ls_path
+integer li_anno
+
+li_anno=year(adt_data)
+ls_path="c:\start\mail_"+string(li_anno)
+
+
+If not(DirectoryExists ( ls_path )) Then
+	CreateDirectory ( ls_path )
+end if
+	
+
+
+	li_pos= LastPos(as_path_file, "\")
+	if li_pos>0 then
+		ls_file=right(as_path_file, len(as_path_file) - li_pos)
+	else
+		ls_file=as_path_file
+	end if
+	li_FileNum = Filecopy (as_path_file, ls_path +"\"+ls_file, true)
+	if li_FileNum= -1 then
+		messagebox("Attenzione!", "Il file "+as_path_file+" potrebbe essere aperto in un altro programma. Spostamento in 'c:\start\mail' NON riuscito!") 
+	elseif li_FileNum= -2 then
+		messagebox("Attenzione!", "Il file '"+ls_path+"\"+ls_file+" potrebbe essere aperto in un altro programma. Spostamento in 'c:\start\mail' NON riuscito!")
+	else
+		//filedelete(as_path_file)
+	end if
+	
+end subroutine
+

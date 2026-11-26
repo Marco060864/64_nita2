@@ -1,0 +1,42 @@
+﻿global type f_cal_esistenza from function_object
+end type
+
+forward prototypes
+global function decimal f_cal_esistenza (long al_articolo, long al_magazzino, long al_attivita, decimal ad_mese, decimal ad_anno, integer ai_flag)
+end prototypes
+
+global function decimal f_cal_esistenza (long al_articolo, long al_magazzino, long al_attivita, decimal ad_mese, decimal ad_anno, integer ai_flag);
+long ll_riga_corrente, ll_num_righe
+decimal{4}  ld_esi_fiscale
+string ls_filtro
+
+	datastore ds_cal_esi_disponibilita
+	ds_cal_esi_disponibilita=create datastore
+	
+	ds_cal_esi_disponibilita.dataobject="d_cal_esi_disponibilita"
+	
+	ds_cal_esi_disponibilita.settransobject(sqlca)
+	 
+	if ai_flag=1 then 
+		ls_filtro="id_magazzino="+string(al_magazzino)
+		ds_cal_esi_disponibilita.setfilter(ls_filtro)
+		ds_cal_esi_disponibilita.filter()
+	end if
+	
+	ds_cal_esi_disponibilita.retrieve(al_attivita, al_articolo, ad_anno , ad_mese)
+	ll_num_righe=ds_cal_esi_disponibilita.rowcount()
+	if ll_num_righe < 1 then
+		messagebox("Attenzione!", "Non esistono righe di riepilogo per questo articolo!")
+		return 0
+	end if 
+	
+	ld_esi_fiscale=ds_cal_esi_disponibilita.getitemdecimal(1, "esi_fiscale")
+	
+	
+		
+	
+	destroy ds_cal_esi_disponibilita
+	return ld_esi_fiscale
+
+end function
+

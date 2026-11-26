@@ -1,0 +1,27 @@
+﻿global type f_cripting from function_object
+end type
+
+forward prototypes
+global function string f_cripting (string as_in_string)
+end prototypes
+
+global function string f_cripting (string as_in_string);
+
+char 			lch_text[], lch_cripted[], lch_cripting[]
+string 		ls_binary, kk
+long 			ll_size, ll_count
+
+lch_text= as_in_string
+ll_size= Upperbound(lch_text)
+FOR ll_count= 1 to ll_size
+	ls_binary = f_int_to_binary(Asc(lch_text[ll_count]))
+	ls_binary = f_lpad(ls_binary, "0", 8)
+	
+	
+	lch_cripting[ll_count]= Char(f_bin_to_integer(ls_binary))
+	
+NEXT
+
+RETURN lch_cripting
+end function
+

@@ -1,0 +1,17 @@
+﻿global type s_rec_prezzo from structure
+	long		l_esito
+	boolean		b_azzera_prezzi
+	long		l_id_variazione
+	string		s_tipo_prezzo
+	decimal		dc_prezzo
+	boolean		b_set_sconto_riga
+	decimal		dc_sconto_riga
+	boolean		b_set_sconto_perc
+	string		s_sconto_perc
+	boolean		b_set_sconto_fin
+	string		s_sconto_finanziario
+	string		s_coef_calo
+	long		array_long[]
+	string		array_string[]
+end type
+

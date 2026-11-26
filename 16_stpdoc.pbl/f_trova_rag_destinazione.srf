@@ -1,0 +1,17 @@
+﻿global type f_trova_rag_destinazione from function_object
+end type
+
+forward prototypes
+global function string f_trova_rag_destinazione (long al_id_dest)
+end prototypes
+
+global function string f_trova_rag_destinazione (long al_id_dest);string ls_rag
+
+select rag_soc_1
+into :ls_rag
+from dba.destinazione
+where id_destinazione=:al_id_dest
+;
+return ls_rag
+end function
+

@@ -1,0 +1,17 @@
+﻿global type reg_iva_parametri from structure
+	string		tipo_registro
+	string		ls_filtro
+	date		dalla_data
+	date		alla_data
+	character		ls_flag_definitiva
+	long		ll_n_registro
+	long		ll_id_registro
+	long		ll_id_attivita
+	long		ll_id_esercizio
+	string		ls_filtro_rip
+	string		flag_ripristino
+	string		tutti_registri
+	string		las_aghi
+	date		data_ripristino
+end type
+

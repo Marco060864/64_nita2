@@ -1,0 +1,157 @@
+﻿release 9;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=1283 color="536870912" )
+table(column=(type=long update=yes updatewhereclause=yes key=yes identity=yes name=id_cespite dbname="cespite.id_cespite" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=codice dbname="cespite.codice" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=descrizione dbname="cespite.descrizione" )
+ column=(type=date update=yes updatewhereclause=yes name=data_inizio_utilizzo dbname="cespite.data_inizio_utilizzo" )
+ column=(type=long update=yes updatewhereclause=yes name=id_cat_int_cespite dbname="cespite.id_cat_int_cespite" )
+ column=(type=long update=yes updatewhereclause=yes name=id_ubic_cespite dbname="cespite.id_ubic_cespite" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=stato dbname="cespite.stato" initial="U" values="Utilizzato	U/Uso promiscuo	S/Estinto	E/Venduto	V/Escluso dalla produzione	P/Distruzione	D/Locato (amm a carico del locatore)	L/Non ammortizzabile	N/Inutilizzato	I/" validation=" gettext()  = 'U' OR  gettext()  = 'S' OR  gettext()  = 'E' OR  gettext()  = 'V' OR  gettext()  = 'P' OR  gettext()  = 'D' OR  gettext()  = 'L' OR  gettext()  = 'N' OR  gettext()  = 'I'" validationmsg="'Immettere un valore tra U, S, E, V, P, D, L, N, I'" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=tipo_ammortamento dbname="cespite.tipo_ammortamento" initial="O" values="Ordinario	O/Ordinario//Anticipato	A/Ridotto	R/" )
+ column=(type=long update=yes updatewhereclause=yes name=id_centro_costo dbname="cespite.id_centro_costo" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=bene_usato dbname="cespite.bene_usato" initial="N" values="	S/	N" validation=" gettext()  = 'S' OR  gettext()  = 'N'" validationmsg="'Immettere: S, N'" )
+ column=(type=char(32766) update=yes updatewhereclause=no name=note dbname="cespite.note" )
+ column=(type=long update=yes updatewhereclause=yes name=id_azienda dbname="cespite.id_azienda" initial="1" )
+ column=(type=long update=yes updatewhereclause=yes name=id_cespite_padre dbname="cespite.id_cespite_padre" )
+ column=(type=char(8) updatewhereclause=yes name=cat_int_cespite_codice dbname="cat_int_cespite.codice" )
+ column=(type=char(80) updatewhereclause=yes name=cat_int_cespite_descrizione dbname="cat_int_cespite.descrizione" )
+ column=(type=char(8) updatewhereclause=yes name=ubic_cespite_codice dbname="ubic_cespite.codice" )
+ column=(type=char(80) updatewhereclause=yes name=ubic_cespite_descrizione dbname="ubic_cespite.descrizione" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=valore_acq dbname="cespite.valore_acq" )
+ column=(type=date update=yes updatewhereclause=yes name=rival_data dbname="cespite.rival_data" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=rival_valore dbname="cespite.rival_valore" )
+ column=(type=date update=yes updatewhereclause=yes name=sval_data dbname="cespite.sval_data" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=sval_valore dbname="cespite.sval_valore" )
+ column=(type=char(10) updatewhereclause=yes name=ccod dbname="cod" )
+ column=(type=char(40) updatewhereclause=yes name=cdes dbname="des" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=amm_normale dbname="cespite.amm_normale" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=amm_anticipato dbname="cespite.amm_anticipato" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=anni_ammortizzati dbname="cespite.anni_ammortizzati" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=anni_ammortizzabili dbname="cespite.anni_ammortizzabili" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=deduzione dbname="cespite.deduzione" initial="N" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=autotraportatori dbname="cespite.autotraportatori" initial="N" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=registr_cassa dbname="cespite.registr_cassa" initial="N" )
+ column=(type=date update=yes updatewhereclause=yes name=data_inizio_amm dbname="cespite.data_inizio_amm" )
+ column=(type=date update=yes updatewhereclause=yes name=data_fine_amm dbname="cespite.data_fine_amm" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=fondo_amm_norm dbname="cespite.fondo_amm_norm" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=fondo_amm_ant dbname="cespite.fondo_amm_ant" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=tot_perdite dbname="cespite.tot_perdite" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=perd_uso_promiscuo dbname="cespite.perd_uso_promiscuo" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=credito_imposta dbname="cespite.credito_imposta" )
+ column=(type=date update=yes updatewhereclause=yes name=alien_data dbname="cespite.alien_data" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=alien_valore dbname="cespite.alien_valore" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=imp_non_amm dbname="cespite.imp_non_amm" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=plus dbname="cespite.plus" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=minus dbname="cespite.minus" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=quota_amm_prev_norm dbname="cespite.quota_amm_prev_norm" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=quota_amm_prev_antic dbname="cespite.quota_amm_prev_antic" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=sog_contr_manut dbname="cespite.sog_contr_manut" initial="N" )
+ column=(type=long update=yes updatewhereclause=yes name=id_valuta dbname="cespite.id_valuta" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=matricola dbname="cespite.matricola" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=amm_particolare dbname="cespite.amm_particolare" )
+ column=(type=char(8) updatewhereclause=yes name=centro_costo_codice dbname="centro_costo.codice" )
+ column=(type=char(40) updatewhereclause=yes name=centro_costo_descrizione dbname="centro_costo.descrizione" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=imp_originale dbname="cespite.imp_originale" )
+ column=(type=char(16) update=yes updatewhereclause=yes name=cespite_cod_barre dbname="cespite.cod_barre" )
+ retrieve="  SELECT  ~"cespite~".~"id_cespite~" ,
+           ~"cespite~".~"codice~" ,
+           ~"cespite~".~"descrizione~" ,
+           ~"cespite~".~"data_inizio_utilizzo~" ,
+           ~"cespite~".~"id_cat_int_cespite~" ,
+           ~"cespite~".~"id_ubic_cespite~" ,
+           ~"cespite~".~"stato~" ,
+           ~"cespite~".~"tipo_ammortamento~" , 
+          ~"cespite~".~"id_centro_costo~" ,  
+         ~"cespite~".~"bene_usato~" ,         
+  ~"cespite~".~"note~" ,        
+   ~"cespite~".~"id_azienda~" ,    
+       ~"cespite~".~"id_cespite_padre~" ,    
+       ~"cat_int_cespite~".~"codice~" ,        
+   ~"cat_int_cespite~".~"descrizione~" ,         
+  ~"ubic_cespite~".~"codice~" ,       
+    ~"ubic_cespite~".~"descrizione~" ,    
+       ~"cespite~".~"valore_acq~" ,        
+   ~"cespite~".~"rival_data~" ,           
+~"cespite~".~"rival_valore~" ,     
+      ~"cespite~".~"sval_data~" ,     
+      ~"cespite~".~"sval_valore~" ,    
+       cast(null as char(10)) as cod,      
+     cast(null as char(40)) as des,       
+    ~"cespite~".~"amm_normale~" ,          
+ ~"cespite~".~"amm_anticipato~" ,          
+ ~"cespite~".~"anni_ammortizzati~" ,  
+  ~"cespite~".~"anni_ammortizzabili~" ,   
+        ~"cespite~".~"deduzione~" ,        
+   ~"cespite~".~"autotraportatori~" ,   
+        ~"cespite~".~"registr_cassa~" ,  
+         ~"cespite~".~"data_inizio_amm~" , 
+         ~"cespite~".~"data_fine_amm~" ,    
+       ~"cespite~".~"fondo_amm_norm~" ,        
+   ~"cespite~".~"fondo_amm_ant~" ,        
+   ~"cespite~".~"tot_perdite~" ,         
+  ~"cespite~".~"perd_uso_promiscuo~" ,  
+         ~"cespite~".~"credito_imposta~" ,       
+    ~"cespite~".~"alien_data~" ,           ~"cespite~".~"alien_valore~" ,         ~"cespite~".~"imp_non_amm~" ,    
+       ~"cespite~".~"plus~" ,           ~"cespite~".~"minus~" ,           ~"cespite~".~"quota_amm_prev_norm~" ,      
+     ~"cespite~".~"quota_amm_prev_antic~" ,           ~"cespite~".~"sog_contr_manut~" ,           ~"cespite~".~"id_valuta~" ,    
+       ~"cespite~".~"matricola~" ,           ~"cespite~".~"amm_particolare~" ,           ~"centro_costo~".~"codice~" ,          
+ ~"centro_costo~".~"descrizione~"  ,          ~"cespite~".~"imp_originale~",
+~"cespite~".~"cod_barre~"
+
+        FROM {oj {oj ~"cespite~"  LEFT OUTER JOIN ~"ubic_cespite~"  ON ~"cespite~".~"id_ubic_cespite~" = ~"ubic_cespite~".~"id_ubic_cespite~"} LEFT OUTER JOIN ~"centro_costo~"  ON ~"cespite~".~"id_centro_costo~" = ~"centro_costo~".~"id_centro_costo~"} ,           ~"cat_int_cespite~"    
+        WHERE ( ~"cat_int_cespite~".~"id_cat_int_cespite~" = ~"cespite~".~"id_cat_int_cespite~" ) and          ( ( ~"cespite~".~"id_azienda~" in (0, 1) ) )   " update="cespite" updatewhere=1 updatekeyinplace=yes )
+column(band=detail id=2 alignment="0" tabsequence=10 border="5" color="0" x="592" y="26" height="64" width="424" format="[general]" html.valueishtml="0"  name=codice visible="1" edit.name="es_Cod_N10" edit.limit=10 edit.case=upper edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Cespite  -  " border="0" color="0" x="59" y="26" height="54" width="315" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Codice:" border="0" color="0" x="380" y="26" height="54" width="190" html.valueishtml="0"  name=codice_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Categoria Interna:" border="0" color="0" x="124" y="266" height="54" width="446" html.valueishtml="0"  name=cat_int_cespite_codice_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Ubicazione:" border="0" color="0" x="252" y="368" height="58" width="318" html.valueishtml="0"  name=ubic_cespite_codice_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=50 border="5" color="0" x="592" y="266" height="64" width="402" format="[general]" html.valueishtml="0"  name=cat_int_cespite_codice visible="1" edit.name="es_Cod_A8" edit.limit=8 edit.case=upper edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=16 alignment="0" tabsequence=70 border="5" color="0" x="592" y="368" height="64" width="402" format="[general]" html.valueishtml="0"  name=ubic_cespite_codice visible="1" edit.name="es_Cod_A8" edit.limit=8 edit.case=upper edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+bitmap(band=detail filename="S:\PB\CommonFrameWork\Search.bmp" x="1020" y="266" height="58" width="73" border="6"  name=cat_int_cespite_codice_sw visible="1" )
+bitmap(band=detail filename="S:\PB\CommonFrameWork\Search.bmp" x="1020" y="368" height="61" width="73" border="6"  name=ubic_cespite_codice_sw visible="1" )
+text(band=detail alignment="1" text="Matricola:" border="0" color="0" x="1218" y="26" height="54" width="293" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Bene acquistato usato:" border="0" color="0" x="2052" y="26" height="54" width="684" html.valueishtml="0"  name=bene_usato_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=30 border="0" color="0" x="2754" y="26" height="64" width="66" format="[general]" html.valueishtml="0"  name=bene_usato visible="1" edit.name="es_Boolean" checkbox.text="" checkbox.on="S" checkbox.off="N" checkbox.scale=no checkbox.threed=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+bitmap(band=detail filename="S:\PB\CommonFrameWork\Search.bmp" x="2747" y="266" height="64" width="73" border="6"  name=cat_int_cespite_descrizione_sw visible="1" )
+text(band=detail alignment="1" text="Descrizione:" border="0" color="0" x="271" y="128" height="58" width="300" html.valueishtml="0"  name=descrizione_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=40 border="5" color="0" x="592" y="128" height="67" width="1605" format="[general]" html.valueishtml="0"  name=descrizione visible="1" edit.name="es_Descrizione" edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=48 alignment="0" tabsequence=20 border="5" color="0" x="1532" y="26" height="64" width="421" format="[general]" html.valueishtml="0"  name=matricola visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+bitmap(band=detail filename="S:\PB\CommonFrameWork\Search.bmp" x="2747" y="368" height="64" width="73" border="6"  name=ubic_cespite_descrizione_sw visible="1" )
+column(band=detail id=15 alignment="0" tabsequence=60 border="5" color="0" x="1134" y="266" height="64" width="1587" format="[general]" html.valueishtml="0"  name=cat_int_cespite_descrizione visible="1" edit.name="es_Des_Lunga" edit.limit=80 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=17 alignment="0" tabsequence=80 border="5" color="0" x="1134" y="368" height="64" width="1587" format="[general]" html.valueishtml="0"  name=ubic_cespite_descrizione visible="1" edit.name="es_Des_Lunga" edit.limit=80 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Stato del cespite:" border="0" color="0" x="132" y="509" height="54" width="435" html.valueishtml="0"  name=stato_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Centro di Costo:" border="0" color="0" x="15" y="890" height="54" width="556" html.valueishtml="0"  name=centro_costo_codice_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=50 alignment="0" tabsequence=160 border="5" color="0" x="592" y="883" height="64" width="402" format="[general]" html.valueishtml="0"  name=centro_costo_codice visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+bitmap(band=detail filename="S:\PB\CommonFrameWork\Search.bmp" x="1020" y="890" height="58" width="73" border="6"  name=centro_costo_codice_sw visible="1" )
+column(band=detail id=51 alignment="0" tabsequence=170 border="5" color="0" x="1134" y="883" height="64" width="1587" format="[general]" html.valueishtml="0"  name=centro_costo_descrizione visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+bitmap(band=detail filename="S:\PB\CommonFrameWork\Search.bmp" x="2747" y="890" height="64" width="73" border="6"  name=centro_costo_descrizione_sw visible="1" )
+text(band=detail alignment="1" text="Cespite Appartenenza:" border="0" color="0" x="51" y="989" height="54" width="519" html.valueishtml="0"  name=ccod_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=23 alignment="0" tabsequence=180 border="5" color="0" x="592" y="989" height="64" width="402" format="[general]" html.valueishtml="0"  name=ccod visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+bitmap(band=detail filename="S:\PB\CommonFrameWork\Search.bmp" x="1020" y="989" height="64" width="73" border="6"  name=ccod_sw visible="1" )
+column(band=detail id=24 alignment="0" tabsequence=190 border="5" color="0" x="1134" y="989" height="64" width="1587" format="[general]" html.valueishtml="0"  name=cdes visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+bitmap(band=detail filename="S:\PB\CommonFrameWork\Search.bmp" x="2747" y="989" height="64" width="73" border="6"  name=cdes_sw visible="1" )
+text(band=detail alignment="1" text="Note:" border="0" color="0" x="358" y="1114" height="54" width="212" html.valueishtml="0"  name=note_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="0" tabsequence=200 border="5" color="0" x="592" y="1114" height="134" width="2231" format="[general]" html.valueishtml="0"  name=note visible="1" edit.name="es_Note" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0 edit.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Acquisto:" border="0" color="0" x="296" y="752" height="58" width="271" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=130 border="5" color="0" x="592" y="749" height="67" width="274" format="dd/mm/yyyy" html.valueishtml="0"  name=data_inizio_utilizzo visible="1" edit.limit=10 edit.case=any edit.format="dd/mm/yyyy " edit.autoselect=yes edit.nilisnull=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Valore:" border="0" color="0" x="1024" y="755" height="58" width="183" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="1" tabsequence=140 border="5" color="0" x="1229" y="752" height="67" width="377" format="#,0.00" html.valueishtml="0"  name=valore_acq visible="1" edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Importo originale:" border="0" color="0" x="1788" y="755" height="58" width="519" html.valueishtml="0"  name=data_inizio_utilizzo_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=52 alignment="1" tabsequence=150 border="5" color="0" x="2352" y="752" height="67" width="373" format="#,0.00" html.valueishtml="0"  name=imp_originale visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="0" tabsequence=90 border="5" color="0" x="592" y="506" height="64" width="925" format="[general]" html.valueishtml="0"  name=stato visible="1" ddlb.limit=1 ddlb.allowedit=no ddlb.case=upper ddlb.nilisnull=yes ddlb.vscrollbar=yes ddlb.useasborder=yes ddlb.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Tipo Ammortamento:" border="0" color="0" x="18" y="634" height="54" width="549" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=110 border="5" color="0" x="592" y="627" height="64" width="925" format="[general]" html.valueishtml="0"  name=tipo_ammortamento visible="1" ddlb.limit=0 ddlb.allowedit=yes ddlb.case=any ddlb.nilisnull=yes ddlb.vscrollbar=yes ddlb.useasborder=yes ddlb.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Ammortamento particolare:" border="0" color="0" x="1719" y="634" height="54" width="794" html.valueishtml="0"  name=t_6 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=49 alignment="2" tabsequence=120 border="5" color="0" x="2527" y="627" height="64" width="194" format="[general]" html.valueishtml="0"  name=amm_particolare visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=27 alignment="2" tabsequence=100 border="5" color="0" x="2527" y="509" height="64" width="194" format="[general]" html.valueishtml="0"  name=anni_ammortizzati visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Anni Ammortizzati:" border="0" color="0" x="1960" y="512" height="58" width="552" html.valueishtml="0"  name=t_7 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=53 alignment="0" tabsequence=210 border="0" color="0" x="2297" y="128" height="51" width="512" html.valueishtml="0"  name=cespite_cod_barre visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+  

@@ -1,0 +1,857 @@
+﻿forward
+global type m_mdi_frame from menu
+end type
+type m_file from menu within m_mdi_frame
+end type
+type m_apri from menu within m_file
+end type
+type m_ripetilogin from menu within m_file
+end type
+type m_chiudi from menu within m_file
+end type
+type m_salvaconnome from menu within m_file
+end type
+type m_salvapaginahtml from menu within m_file
+end type
+type m__2 from menu within m_file
+end type
+type m_impostastampante from menu within m_file
+end type
+type m_stampa from menu within m_file
+end type
+type m__4 from menu within m_file
+end type
+type m_esci from menu within m_file
+end type
+type m_file from menu within m_mdi_frame
+m_apri m_apri
+m_ripetilogin m_ripetilogin
+m_chiudi m_chiudi
+m_salvaconnome m_salvaconnome
+m_salvapaginahtml m_salvapaginahtml
+m__2 m__2
+m_impostastampante m_impostastampante
+m_stampa m_stampa
+m__4 m__4
+m_esci m_esci
+end type
+type m_modifica from menu within m_mdi_frame
+end type
+type m_inserisci from menu within m_modifica
+end type
+type m_aggiungiincoda from menu within m_modifica
+end type
+type m_salva from menu within m_modifica
+end type
+type m_elimina from menu within m_modifica
+end type
+type m__1 from menu within m_modifica
+end type
+type m_copia from menu within m_modifica
+end type
+type m_taglia from menu within m_modifica
+end type
+type m_incolla from menu within m_modifica
+end type
+type m__3 from menu within m_modifica
+end type
+type m_ricerca from menu within m_modifica
+end type
+type m_modifica from menu within m_mdi_frame
+m_inserisci m_inserisci
+m_aggiungiincoda m_aggiungiincoda
+m_salva m_salva
+m_elimina m_elimina
+m__1 m__1
+m_copia m_copia
+m_taglia m_taglia
+m_incolla m_incolla
+m__3 m__3
+m_ricerca m_ricerca
+end type
+type m_record from menu within m_mdi_frame
+end type
+type m_primorecord from menu within m_record
+end type
+type m_recordprecedente from menu within m_record
+end type
+type m_vaialsuccessivo from menu within m_record
+end type
+type m_ultimorecord from menu within m_record
+end type
+type m_record from menu within m_mdi_frame
+m_primorecord m_primorecord
+m_recordprecedente m_recordprecedente
+m_vaialsuccessivo m_vaialsuccessivo
+m_ultimorecord m_ultimorecord
+end type
+type m_finestre from menu within m_mdi_frame
+end type
+type m_disponiacascata from menu within m_finestre
+end type
+type m_disponiorizzontalmente from menu within m_finestre
+end type
+type m_finestre from menu within m_mdi_frame
+m_disponiacascata m_disponiacascata
+m_disponiorizzontalmente m_disponiorizzontalmente
+end type
+type m_guida from menu within m_mdi_frame
+end type
+type m_informazioni from menu within m_guida
+end type
+type m_guida from menu within m_mdi_frame
+m_informazioni m_informazioni
+end type
+global type m_mdi_frame from menu
+m_file m_file
+m_modifica m_modifica
+m_record m_record
+m_finestre m_finestre
+m_guida m_guida
+end type
+end forward
+
+global type m_mdi_frame from menu
+m_file m_file
+m_modifica m_modifica
+m_record m_record
+m_finestre m_finestre
+m_guida m_guida
+end type
+global m_mdi_frame m_mdi_frame
+
+forward prototypes
+public subroutine uf_route_event (string as_event)
+public subroutine uf_enable_modifica (boolean ab_enable)
+end prototypes
+
+public subroutine uf_route_event (string as_event);// se la finestra corrente di Freddie è valida gli invia il messaggio
+
+w_data_main lw_current
+
+lw_current = u_freddie.iw_current
+if IsValid(lw_current) then
+	lw_current.triggerevent(as_event)
+end if
+
+end subroutine
+
+public subroutine uf_enable_modifica (boolean ab_enable);THIS.m_modifica.m_inserisci.enabled = ab_enable
+THIS.m_modifica.m_aggiungiincoda.enabled = ab_enable
+THIS.m_modifica.m_salva.enabled = ab_enable
+THIS.m_modifica.m_elimina.enabled = ab_enable
+
+end subroutine
+
+on m_mdi_frame.create
+m_mdi_frame=this
+call super::create
+this.m_file=create m_file
+this.m_modifica=create m_modifica
+this.m_record=create m_record
+this.m_finestre=create m_finestre
+this.m_guida=create m_guida
+this.Item[UpperBound(this.Item)+1]=this.m_file
+this.Item[UpperBound(this.Item)+1]=this.m_modifica
+this.Item[UpperBound(this.Item)+1]=this.m_record
+this.Item[UpperBound(this.Item)+1]=this.m_finestre
+this.Item[UpperBound(this.Item)+1]=this.m_guida
+end on
+
+on m_mdi_frame.destroy
+call super::destroy
+destroy(this.m_file)
+destroy(this.m_modifica)
+destroy(this.m_record)
+destroy(this.m_finestre)
+destroy(this.m_guida)
+end on
+
+type m_file from menu within m_mdi_frame
+m_apri m_apri
+m_ripetilogin m_ripetilogin
+m_chiudi m_chiudi
+m_salvaconnome m_salvaconnome
+m_salvapaginahtml m_salvapaginahtml
+m__2 m__2
+m_impostastampante m_impostastampante
+m_stampa m_stampa
+m__4 m__4
+m_esci m_esci
+end type
+
+on m_file.create
+call super::create
+this.text = "&File"
+this.m_apri=create m_apri
+this.m_ripetilogin=create m_ripetilogin
+this.m_chiudi=create m_chiudi
+this.m_salvaconnome=create m_salvaconnome
+this.m_salvapaginahtml=create m_salvapaginahtml
+this.m__2=create m__2
+this.m_impostastampante=create m_impostastampante
+this.m_stampa=create m_stampa
+this.m__4=create m__4
+this.m_esci=create m_esci
+this.Item[UpperBound(this.Item)+1]=this.m_apri
+this.Item[UpperBound(this.Item)+1]=this.m_ripetilogin
+this.Item[UpperBound(this.Item)+1]=this.m_chiudi
+this.Item[UpperBound(this.Item)+1]=this.m_salvaconnome
+this.Item[UpperBound(this.Item)+1]=this.m_salvapaginahtml
+this.Item[UpperBound(this.Item)+1]=this.m__2
+this.Item[UpperBound(this.Item)+1]=this.m_impostastampante
+this.Item[UpperBound(this.Item)+1]=this.m_stampa
+this.Item[UpperBound(this.Item)+1]=this.m__4
+this.Item[UpperBound(this.Item)+1]=this.m_esci
+end on
+
+on m_file.destroy
+call super::destroy
+destroy(this.m_apri)
+destroy(this.m_ripetilogin)
+destroy(this.m_chiudi)
+destroy(this.m_salvaconnome)
+destroy(this.m_salvapaginahtml)
+destroy(this.m__2)
+destroy(this.m_impostastampante)
+destroy(this.m_stampa)
+destroy(this.m__4)
+destroy(this.m_esci)
+end on
+
+type m_apri from menu within m_file
+end type
+
+on m_apri.create
+call super::create
+this.tag = "Apri finestra del menu"
+this.text = "&Apri"
+this.microhelp = "Apre una finestra"
+this.toolbaritemname = "RunWindow!"
+this.toolbaritemtext = "Apri voce di menu"
+this.toolbaritemspace = 1
+end on
+
+on m_apri.destroy
+call super::destroy
+end on
+
+event clicked;s_list_main ls_list
+window iw_finestra
+Long ll_ute, ll_menu, ll_voce
+String ls_ogg, ls_win, ls_param
+
+open(w_open_win)
+ls_win=message.stringparm
+
+ll_ute=u_freddie.s_utenti.i_idutente
+select id_menu into :ll_menu
+from utenti where id_utenti=:ll_ute;
+
+select max(id_voci_menu) into :ll_voce
+from voci_menu where vmenu_voce=:ls_win;
+
+select o.ogg_oggetto, v.vmenu_parametri into :ls_ogg, :ls_param
+from oggetti o, voci_menu v
+where v.id_oggetti=o.id_oggetti
+and v.id_voci_menu=:ll_voce;
+//and v.id_menu=:ll_menu;
+
+if sqlca.sqlcode<>0 then
+	messagebox('Attenzione','Nessuna corrispondenza nel menu per la voce inserita!')
+	return
+else
+	ls_list.s_win_parametri = ls_param
+	OpenSheetWithParm(iw_finestra,ls_list,ls_ogg,w_app_frame,0,original!)	
+end if	
+end event
+
+type m_ripetilogin from menu within m_file
+end type
+
+event clicked;if u_freddie.ib_enable_menu = True then
+	Close(w_menu)
+end if
+u_freddie.login()
+end event
+
+on m_ripetilogin.create
+call super::create
+this.text = "&ReLogin"
+end on
+
+on m_ripetilogin.destroy
+call super::destroy
+end on
+
+type m_chiudi from menu within m_file
+end type
+
+event clicked;// chiude il foglio correntemente attivo
+
+window lw_ActSheet
+lw_ActSheet = parentwindow.getActiveSheet()
+close(lw_ActSheet)
+end event
+
+on m_chiudi.create
+call super::create
+this.tag = "Chiudi finestra corrente"
+this.text = "&Chiudi~tCtrl+F4"
+this.shortcut = 371
+this.microhelp = "Chiude la finestra corrente"
+this.toolbaritemname = "Error!"
+this.toolbaritemtext = "Chiudi finestra corrente"
+end on
+
+on m_chiudi.destroy
+call super::destroy
+end on
+
+type m_salvaconnome from menu within m_file
+end type
+
+on m_salvaconnome.create
+call super::create
+this.tag = "Esporta su file"
+this.text = "&Esporta~tShift+F12"
+this.shortcut = 1147
+this.toolbaritemname = "Custom008!"
+this.toolbaritemtext = "Esporta su File"
+this.toolbaritemorder = 18
+this.toolbaritemspace = 3
+end on
+
+event clicked;// salva con nome...
+
+uf_route_event("ue_saveas")
+
+end event
+
+on m_salvaconnome.destroy
+call super::destroy
+end on
+
+type m_salvapaginahtml from menu within m_file
+end type
+
+event clicked;// salva pagina html
+
+uf_route_event("ue_save_html")
+
+end event
+
+on m_salvapaginahtml.create
+call super::create
+this.text = "Salva pagina &HTML"
+end on
+
+on m_salvapaginahtml.destroy
+call super::destroy
+end on
+
+type m__2 from menu within m_file
+end type
+
+on m__2.create
+call super::create
+this.text = "-"
+end on
+
+on m__2.destroy
+call super::destroy
+end on
+
+type m_impostastampante from menu within m_file
+end type
+
+on m_impostastampante.create
+call super::create
+this.text = "&Imposta Stampante..."
+this.microhelp = "Imposta la stampante su cui stampare"
+end on
+
+event clicked;PrintSetup()
+end event
+
+on m_impostastampante.destroy
+call super::destroy
+end on
+
+type m_stampa from menu within m_file
+end type
+
+on m_stampa.create
+call super::create
+this.tag = "Stampa"
+this.text = "&Stampa"
+this.microhelp = "Stampa la finestra corrente"
+this.toolbaritemname = "Print!"
+this.toolbaritemtext = "Stampa"
+this.toolbaritemorder = 19
+end on
+
+event clicked;uf_route_event("ue_print")
+end event
+
+on m_stampa.destroy
+call super::destroy
+end on
+
+type m__4 from menu within m_file
+end type
+
+on m__4.create
+call super::create
+this.text = "-"
+this.shifttoright = true
+end on
+
+on m__4.destroy
+call super::destroy
+end on
+
+type m_esci from menu within m_file
+end type
+
+event clicked;close(parentwindow)
+end event
+
+on m_esci.create
+call super::create
+this.tag = "Esce dall~'applicazione"
+this.text = "&Esci~tAlt+F4"
+this.shortcut = 627
+this.microhelp = "Esce dall~'applicazione"
+this.toolbaritemname = "Exit!"
+this.toolbaritemtext = "Esci da Cometa"
+this.toolbaritemorder = 20
+this.toolbaritemspace = 3
+this.shifttoright = true
+end on
+
+on m_esci.destroy
+call super::destroy
+end on
+
+type m_modifica from menu within m_mdi_frame
+m_inserisci m_inserisci
+m_aggiungiincoda m_aggiungiincoda
+m_salva m_salva
+m_elimina m_elimina
+m__1 m__1
+m_copia m_copia
+m_taglia m_taglia
+m_incolla m_incolla
+m__3 m__3
+m_ricerca m_ricerca
+end type
+
+on m_modifica.create
+call super::create
+this.text = "&Modifica"
+this.m_inserisci=create m_inserisci
+this.m_aggiungiincoda=create m_aggiungiincoda
+this.m_salva=create m_salva
+this.m_elimina=create m_elimina
+this.m__1=create m__1
+this.m_copia=create m_copia
+this.m_taglia=create m_taglia
+this.m_incolla=create m_incolla
+this.m__3=create m__3
+this.m_ricerca=create m_ricerca
+this.Item[UpperBound(this.Item)+1]=this.m_inserisci
+this.Item[UpperBound(this.Item)+1]=this.m_aggiungiincoda
+this.Item[UpperBound(this.Item)+1]=this.m_salva
+this.Item[UpperBound(this.Item)+1]=this.m_elimina
+this.Item[UpperBound(this.Item)+1]=this.m__1
+this.Item[UpperBound(this.Item)+1]=this.m_copia
+this.Item[UpperBound(this.Item)+1]=this.m_taglia
+this.Item[UpperBound(this.Item)+1]=this.m_incolla
+this.Item[UpperBound(this.Item)+1]=this.m__3
+this.Item[UpperBound(this.Item)+1]=this.m_ricerca
+end on
+
+on m_modifica.destroy
+call super::destroy
+destroy(this.m_inserisci)
+destroy(this.m_aggiungiincoda)
+destroy(this.m_salva)
+destroy(this.m_elimina)
+destroy(this.m__1)
+destroy(this.m_copia)
+destroy(this.m_taglia)
+destroy(this.m_incolla)
+destroy(this.m__3)
+destroy(this.m_ricerca)
+end on
+
+type m_inserisci from menu within m_modifica
+end type
+
+event clicked;// inserisce un record in coda
+
+uf_route_event("ue_insert")
+end event
+
+on m_inserisci.create
+call super::create
+this.text = "&Inserisci in coda~tAlt+Ins"
+this.shortcut = 557
+this.microhelp = "Inserisce un record in coda"
+this.toolbaritemname = "Retrieve5!"
+this.toolbaritemtext = "Inserisci"
+this.toolbaritemorder = 2
+this.toolbaritemspace = 2
+end on
+
+on m_inserisci.destroy
+call super::destroy
+end on
+
+type m_aggiungiincoda from menu within m_modifica
+end type
+
+on m_aggiungiincoda.create
+call super::create
+this.text = "&Inserisci in posizione corrente~tCtrl+N"
+this.shortcut = 334
+this.microhelp = "Inserisci un record in posizione corrente"
+this.toolbaritemname = "Insert!"
+this.toolbaritemtext = "Aggiungib in coda"
+this.toolbaritemorder = 3
+end on
+
+event clicked;// inserisci un record in posizione
+
+uf_route_event("ue_append")
+end event
+
+on m_aggiungiincoda.destroy
+call super::destroy
+end on
+
+type m_salva from menu within m_modifica
+end type
+
+on m_salva.create
+call super::create
+this.text = "&Salva~tCtrl+S"
+this.shortcut = 339
+this.microhelp = "Salva le modifiche"
+this.toolbaritemname = "Save!"
+this.toolbaritemtext = "Salva"
+end on
+
+event clicked;// salva il record
+
+uf_route_event("ue_update")
+end event
+
+on m_salva.destroy
+call super::destroy
+end on
+
+type m_elimina from menu within m_modifica
+end type
+
+on m_elimina.create
+call super::create
+this.text = "&Elimina~tAlt+Del"
+this.shortcut = 558
+this.microhelp = "Elimina il record corrente"
+this.toolbaritemname = "Clear!"
+this.toolbaritemtext = "Elimina"
+this.toolbaritemorder = 4
+end on
+
+event clicked;// elimina un record
+
+uf_route_event("ue_delete")
+end event
+
+on m_elimina.destroy
+call super::destroy
+end on
+
+type m__1 from menu within m_modifica
+end type
+
+on m__1.create
+call super::create
+this.text = "-"
+end on
+
+on m__1.destroy
+call super::destroy
+end on
+
+type m_copia from menu within m_modifica
+end type
+
+on m_copia.create
+call super::create
+this.text = "&Copia~tCtrl+C"
+this.shortcut = 323
+end on
+
+on m_copia.destroy
+call super::destroy
+end on
+
+type m_taglia from menu within m_modifica
+end type
+
+on m_taglia.create
+call super::create
+this.text = "&Taglia~tCtrl+X"
+this.shortcut = 344
+end on
+
+on m_taglia.destroy
+call super::destroy
+end on
+
+type m_incolla from menu within m_modifica
+end type
+
+on m_incolla.create
+call super::create
+this.text = "I&ncolla~tCtrl+V"
+this.shortcut = 342
+end on
+
+on m_incolla.destroy
+call super::destroy
+end on
+
+type m__3 from menu within m_modifica
+end type
+
+on m__3.create
+call super::create
+this.text = "-"
+end on
+
+on m__3.destroy
+call super::destroy
+end on
+
+type m_ricerca from menu within m_modifica
+end type
+
+event clicked;// attiva/disattiva la modalità ricerca
+
+uf_route_event("ue_togglequery")
+end event
+
+on m_ricerca.create
+call super::create
+this.text = "&Ricerca~tCtrl+R"
+this.shortcut = 338
+this.microhelp = "Attiva o disattiva la modalità ricerca"
+this.toolbaritemname = "S:\pb\commonframework\search.bmp"
+this.toolbaritemtext = "Ricerca"
+this.toolbaritemspace = 2
+end on
+
+on m_ricerca.destroy
+call super::destroy
+end on
+
+type m_record from menu within m_mdi_frame
+m_primorecord m_primorecord
+m_recordprecedente m_recordprecedente
+m_vaialsuccessivo m_vaialsuccessivo
+m_ultimorecord m_ultimorecord
+end type
+
+on m_record.create
+call super::create
+this.text = "&Posiziona"
+this.m_primorecord=create m_primorecord
+this.m_recordprecedente=create m_recordprecedente
+this.m_vaialsuccessivo=create m_vaialsuccessivo
+this.m_ultimorecord=create m_ultimorecord
+this.Item[UpperBound(this.Item)+1]=this.m_primorecord
+this.Item[UpperBound(this.Item)+1]=this.m_recordprecedente
+this.Item[UpperBound(this.Item)+1]=this.m_vaialsuccessivo
+this.Item[UpperBound(this.Item)+1]=this.m_ultimorecord
+end on
+
+on m_record.destroy
+call super::destroy
+destroy(this.m_primorecord)
+destroy(this.m_recordprecedente)
+destroy(this.m_vaialsuccessivo)
+destroy(this.m_ultimorecord)
+end on
+
+type m_primorecord from menu within m_record
+end type
+
+on m_primorecord.create
+call super::create
+this.text = "Vai al &Primo~tCtrl+A"
+this.shortcut = 321
+this.microhelp = "Posiziona sul primo record"
+this.toolbaritemname = "VCRFirst!"
+this.toolbaritemtext = "Primo"
+this.toolbaritemspace = 2
+end on
+
+event clicked;// posiziona sul primo record
+
+uf_route_event("ue_firstrecord")
+end event
+
+on m_primorecord.destroy
+call super::destroy
+end on
+
+type m_recordprecedente from menu within m_record
+end type
+
+on m_recordprecedente.create
+call super::create
+this.text = "Vai al &Precedente"
+this.microhelp = "Posiziona sul record precedente"
+this.toolbaritemname = "VCRPrior!"
+this.toolbaritemtext = "Precedente"
+end on
+
+event clicked;// posiziona sul record precedente
+
+uf_route_event("ue_prevrecord")
+end event
+
+on m_recordprecedente.destroy
+call super::destroy
+end on
+
+type m_vaialsuccessivo from menu within m_record
+end type
+
+on m_vaialsuccessivo.create
+call super::create
+this.text = "Vai al &Successivo"
+this.microhelp = "Posiziona sul record seguente"
+this.toolbaritemname = "VCRNext!"
+this.toolbaritemtext = "Successivo"
+end on
+
+event clicked;// posiziona sul record successivo
+
+uf_route_event("ue_nextrecord")
+end event
+
+on m_vaialsuccessivo.destroy
+call super::destroy
+end on
+
+type m_ultimorecord from menu within m_record
+end type
+
+on m_ultimorecord.create
+call super::create
+this.text = "Vai all~'&Ultimo~tCtrl+Z"
+this.shortcut = 346
+this.microhelp = "Posiziona sull~'ultimo record"
+this.toolbaritemname = "VCRLast!"
+this.toolbaritemtext = "Ultimo"
+end on
+
+event clicked;// posiziona sull'ultimo record
+
+uf_route_event("ue_lastrecord")
+end event
+
+on m_ultimorecord.destroy
+call super::destroy
+end on
+
+type m_finestre from menu within m_mdi_frame
+m_disponiacascata m_disponiacascata
+m_disponiorizzontalmente m_disponiorizzontalmente
+end type
+
+on m_finestre.create
+call super::create
+this.text = "Fi&nestre"
+this.m_disponiacascata=create m_disponiacascata
+this.m_disponiorizzontalmente=create m_disponiorizzontalmente
+this.Item[UpperBound(this.Item)+1]=this.m_disponiacascata
+this.Item[UpperBound(this.Item)+1]=this.m_disponiorizzontalmente
+end on
+
+on m_finestre.destroy
+call super::destroy
+destroy(this.m_disponiacascata)
+destroy(this.m_disponiorizzontalmente)
+end on
+
+type m_disponiacascata from menu within m_finestre
+end type
+
+on m_disponiacascata.create
+call super::create
+this.text = "Disponi a &Cascata"
+end on
+
+event clicked;// dispone le finestre a cascata
+
+ParentWindow.ArrangeSheets(Cascade!)
+end event
+
+on m_disponiacascata.destroy
+call super::destroy
+end on
+
+type m_disponiorizzontalmente from menu within m_finestre
+end type
+
+on m_disponiorizzontalmente.create
+call super::create
+this.text = "Disponi &Orizzontalmente"
+end on
+
+event clicked;// dispone le finestre orizzontalmente
+
+ParentWindow.ArrangeSheets(TileHorizontal!)
+end event
+
+on m_disponiorizzontalmente.destroy
+call super::destroy
+end on
+
+type m_guida from menu within m_mdi_frame
+m_informazioni m_informazioni
+end type
+
+on m_guida.create
+call super::create
+this.text = "&Guida"
+this.m_informazioni=create m_informazioni
+this.Item[UpperBound(this.Item)+1]=this.m_informazioni
+end on
+
+on m_guida.destroy
+call super::destroy
+destroy(this.m_informazioni)
+end on
+
+type m_informazioni from menu within m_guida
+end type
+
+on m_informazioni.create
+call super::create
+this.text = "&Informazioni..."
+end on
+
+event clicked;open(w_about)
+end event
+
+on m_informazioni.destroy
+call super::destroy
+end on
+

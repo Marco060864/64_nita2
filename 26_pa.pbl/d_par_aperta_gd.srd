@@ -1,0 +1,73 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=68 color="536870912" )
+summary(height=84 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=long updatewhereclause=yes key=yes identity=yes name=id_par_aperta dbname="par_aperta.id_par_aperta" )
+ column=(type=char(16) updatewhereclause=yes name=par_aperta_num_partita dbname="par_aperta.num_partita" )
+ column=(type=date updatewhereclause=yes name=par_aperta_data_partita dbname="par_aperta.data_partita" )
+ column=(type=long updatewhereclause=yes name=id_conto dbname="par_aperta.id_conto" )
+ column=(type=decimal(0) updatewhereclause=yes name=par_aperta_segno_iva dbname="par_aperta.segno_iva" )
+ column=(type=char(1) updatewhereclause=yes name=stato dbname="par_aperta.stato" )
+ column=(type=long updatewhereclause=yes name=id_valuta dbname="par_aperta.id_valuta" )
+ column=(type=long updatewhereclause=yes name=id_reg_pd dbname="id_reg_pd" )
+ column=(type=char(40) updatewhereclause=yes name=note dbname="note" )
+ column=(type=char(1) updatewhereclause=yes name=chiudi dbname="chiudi" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importo dbname="tab_importo" )
+ column=(type=decimal(4) updatewhereclause=yes name=importo2 dbname="importo2" )
+ column=(type=decimal(4) updatewhereclause=yes name=csaldo dbname="saldo" )
+ column=(type=decimal(4) updatewhereclause=yes name=par_aperta_movimento dbname="importo" )
+ retrieve="  SELECT ~"par_aperta~".~"id_par_aperta~",   
+         ~"par_aperta~".~"num_partita~",   
+         ~"par_aperta~".~"data_partita~",   
+         ~"par_aperta~".~"id_conto~",   
+         ~"par_aperta~".~"segno_iva~",   
+         ~"par_aperta~".~"stato~",   
+         ~"par_aperta~".~"id_valuta~",   
+         cast(0 as integer) as id_reg_pd,   
+         cast('' as char(40)) as note,   
+         cast('' as char(1)) as chiudi,   
+         fn_conv_valuta(~"par_aperta~".~"id_valuta~",~"par_aperta~".~"importo~",:rd_val_reg) as tab_importo,
+         (select sum(ifnull(mov_partita.importo,0, fn_conv_valuta(~"par_aperta~".~"id_valuta~",mov_partita.importo,:rd_val_reg))) from ~"DBA~".mov_partita where mov_partita.id_par_aperta=par_aperta.id_par_aperta ) as importo2,   
+         (tab_importo - ( ifnull( importo2 , 0 , importo2 ))) as saldo,   
+         cast(0 as numeric(18,4) ) as importo  
+    FROM ~"par_aperta~"  
+   WHERE ( ~"par_aperta~".~"id_conto~" = :rn_id_conto ) AND  
+         ( ~"par_aperta~".~"segno_iva~" = 1 )   
+ORDER BY ~"par_aperta~".~"data_partita~" ASC,   
+         ~"par_aperta~".~"num_partita~" ASC   
+" update="par_aperta" updatewhere=0 updatekeyinplace=no arguments=(("rn_id_conto", number),("rd_val_reg", number))  sort="par_aperta_data_partita A par_aperta_num_partita A " )
+text(band=header alignment="2" text="Importo"border="0" color="0" x="1573" y="4" height="56" width="475"  name=importo_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=header alignment="2" text="Saldo"border="0" color="0" x="1138" y="4" height="56" width="425"  name=saldo_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=header alignment="0" text=""border="0" color="0" x="9" y="4" height="76" width="123"  name=id_reg_pd_t  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Vs Mov Partita 2 Stato"border="0" color="0" x="9" y="4" height="76" width="123" visible="1~t0"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Note"border="0" color="0" x="2272" y="4" height="56" width="910"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="78748035" )
+text(band=header alignment="0" text="Id Par Aperta"border="0" color="0" x="3474" y="4" height="56" width="978"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="78748035" )
+text(band=header alignment="0" text="Id Conto"border="0" color="0" x="4462" y="4" height="56" width="978"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="78748035" )
+text(band=header alignment="2" text="S"border="0" color="0" x="2057" y="4" height="56" width="206"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="78748035" )
+text(band=header alignment="0" text="Stato"border="0" color="0" x="5449" y="4" height="56" width="174"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="78748035" )
+text(band=header alignment="0" text="Id Valuta"border="0" color="0" x="5632" y="4" height="56" width="978"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="78748035" )
+text(band=header alignment="2" text="Num Partita"border="0" color="0" x="142" y="4" height="56" width="279"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="78748035" )
+text(band=header alignment="2" text="Data Partita"border="0" color="0" x="430" y="4" height="56" width="270"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="78748035" )
+text(band=header alignment="0" text="Importo2"border="0" color="0" x="6619" y="4" height="56" width="978"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Importo"border="0" color="0" x="709" y="4" height="56" width="421"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="''"border="0" color="0" x="9" y="4" height="52" width="123" format="[general]"  name=dummy  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=2 alignment="0" tabsequence=10 border="0" color="0" x="142" y="4" height="64" width="279" format="[general]"  name=par_aperta_num_partita edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=14 alignment="1" tabsequence=20 border="0" color="0" x="1573" y="4" height="64" width="475" format="#,0.00~tf_valu_mask(  rd_val_reg )"  name=par_aperta_movimento edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=13 alignment="1" tabsequence=32766 border="0" color="0" x="1138" y="4" height="64" width="425" format="#,0.00~tf_valu_mask(  rd_val_reg )"  name=csaldo edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="2057" y="4" height="64" width="206" format="[general]"  name=par_aperta_segno_iva edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="2272" y="4" height="64" width="910" format="[general]"  name=note edit.limit=0 edit.case=any edit.autoselect=yes edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="3191" y="4" height="64" width="201" format="[general]"  name=id_reg_pd visible="1~t0" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="3401" y="4" height="64" width="64" format="[general]"  name=chiudi visible="1~t0" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="3474" y="4" height="64" width="978" format="[general]"  name=id_par_aperta edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="4462" y="4" height="64" width="978" format="[general]"  name=id_conto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="5449" y="4" height="64" width="174" format="[general]"  name=stato edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="5632" y="4" height="64" width="978" format="[general]"  name=id_valuta edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="6619" y="0" height="56" width="978" format="[general]"  name=importo2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="430" y="4" height="64" width="270" format="[general]"  name=par_aperta_data_partita edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="0" color="0" x="709" y="4" height="64" width="421" format="~tf_valu_mask(  rd_val_reg )"  name=importo edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum((par_aperta_movimento *  par_aperta_segno_iva) for all) "border="0" color="0" x="1573" y="12" height="68" width="475" format="[general]~tf_valu_mask(  rd_val_reg )"  name=tot_movimenti  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=summary alignment="1" text="Totale "border="0" color="0" x="1138" y="12" height="68" width="425"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=summary x1="1426" y1="0" x2="2094" y2="0" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

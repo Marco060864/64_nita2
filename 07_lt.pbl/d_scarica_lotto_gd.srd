@@ -1,0 +1,54 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=124 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=id_lotto dbname="lotto.id_lotto" )
+ column=(type=long updatewhereclause=yes name=id_anag_modello dbname="lotto.id_anag_modello" )
+ column=(type=long updatewhereclause=yes name=id_articolo dbname="lotto.id_articolo" )
+ column=(type=decimal(4) updatewhereclause=yes name=qta_iniziale dbname="lotto.qta_iniziale" )
+ column=(type=decimal(4) updatewhereclause=yes name=qta_scaricata dbname="lotto.qta_scaricata" )
+ column=(type=char(1) updatewhereclause=yes name=attivo dbname="lotto.attivo" )
+ column=(type=char(32766) updatewhereclause=no name=note dbname="lotto.note" )
+ column=(type=date updatewhereclause=yes name=data_scadenza dbname="lotto.data_scadenza" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_lotto dbname="lotto.tipo_lotto" values="Prodotto Finito	Z/Semilavorato	K/Materia Prima	M/" )
+ column=(type=char(30) updatewhereclause=yes name=cod_esterno dbname="lotto.cod_esterno" )
+ column=(type=long updatewhereclause=yes name=numero dbname="lotto.numero" )
+ column=(type=date updatewhereclause=yes name=data_doc dbname="lotto.data_doc" )
+ column=(type=char(20) updatewhereclause=yes name=modulo dbname="lotto.modulo" )
+ column=(type=char(16) updatewhereclause=yes name=lotto_ster_1 dbname="lotto.lotto_ster_1" )
+ column=(type=char(16) updatewhereclause=yes name=lotto_ster_2 dbname="lotto.lotto_ster_2" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso_netto_iniziale dbname="lotto.peso_netto_iniziale" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso_netto_scaricato dbname="lotto.peso_netto_scaricato" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso_netto_da_lav dbname="lotto.peso_netto_da_lav" )
+ column=(type=decimal(4) updatewhereclause=yes name=val_sel dbname="val_sel" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"lotto~" ) COLUMN(NAME=~"lotto.id_lotto~") COLUMN(NAME=~"lotto.id_anag_modello~") COLUMN(NAME=~"lotto.id_articolo~") COLUMN(NAME=~"lotto.qta_iniziale~") COLUMN(NAME=~"lotto.qta_scaricata~") COLUMN(NAME=~"lotto.attivo~") COLUMN(NAME=~"lotto.note~") COLUMN(NAME=~"lotto.data_scadenza~") COLUMN(NAME=~"lotto.tipo_lotto~") COLUMN(NAME=~"lotto.cod_esterno~") COLUMN(NAME=~"lotto.numero~") COLUMN(NAME=~"lotto.data_doc~") COLUMN(NAME=~"lotto.modulo~") COLUMN(NAME=~"lotto.lotto_ster_1~") COLUMN(NAME=~"lotto.lotto_ster_2~") COLUMN(NAME=~"lotto.peso_netto_iniziale~") COLUMN(NAME=~"lotto.peso_netto_scaricato~") COLUMN(NAME=~"lotto.peso_netto_da_lav~") COMPUTE(NAME=~"cast(0 as numeric(18,4) ) as val_sel~")WHERE(    EXP1 =~"~~~"lotto~~~".~~~"id_articolo~~~"~"   OP =~"=~"    EXP2 =~":rn_id_articolo~" ) ) ARG(NAME = ~"rn_id_articolo~" TYPE = number) " arguments=(("rn_id_articolo", number)) )
+text(band=header alignment="2" text="Qta 
+Iniziale"border="0" color="0" x="987" y="8" height="112" width="320"  name=qta_iniziale_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Data 
+Scadenza"border="0" color="0" x="731" y="8" height="112" width="247"  name=data_scadenza_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Peso Netto
+Iniziale"border="0" color="0" x="1929" y="8" height="112" width="347"  name=peso_netto_iniziale_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Qta 
+Scaricata"border="0" color="0" x="1317" y="8" height="112" width="297"  name=qta_scaricata_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Rimanenza
+Qta"border="0" color="0" x="1623" y="8" height="112" width="297"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Peso Netto 
+Scaricato"border="0" color="0" x="2286" y="8" height="112" width="343"  name=peso_netto_scaricato_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Rimanenza 
+Peso"border="0" color="0" x="2638" y="8" height="112" width="338"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Tipo 
+Lotto"border="0" color="0" x="9" y="8" height="112" width="402"  name=tipo_lotto_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Codice"border="0" color="0" x="421" y="8" height="112" width="302"  name=cod_esterno_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="33554432" x="421" y="0" height="68" width="302" format="[general]"  name=cod_esterno edit.limit=30 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="33554432" x="9" y="0" height="68" width="402" format="[general]"  name=tipo_lotto ddlb.limit=0 ddlb.allowedit=no ddlb.case=any  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="33554432" x="731" y="0" height="68" width="247" format="[general]"  name=data_scadenza edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="33554432" x="987" y="0" height="68" width="320" format="#,0.00"  name=qta_iniziale edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="33554432" x="1317" y="0" height="68" width="297" format="#,0.00"  name=qta_scaricata edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+compute(band=detail alignment="1" expression="if (isnull( qta_iniziale ), 0,  qta_iniziale ) -  if (isnull(qta_scaricata ), 0,  qta_scaricata )"border="0" color="0" x="1623" y="0" height="68" width="297" format="#,0.00"  name=qta_rimasta  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=16 alignment="1" tabsequence=32766 border="0" color="33554432" x="1929" y="0" height="68" width="347" format="#,0.0000"  name=peso_netto_iniziale edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=17 alignment="1" tabsequence=32766 border="0" color="33554432" x="2286" y="0" height="68" width="343" format="#,0.0000"  name=peso_netto_scaricato edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+compute(band=detail alignment="1" expression="if (isnull ( peso_netto_iniziale ) , 0,  peso_netto_iniziale ) -
+if( isnull(  peso_netto_scaricato ), 0,  peso_netto_scaricato )"border="0" color="0" x="2638" y="0" height="68" width="338" format="#,0.0000"  name=peso_rimasto  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

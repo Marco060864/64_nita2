@@ -1,0 +1,224 @@
+﻿global type f_calcola_spese_documento from function_object
+end type
+
+forward prototypes
+global function s_spese_calcolate f_calcola_spese_documento (long al_id_prof_documento, long al_id_tipo_trasporto, long al_id_con_pagamento, long al_id_sog_commerciale, decimal ad_tot_merce, long al_id_valuta, long al_id_valuta_doc, datastore ads_iva, long al_id_doc)
+end prototypes
+
+global function s_spese_calcolate f_calcola_spese_documento (long al_id_prof_documento, long al_id_tipo_trasporto, long al_id_con_pagamento, long al_id_sog_commerciale, decimal ad_tot_merce, long al_id_valuta, long al_id_valuta_doc, datastore ads_iva, long al_id_doc);long		ll_id_tipo_pagamento, ll_id_iva
+string	pd_spese_gestite, tp_spese_gestite, tt_spese_gestite
+integer	li_rows_s, li_i
+char 		lc_tipo_importo, lc_segue_esenzione
+decimal	ld_val_spesa
+long		ll_id_tab_iva
+char		lc_tipo_iva
+integer	li_row = 1
+integer	li_nr_rate
+string	ls_codice, ll_test
+long		ll_id_valuta	
+integer	li_dec_significativi
+string	ls_tipo_arrotondamento, ls_tipo_doc_ae, ls_test
+integer	li_j, li_ret 	
+decimal	ld_per_aliquota
+
+
+datastore lds_spesa
+s_spese_calcolate ls_spese_calcolate
+
+if not (al_id_prof_documento > 0 and al_id_sog_commerciale > 0) then
+	messagebox("f_calcola_spese_documento", "Il profilo doc. e il sogg. commerciale sono obbligatori")
+	return ls_spese_calcolate
+end if
+
+long	ll_id_valuta_def
+
+SELECT id_valuta
+INTO	 :ll_id_valuta_def
+FROM   par_sistema
+;
+
+if (sqlca.sqlcode = -1 ) then 
+	messagebox("DbError/f_calcola_spese_documento", sqlca.sqlerrtext)
+	return ls_spese_calcolate
+elseif (sqlca.sqlcode = 100) then
+	messagebox("f_calcola_spese_documento", "Specificare la Valuta di default nei parametri di sistema")
+	return ls_spese_calcolate
+end if
+
+lds_spesa = CREATE DATASTORE 
+lds_spesa.dataobject = "ds_spesa_gd"
+lds_spesa.settransobject(SQLCA)
+li_rows_s = lds_spesa.retrieve(al_id_prof_documento, al_id_tipo_trasporto, al_id_con_pagamento, al_id_sog_commerciale, ad_tot_merce, al_id_valuta_doc)
+
+if li_rows_s <= 0 then return ls_spese_calcolate
+
+for li_i = 1 to li_rows_s
+	
+	SELECT SUM(num_rate)
+	INTO	 :li_nr_rate 
+	FROM	 app_pagamento
+	WHERE	 id_con_pagamento = :al_id_con_pagamento
+	;
+
+	ls_codice = lds_spesa.getitemstring(li_i, "codice")
+
+	
+	if (li_nr_rate = 0) and ls_codice = 'C' then 
+		continue
+	end if
+	if ls_codice='B' then  //20260125 LABELLA: se l'iva richiede le spese di bollo si mettono altrimenit si salta la spesa...
+	//ho aggiunto nella tab_iva un  flag SPESE BOLLO
+		select first(id_tab_iva) into  :ll_id_iva from dba.riga_documento where id_documento=:al_id_doc order by num_riga; 
+		select no_bollo into :ls_test from dba.tab_iva  where id_tab_iva = :ll_id_iva;
+		if ls_test='S' then continue
+	end if
+		
+	lc_tipo_importo = lds_spesa.getitemstring(li_i, "tipo_importo")
+	if (lc_tipo_importo = 'F') then
+		ld_val_spesa = lds_spesa.getitemnumber(li_i, "spesa_sog_commerciale_importo")
+		
+		
+		ll_id_valuta = lds_spesa.getitemnumber(li_i, "anagrafica_id_valuta")
+		if (isnull(ll_id_valuta)) then ll_id_valuta = ll_id_valuta_def
+		
+		
+		if (isnull(ld_val_spesa) or ld_val_spesa <= 0) then
+			ld_val_spesa = lds_spesa.getitemnumber(li_i, "importo")
+			
+			
+			ll_id_valuta = lds_spesa.getitemnumber(li_i, "spesa_id_valuta")
+			if (isnull(ll_id_valuta)) then ll_id_valuta = ll_id_valuta_def
+			
+		end if
+	else
+		ld_val_spesa = lds_spesa.getitemnumber(li_i, "spesa_sog_commerciale_percentuale")
+		if (isnull(ld_val_spesa) or ld_val_spesa <= 0) then &
+			ld_val_spesa = lds_spesa.getitemnumber(li_i, "percentuale")
+	end if
+	
+	setnull(ll_id_tab_iva)
+	
+	lc_segue_esenzione = lds_spesa.getitemstring(li_i, "segue_esenzione")
+
+	lc_tipo_iva = 'N'
+	
+	
+	if (lc_segue_esenzione = 'S') then
+		
+		
+		ll_id_tab_iva = lds_spesa.getitemnumber(li_i, "sog_commerciale_id_tab_iva")
+		if ll_id_tab_iva > 0 then
+	
+			SELECT tipo_iva
+			INTO	 :lc_tipo_iva
+			FROM	 tab_iva
+			WHERE  id_tab_iva = :ll_id_tab_iva
+			;
+		end if
+	end if
+	
+	if ((lc_tipo_iva <> 'S' and lc_tipo_iva <> 'I') or isnull(lc_tipo_iva)) then
+		
+		char	lc_mod_cal_iva
+		lc_mod_cal_iva = lds_spesa.getitemstring(li_i, "mod_cal_iva")
+				
+		if ( lc_mod_cal_iva = 'A') then
+			decimal	ld_max_iva
+			
+			ll_id_tab_iva = 0
+
+			li_ret = ads_iva.setsort("id_tab_iva")
+			li_ret = ads_iva.sort()
+			li_ret = ads_iva.groupcalc()
+			li_ret = ads_iva.FindGroupChange(0, 1)
+
+			do while (li_ret > 0)
+				ll_id_tab_iva = ads_iva.getitemnumber(li_ret, "id_tab_iva")
+				
+				select per_aliquota
+				into	 :ld_per_aliquota
+				from	 tab_iva
+				where  id_tab_iva = :ll_id_tab_iva
+				;
+					
+				if (sqlca.sqlcode = -1) then messagebox("dberror", sqlca.sqlerrtext)
+				ads_iva.setitem(li_ret, "c_aliquota", ld_per_aliquota)
+				li_ret = ads_iva.FindGroupChange(li_ret + 1, 1)
+			loop
+
+			
+			
+			ld_max_iva = dec(ads_iva.Describe("Evaluate('max(  if(c_aliquota > 0,  c_aliquota, 0)  for all )', 0)"))
+				
+				li_j = ads_iva.Find("c_aliquota = " + string(ld_max_iva), 1, ads_iva.RowCount())
+				if (li_j > 0) then ll_id_tab_iva = ads_iva.getitemnumber(li_j, "id_tab_iva")
+			end if
+		
+		
+		
+
+		if isnull(ll_id_tab_iva) or ll_id_tab_iva = 0 then 
+			if lc_segue_esenzione='S' then
+				ll_id_tab_iva = lds_spesa.getitemnumber(li_i, "sog_commerciale_id_tab_iva")
+				//aggiunto 27102011 fabbrini errore in tabella spese manca iva
+				if isnull(ll_id_tab_iva) then ll_id_tab_iva = lds_spesa.getitemnumber(li_i, "id_tab_iva")
+		//fine aggiunta 27102011
+			else
+				ll_id_tab_iva=lds_spesa.getitemnumber(li_i, "id_tab_iva")
+			end if
+		end if
+	end if
+	
+	ls_spese_calcolate.id_spesa[li_row] = lds_spesa.getitemnumber(li_i, "id_spesa")
+
+	if (lds_spesa.getitemstring(li_i, "app_rateale") = 'S' and li_nr_rate > 0) then &
+		ld_val_spesa = ld_val_spesa * li_nr_rate
+
+	SELECT fn_conv_valuta(:ll_id_valuta, :ld_val_spesa, :al_id_valuta)
+	INTO	 :ld_val_spesa
+	FROM	 SYS.DUMMY
+	;
+	if (sqlca.sqlcode = -1) then
+		messagebox("DbError/f_calcola_spese_documento", sqlca.sqlerrtext)
+		return ls_spese_calcolate
+	end if
+
+			
+	select dec_significativi, tipo_arrotondamento
+	into	 :li_dec_significativi, :ls_tipo_arrotondamento
+	from	 valuta
+	where  id_valuta = :al_id_valuta;
+		
+	if (sqlca.sqlcode = -1) then &
+		messagebox("dberror", sqlca.sqlerrtext)
+		
+			
+	ld_val_spesa = f_round(ld_val_spesa, li_dec_significativi, ls_tipo_arrotondamento)
+	select tipo_documento_ae into :ls_tipo_doc_ae from dba.prof_documento
+	where id_prof_documento=	:al_id_prof_documento;
+	if ls_tipo_doc_ae='TD04' and ls_codice='B' then
+		ld_val_spesa=0
+	end if
+
+	if (lc_tipo_importo = 'F') then
+		ls_spese_calcolate.importo[li_row] = ld_val_spesa
+		ls_spese_calcolate.percentuale[li_row] = 0
+	else
+		ls_spese_calcolate.percentuale[li_row] = ld_val_spesa		
+		ld_val_spesa = ad_tot_merce * ld_val_spesa / 100
+		ls_spese_calcolate.importo[li_row] = ld_val_spesa
+	end if
+	
+	ls_spese_calcolate.id_tab_iva[li_row] = ll_id_tab_iva			
+	ls_spese_calcolate.app_rateale[li_row] = lds_spesa.getitemstring(li_i, "app_rateale")			
+	ls_spese_calcolate.mod_cal_iva[li_row] = lds_spesa.getitemstring(li_i, "mod_cal_iva")				
+	
+	
+	li_row++		
+next
+
+DESTROY lds_spesa
+
+return ls_spese_calcolate
+end function
+

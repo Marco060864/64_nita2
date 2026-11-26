@@ -1,0 +1,59 @@
+﻿global type f_valorizza_2 from function_object
+end type
+
+forward prototypes
+global subroutine f_valorizza_2 (datawindow dw_v, long root, treeview tv)
+end prototypes
+
+global subroutine f_valorizza_2 (datawindow dw_v, long root, treeview tv);long n_rig,i,cont,id_articolo
+decimal{4} c,q
+dati dat
+treeviewitem tvi
+string ts,rg
+root=tv.finditem(ChildTreeItem!,root)
+do while root<> -1 
+	tv.getitem(root,tvi)
+	rg=tvi.label
+	dat=tvi.data
+   id_articolo=dat.id_articolo
+	
+
+	if tvi.children=true then 
+		f_valorizza_2(dw_v,root,tv)
+	end if
+	n_rig=dw_v.rowcount()
+	if n_rig>0 then
+		cont=dw_v.find("cod_art='"+rg+"'",1,n_rig)
+		if isnull(cont) then
+			cont=0
+		end if
+	END IF
+	if cont<>0 then
+		dw_v.setitem(cont, "id_articolo", id_articolo)
+		dw_v.setitem(cont,"cod_art",rg)
+		q=dw_v.getitemdecimal(cont,"quantita")
+		q=q+dat.quantita
+		dw_v.setitem(cont,"quantita",q)
+		
+		messagebox("D", dat.descrizione)
+		dw_v.setitem(cont,"descrizione_art",dat.descrizione)
+		
+
+   else
+		dw_v.insertrow(1)
+		cont=1
+		dw_v.setitem(cont, "id_articolo", id_articolo)
+		dw_v.setitem(cont,"cod_art",rg)
+		q=dat.quantita
+		dw_v.setitem(cont,"quantita",q)
+		
+			messagebox("D", dat.descrizione)
+		dw_v.setitem(cont,"descrizione_art",dat.descrizione)
+		
+	end if
+	root=tv.finditem(nextTreeItem!,root)
+loop
+	
+
+end subroutine
+

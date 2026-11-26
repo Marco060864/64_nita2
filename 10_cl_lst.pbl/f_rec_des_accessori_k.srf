@@ -1,0 +1,14 @@
+﻿global type f_rec_des_accessori_k from function_object
+end type
+
+forward prototypes
+global function string f_rec_des_accessori_k (string as_cod_articolo)
+end prototypes
+
+global function string f_rec_des_accessori_k (string as_cod_articolo);string ls_des_accessorio
+
+SELECT c.descrizione into :ls_des_accessorio
+FROM cod_accessori_k c, bollettine_excel b, articolo a where c.cod_accessorio=b.accessorio and b.cod_art_assegnato=:as_cod_articolo;
+return ls_des_accessorio
+end function
+

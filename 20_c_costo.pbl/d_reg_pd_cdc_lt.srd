@@ -1,0 +1,40 @@
+﻿//objectcomments NEW GEST CDC 235
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 selected.mouse=no )
+header(height=124 color="553648127" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=72 color="553648127" )
+table(column=(type=char(4) updatewhereclause=yes name=esercizio_codice dbname="esercizio.codice" )
+ column=(type=char(8) updatewhereclause=yes name=conto_codice dbname="conto.codice" )
+ column=(type=char(40) updatewhereclause=yes name=conto_descrizione dbname="conto.descrizione" )
+ column=(type=long updatewhereclause=yes identity=yes name=id_reg_pdc dbname="reg_pdc.id_reg_pdc" )
+ column=(type=date updatewhereclause=yes name=c_data dbname="reg_pdc.data" )
+ column=(type=long updatewhereclause=yes name=c_num_prog dbname="reg_pdc.num_prog" )
+ column=(type=char(80) updatewhereclause=yes name=c_descrizione dbname="reg_pdc.descrizione" )
+ column=(type=decimal(4) updatewhereclause=yes name=c_valore dbname="reg_pdc.valore" )
+ column=(type=char(1) updatewhereclause=yes name=liv_provvisorieta dbname="reg_pdc.liv_provvisorieta" )
+ column=(type=decimal(0) updatewhereclause=yes name=reg_pdc_segno dbname="reg_pdc.segno" )
+ column=(type=long updatewhereclause=yes name=id_documento dbname="reg_pdc.id_documento" )
+ column=(type=long updatewhereclause=yes name=id_reg_pd dbname="reg_pdc.id_reg_pd" )
+ column=(type=long updatewhereclause=yes name=id_cen_cos_t dbname="reg_pdc.id_cen_cos_t" )
+ column=(type=long updatewhereclause=yes name=id_conto dbname="reg_pdc.id_conto" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"conto~" )  TABLE(NAME=~"esercizio~" )  TABLE(NAME=~"reg_pdc~" ) COLUMN(NAME=~"esercizio.codice~") COLUMN(NAME=~"conto.codice~") COLUMN(NAME=~"conto.descrizione~") COLUMN(NAME=~"reg_pdc.id_reg_pdc~") COLUMN(NAME=~"reg_pdc.data~") COLUMN(NAME=~"reg_pdc.num_prog~") COLUMN(NAME=~"reg_pdc.descrizione~") COLUMN(NAME=~"reg_pdc.valore~") COLUMN(NAME=~"reg_pdc.liv_provvisorieta~") COLUMN(NAME=~"reg_pdc.segno~") COLUMN(NAME=~"reg_pdc.id_documento~") COLUMN(NAME=~"reg_pdc.id_reg_pd~") COLUMN(NAME=~"reg_pdc.id_cen_cos_t~") COLUMN(NAME=~"reg_pdc.id_conto~")    JOIN (LEFT=~"conto.id_conto~"    OP =~"=~"RIGHT=~"reg_pdc.id_conto~" )    JOIN (LEFT=~"esercizio.id_esercizio~"    OP =~"=~"RIGHT=~"reg_pdc.id_esercizio~" )) ORDER(NAME=~"reg_pdc.num_prog~" ASC=yes ) "  sort="c_num_prog A esercizio_codice A " )
+text(band=header alignment="2" text="CodiceConto"border="0" color="0" x="1349" y="8" height="112" width="261"  name=conto_codice_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=header alignment="2" text="CodiceEsercizio"border="0" color="33554432" x="9" y="8" height="112" width="210"  name=esercizio_codice_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=header alignment="2" text="DescrizioneConto"border="0" color="0" x="1618" y="8" height="112" width="699"  name=conto_descrizione_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=header alignment="2" text="Data Registrazione"border="0" color="0" x="576" y="8" height="112" width="315"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80263581" )
+text(band=header alignment="2" text="Numero Progressivo"border="0" color="0" x="229" y="8" height="112" width="338"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80263581" )
+text(band=header alignment="2" text="Descrizione"border="0" color="0" x="2487" y="8" height="112" width="1376"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80263581" )
+text(band=header alignment="2" text="Valore"border="0" color="0" x="901" y="8" height="112" width="439"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80263581" )
+text(band=header alignment="2" text="Liv Prov"border="0" color="0" x="2327" y="8" height="112" width="151"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="80263581" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="9" y="4" height="64" width="210" format="[general]"  name=esercizio_codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="1349" y="4" height="64" width="261" format="[general]"  name=conto_codice edit.name="es_Cod_A8" edit.limit=8 edit.case=upper edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="33554432" x="1618" y="4" height="64" width="699" format="[general]"  name=conto_descrizione edit.name="es_Descrizione" edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="33554432" x="576" y="4" height="64" width="315" format="[general]"  name=c_data edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="33554432" x="229" y="4" height="64" width="338" format="[general]"  name=c_num_prog edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="33554432" x="2487" y="4" height="64" width="1376" format="[general]"  name=c_descrizione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="33554432" x="901" y="4" height="64" width="439" format="[general]"  name=c_valore edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="33554432" x="2327" y="4" height="64" width="151" format="[general]"  name=liv_provvisorieta edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+
+sparse(names="esercizio_codice")htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

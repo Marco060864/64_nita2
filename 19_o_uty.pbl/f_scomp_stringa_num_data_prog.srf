@@ -1,0 +1,30 @@
+﻿global type f_scomp_stringa_num_data_prog from function_object
+end type
+
+forward prototypes
+global function s_stringa_data_prog f_scomp_stringa_num_data_prog (string as_numero)
+end prototypes
+
+global function s_stringa_data_prog f_scomp_stringa_num_data_prog (string as_numero);s_stringa_data_prog s_struct
+integer li_pos
+
+if as_numero>"" then
+	li_pos=pos(as_numero, "#")
+	if li_pos>0 then
+		s_struct.adt_data=date(right(as_numero, len(as_numero) - li_pos))
+		as_numero=left(as_numero, li_pos -1)
+		s_struct.as_numero=as_numero
+	end if
+	
+	
+	li_pos=0
+	li_pos=pos(as_numero, "___")
+	if li_pos>0 then
+		s_struct.as_numero=left(as_numero, li_pos -1)
+		s_struct.al_prog= long(right(as_numero, len(as_numero) - (li_pos +2)))
+		
+	end if
+end if
+return s_struct
+end function
+

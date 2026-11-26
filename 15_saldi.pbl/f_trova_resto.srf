@@ -1,0 +1,16 @@
+﻿global type f_trova_resto from function_object
+end type
+
+forward prototypes
+global function decimal f_trova_resto (long rd_id_riga_partita)
+end prototypes
+
+global function decimal f_trova_resto (long rd_id_riga_partita);decimal ld_resto
+select a.resto 
+into :ld_resto
+from orafo_aper_partita a , orafo_scar_partita s 
+where a.id_partita=s.id_partita and 
+s.id_riga_documento=:rd_id_riga_partita;
+return ld_resto
+end function
+

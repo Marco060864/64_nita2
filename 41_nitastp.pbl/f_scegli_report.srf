@@ -1,0 +1,59 @@
+﻿global type f_scegli_report from function_object
+end type
+
+forward prototypes
+global function string f_scegli_report (long al_id_doc, string as_nome_report, long al_id_prof_doc, long al_id_sog_com, date adt_data_doc)
+end prototypes
+
+global function string f_scegli_report (long al_id_doc, string as_nome_report, long al_id_prof_doc, long al_id_sog_com, date adt_data_doc);long ll_righe
+////se è karizia e rbol e > 31-12-2018  16-7-2018 devo cambiare report da cambiare la data con quella per partire
+	
+	select count(*)
+	into :ll_righe
+	from dba.riga_documento
+	where id_documento=:al_id_doc
+	and peso_netto>1;
+	
+//	if ldt_data_doc>= date("2018/12/31") and  ldt_data_doc<= date("2021/02/01") and ll_id_sog_com=43 and upper(is_nome_report)='D_DDT_RBOL' and ll_id_prof_doc=66 then
+//		is_nome_report+="167"
+//	elseif 	 ldt_data_doc>= date("2021/06/14") and ll_id_sog_com=43 and upper(is_nome_report)='D_DDT_RBOL' and ll_id_prof_doc=66 then
+//		is_nome_report+="167" //aggiunto il 11/06/2021
+//	elseif ldt_data_doc>= date("2018/12/31") and ll_id_sog_com=43 and upper(is_nome_report)='D_DDT_RBOL' and (ll_id_prof_doc=114 or ll_id_prof_doc=150) then
+//			is_nome_report+="167"
+//	end if
+
+	
+	
+	if adt_data_doc>= date("2018/07/24") and adt_data_doc<= date("2018/07/30") and al_id_sog_com=43  &
+		and upper(as_nome_report)='D_DDT_RBOL' and (al_id_prof_doc=114 or al_id_prof_doc=150 or al_id_prof_doc=66) and ll_righe> 10  then
+		as_nome_report+="167_307"
+	elseif adt_data_doc > date("2018/07/30") and adt_data_doc < date("2020/12/14")  and al_id_sog_com=43 and upper(as_nome_report)='D_DDT_RBOL' and (al_id_prof_doc=114 or al_id_prof_doc=150 or al_id_prof_doc=66)&
+		and ll_righe> 10 then
+		as_nome_report+="167"
+	elseif adt_data_doc>= date("2018/12/31") and  adt_data_doc<= date("2021/02/01") and al_id_sog_com=43 and upper(as_nome_report)='D_DDT_RBOL' and al_id_prof_doc=66 and ll_righe>10 then
+		as_nome_report+="167"
+//	elseif 	 adt_data_doc>= date("2021/06/14") and al_id_sog_com=43 and upper(as_nome_report)='D_DDT_RBOL' and al_id_prof_doc=66 and ll_righe>10 then
+//20241223 aggiungo limite al 23/12/2024 perché si torna all'antico... Samy
+	elseif 	 adt_data_doc>= date("2021/06/14") and  adt_data_doc<= date("2024/12/23") and al_id_sog_com=43 and upper(as_nome_report)='D_DDT_RBOL' and al_id_prof_doc=66 and ll_righe>25 then //20221219 Samy dice che ce ne vogliono di più di righe si va a 25... 
+		//elseif 	 adt_data_doc>= date("2021/06/14") and al_id_sog_com=43 and upper(as_nome_report)='D_DDT_RBOL' and al_id_prof_doc=66 and ll_righe>25 then //20221219 Samy dice che ce ne vogliono di più di righe si va a 25... 
+		as_nome_report+="167" //aggiunto il 11/06/2021
+	elseif 	 upper(as_nome_report)='D_DDT_RBOL_E' and adt_data_doc> date("2024/12/23")  then // 20250205 metto quella ok  SEMPRE and ll_righe<=25 then  //20241223 aggiiungo limite al 23-12-2024  
+		//elseif 	 upper(as_nome_report)='D_DDT_RBOL_E' and ll_righe<=25 then  
+		as_nome_report+="_OK"
+		//elseif adt_data_doc >= date("2021/02/01") and al_id_sog_com=43 and upper(as_nome_report)='D_DDT_RBOL' and (al_id_prof_doc=114 or al_id_prof_doc=150 or al_id_prof_doc=66) then
+				//qui ci rimetto come sopra ovvero: sostanzialmente dal 14/12/20 al 01/02/20 non faccio nulla (d_ddt_bol)
+//				select count(*)
+//				into :ll_righe
+//				from dba.riga_documento
+//				where id_documento=:al_id_doc
+//				and peso_netto>1;
+//				if ll_righe> 10 then
+//					as_nome_report+="167"
+//				else
+//					as_nome_report+="1"
+//				end if
+		end if
+		return as_nome_report;
+
+end function
+

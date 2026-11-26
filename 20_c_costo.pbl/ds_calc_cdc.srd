@@ -1,0 +1,109 @@
+﻿//objectcomments NEW GEST CDC 235
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=128 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=164 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=centro_costo_testa_id_conto dbname="centro_costo_testa.id_conto" )
+ column=(type=long updatewhereclause=yes name=centro_costo_testa_id_cen_cos_t dbname="centro_costo_testa.id_cen_cos_t" )
+ column=(type=long updatewhereclause=yes name=centro_costo_righe_id_conto dbname="centro_costo_righe.id_conto" )
+ column=(type=decimal(4) updatewhereclause=yes name=importo dbname="importo" )
+ column=(type=decimal(4) updatewhereclause=yes name=padre_imp dbname="padre_imp" )
+ retrieve="SELECT t.id_conto,t.id_cen_cos_t , cr.id_conto, CAST( (SUM( ( r.tot_riga_val_riga * c.per_cento / 100 ) * base_perc / 100)) AS NUMERIC(18,4)) AS importo, CAST ( ( r.tot_riga_val_riga * c.per_cento / 100 ) AS NUMERIC(18,4)) AS padre_imp
+FROM	 riga_documento r , con_movimento_pdc c, centro_costo_testa t, centro_costo_righe cr
+WHERE  r.id_documento = :ra_id_doc
+AND    c.id_articolo = r.id_articolo
+AND	 t.id_conto = c.id_conto
+AND    cr.id_cen_cos_t = t.id_cen_cos_t
+GROUP BY t.id_conto,t.id_cen_cos_t, cr.id_conto, r.tot_riga_val_riga ,c.per_cento
+UNION
+
+SELECT t.id_conto,t.id_cen_cos_t, cr.id_conto, CAST( (SUM( ( r.tot_riga_val_riga * c.per_cento / 100 ) * base_perc / 100)) AS NUMERIC(18,4)) AS importo,  CAST ( ( r.tot_riga_val_riga * c.per_cento / 100 ) AS NUMERIC(18,4)) AS padre_imp
+FROM	 riga_documento r , con_movimento_pdc c, centro_costo_testa t, centro_costo_righe cr, articolo a
+WHERE  r.id_documento = :ra_id_doc
+AND    a.id_articolo = r.id_articolo
+AND    c.id_cat_com_articolo = a.id_cat_com_articolo
+AND	 t.id_conto = c.id_conto
+AND    cr.id_cen_cos_t = t.id_cen_cos_t
+AND    r.id_riga_documento NOT IN (
+			SELECT distinct r.id_riga_documento
+			FROM	 riga_documento r , con_movimento_pdc c
+			WHERE  r.id_documento = :ra_id_doc
+			AND    c.id_articolo = r.id_articolo)
+GROUP BY t.id_conto,t.id_cen_cos_t, cr.id_conto, r.tot_riga_val_riga ,c.per_cento
+
+
+UNION
+
+SELECT t.id_conto,t.id_cen_cos_t, cr.id_conto, CAST( (SUM( ( r.tot_riga_val_riga * c.per_cento / 100 ) * base_perc / 100)) AS NUMERIC(18,4)) AS importo,  CAST ( ( r.tot_riga_val_riga * c.per_cento / 100 ) AS NUMERIC(18,4)) AS padre_imp
+FROM	 riga_documento r , con_movimento_pdc c, centro_costo_testa t, centro_costo_righe cr, documento d
+WHERE  d.id_documento = :ra_id_doc
+AND    r.id_documento = d.id_documento
+AND    c.id_sog_commerciale = d.id_sog_commerciale
+AND	 t.id_conto = c.id_conto
+AND    cr.id_cen_cos_t = t.id_cen_cos_t
+AND    r.id_riga_documento NOT IN (
+			SELECT distinct r.id_riga_documento
+			FROM	 riga_documento r , con_movimento_pdc c
+			WHERE  r.id_documento = :ra_id_doc
+			AND    c.id_articolo = r.id_articolo)
+AND    r.id_riga_documento NOT IN (
+			SELECT distinct r.id_riga_documento
+			FROM	 riga_documento r , con_movimento_pdc c, articolo a
+			WHERE  r.id_documento = :ra_id_doc
+			AND    a.id_articolo = r.id_articolo
+			AND    c.id_cat_com_articolo = a.id_cat_com_articolo)
+GROUP BY t.id_conto,t.id_cen_cos_t, cr.id_conto, r.tot_riga_val_riga ,c.per_cento
+
+
+UNION 
+
+SELECT t.id_conto,t.id_cen_cos_t, cr.id_conto, CAST( (SUM( ( r.tot_riga_val_riga * c.per_cento / 100 ) * base_perc / 100)) AS NUMERIC(18,4)) AS importo,  CAST ( ( r.tot_riga_val_riga * c.per_cento / 100 ) AS NUMERIC(18,4)) AS padre_imp
+FROM	 riga_documento r , con_movimento_pdc c, centro_costo_testa t, centro_costo_righe cr, documento d, sog_commerciale s
+WHERE  d.id_documento = :ra_id_doc
+AND    r.id_documento = d.id_documento
+AND    s.id_sog_commerciale = d.Id_sog_commerciale
+AND    c.id_cat_com_sc = s.id_cat_com_sc
+AND	 t.id_conto = c.id_conto
+AND    cr.id_cen_cos_t = t.id_cen_cos_t
+
+AND    r.id_riga_documento NOT IN (
+			SELECT distinct r.id_riga_documento
+			FROM	 riga_documento r , con_movimento_pdc c
+			WHERE  r.id_documento = :ra_id_doc
+			AND    c.id_articolo = r.id_articolo)
+AND    r.id_riga_documento NOT IN (
+			SELECT distinct r.id_riga_documento
+			FROM	 riga_documento r , con_movimento_pdc c, articolo a
+			WHERE  r.id_documento = :ra_id_doc
+			AND    a.id_articolo = r.id_articolo
+			AND    c.id_cat_com_articolo = a.id_cat_com_articolo)
+AND    r.id_riga_documento NOT IN (
+			SELECT distinct r.id_riga_documento
+			FROM	 riga_documento r , con_movimento_pdc c, documento d
+			WHERE  d.id_documento = :ra_id_doc
+			AND    r.id_documento = d.id_documento
+			AND    c.id_sog_commerciale = d.id_sog_commerciale)
+
+GROUP BY t.id_conto,t.id_cen_cos_t, cr.id_conto, r.tot_riga_val_riga ,c.per_cento
+order by 1,2" arguments=(("ra_id_doc", number)) )
+group(level=1 header.height=0 trailer.height=4 by=("centro_costo_testa_id_conto" , "centro_costo_righe_id_conto" ) header.color="536870912" trailer.color="536870912"  sort="sum(centro_costo_testa_id_conto for group 1) A sum(centro_costo_righe_id_conto for group 1) A " )
+text(band=header alignment="2" text="Importo"border="0" color="0" x="9" y="8" height="56" width="773"  name=importo_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="Centro Costo Righe Id Conto"border="0" color="0" x="9" y="4" height="76" width="773"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Centro Costo Testa Id Conto"border="0" color="0" x="791" y="4" height="76" width="590"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Importo"border="0" color="0" x="1390" y="4" height="76" width="731"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Centro Costo Testa Id Cen Cos T"border="0" color="0" x="2130" y="4" height="76" width="1367"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Padre Imp"border="0" color="0" x="3506" y="4" height="76" width="1367"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="8" height="76" width="773" format="[general]"  name=centro_costo_righe_id_conto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="791" y="12" height="76" width="590" format="[general]"  name=centro_costo_testa_id_conto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1390" y="8" height="76" width="731" format="[general]"  name=importo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="2130" y="0" height="76" width="1367" format="[general]"  name=centro_costo_testa_id_cen_cos_t edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="3506" y="0" height="76" width="1367" format="[general]"  name=padre_imp edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="0" expression="sum(  importo  for group 1 )"border="0" color="0" x="9" y="120" height="56" width="773" format="[general]"  name=sum_imp  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.1 id=3 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="8" height="76" width="773" format="[general]" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=trailer.1 id=1 alignment="0" tabsequence=32766 border="0" color="0" x="791" y="16" height="76" width="590" format="[general]" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=trailer.1 id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1390" y="12" height="76" width="731" format="[general]" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=trailer.1 id=2 alignment="0" tabsequence=32766 border="0" color="0" x="2130" y="16" height="76" width="1367" format="[general]" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=trailer.1 id=5 alignment="0" tabsequence=32766 border="0" color="0" x="3506" y="20" height="76" width="1367" format="[general]" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

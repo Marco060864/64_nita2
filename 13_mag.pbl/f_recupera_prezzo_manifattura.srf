@@ -1,0 +1,473 @@
+﻿global type f_recupera_prezzo_manifattura from function_object
+end type
+
+forward prototypes
+global function string f_recupera_prezzo_manifattura (string ls_app, long ll_id_u_c_in_esame, long ll_sog_com, long ll_id_cat_com_sc, string ls_cod_art_in_esame, long ll_id_cat_com_articolo, long ll_sog_com_fornitore, long ll_id_produttore, decimal ld_qta, string ls_tipo_applicazione, long al_id_articolo, long al_id_magazzino, long al_id_valuta, string tipo_mov, decimal ad_cambio, long al_id_val_az)
+end prototypes
+
+global function string f_recupera_prezzo_manifattura (string ls_app, long ll_id_u_c_in_esame, long ll_sog_com, long ll_id_cat_com_sc, string ls_cod_art_in_esame, long ll_id_cat_com_articolo, long ll_sog_com_fornitore, long ll_id_produttore, decimal ld_qta, string ls_tipo_applicazione, long al_id_articolo, long al_id_magazzino, long al_id_valuta, string tipo_mov, decimal ad_cambio, long al_id_val_az);
+string ls_ritorno,ls_filtro,ls_percentuali,ls_spesa,ls_tipo, ls_lis_variazione
+decimal ld_prezzo,ld_importo,ld_cambio,ld_cambio_doc,ld_spesa_fissa,ld_prezzo_manifattura
+decimal ld_percentuali,ld_spesa,ld_coef_calo, ld_calo1,ldc_cambio_listino
+date ldt_data_attuale
+integer li_ret
+long ll_listino,ll_variazione,ll_valuta,ll_attivita, ll_id_galvanica
+ldt_data_attuale=today()
+ld_cambio_doc=ad_cambio
+
+ls_tipo=ls_app
+
+datastore lds_rec_prezzo
+lds_rec_prezzo=create datastore
+lds_rec_prezzo.dataobject="d_orafo_recupera_prezzo_gd"
+lds_rec_prezzo.settransobject(sqlca)
+lds_rec_prezzo.retrieve(ldt_data_attuale)
+ls_filtro="applicazione ='" +ls_app +"'"+&
+" AND (id_unita_confezione = "+string(ll_id_u_c_in_esame)+" OR ISNULL(id_unita_confezione))"+&
+" AND (id_sog_commerciale = "+string(ll_sog_com)+" OR ISNULL(id_sog_commerciale))"+&
+" AND (id_cat_com_sc = "+ string(ll_id_cat_com_sc)+" OR ISNULL(id_cat_com_sc))"+&
+" AND ((cod_art_da <= '"+string(ls_cod_art_in_esame)+"' AND cod_art_a >= '"+string(ls_cod_art_in_esame)+"') OR (ISNULL(cod_art_da) AND ISNULL(cod_art_a)))"+&
+" AND (id_cat_com_articolo = "+string(ll_id_cat_com_articolo)+" OR ISNULL(id_cat_com_articolo))"+&
+" AND (id_sog_commerciale_forn = "+string(ll_sog_com_fornitore)+" OR ISNULL(id_sog_commerciale_forn))"+&
+" AND	(id_anagrafica = "+string(ll_id_produttore)+" OR ISNULL(id_anagrafica))"+&
+" AND	((qta_minima <= real('"+string(ld_qta)+"') OR ISNULL(qta_minima)) AND (qta_massima >= real('"+string(ld_qta)+"') OR ISNULL(qta_massima)))"
+CHOOSE CASE ls_tipo_applicazione
+	CASE 'P','I','C'		
+		
+		ls_filtro=ls_filtro+" AND (tipo_applicazione='P' OR tipo_applicazione='I' OR tipo_applicazione='C')"
+		
+		lds_rec_prezzo.setfilter(ls_filtro)
+		li_ret=lds_rec_prezzo.filter()
+		li_ret=lds_rec_prezzo.rowcount()
+		li_ret=1
+		if lds_rec_prezzo.rowcount()>0 then
+			ls_spesa=lds_rec_prezzo.getitemstring(1,"spesa")
+			ls_percentuali=lds_rec_prezzo.getitemstring(1,"percentuali")
+			ld_spesa_fissa=lds_rec_prezzo.getitemnumber(1,"spesa_fissa")
+			ls_tipo_applicazione=lds_rec_prezzo.getitemstring(1,"tipo_applicazione")
+			if li_ret=1 then
+				if lds_rec_prezzo.rowcount()>0 then
+					if ls_tipo_applicazione='P' then
+					
+						ld_importo=lds_rec_prezzo.getitemdecimal(1,"importo")					
+						if ld_importo>0 then
+							ld_prezzo=ld_importo
+							
+							if ls_spesa<>"" and not isnull(ls_spesa) then 
+								ld_prezzo=f_string_dec_prezzo(ls_spesa,ld_prezzo)
+								ld_prezzo_manifattura=ld_prezzo
+							end if
+							if ls_percentuali<>"" and not isnull(ls_percentuali) then
+								ld_prezzo=f_string_dec_prezzo(ls_percentuali,ld_prezzo)
+								ld_prezzo_manifattura=ld_prezzo
+							end if
+							if not isnull(ld_spesa_fissa) then ld_prezzo=ld_prezzo+ld_spesa_fissa
+							ll_valuta=lds_rec_prezzo.getitemnumber(1,"id_valuta")
+							if ll_valuta<>al_id_valuta then															
+								//SELECT fn_conv_valuta(:ll_valuta, :ld_prezzo, :al_id_val_az)
+								SELECT fn_conv_valuta(:al_id_valuta, :ld_prezzo, :al_id_val_az)
+								INTO	 :ld_prezzo
+								FROM	 SYS.DUMMY
+								;
+								if (sqlca.sqlcode = -1) then
+									messagebox("DbError/f_recupera_prezzo_manifattura", sqlca.sqlerrtext)
+								end if
+								//ld_prezzo=ld_importo / ld_cambio_doc
+								ld_prezzo=ld_importo * ld_cambio_doc
+							end if							
+							ld_coef_calo=lds_rec_prezzo.getitemdecimal(1,"con_lis_articolo_coef_calo")					
+							if isnull(ld_coef_calo) then ld_coef_calo=0
+							
+								ls_ritorno=string(ld_prezzo)+"!"+string(ld_coef_calo)
+							
+								
+							
+						else
+							//sconto percentuale: prendo il listino e trovo il prezzo poi applico la percenutale						
+							ll_listino=lds_rec_prezzo.getitemnumber(1,"id_listino")
+							if ll_listino>0 then
+								select id_variazione
+								into :ll_variazione
+								from variazione
+								where id_listino=:ll_listino
+								AND 	(data_inizio <= :ldt_data_attuale AND (data_fine >= :ldt_data_attuale OR data_fine IS NULL));
+								if sqlca.sqlcode=0 then
+									select prezzo,coef_calo,prezzo_manifattura//, id_galvanica //agg 2019-05-02
+									into :ld_prezzo, :ld_coef_calo, :ld_prezzo_manifattura//, :ll_id_galvanica
+									from prezzo
+									where id_variazione=:ll_variazione
+									and id_unita_confezione=:ll_id_u_c_in_esame;
+									
+									if ls_spesa<>"" and not isnull(ls_spesa) then 
+										ld_prezzo=f_string_dec_prezzo(ls_spesa,ld_prezzo)
+										ld_prezzo_manifattura=f_string_dec_prezzo(ls_spesa,ld_prezzo_manifattura)
+									end if
+									if ls_percentuali<>"" and not isnull(ls_percentuali) then
+										ld_prezzo=f_string_dec_prezzo(ls_percentuali,ld_prezzo)
+										ld_prezzo_manifattura=f_string_dec_prezzo(ls_percentuali,ld_prezzo_manifattura)
+									end if
+									if not isnull(ld_spesa_fissa) then 
+										ld_prezzo=ld_prezzo+ld_spesa_fissa
+										ld_prezzo_manifattura=ld_prezzo_manifattura+ld_spesa_fissa
+									end if
+
+									select id_valuta
+									into :ll_valuta
+									from listino
+									where id_listino=:ll_listino;
+									
+									
+									if ll_valuta<>al_id_valuta then
+										select cambio into  :ldc_cambio_listino from dba.valuta where id_valuta=:ll_valuta;
+										if isnull(ldc_cambio_listino) or ldc_cambio_listino<=0 then ldc_cambio_listino=1
+										ld_prezzo=ld_prezzo / ld_cambio_doc*ldc_cambio_listino
+										ld_prezzo_manifattura = ld_prezzo_manifattura / ld_cambio_doc*ldc_cambio_listino
+//										SELECT fn_conv_valuta(:al_id_valuta, :ld_prezzo, :al_id_val_az)
+//										INTO	 :ld_prezzo
+//										FROM	 SYS.DUMMY
+//										;
+//										if (sqlca.sqlcode = -1) then
+//											messagebox("DbError/f_recupera_prezzo_manifattura", sqlca.sqlerrtext)
+//										end if
+//										SELECT fn_conv_valuta(:al_id_valuta, :ld_prezzo_manifattura, :al_id_val_az)
+//										INTO	 :ld_prezzo_manifattura
+//										FROM	 SYS.DUMMY
+//										;
+//										if (sqlca.sqlcode = -1) then
+//											messagebox("DbError/f_recupera_prezzo_manifattura", sqlca.sqlerrtext)
+//										end if
+//										//ld_prezzo=ld_prezzo / ld_cambio_doc
+//										//ld_prezzo_manifattura=ld_prezzo_manifattura / ld_cambio_doc
+//										ld_prezzo=ld_prezzo * ld_cambio_doc
+//										ld_prezzo_manifattura=ld_prezzo_manifattura * ld_cambio_doc
+//
+									end if
+									if isnull(ld_coef_calo) then ld_coef_calo=0
+									if isnull(ld_prezzo) then ld_prezzo=0
+									if isnull(ld_prezzo_manifattura) then ld_prezzo_manifattura=0
+										
+									
+									
+									ls_lis_variazione=string(ll_variazione)  //NO
+									
+									if tipo_mov='PZ' then
+										ls_ritorno=string(ld_prezzo)+"!"+string(ld_coef_calo)
+									else
+										ls_ritorno=string(ld_prezzo_manifattura)+"!"+string(ld_coef_calo)
+									end if
+								//	if ll_id_galvanica>0 then ls_ritorno+="$"+string(ll_id_galvanica) //agg 2019-05-02
+								else
+									messagebox("Errore!","Errore nel recupero della variazione!",stopsign!)
+								end if
+						end if
+						end if
+					elseif ls_tipo_applicazione='I' then
+								
+						ll_listino=lds_rec_prezzo.getitemnumber(1,"id_listino")
+						if ll_listino>0 then
+							select id_variazione
+							into :ll_variazione
+							from variazione
+							where id_listino=:ll_listino
+							AND 	(data_inizio <= :ldt_data_attuale AND (data_fine >= :ldt_data_attuale OR data_fine IS NULL));
+							if sqlca.sqlcode=0 then
+								select prezzo,coef_calo,prezzo_manifattura//, id_galvanica  //agg. id_galv 2019-05-02
+								into :ld_prezzo, :ld_coef_calo, :ld_prezzo_manifattura//, :ll_id_galvanica
+								from prezzo
+								where id_variazione=:ll_variazione
+								and id_unita_confezione=:ll_id_u_c_in_esame;
+															
+								if ls_spesa<>"" and not isnull(ls_spesa) then 
+									ld_prezzo=f_string_dec_prezzo(ls_spesa,ld_prezzo)
+									ld_prezzo_manifattura=f_string_dec_prezzo(ls_spesa,ld_prezzo_manifattura)
+								end if
+								if ls_percentuali<>"" and not isnull(ls_percentuali) then
+									ld_prezzo=f_string_dec_prezzo(ls_percentuali,ld_prezzo)
+									
+									ld_prezzo_manifattura=f_string_dec_prezzo(ls_percentuali,ld_prezzo_manifattura)
+								end if
+								if not isnull(ld_spesa_fissa) then ld_prezzo=ld_prezzo+ld_spesa_fissa
+								
+								select id_valuta
+								into :ll_valuta
+								from listino
+								where id_listino=:ll_listino;
+								
+								
+								if ll_valuta<>al_id_valuta then
+									select cambio into  :ldc_cambio_listino from dba.valuta where id_valuta=:ll_valuta;
+									if isnull(ldc_cambio_listino) or ldc_cambio_listino<=0 then ldc_cambio_listino=1
+									ld_prezzo=ld_prezzo / ld_cambio_doc*ldc_cambio_listino
+									ld_prezzo_manifattura = ld_prezzo_manifattura / ld_cambio_doc*ldc_cambio_listino
+//									SELECT fn_conv_valuta(:al_id_valuta, :ld_prezzo, :al_id_val_az)
+//									INTO	 :ld_prezzo
+//									FROM	 SYS.DUMMY
+//									;
+//									if (sqlca.sqlcode = -1) then
+//										messagebox("DbError/f_recupera_prezzo_manifattura", sqlca.sqlerrtext)
+//									end if
+//									SELECT fn_conv_valuta(:al_id_valuta, :ld_prezzo_manifattura, :al_id_val_az)
+//									INTO	 :ld_prezzo_manifattura
+//									FROM	 SYS.DUMMY
+//									;
+//									if (sqlca.sqlcode = -1) then
+//										messagebox("DbError/f_recupera_prezzo_manifattura", sqlca.sqlerrtext)
+//									end if
+////									ld_prezzo=ld_prezzo / ld_cambio_doc
+////									ld_prezzo_manifattura=ld_prezzo_manifattura / ld_cambio_doc
+//									ld_prezzo=ld_prezzo * ld_cambio_doc
+//									ld_prezzo_manifattura=ld_prezzo_manifattura * ld_cambio_doc
+								end if
+								ls_lis_variazione=string(ll_variazione)										
+								if isnull(ld_coef_calo) then ld_coef_calo=0
+								if isnull(ld_prezzo) then ld_prezzo=0
+								if isnull(ld_prezzo_manifattura) then ld_prezzo_manifattura=0
+								if tipo_mov='PZ' then
+									ls_ritorno=string(ld_prezzo)+"!"+string(ld_coef_calo)
+								else
+									ls_ritorno=string(ld_prezzo_manifattura)+"!"+string(ld_coef_calo)
+								end if
+								//if ll_id_galvanica>0 then ls_ritorno+="$"+string(ll_id_galvanica) //agg 2019-05-02 galvanica
+								
+							else
+								messagebox("Errore!","Errore nel recupero della variazione!",stopsign!)
+							end if
+						end if
+					else
+						
+						
+						select id_attivita
+						into :ll_attivita
+						from azienda
+						where id_azienda=1;
+						
+						select cmc
+						into :ld_prezzo
+						from cmc
+						where id_magazzino=:al_id_magazzino
+						and id_articolo=:al_id_articolo
+						and id_attivita=:ll_attivita;
+						if sqlca.sqlcode=0 then
+							
+							
+							if ld_cambio_doc<>1 then
+//								ld_prezzo_manifattura=ld_prezzo_manifattura / ld_cambio_doc
+//								ld_prezzo=ld_prezzo / ld_cambio_doc		
+								ld_prezzo_manifattura=ld_prezzo_manifattura * ld_cambio_doc
+								ld_prezzo=ld_prezzo * ld_cambio_doc	
+							end if
+							if isnull(ld_coef_calo) then ld_coef_calo=0
+							if tipo_mov='PZ' then
+								ls_ritorno=string(ld_prezzo)+"!"+string(ld_coef_calo)
+							else
+								ls_ritorno=string(ld_prezzo_manifattura)+"!"+string(ld_coef_calo)
+							end if
+							
+						else
+							messagebox("Errore!","Si è verificato un errore recuperando il costo medio continuo",stopsign!)
+						end if
+					end if
+				end if
+			else
+				messagebox("Errore!","Errore applicando il filtro!",stopsign!)
+			end if
+		else
+			
+			
+			
+			
+			select id_listino
+			into :ll_listino
+			from sog_commerciale
+			where id_sog_commerciale=:ll_sog_com;
+			
+				
+				select id_variazione
+				into :ll_variazione
+				from variazione
+				where id_listino=:ll_listino
+				AND 	(data_inizio <= :ldt_data_attuale AND (data_fine >= :ldt_data_attuale OR data_fine IS NULL)); 
+				
+				select prezzo,coef_calo,prezzo_manifattura  //, id_galvanica  //agg 2019-05-02 id_galvanica
+				into :ld_prezzo,:ld_coef_calo, :ld_prezzo_manifattura    //, :ll_id_galvanica
+				from prezzo
+				where id_variazione=:ll_variazione
+				and id_unita_confezione=:ll_id_u_c_in_esame;
+				
+				if (ld_prezzo>0 and tipo_mov='PZ') or (ld_prezzo_manifattura>0 and tipo_mov<>'PZ') or (ld_coef_calo>0) then
+					
+					
+					
+					ls_lis_variazione=string(ll_variazione)  //si
+					
+					
+					select id_valuta
+					into :ll_valuta
+					from listino
+					where id_listino=:ll_listino;
+					
+					
+					if ll_valuta<>al_id_valuta then
+//						SELECT fn_conv_valuta(:al_id_valuta, :ld_prezzo, :al_id_val_az)
+//						INTO	 :ld_prezzo
+//						FROM	 SYS.DUMMY
+//						;
+//						if (sqlca.sqlcode = -1) then
+//							messagebox("DbError/f_recupera_prezzo_manifattura", sqlca.sqlerrtext)
+//						end if
+//						SELECT fn_conv_valuta(:al_id_valuta, :ld_prezzo_manifattura, :al_id_val_az)
+//						INTO	 :ld_prezzo_manifattura
+//						FROM	 SYS.DUMMY
+//						;
+//						if (sqlca.sqlcode = -1) then
+//							messagebox("DbError/f_recupera_prezzo_manifattura", sqlca.sqlerrtext)
+//						end if
+//						ld_prezzo=ld_prezzo / ld_cambio_doc
+//						ld_prezzo_manifattura = ld_prezzo_manifattura / ld_cambio_doc
+						select cambio into  :ldc_cambio_listino from dba.valuta where id_valuta=:ll_valuta;
+						if isnull(ldc_cambio_listino) or ldc_cambio_listino<=0 then ldc_cambio_listino=1
+						ld_prezzo=ld_prezzo / ld_cambio_doc*ldc_cambio_listino
+						ld_prezzo_manifattura = ld_prezzo_manifattura / ld_cambio_doc*ldc_cambio_listino
+					end if
+					if isnull(ld_coef_calo) then ld_coef_calo=0
+					if isnull(ld_prezzo) then ld_prezzo=0
+					if isnull(ld_prezzo_manifattura) then ld_prezzo_manifattura=0
+					
+					
+					if isnull(ld_coef_calo) then ld_coef_calo=0
+					if tipo_mov='PZ' then
+						ls_ritorno=string(ld_prezzo)+"!"+string(ld_coef_calo)
+					else
+						ls_ritorno=string(ld_prezzo_manifattura)+"!"+string(ld_coef_calo)
+					end if
+					//if ll_id_galvanica>0 then ls_ritorno+="$"+string(ll_id_galvanica)  //agg 2019-05-02 id_galvanica
+				else
+				
+				
+				
+			
+			
+			
+				if ld_coef_calo>0 then ld_calo1 =	ld_coef_calo
+				
+				select id_listino
+				into :ll_listino
+				from listino
+				where lis_base='S'
+				
+				
+				and tipo=:ls_tipo;
+				
+				
+					
+					select id_variazione
+					into :ll_variazione
+					from variazione
+					where id_listino=:ll_listino
+					AND 	(data_inizio <= :ldt_data_attuale AND (data_fine >= :ldt_data_attuale OR data_fine IS NULL)); 
+					
+					select prezzo,coef_calo,prezzo_manifattura//, id_galvanica //agg 2019-05-02 galvanica
+					into :ld_prezzo,:ld_coef_calo,:ld_prezzo_manifattura
+					from prezzo
+					where id_variazione=:ll_variazione
+					and id_unita_confezione=:ll_id_u_c_in_esame;
+					
+					if ld_calo1>0 then ld_coef_calo=ld_calo1
+					
+					
+					if (ld_prezzo>0 or ld_coef_calo>0 or ld_prezzo_manifattura>0)   then
+											
+						ls_lis_variazione=string(ll_variazione)  //prova2
+				
+						select id_valuta
+						into :ll_valuta
+						from listino
+						where id_listino=:ll_listino;
+						
+						
+						if ll_valuta<>al_id_valuta then
+							//SELECT fn_conv_valuta(:ll_valuta, :ld_prezzo_manifattura, :al_id_val_az)
+//							SELECT fn_conv_valuta(:al_id_valuta, :ld_prezzo, :al_id_val_az) //20211024 vedi sotto
+//							INTO	 :ld_prezzo
+//							FROM	 SYS.DUMMY
+//							;
+//							if (sqlca.sqlcode = -1) then
+//								messagebox("DbError/f_recupera_prezzo_manifattura", sqlca.sqlerrtext)
+//							end if
+//							SELECT fn_conv_valuta(:al_id_valuta, :ld_prezzo_manifattura, :al_id_val_az)//20211024 vedi sotto
+//							INTO	 :ld_prezzo_manifattura
+//							FROM	 SYS.DUMMY
+//							;
+//							if (sqlca.sqlcode = -1) then
+//								messagebox("DbError/f_recupera_prezzo_manifattura", sqlca.sqlerrtext)
+//							end if
+//							ld_prezzo=ld_prezzo / ld_cambio_doc
+//							ld_prezzo_manifattura=ld_prezzo_manifattura / ld_cambio_doc
+							select cambio into  :ldc_cambio_listino from dba.valuta where id_valuta=:ll_valuta;
+							if isnull(ldc_cambio_listino) or ldc_cambio_listino<=0 then ldc_cambio_listino=1
+							ld_prezzo=ld_prezzo / ld_cambio_doc*ldc_cambio_listino
+							ld_prezzo_manifattura = ld_prezzo_manifattura / ld_cambio_doc*ldc_cambio_listino
+//							ld_prezzo=ld_prezzo * ld_cambio_doc
+//							ld_prezzo_manifattura=ld_prezzo_manifattura * ld_cambio_doc
+						end if
+						if isnull(ld_coef_calo) then ld_coef_calo=0
+						if isnull(ld_prezzo) then ld_prezzo=0
+					   if isnull(ld_prezzo_manifattura) then ld_prezzo_manifattura=0
+						
+						if isnull(ld_coef_calo) then ld_coef_calo=0
+						if tipo_mov='PZ' then
+							ls_ritorno=string(ld_prezzo)+"!"+string(ld_coef_calo)
+						else
+							ls_ritorno=string(ld_prezzo_manifattura)+"!"+string(ld_coef_calo)
+						end if
+						//if ll_id_galvanica>0 then ls_ritorno+="$"+string(ll_id_galvanica) //agg 2019-05-02 galvanica
+					end if
+	
+				end if
+			end if
+	CASE 'S'
+		ls_lis_variazione=""
+		
+		ls_filtro=ls_filtro+" AND	tipo_applicazione IN ('S')" 
+		
+		lds_rec_prezzo.setfilter(ls_filtro)
+		lds_rec_prezzo.filter()
+		if lds_rec_prezzo.rowcount()>0 then
+			ls_percentuali=lds_rec_prezzo.getitemstring(1,"percentuali")
+			ls_ritorno=ls_percentuali
+		end if
+	CASE 'R'
+		ls_lis_variazione=""
+		
+		ls_filtro=ls_filtro+" AND	tipo_applicazione IN ('R')" 
+		
+		lds_rec_prezzo.setfilter(ls_filtro)
+		lds_rec_prezzo.filter()
+		if lds_rec_prezzo.rowcount()>0 then
+			ld_importo=lds_rec_prezzo.getitemdecimal(1,"importo")
+			ld_importo=ld_importo*ld_qta
+			ls_ritorno=string(ld_importo)
+		end if
+	CASE 'D'
+		ls_lis_variazione=""
+		
+		ls_filtro=ls_filtro+" AND	tipo_applicazione IN ('D')" 
+		
+		lds_rec_prezzo.setfilter(ls_filtro)
+		lds_rec_prezzo.filter()
+		if lds_rec_prezzo.rowcount()>0 then
+			ls_percentuali=lds_rec_prezzo.getitemstring(1,"percentuali")
+			ls_ritorno=ls_percentuali
+		end if
+END CHOOSE
+destroy lds_rec_prezzo;
+if ls_ritorno="" or isnull(ls_ritorno) then 
+	ls_ritorno="0"
+else
+	if not isnull(ls_lis_variazione) and ls_lis_variazione>"" and not ls_ritorno="0" then
+		ls_ritorno=ls_ritorno+"!"+ls_lis_variazione
+	end if
+end if
+return ls_ritorno
+end function
+

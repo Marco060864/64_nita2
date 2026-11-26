@@ -1,0 +1,8 @@
+﻿global type s_item_array from structure
+	long		l_id_item
+	long		l_id_parent_item
+	string		s_label
+	boolean		b_visited
+	boolean		s_user_defined
+end type
+

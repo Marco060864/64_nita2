@@ -1,0 +1,35 @@
+﻿global type s_passa_date from structure
+	date		data_saldo_iniziale
+	date		data_inizio_estratto
+	date		data_fine_estratto
+	date		data_saldo_fine
+	string		da_conto
+	string		a_conto
+	long		prof_apertura
+	long		prof_chiusura
+	string		valuta
+	long		decimali
+	decimal { 4 }		cambio
+	decimal { 4 }		saldo_iniziale
+	decimal { 4 }		saldo_finale
+	long		da_id_conto
+	string		solo_per
+	string		telefono
+	string		ordinamento
+	string		vis_finale
+	string		vis_reg
+	string		sum_iniz
+	date		data_iniziale_eco
+	date		data_fine_eco
+	string		contropartita
+	long		id_valuta
+	date		data_stampa
+	decimal { 4 }		saldo_iniziale2
+	decimal { 4 }		saldo_finale2
+	decimal { 4 }		fido
+	decimal { 4 }		cas_effetti
+	decimal { 4 }		saldo_iniziale3
+	decimal { 4 }		saldo_finale3
+	string		conto3
+end type
+

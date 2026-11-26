@@ -1,0 +1,33 @@
+﻿global type f_proponi_valuta from function_object
+end type
+
+forward prototypes
+global function long f_proponi_valuta (long al_id_conto, long al_id_esercizio)
+end prototypes
+
+global function long f_proponi_valuta (long al_id_conto, long al_id_esercizio);
+
+long ll_Valuta_Reg_PD
+Integer LI_AZIENDA_FITTIZIA
+LI_AZIENDA_FITTIZIA = 1
+
+SELECT "anagrafica"."id_valuta"  
+	INTO :ll_Valuta_Reg_PD  
+	FROM "sog_commerciale",   
+		  "anagrafica",
+		  "conto"  
+	WHERE ( "anagrafica"."id_anagrafica" = "sog_commerciale"."id_anagrafica" ) and  
+			( "conto"."id_conto" = "sog_commerciale"."id_conto" ) and  
+			( ( "conto"."id_conto" = :al_id_conto ) )   ;
+
+
+IF IsNull(ll_Valuta_Reg_PD) OR ll_Valuta_Reg_PD = 0 THEN
+	SELECT "esercizio"."id_valuta"
+		INTO :ll_Valuta_Reg_PD
+		FROM "esercizio"
+		WHERE "esercizio"."id_esercizio" = :al_id_esercizio;
+END IF
+
+RETURN ll_Valuta_Reg_PD
+end function
+

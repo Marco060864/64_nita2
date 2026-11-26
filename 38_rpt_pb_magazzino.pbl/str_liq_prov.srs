@@ -1,0 +1,6 @@
+﻿global type str_liq_prov from structure
+	string		filtro
+	string		parametri
+	string		flag
+end type
+

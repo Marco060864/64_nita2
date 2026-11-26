@@ -1,0 +1,9 @@
+﻿global type s_par_service from structure
+	string		s_column_name
+	datawindow		dw_datawindow
+	any		a_in
+	any		a_out
+	string		s_message
+	string		s_support
+end type
+

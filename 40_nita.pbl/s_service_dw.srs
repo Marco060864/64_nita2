@@ -1,0 +1,5 @@
+﻿global type s_service_dw from structure
+	string		s_dwcolumn[]
+	string		s_datawindow
+end type
+

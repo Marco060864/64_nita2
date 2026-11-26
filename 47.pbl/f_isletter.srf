@@ -1,0 +1,15 @@
+﻿global type f_isletter from function_object
+end type
+
+forward prototypes
+global function boolean f_isletter (character ac_car)
+end prototypes
+
+global function boolean f_isletter (character ac_car);
+boolean lb_rtv
+
+lb_rtv = false
+if ((ac_car>='A') and (ac_car<='Z')) or ((ac_car>='a') and (ac_car<='z')) then lb_rtv=true
+return lb_rtv
+end function
+

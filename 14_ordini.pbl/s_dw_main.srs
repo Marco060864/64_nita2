@@ -1,0 +1,4 @@
+﻿global type s_dw_main from structure
+	u_dw_main		dw
+end type
+

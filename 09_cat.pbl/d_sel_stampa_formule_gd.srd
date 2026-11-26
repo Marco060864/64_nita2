@@ -1,0 +1,133 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=15780518 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 107 print.margin.right = 107 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=54 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=115 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=id_articolo dbname="id_articolo" )
+ column=(type=char(32) updatewhereclause=yes name=articolo_codice dbname="codice" )
+ column=(type=char(255) updatewhereclause=yes name=note_art dbname="note_art" )
+ column=(type=char(80) updatewhereclause=yes name=articolo_descrizione dbname="descrizione" )
+ column=(type=char(255) updatewhereclause=yes name=articolo_immagine dbname="immagine" )
+ column=(type=char(4) updatewhereclause=yes name=cat_codifica_codice dbname="codice" )
+ column=(type=char(8) updatewhereclause=yes name=cat_com_articolo_codice dbname="codice" )
+ column=(type=char(8) updatewhereclause=yes name=cat_fiscale_codice dbname="codice" )
+ column=(type=char(8) updatewhereclause=yes name=cat_merceologica_codice dbname="codice" )
+ column=(type=decimal(4) updatewhereclause=yes name=prezzo_prezzo dbname="prezzo" )
+ column=(type=char(8) updatewhereclause=yes name=unita_confezione_codice dbname="codice" )
+ column=(type=decimal(2) updatewhereclause=yes name=orafo_titolo_titolo dbname="titolo" )
+ column=(type=char(4) updatewhereclause=yes name=orafo_colore_codice dbname="codice" )
+ column=(type=char(2) updatewhereclause=yes name=orafo_metallo_codice dbname="codice" )
+ column=(type=datetime updatewhereclause=yes name=orafo_metallo_data_quotazione dbname="data_quotazione" )
+ column=(type=char(40) updatewhereclause=yes name=orafo_metallo_descrizione dbname="descrizione" )
+ column=(type=decimal(2) updatewhereclause=yes name=articolo_coef_calo dbname="coef_calo" )
+ column=(type=char(40) updatewhereclause=yes name=anagrafica_rag_soc_1 dbname="rag_soc_1" )
+ column=(type=char(40) updatewhereclause=yes name=sog_commerciale_gen_rag_soc_1 dbname="rag_soc_1" )
+ column=(type=long updatewhereclause=yes name=cat_codifica_id_cat_codifica dbname="id_cat_codifica" )
+ column=(type=long updatewhereclause=yes name=cat_com_articolo_id_cat_com_articolo dbname="id_cat_com_articolo" )
+ column=(type=long updatewhereclause=yes name=cat_fiscale_id_cat_fiscale dbname="id_cat_fiscale" )
+ column=(type=long updatewhereclause=yes name=cat_merceologica_id_cat_merceologica dbname="id_cat_merceologica" )
+ column=(type=long updatewhereclause=yes name=orafo_metallo_id_metallo dbname="id_metallo" )
+ column=(type=long updatewhereclause=yes name=orafo_titolo_id_titolo dbname="id_titolo" )
+ column=(type=long updatewhereclause=yes name=anagrafica_id_anagrafica dbname="id_anagrafica" )
+ column=(type=long updatewhereclause=yes name=sog_commerciale_gen_id_sog_commerciale dbname="id_sog_commerciale" )
+ column=(type=decimal(2) updatewhereclause=yes name=unita_confezione_peso_non_prezioso dbname="peso_non_prezioso" )
+ column=(type=decimal(2) updatewhereclause=yes name=unita_confezione_peso_netto dbname="peso_netto" )
+ column=(type=long updatewhereclause=yes name=prezzo_id_variazione dbname="id_variazione" )
+ column=(type=decimal(2) updatewhereclause=yes name=orafo_metallo_quotazione dbname="quotazione" )
+ column=(type=char(40) updatewhereclause=yes name=orafo_colore_descrizione dbname="descrizione" )
+ column=(type=char(32766) updatewhereclause=yes name=note dbname="note" )
+ column=(type=long updatewhereclause=yes name=id_distinta dbname="id_distinta" )
+ column=(type=char(32) updatewhereclause=yes name=codice dbname="codice" )
+ column=(type=long updatewhereclause=yes name=id_articolo dbname="id_articolo" )
+ column=(type=datetime updatewhereclause=yes name=data_ora_creazione dbname="data_ora_creazione" )
+ column=(type=datetime updatewhereclause=yes name=data_ora_ult_cambiamento dbname="data_ora_ult_cambiamento" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_applicazione dbname="tipo_applicazione" )
+ column=(type=long updatewhereclause=yes name=id_azienda dbname="id_azienda" )
+ retrieve="  SELECT DISTINCT ~"articolo~".~"id_articolo~",   
+         ~"articolo~".~"codice~",
+			cast('' as char(255))as note_art,   
+         ~"articolo~".~"descrizione~",   
+         ~"articolo~".~"immagine~",   
+         ~"cat_codifica~".~"codice~",   
+         ~"cat_com_articolo~".~"codice~",   
+         ~"cat_fiscale~".~"codice~",   
+         ~"cat_merceologica~".~"codice~",   
+         ~"prezzo~".~"prezzo~",   
+         ~"unita_confezione~".~"codice~",   
+         ~"orafo_titolo~".~"titolo~",   
+         ~"orafo_colore~".~"codice~",   
+         ~"orafo_metallo~".~"codice~",   
+         ~"orafo_metallo~".~"data_quotazione~",   
+         ~"orafo_metallo~".~"descrizione~",   
+         ~"articolo~".~"coef_calo~",   
+         ~"anagrafica~".~"rag_soc_1~",   
+         ~"sog_commerciale_gen~".~"rag_soc_1~",   
+         ~"cat_codifica~".~"id_cat_codifica~",   
+         ~"cat_com_articolo~".~"id_cat_com_articolo~",   
+         ~"cat_fiscale~".~"id_cat_fiscale~",   
+         ~"cat_merceologica~".~"id_cat_merceologica~",   
+         ~"orafo_metallo~".~"id_metallo~",   
+         ~"orafo_titolo~".~"id_titolo~",   
+         ~"anagrafica~".~"id_anagrafica~",   
+         ~"sog_commerciale_gen~".~"id_sog_commerciale~",   
+         ~"unita_confezione~".~"peso_non_prezioso~",   
+         ~"unita_confezione~".~"peso_netto~",   
+         ~"prezzo~".~"id_variazione~",   
+         ~"orafo_metallo~".~"quotazione~",   
+         ~"orafo_colore~".~"descrizione~",   
+         ~"distinta~".~"note~",   
+         ~"distinta~".~"id_distinta~",   
+         ~"distinta~".~"codice~",   
+         ~"distinta~".~"id_articolo~",   
+         ~"distinta~".~"data_ora_creazione~",   
+         ~"distinta~".~"data_ora_ult_cambiamento~",   
+         ~"distinta~".~"tipo_applicazione~",   
+         ~"distinta~".~"id_azienda~"  
+    FROM {oj {oj {oj {oj {oj {oj {oj {oj ~"articolo~"  LEFT OUTER JOIN ~"cat_codifica~"  ON ~"articolo~".~"id_cat_codifica~" = ~"cat_codifica~".~"id_cat_codifica~"} LEFT OUTER JOIN ~"cat_com_articolo~"  ON ~"articolo~".~"id_cat_com_articolo~" = ~"cat_com_articolo~".~"id_cat_com_articolo~"} LEFT OUTER JOIN ~"cat_fiscale~"  ON ~"articolo~".~"id_cat_fiscale~" = ~"cat_fiscale~".~"id_cat_fiscale~"} LEFT OUTER JOIN ~"cat_merceologica~"  ON ~"articolo~".~"id_cat_merceologica~" = ~"cat_merceologica~".~"id_cat_merceologica~"}, {oj ~"riepilogo~"  LEFT OUTER JOIN ~"locazione~"  ON ~"riepilogo~".~"id_locazione~" = ~"locazione~".~"id_locazione~"}, {oj ~"articolo~"  LEFT OUTER JOIN ~"riepilogo~"  ON ~"articolo~".~"id_articolo~" = ~"riepilogo~".~"id_articolo~"}, {oj ~"unita_confezione~"  LEFT OUTER JOIN ~"prezzo~"  ON ~"unita_confezione~".~"id_unita_confezione~" = ~"prezzo~".~"id_unita_confezione~"}, {oj ~"articolo~"  LEFT OUTER JOIN ~"unita_confezione~"  ON ~"articolo~".~"id_articolo~" = ~"unita_confezione~".~"id_articolo~"} LEFT OUTER JOIN ~"orafo_colore~"  ON ~"articolo~".~"id_colore~" = ~"orafo_colore~".~"id_colore~"}, {oj ~"orafo_titolo~"  LEFT OUTER JOIN ~"orafo_metallo~"  ON ~"orafo_titolo~".~"id_metallo~" = ~"orafo_metallo~".~"id_metallo~"}, {oj ~"articolo~"  LEFT OUTER JOIN ~"orafo_titolo~"  ON ~"articolo~".~"id_titolo~" = ~"orafo_titolo~".~"id_titolo~"} LEFT OUTER JOIN ~"anagrafica~"  ON ~"articolo~".~"id_anagrafica~" = ~"anagrafica~".~"id_anagrafica~"} LEFT OUTER JOIN ~"sog_commerciale_gen~"  ON ~"articolo~".~"id_sog_commerciale~" = ~"sog_commerciale_gen~".~"id_sog_commerciale~"} LEFT OUTER JOIN ~"distinta~"  ON ~"articolo~".~"id_articolo~" = ~"distinta~".~"id_articolo~"}, {oj ~"prezzo~"  LEFT OUTER JOIN ~"variazione~"  ON ~"prezzo~".~"id_variazione~" = ~"variazione~".~"id_variazione~"}  
+   WHERE ( ~"unita_confezione~".~"unita_base~" = 'S' ) AND  
+       (((~"variazione~".~"data_inizio~" <= today()) AND (( ~"variazione~".~"data_fine~" is null) OR (~"variazione~".~"data_fine~" >= today()))) OR  
+       (~"variazione~".~"id_variazione~" is null))    
+"  sort="articolo_codice A " )
+text(band=header alignment="2" text="Codice Articolo"border="0" color="0" x="7" y="3" height="51" width="421"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Produttore"border="0" color="0" x="8539" y="3" height="51" width="881"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Fornitore"border="0" color="0" x="9428" y="3" height="51" width="874"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Peso Non Prezioso"border="0" color="0" x="10309" y="3" height="51" width="944"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Peso Netto"border="0" color="0" x="11260" y="3" height="51" width="944"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Codice Metallo"border="0" color="0" x="5559" y="3" height="51" width="505"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Categoria Codifica"border="0" color="0" x="944" y="3" height="51" width="581"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Categoria Commerciale"border="0" color="0" x="1532" y="3" height="51" width="677"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Categoria Fiscale"border="0" color="0" x="2216" y="3" height="51" width="501"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Categoria Merceologica"border="0" color="0" x="2725" y="3" height="51" width="709"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Prezzo"border="0" color="0" x="3441" y="3" height="51" width="530"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Titolo"border="0" color="0" x="3979" y="3" height="51" width="505"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Colore"border="0" color="0" x="4491" y="3" height="51" width="329"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Data Quotazione"border="0" color="0" x="6071" y="3" height="51" width="633"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Quotazione"border="0" color="0" x="12211" y="3" height="51" width="947"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Descrizione Metallo"border="0" color="0" x="6711" y="3" height="51" width="870"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Descrizione Colore"border="0" color="0" x="4827" y="3" height="54" width="724"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Coef. Calo"border="0" color="0" x="7589" y="3" height="51" width="944"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Descrizione Articolo"border="0" color="0" x="435" y="3" height="48" width="501"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="7" y="4" height="58" width="421" format="[general]"  name=articolo_codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="944" y="4" height="58" width="581" format="[general]"  name=cat_codifica_codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="1532" y="4" height="58" width="677" format="[general]"  name=cat_com_articolo_codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="2216" y="4" height="61" width="501" format="[general]"  name=cat_fiscale_codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="2725" y="4" height="58" width="709" format="[general]"  name=cat_merceologica_codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="3441" y="4" height="58" width="530" format="[general]"  name=prezzo_prezzo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="3979" y="4" height="58" width="505" format="[general]"  name=orafo_titolo_titolo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="4491" y="4" height="58" width="329" format="[general]"  name=orafo_colore_codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="5559" y="4" height="58" width="505" format="[general]"  name=orafo_metallo_codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="6071" y="4" height="58" width="633" format="[shortdate] [time]"  name=orafo_metallo_data_quotazione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="0" x="6711" y="4" height="58" width="870" format="[general]"  name=orafo_metallo_descrizione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="0" x="7589" y="4" height="58" width="944" format="[general]"  name=articolo_coef_calo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="0" x="8539" y="4" height="58" width="881" format="[general]"  name=anagrafica_rag_soc_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="0" x="9428" y="4" height="58" width="874" format="[general]"  name=sog_commerciale_gen_rag_soc_1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=28 alignment="0" tabsequence=32766 border="0" color="0" x="10309" y="4" height="58" width="944" format="[general]"  name=unita_confezione_peso_non_prezioso edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=29 alignment="0" tabsequence=32766 border="0" color="0" x="11260" y="4" height="58" width="944" format="[general]"  name=unita_confezione_peso_netto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=31 alignment="0" tabsequence=32766 border="0" color="0" x="12211" y="4" height="58" width="947" format="[general]"  name=orafo_metallo_quotazione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=32 alignment="0" tabsequence=32766 border="0" color="0" x="4827" y="4" height="58" width="724" format="[general]"  name=orafo_colore_descrizione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="435" y="4" height="58" width="501" format="[general]"  name=articolo_descrizione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+roundrectangle(band=footer ellipseheight="35" ellipsewidth="40"x="395" y="0" height="96" width="1170" brush.hatch="6" brush.color="15793151" pen.style="0" pen.width="4" pen.color="33554432"  background.mode="2" background.color="0" )
+text(band=footer alignment="1" text="Totale righe: "border="0" color="0" x="435" y="20" height="51" width="501"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+compute(band=footer alignment="2" expression="rowcount()"border="0" color="0" x="944" y="20" height="54" width="581" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

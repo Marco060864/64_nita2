@@ -1,0 +1,7 @@
+﻿global type s_tv_classe from structure
+	long		id_classe
+	long		id_classe_padre
+	long		hnd_padre
+	long		hnd_corrente
+end type
+

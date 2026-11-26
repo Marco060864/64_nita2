@@ -1,0 +1,8 @@
+﻿global type str_movartlotto from structure
+	string		filtro
+	string		parametri
+	decimal {0}	con_promozionale
+	decimal {0}	spese_varie
+	long		id_valuta
+end type
+

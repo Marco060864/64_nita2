@@ -1,0 +1,59 @@
+﻿release 9;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+header(height=80 color="553648127" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="553648127" )
+table(column=(type=char(4) updatewhereclause=yes name=orafo_tipo_partita_cod_tipo_partita dbname="orafo_tipo_partita.cod_tipo_partita" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_calo dbname="riga_documento.calo" )
+ column=(type=decimal(4) updatewhereclause=yes name=riga_documento_fino dbname="riga_documento.fino" )
+ column=(type=char(2) updatewhereclause=yes name=orafo_metallo_codice dbname="orafo_metallo.codice" )
+ column=(type=decimal(4) updatewhereclause=yes name=resto dbname="resto" )
+ column=(type=decimal(2) updatewhereclause=yes name=titolo dbname="orafo_titolo.titolo" )
+ retrieve="  SELECT ~"orafo_tipo_partita~".~"cod_tipo_partita~",   
+         ~"riga_documento~".~"calo~",   
+         ~"riga_documento~".~"fino~",   
+         ~"orafo_metallo~".~"codice~" , 
+cast((select sum(resto) from orafo_scar_partita
+			where id_riga_documento= ~"riga_documento~".~"id_riga_partita~") 
+			as numeric(5,4)) as resto,
+			~"orafo_titolo~".~"titolo~"
+    FROM ~"caus_magazzino~",   
+         ~"documento~",   
+         ~"riga_documento~",   
+         ~"orafo_tipo_partita~",   
+         ~"articolo~",   
+         ~"orafo_metallo~",   
+         ~"orafo_titolo~"  
+   WHERE ( ~"riga_documento~".~"id_documento~" = ~"documento~".~"id_documento~" ) and  
+         ( ~"riga_documento~".~"id_caus_magazzino~" = ~"caus_magazzino~".~"id_caus_magazzino~" ) and  
+         ( ~"orafo_tipo_partita~".~"id_tipo_partita~" = ~"caus_magazzino~".~"id_tipo_partita~" ) and  
+         ( ~"articolo~".~"id_articolo~" = ~"riga_documento~".~"id_articolo~" ) and  
+         ( ~"orafo_titolo~".~"id_metallo~" = ~"orafo_metallo~".~"id_metallo~" ) and  
+         ( ~"orafo_titolo~".~"id_titolo~" = ~"articolo~".~"id_titolo~" ) and 
+			( ( ~"documento~".~"data_ora_creazione~" > :da_data ) AND  
+         ( ~"documento~".~"data_ora_creazione~" <= :a_data ) AND  
+         ( ~"documento~".~"id_sog_commerciale~" = :a_sog ) ) 
+" arguments=(("da_data", datetime),("a_data", datetime),("a_sog", number))  sort="orafo_metallo_codice A right( orafo_tipo_partita_cod_tipo_partita , 3) A titolo A " )
+group(level=1 header.height=0 trailer.height=108 by=("orafo_metallo_codice" , "right(orafo_tipo_partita_cod_tipo_partita,3)" , "titolo" ) header.color="536870912" trailer.color="536870912" )
+text(band=header alignment="2" text="Saldo" border="0" color="0" x="1147" y="16" height="56" width="466" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Scarico" border="0" color="0" x="635" y="16" height="56" width="466" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Carico" border="0" color="0" x="128" y="16" height="56" width="466" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="78" y="8" height="76" width="475" format="[general]" html.valueishtml="0"  name=orafo_titolo_titolo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="4517" y="0" height="76" width="1376" format="[general]" html.valueishtml="0"  name=resto visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="2" background.color="16777215" )
+line(band=trailer.1 x1="32" y1="96" x2="3301" y2="96"  name=l_1 visible="1" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+column(band=trailer.1 id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1705" y="4" height="76" width="101" format="[general]" html.valueishtml="0"  name=orafo_metallo_codice visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="0" expression=" orafo_metallo_codice +~"-~"+right( orafo_tipo_partita_cod_tipo_partita , 3)"border="0" color="0" x="1838" y="4" height="76" width="338" format="[general]" html.valueishtml="0"  name=tipo visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(resto for group 1)  "border="0" color="0" x="2194" y="8" height="76" width="183" format="[general]" html.valueishtml="0"  name=sum_arr_resto visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(resto for group 1) "border="0" color="0" x="2395" y="8" height="68" width="238" format="[general]" html.valueishtml="0"  name=sum_resto visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(if(left( orafo_tipo_partita_cod_tipo_partita , 1)='S',   riga_documento_calo , 0) for group 1) + sum(if(left( orafo_tipo_partita_cod_tipo_partita , 1)='S' ,   riga_documento_fino , 0) for group 1)+ sum_arr_resto"border="0" color="0" x="2651" y="8" height="76" width="256" format="#,0.00" html.valueishtml="0"  name=somma_scarichi2 visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=trailer.1 id=6 alignment="0" tabsequence=32766 border="0" color="0" x="2930" y="8" height="76" width="1376" format="[general]" html.valueishtml="0"  name=titolo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="somma_carichi - somma_scarichi"border="0" color="0" x="1147" y="0" height="76" width="466" format="#,0.00" html.valueishtml="0"  name=saldo_2 visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(if(left( orafo_tipo_partita_cod_tipo_partita , 1)='S' ,   riga_documento_calo , 0) for group 1) + sum(if(left( orafo_tipo_partita_cod_tipo_partita , 1)='S' ,   riga_documento_fino , 0) for group 1)+ sum_arr_resto"border="0" color="0" x="635" y="4" height="76" width="466" format="#,0.00" html.valueishtml="0"  name=somma_scarichi visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(if(left( orafo_tipo_partita_cod_tipo_partita , 1)='A',   riga_documento_calo , 0) for group 1) + sum(if(left( orafo_tipo_partita_cod_tipo_partita , 1)='A',   riga_documento_fino , 0) for group 1)"border="0" color="0" x="128" y="4" height="76" width="466" format="#,0.00" html.valueishtml="0"  name=somma_carichi visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+  

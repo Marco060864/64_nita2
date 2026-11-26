@@ -1,0 +1,5 @@
+﻿global type s_vedi_residuo from structure
+	decimal {2}	coef_calo
+	long		ll_id_sog
+end type
+

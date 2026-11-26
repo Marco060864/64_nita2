@@ -1,0 +1,10 @@
+﻿global type f_copia_modello from function_object
+end type
+
+forward prototypes
+global function integer f_copia_modello (long al_id_anag_modello, ref long al_id_anag_mod_clone)
+end prototypes
+
+global function integer f_copia_modello (long al_id_anag_modello, ref long al_id_anag_mod_clone);RETURN 0
+end function
+

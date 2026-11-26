@@ -1,0 +1,52 @@
+﻿global type f_rec_iva_riga_doc from function_object
+end type
+
+forward prototypes
+global function long f_rec_iva_riga_doc (long al_id_prof_doc, long al_id_sog, long al_id_articolo)
+end prototypes
+
+global function long f_rec_iva_riga_doc (long al_id_prof_doc, long al_id_sog, long al_id_articolo);long ll_id_tab_iva
+string ls_tipo_iva
+
+//cerco nella tabella di personalizzazione (sog_profilo_personalizza)
+//ll_id_prof_doc=idw_gen.getitemnumber(1, "id_prof_documento")
+select id_tab_iva
+into :ll_id_tab_iva
+from dba.sog_profilo_personalizza
+where id_sog_commerciale=:al_id_sog
+and id_prof_documento=:al_id_prof_doc
+;
+if ll_id_tab_iva>0 then
+	return ll_id_tab_iva
+else //cerco nel soggetto commerciale
+	SELECT "tab_iva"."tipo_iva", "tab_iva"."id_tab_iva"
+	INTO :ls_tipo_iva, :ll_id_tab_iva
+	FROM "dba"."sog_commerciale", "dba"."tab_iva"  
+	WHERE ( "tab_iva"."id_tab_iva" = "sog_commerciale"."id_tab_iva" ) and  
+			( ( "sog_commerciale"."id_sog_commerciale" = :al_id_sog) ) ;
+
+	if ls_tipo_iva > '' then
+		return ll_id_tab_iva
+	else //cerco nell'articolo
+		
+		SELECT "articolo"."id_tab_iva"  
+			INTO :ll_id_tab_iva  
+			FROM "dba"."articolo"
+			WHERE "articolo"."id_articolo" = :al_id_articolo ;
+	
+		if (IsNull(ll_id_tab_iva) OR ll_id_tab_iva = 0) then //cerco nella cat_comerciale dell'articolo
+			
+			SELECT "cat_com_articolo"."id_tab_iva"  
+				INTO :ll_id_tab_iva  
+				FROM "dba"."articolo",   
+				"cat_com_articolo"  
+				WHERE ( "cat_com_articolo"."id_cat_com_articolo" = "articolo"."id_cat_com_articolo" ) and  
+				( ( "articolo"."id_articolo" = :al_id_articolo ) )   ;
+		end if
+		if not (IsNull(ll_id_tab_iva) OR ll_id_tab_iva = 0) then //qui dovrebbe esserci...
+			return ll_id_tab_iva
+		end if
+	end if
+end if
+end function
+

@@ -1,0 +1,41 @@
+﻿global type f_aggiorna_data_compenso from function_object
+end type
+
+forward prototypes
+global function long f_aggiorna_data_compenso (long al_id_reg_pd, date ad_data_registrazione)
+end prototypes
+
+global function long f_aggiorna_data_compenso (long al_id_reg_pd, date ad_data_registrazione);
+
+long ll_RetVal = 0, ll_id_compenso
+date ld_new_data
+
+SELECT compenso.id_compenso
+	INTO :ll_id_compenso
+	FROM dba.compenso
+	WHERE compenso.id_reg_pd = :al_id_reg_pd
+	USING SQLCA;
+	
+CHOOSE CASE SQLCA.SQLCode
+	CASE 0
+		IF Month(ad_data_registrazione) = 12 THEN
+			ld_new_data = date("15/01/" + string(year(ad_data_registrazione) + 1) )
+		ELSE
+			ld_new_data = date("15/" + string(month(ad_data_registrazione) + 1) + "/" + string(year(ad_data_registrazione)))
+		END IF
+		
+		UPDATE compenso
+			SET data_scadenza = :ld_new_data
+			WHERE id_compenso = :ll_id_compenso
+			USING SQLCA;
+			
+		IF (SQLCA.SQLCode = 0) AND (SQLCA.SQLNRows = 1) THEN
+			COMMIT USING SQLCA;
+		END IF
+	CASE -1
+		MessageBox("Errore sul DataBase", "f_aggiorna_data_compenso / 1")
+END CHOOSE
+
+RETURN ll_RetVal 
+end function
+

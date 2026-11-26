@@ -1,0 +1,50 @@
+﻿global type f_proponi_registro from function_object
+end type
+
+forward prototypes
+global function long f_proponi_registro (long al_id_prof_registrazione, long al_id_esercizio)
+end prototypes
+
+global function long f_proponi_registro (long al_id_prof_registrazione, long al_id_esercizio);
+
+long ll_id_registro, ll_id_esercizio, LL_ID_AZIENDA
+LL_ID_AZIENDA = 1
+ll_id_esercizio = al_id_esercizio
+
+IF NOT (IsNull(al_id_prof_registrazione) OR (al_id_prof_registrazione = 0)) THEN
+	
+	
+	IF IsNull(al_id_esercizio) OR (al_id_esercizio = 0) THEN
+		  SELECT "dba"."azienda"."id_esercizio_proposto"
+			 INTO :ll_id_esercizio  
+			 FROM "dba"."azienda"  
+			WHERE "dba"."azienda"."id_azienda" = :LL_ID_AZIENDA ;
+			
+		CHOOSE CASE SQLCA.SQLCode
+			CASE -1
+				MessageBox("Errore sul DataBase", "f_proponi_registro / 2")
+		END CHOOSE
+			
+	END IF
+	
+	  SELECT "dba"."registro"."id_registro"  
+		 INTO :ll_id_registro  
+		 FROM "dba"."esercizio",   
+				"dba"."mod_registro",   
+				"dba"."prof_registrazione",   
+				"dba"."registro"  
+		WHERE ( "dba"."prof_registrazione"."id_mod_registro"       = "dba"."mod_registro"."id_mod_registro" ) and  
+				( "dba"."registro"."id_mod_registro"                 = "dba"."mod_registro"."id_mod_registro" ) and  
+				( "dba"."registro"."id_esercizio"                    = "dba"."esercizio"."id_esercizio" ) and  
+				( "dba"."prof_registrazione"."id_prof_registrazione" = :al_id_prof_registrazione ) AND  
+				( "dba"."esercizio"."id_esercizio"                   = :ll_id_esercizio ) ;
+	CHOOSE CASE SQLCA.SQLCode
+		CASE -1
+			MessageBox("Errore sul DataBase", sqlca.sqlerrtext)
+	END CHOOSE
+
+END IF
+
+RETURN ll_id_registro
+end function
+

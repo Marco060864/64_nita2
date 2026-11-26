@@ -1,0 +1,54 @@
+﻿release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no grid.lines=0 )
+header(height=124 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=long updatewhereclause=yes key=yes identity=yes name=id_par_aperta dbname="par_aperta.id_par_aperta" )
+ column=(type=char(16) updatewhereclause=yes name=num_partita dbname="par_aperta.num_partita" )
+ column=(type=date updatewhereclause=yes name=data_partita dbname="par_aperta.data_partita" )
+ column=(type=decimal(6) updatewhereclause=yes name=importo dbname="importo" )
+ column=(type=decimal(6) updatewhereclause=yes name=saldo dbname="saldo" )
+ column=(type=long updatewhereclause=yes name=id_conto dbname="par_aperta.id_conto" )
+ column=(type=decimal(0) updatewhereclause=yes name=segno_iva dbname="par_aperta.segno_iva" )
+ column=(type=char(1) updatewhereclause=yes name=stato dbname="par_aperta.stato" )
+ column=(type=long updatewhereclause=yes name=id_reg_pd dbname="par_aperta.id_reg_pd" )
+ column=(type=char(80) updatewhereclause=yes name=descrizione dbname="descrizione" )
+ column=(type=long updatewhereclause=yes name=id_chek dbname="id_chek" values="	1/	0" )
+ column=(type=char(20) updatewhereclause=yes name=codice dbname="codice" )
+ column=(type=decimal(6) updatewhereclause=yes name=importo2 dbname="importo2" )
+ retrieve="  SELECT ~"par_aperta~".~"id_par_aperta~",   
+         ~"par_aperta~".~"num_partita~",   
+         ~"par_aperta~".~"data_partita~",   
+         fn_conv_valuta(~"par_aperta~".~"id_valuta~",~"par_aperta~".~"importo~",:rd_val) as importo, 
+         (fn_conv_valuta(~"par_aperta~".~"id_valuta~",~"par_aperta~".~"importo~",:rd_val) - ( ifnull( importo2 , 0 , importo2 ))) as saldo,    
+         ~"par_aperta~".~"id_conto~",   
+         ~"par_aperta~".~"segno_iva~",
+         ~"par_aperta~".~"stato~",
+~"par_aperta~".~"id_reg_pd~",
+ cast((select descrizione from conto where id_conto=~"par_aperta~".~"id_conto~")  as char(80)) as descrizione,
+ cast(0 as integer) as id_chek ,
+   cast((select codice from conto where id_conto=~"par_aperta~".~"id_conto~")  as char(20)) as codice,
+   (select sum(ifnull(mov_partita.importo,0,fn_conv_valuta(~"par_aperta~".~"id_valuta~",mov_partita.importo,:rd_val))) from ~"DBA~".mov_partita where mov_partita.id_par_aperta=par_aperta.id_par_aperta ) as importo2  
+    FROM ~"par_aperta~"
+ where ~"par_aperta~".~"data_partita~" >=:rd_data and 
+   ~"par_aperta~".~"stato~" = 'A'
+order by codice, saldo" update="par_aperta" updatewhere=0 updatekeyinplace=no arguments=(("rd_data", date),("rd_val", number)) )
+text(band=header alignment="2" text="Codice"border="2" color="0" x="82" y="4" height="116" width="389"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Data Partita"border="2" color="0" x="1454" y="4" height="116" width="224"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Num Partita"border="2" color="0" x="1687" y="4" height="116" width="238"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Saldo"border="2" color="0" x="1934" y="4" height="116" width="370"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Importo"border="2" color="0" x="2313" y="4" height="116" width="361"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=header alignment="2" text="Descrizione"border="2" color="0" x="480" y="4" height="116" width="965"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="2766" y="0" height="56" width="197" format="[general]"  name=id_conto edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="1934" y="0" height="64" width="370" format="#,0.00~tf_valu_mask(rd_val)"  name=saldo edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="1687" y="0" height="64" width="238" format="[general]"  name=num_partita edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1454" y="0" height="64" width="224" format="[general]"  name=data_partita edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="82" y="0" height="64" width="389" format="[general]"  name=codice edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="2313" y="0" height="64" width="361" format="#,0.00~tf_valu_mask(rd_val)"  name=importo edit.limit=0 edit.case=any edit.format="#,0.00" edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="2683" y="0" height="64" width="73" format="[general]"  name=id_par_aperta edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="480" y="0" height="64" width="965" format="[general]"  name=descrizione edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=11 alignment="0" tabsequence=10 border="0" color="0" x="9" y="0" height="56" width="64" format="[general]"  name=id_chek checkbox.text="" checkbox.on="1" checkbox.off="0" checkbox.scale=no checkbox.threed=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=9 alignment="0" tabsequence=0 border="0" color="0" x="2976" y="12" height="76" width="119"  name=id_reg_pd  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Id Reg Pd"border="0" color="0" x="2971" y="4" height="76" width="123"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")  

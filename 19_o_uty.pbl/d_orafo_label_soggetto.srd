@@ -1,0 +1,57 @@
+﻿release 9;
+datawindow(units=3 timer_interval=0 color=16777215 processing=2 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 714 print.margin.right = 714 print.margin.top = 1270 print.margin.bottom = 1270 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no label.name="Laser Address 0.50 x 1.75 5267" label.width=6614 label.height=3307 label.rows=20 label.rows.spacing=0 label.columns=4 label.columns.spacing=313 label.topdown=no label.sheet=yes label.shape=roundrectangle label.ellipse_height=83 label.ellipse_width=83 )
+detail(height=3307 color="536870912" )
+table(column=(type=char(40) updatewhereclause=yes name=rag_soc_1 dbname="anagrafica.rag_soc_1" )
+ column=(type=char(40) updatewhereclause=yes name=indirizzo dbname="anagrafica.indirizzo" )
+ column=(type=char(10) updatewhereclause=yes name=cap dbname="anagrafica.cap" )
+ column=(type=char(40) updatewhereclause=yes name=loc dbname="anagrafica.localita" )
+ column=(type=char(5) updatewhereclause=yes name=provincia dbname="anagrafica.provincia" )
+ column=(type=char(5) updatewhereclause=yes name=nazione dbname="anagrafica.nazione" )
+ column=(type=char(16) updatewhereclause=yes name=cod_fiscale dbname="anagrafica.cod_fiscale" )
+ column=(type=char(16) updatewhereclause=yes name=par_iva dbname="anagrafica.par_iva" )
+ column=(type=char(40) updatewhereclause=yes name=sede_indirizzo dbname="sede.indirizzo" )
+ column=(type=char(10) updatewhereclause=yes name=sede_cap dbname="sede.cap" )
+ column=(type=char(40) updatewhereclause=yes name=sede_localita dbname="sede.localita" )
+ column=(type=char(5) updatewhereclause=yes name=sede_provincia dbname="sede.provincia" )
+ column=(type=char(128) updatewhereclause=yes name=c_cap_loc_pr dbname="c_cap_loc_pr" )
+ column=(type=char(40) updatewhereclause=yes name=azienda_rag_soc_2 dbname="azienda.rag_soc_2" )
+ retrieve="SELECT  anagrafica.rag_soc_1 ,
+           anagrafica.indirizzo ,
+           anagrafica.cap ,
+           anagrafica.localita ,
+           anagrafica.provincia ,
+           anagrafica.nazione ,
+           anagrafica.cod_fiscale ,
+           anagrafica.par_iva,
+				sede.indirizzo,
+				sede.cap,
+				sede.localita,
+				sede.provincia,
+cast( sede.cap + ' ' +sede.localita+ ' ' +sede.provincia as char(128)) as c_cap_loc_pr,
+			azienda.rag_soc_2 
+        FROM anagrafica, azienda, sede      
+        WHERE anagrafica.id_azienda=azienda.id_azienda
+		and azienda.id_azienda=sede.id_azienda
+and ( anagrafica.rag_soc_1 = :ra_rag )   " arguments=(("ra_rag", string)) )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="291" y="1984" height="502" width="1825" format="[general]" html.valueishtml="0"  name=cap visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="2328" y="2010" height="502" width="926" format="[general]" html.valueishtml="0"  name=provincia visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="3413" y="2010" height="502" width="926" format="[general]" html.valueishtml="0"  name=nazione visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="238" y="2619" height="502" width="2936" format="[general]" html.valueishtml="0"  name=cod_fiscale visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="3466" y="2619" height="502" width="2936" format="[general]" html.valueishtml="0"  name=par_iva visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="317" y="185" height="502" width="5873" format="[general]" html.valueishtml="0"  name=rag_soc_1 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="317" y="793" height="502" width="5873" format="[general]" html.valueishtml="0"  name=indirizzo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="291" y="1402" height="502" width="5529" format="[general]" html.valueishtml="0"  name=loc visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression=" page() + ' di ' + pageCount()"border="0" color="0" x="2354" y="3651" height="396~t0" width="1270~t0" format="[general]" html.valueishtml="0"  name=page visible="1"  font.face="Arial" font.height="-8" font.weight="400~t0"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="0" text="" border="0" color="0" x="4497" y="3545" height="502" width="635" html.valueishtml="0"  name=t_cod_azienda visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="6164" y="5080" height="370" width="5291" format="[general]" html.valueishtml="0"  name=sede_indirizzo visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="6138" y="4577" height="370" width="1322" format="[general]" html.valueishtml="0"  name=sede_cap visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="0" x="6138" y="4021" height="370" width="5291" format="[general]" html.valueishtml="0"  name=sede_localita visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="6085" y="3571" height="370" width="661" format="[general]" html.valueishtml="0"  name=sede_provincia visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="6006" y="5741" height="370" width="4365" format="[general]" html.valueishtml="0"  name=c_cap_loc_pr visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=14 alignment="0" tabsequence=0 border="0" color="0" x="5767" y="6402" height="370" width="5291" html.valueishtml="0"  name=azienda_rag_soc_2 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+  

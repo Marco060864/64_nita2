@@ -1,0 +1,206 @@
+﻿release 5;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=1169 color="536870912" )
+table(column=(type=long updatewhereclause=yes identity=yes name=id_con_lis_articolo dbname="id_con_lis_articolo" )
+ column=(type=char(1) updatewhereclause=yes name=applicazione dbname="applicazione" values="Acquisti	A/Vendite	V/" validation=" gettext()  = 'A' OR  gettext()  = 'V'" validationmsg="'Immettere: A, V'" )
+ column=(type=char(8) updatewhereclause=yes name=sog_commerciale_codice dbname="codice" )
+ column=(type=char(40) updatewhereclause=yes name=articolo_descrizione dbname="descrizione" )
+ column=(type=char(8) updatewhereclause=yes name=articolo_codice dbname="codice" )
+ column=(type=char(40) updatewhereclause=yes name=rag_soc_1 dbname="rag_soc_1" )
+ column=(type=char(32) updatewhereclause=yes name=unita_confezione_codice dbname="codice" )
+ column=(type=char(80) updatewhereclause=yes name=unita_confezione_descrizione dbname="descrizione" )
+ column=(type=char(32) updatewhereclause=yes name=articolo_codice dbname="codice" )
+ column=(type=char(80) updatewhereclause=yes name=articolo_descrizione dbname="descrizione" )
+ column=(type=long updatewhereclause=yes name=id_cat_com_sc dbname="id_cat_com_sc" )
+ column=(type=long updatewhereclause=yes name=id_cat_com_articolo dbname="id_cat_com_articolo" )
+ column=(type=long updatewhereclause=yes name=listino_descrizione dbname="id_listino" )
+ column=(type=date updatewhereclause=yes name=data_inizio dbname="data_inizio" )
+ column=(type=date updatewhereclause=yes name=data_fine dbname="data_fine" )
+ column=(type=decimal(4) updatewhereclause=yes name=qta_minima dbname="qta_minima" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) updatewhereclause=yes name=qta_massima dbname="qta_massima" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_applicazione dbname="tipo_applicazione" initial="P" values="Percentuali di  sconto	P/Importo di sconto	I/percentuali di Sconto riga	S/importo di sconto Riga	R/percentuali di sconto Documento	D/Costo medio continuo	C/" )
+ column=(type=long updatewhereclause=yes name=id_valuta_des dbname="id_valuta" )
+ column=(type=decimal(4) updatewhereclause=yes name=cambio dbname="cambio" validation=" real(gettext())  >= 0" validationmsg="'Immettere un valore >= 0'" )
+ column=(type=decimal(4) updatewhereclause=yes name=importo dbname="importo" )
+ column=(type=char(40) updatewhereclause=yes name=percentuali dbname="percentuali" )
+ column=(type=char(40) updatewhereclause=yes name=spesa dbname="spesa" )
+ column=(type=decimal(4) updatewhereclause=yes name=spesa_fissa dbname="spesa_fissa" )
+ column=(type=decimal(0) updatewhereclause=yes name=con_lis_articolo_priorita dbname="priorita" )
+ column=(type=long updatewhereclause=yes name=id_azienda dbname="id_azienda" initial="1" )
+ column=(type=char(40) updatewhereclause=yes name=anagrafica_rag_soc_1 dbname="rag_soc_1" )
+ column=(type=char(8) updatewhereclause=yes name=sog_commerciale_codice dbname="codice" )
+ column=(type=char(40) updatewhereclause=yes name=anagrafica_rag_soc_1 dbname="rag_soc_1" )
+ column=(type=long updatewhereclause=yes name=id_unita_confezione dbname="id_unita_confezione" )
+ column=(type=long updatewhereclause=yes name=id_sog_commerciale dbname="id_sog_commerciale" )
+ column=(type=long updatewhereclause=yes name=id_art_da dbname="id_art_da" )
+ column=(type=long updatewhereclause=yes name=id_sog_commerciale_fornitore dbname="id_sog_commerciale_fornitore" )
+ column=(type=long updatewhereclause=yes name=id_anagrafica dbname="id_anagrafica" )
+ column=(type=long updatewhereclause=yes name=id_art_a dbname="id_art_a" )
+ column=(type=decimal(2) updatewhereclause=yes name=coef_calo dbname="coef_calo" )
+ retrieve="  SELECT ~"con_lis_articolo~".~"id_con_lis_articolo~",   
+         ~"con_lis_articolo~".~"applicazione~",   
+         ~"unita_confezione~".~"codice~",   
+         ~"unita_confezione~".~"descrizione~",   
+         ~"sog_commerciale_a~".~"codice~",   
+         ~"anagrafica_a~".~"rag_soc_1~",   
+         ~"articolo_a~".~"codice~",   
+         ~"articolo_a~".~"descrizione~",   
+         ~"articolo_b~".~"codice~",   
+         ~"articolo_b~".~"descrizione~",   
+         ~"con_lis_articolo~".~"id_cat_com_sc~",   
+         ~"con_lis_articolo~".~"id_cat_com_articolo~",   
+         ~"con_lis_articolo~".~"id_listino~",   
+         ~"con_lis_articolo~".~"data_inizio~",   
+         ~"con_lis_articolo~".~"data_fine~",   
+         ~"con_lis_articolo~".~"qta_minima~",   
+         ~"con_lis_articolo~".~"qta_massima~",   
+         ~"con_lis_articolo~".~"tipo_applicazione~",   
+         ~"con_lis_articolo~".~"id_valuta~",   
+         ~"con_lis_articolo~".~"cambio~",   
+         ~"con_lis_articolo~".~"importo~",   
+         ~"con_lis_articolo~".~"percentuali~",   
+         ~"con_lis_articolo~".~"spesa~",   
+           ~"con_lis_articolo~".~"spesa_fissa~", 
+         ~"con_lis_articolo~".~"priorita~",   
+         ~"con_lis_articolo~".~"id_azienda~",   
+         ~"anagrafica_b~".~"rag_soc_1~",   
+         ~"sog_commerciale_b~".~"codice~",   
+         ~"anagrafica_c~".~"rag_soc_1~",   
+         ~"con_lis_articolo~".~"id_unita_confezione~",   
+         ~"con_lis_articolo~".~"id_sog_commerciale~",   
+         ~"con_lis_articolo~".~"id_art_da~",   
+         ~"con_lis_articolo~".~"id_sog_commerciale_fornitore~",   
+         ~"con_lis_articolo~".~"id_anagrafica~",   
+         ~"con_lis_articolo~".~"id_art_a~",
+         ~"con_lis_articolo~".~"coef_calo~"  
+    FROM {oj {oj ~"con_lis_articolo~"  LEFT OUTER JOIN ~"unita_confezione~"  ON ~"con_lis_articolo~".~"id_unita_confezione~" = ~"unita_confezione~".~"id_unita_confezione~"}, {oj ~"con_lis_articolo~"  LEFT OUTER JOIN ~"sog_commerciale~" sog_commerciale_a  ON ~"con_lis_articolo~".~"id_sog_commerciale~" = ~"sog_commerciale_a~".~"id_sog_commerciale~"} LEFT OUTER JOIN ~"anagrafica~" anagrafica_a  ON ~"sog_commerciale_a~".~"id_anagrafica~" = ~"anagrafica_a~".~"id_anagrafica~"}, {oj ~"sog_commerciale~" sog_commerciale_b  LEFT OUTER JOIN ~"anagrafica~" anagrafica_b  ON ~"sog_commerciale_b~".~"id_anagrafica~" = ~"anagrafica_b~".~"id_anagrafica~"}, {oj ~"con_lis_articolo~"  LEFT OUTER JOIN ~"sog_commerciale~" sog_commerciale_b  ON ~"con_lis_articolo~".~"id_sog_commerciale_fornitore~" = ~"sog_commerciale_b~".~"id_sog_commerciale~"}, {oj ~"con_lis_articolo~"  LEFT OUTER JOIN ~"articolo~" articolo_a  ON ~"con_lis_articolo~".~"id_art_da~" = ~"articolo_a~".~"id_articolo~"}, {oj ~"con_lis_articolo~"  LEFT OUTER JOIN ~"articolo~" articolo_b  ON ~"con_lis_articolo~".~"id_art_a~" = ~"articolo_b~".~"id_articolo~"}, {oj ~"con_lis_articolo~"  LEFT OUTER JOIN ~"anagrafica~" anagrafica_c  ON ~"con_lis_articolo~".~"id_anagrafica~" = ~"anagrafica_c~".~"id_anagrafica~"}  
+   WHERE ~"con_lis_articolo~".~"id_con_lis_articolo~" = :ra_id_con_lis_articolo    
+" arguments=(("ra_id_con_lis_articolo", number)) )
+text(band=detail alignment="1" text="Importo di maggiorazione:"border="0" color="41943040" x="115" y="792" height="57" width="558"  name=spesa_fissa_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Tipo Applicazione:"border="0" color="41943040" x="261" y="24" height="57" width="412"  name=tipo_applicazione_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Listino:"border="0" color="41943040" x="257" y="152" height="57" width="412"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Percentuali di Sconto:
+ES. +10+20-30"border="0" color="41943040" x="33" y="536" height="113" width="641"  name=percentuali_t  font.face="Arial" font.height="-8" font.weight="400~tcase(  tipo_applicazione 
+when 'P' then 400
+when 'I' then 400
+when 'R' then 400
+when 'C' then 700
+when 'D' then 700
+when 'S' then 700 )"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Percentuali di maggiorazione:"border="0" color="41943040" x="33" y="664" height="57" width="641"  name=spesa_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Valuta:"border="0" color="41943040" x="247" y="280" height="57" width="412"  name=id_valuta_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Importo:"border="0" color="41943040" x="247" y="408" height="57" width="412"  name=importo_1 visible="1~tif ( tipo_applicazione = 'P', 0, 1 )"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=20 border="5" color="41943040" x="705" y="152" height="73" width="339" format="[general]" protect="0~tcase(  tipo_applicazione 
+when 'P' then 0
+when 'I' then 0
+when 'R' then 1
+when 'C' then 1
+when 'D' then 1
+when 'S' then 1 )"  name=id_listino dddw.name=d_listino_cod_sl dddw.displaycolumn=codice dddw.datacolumn=id_listino dddw.percentwidth=400 dddw.lines=0 dddw.limit=0 dddw.allowedit=yes dddw.useasborder=yes dddw.case=any dddw.nilisnull=yes dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tcase(  tipo_applicazione 
+when 'P' then 16777215
+when 'I' then 16777215
+when 'R' then 12632256
+when 'C' then 12632256
+when 'D' then 12632256 
+when 'S' then 12632256 )" )
+column(band=detail id=19 alignment="0" tabsequence=40 border="5" color="41943040" x="705" y="280" height="73" width="339" format="[general]" protect="0~tcase(  tipo_applicazione 
+when 'P' then 0
+when 'I' then 0
+when 'R' then 0
+when 'C' then 1
+when 'D' then 1
+when 'S' then 1 )"  name=id_valuta dddw.name=d_valuta_cod_sl dddw.displaycolumn=codice dddw.datacolumn=id_valuta dddw.percentwidth=340 dddw.lines=0 dddw.limit=4 dddw.allowedit=yes dddw.useasborder=yes dddw.case=upper dddw.nilisnull=yes dddw.autohscroll=yes dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tcase(  tipo_applicazione 
+when 'P' then 16777215
+when  'I' then 16777215
+when 'R' then 16777215
+when 'C' then 12632256
+when 'D' then 12632256 
+when 'S' then 12632256 )" )
+column(band=detail id=18 alignment="0" tabsequence=10 border="5" color="41943040" x="705" y="24" height="73" width="1326" format="[general]"  name=tipo_applicazione ddlb.limit=0 ddlb.allowedit=yes ddlb.case=any ddlb.nilisnull=yes ddlb.vscrollbar=yes ddlb.useasborder=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+column(band=detail id=13 alignment="0" tabsequence=30 border="5" color="41943040" x="1070" y="152" height="73" width="961" format="[general]" protect="0~tcase(  tipo_applicazione 
+when 'P' then 0
+when 'I' then 0
+when 'R' then 1
+when 'C' then 1
+when 'D' then 1
+when 'S' then 1 )"  name=listino_descrizione dddw.name=d_listino_cod_sl dddw.displaycolumn=descrizione dddw.datacolumn=id_listino dddw.percentwidth=200 dddw.lines=0 dddw.limit=0 dddw.allowedit=yes dddw.useasborder=yes dddw.case=any dddw.nilisnull=yes dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tcase(  tipo_applicazione 
+when 'P' then 16777215
+when 'I' then 16777215
+when 'R' then 12632256
+when 'C' then 12632256
+when 'D' then 12632256 
+when 'S' then 12632256 )" )
+column(band=detail id=19 alignment="0" tabsequence=50 border="5" color="41943040" x="1070" y="280" height="73" width="961" format="[general]" protect="0~tcase(  tipo_applicazione 
+when 'P' then 0
+when 'I' then 0
+when 'R' then 0
+when 'C' then 1
+when 'D' then 1
+when 'S' then 1 )"  name=id_valuta_des dddw.name=d_valuta_des_sl dddw.displaycolumn=descrizione dddw.datacolumn=id_valuta dddw.percentwidth=115 dddw.lines=0 dddw.limit=40 dddw.allowedit=yes dddw.useasborder=yes dddw.case=any dddw.nilisnull=yes dddw.autohscroll=yes dddw.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tcase(  tipo_applicazione 
+when 'P' then 16777215
+when 'I' then 16777215
+when 'R' then 16777215
+when 'C' then 12632256
+when 'D' then 12632256 
+when 'S' then 12632256 )" )
+text(band=detail alignment="1" text="Prezzo:"border="0" color="41943040" x="247" y="408" height="57" width="412"  name=prezzo_t visible="1~tif ( tipo_applicazione = 'P', 1, 0 )"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=21 alignment="1" tabsequence=60 border="5" color="41943040" x="705" y="408" height="73" width="1326" format="#,0.####~tif(right(string(  importo *10000 ), 4)=~"0000~", '#,0', '#,0.0000')" protect="0~tcase(  tipo_applicazione 
+when 'P' then 0
+when 'I' then 0
+when 'R' then 0
+when 'C' then 1
+when 'D' then 1
+when 'S' then 1 )"  name=importo edit.limit=14 edit.case=any edit.format="#,0 " edit.autoselect=yes edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tcase(  tipo_applicazione 
+when 'P' then 16777215
+when 'I' then 16777215
+when 'R' then 16777215
+when 'C' then 12632256
+when 'D' then 12632256
+when 'S' then 12632256 )" )
+column(band=detail id=22 alignment="0" tabsequence=70 border="5" color="33554432" x="705" y="536" height="73" width="1326" format="[general]" protect="0~tcase(  tipo_applicazione 
+when 'P' then 0
+when 'I' then 1
+when 'R' then 1
+when 'C' then 1
+when 'D' then 0
+when 'S' then 0 )"  name=percentuali edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tcase(  tipo_applicazione 
+when 'P' then 16777215  
+when 'I' then 12632256 
+when 'R' then 12632256 
+when 'C' then 12632256 
+when 'D' then 16777215 
+when 'S' then 16777215 )" )
+column(band=detail id=23 alignment="0" tabsequence=80 border="5" color="41943040" x="705" y="664" height="73" width="1326" format="[general]" protect="0~tcase(  tipo_applicazione 
+when 'P' then 0
+when 'I' then 0
+when 'R' then 1
+when 'C' then 1
+when 'D' then 1
+when 'S' then 1 )"  name=spesa edit.limit=40 edit.case=any edit.autoselect=yes edit.nilisnull=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tcase(  tipo_applicazione 
+when 'P' then 16777215
+when 'I' then 16777215
+when 'R' then 12632256
+when 'C' then 12632256
+when 'D' then 12632256
+when 'S' then 12632256 )" )
+column(band=detail id=24 alignment="0" tabsequence=90 border="5" color="33554432" x="705" y="792" height="73" width="1326" format="[general]" protect="0~tcase(  tipo_applicazione 
+when 'P' then 0
+when 'I' then 0
+when 'R' then 1
+when 'C' then 1
+when 'D' then 1
+when 'S' then 1 )"  name=spesa_fissa edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.nilisnull=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="1090519039~tcase(  tipo_applicazione 
+when 'P' then 16777215
+when 'I' then 16777215
+when 'R' then 12632256
+when 'C' then 12632256
+when 'D' then 12632256
+when 'S' then 12632256 )" )
+column(band=detail id=25 alignment="0" tabsequence=32766 border="5" color="33554432" x="705" y="920" height="73" width="1326" format="[general]"  name=con_lis_articolo_priorita edit.limit=0 edit.case=any edit.autoselect=yes edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+column(band=detail id=36 alignment="0" tabsequence=100 border="5" color="41943040" x="705" y="1048" height="73" width="1326" format="[general]"  name=coef_calo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1090519039" )
+text(band=detail alignment="1" text="Priorità:"border="0" color="41943040" x="508" y="920" height="57" width="165"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="0" text="Coefficente di Calo:"border="0" color="33554432" x="243" y="1048" height="57" width="430"  name=coef_calo_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+  

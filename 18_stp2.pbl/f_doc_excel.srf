@@ -1,0 +1,86 @@
+﻿global type f_doc_excel from function_object
+end type
+
+forward prototypes
+global subroutine f_doc_excel (udw_001 audw_riga_doc)
+end prototypes
+
+global subroutine f_doc_excel (udw_001 audw_riga_doc);string ls_des_k, ls_des, ls_galv, ls_num_cliente,ls_nome_file, ls_prof, ls_num_doc, ls_versione_office
+decimal ldc_legato, ldc_p_medio, ldc_pr_man, ldc_pr_pz, ldc_pr_met_galv, ldc_tara
+long ll_prog_padre, ll_id_art, ll_riga_inserita,ll_id_doc
+integer i, li_pezzi
+date ldt_data_doc
+//datastore ds_doc_excel
+int li_rtn
+//long ll_excel_rows
+string ls_range
+oleobject lole_excel, lole_workbook, lole_worksheet, lole_range
+
+lole_excel = create oleobject
+li_rtn = lole_excel.ConnectToNewObject("excel.application")
+if li_rtn <> 0 then
+      MessageBox( "Error", 'Error running MS Excel api.')
+      destroy lole_Excel
+else
+	  lole_excel.WorkBooks.Open("C:\nita\excel\modello.xls") 
+	
+	  lole_workbook = lole_excel.application.workbooks(1)
+	  lole_worksheet = lole_workbook.worksheets(1)
+	  ls_versione_office=string(lole_excel.Version)
+end if
+ll_id_doc=audw_riga_doc.getitemnumber(1, "id_documento")
+select p.codice, num_documento, data_documento
+into :ls_prof, :ls_num_doc, :ldt_data_doc
+from dba.documento d, prof_documento p
+where p.id_prof_documento=d.id_prof_documento and id_documento=:ll_id_doc;
+ls_nome_file=ls_prof+"_"+ls_num_doc+"_"+string(ldt_data_doc, "dd-mm-yy")
+  
+for i= 1 to audw_riga_doc.rowcount()
+	
+	ls_num_cliente=audw_riga_doc.getitemstring(i, "c_num_cliente")
+	ll_prog_padre=long(audw_riga_doc.getitemstring(i, "c_num_doc_derivato"))
+	ls_galv=audw_riga_doc.getitemstring(i, "c_galvanica")
+	ls_des=audw_riga_doc.getitemstring(i, "riga_documento_descrizione")
+	ls_des_k=audw_riga_doc.getitemstring(i, "c_des_k")
+	li_pezzi=audw_riga_doc.getitemnumber(i, "quantita")
+	ldc_legato=audw_riga_doc.getitemdecimal(i, "riga_documento_peso_netto")
+	ldc_p_medio=audw_riga_doc.getitemdecimal(i, "c_p_medio")
+	ldc_pr_man=audw_riga_doc.getitemdecimal(i, "c_pr_man")
+	ldc_pr_pz=audw_riga_doc.getitemdecimal(i, "c_pr_pz")
+	ldc_pr_met_galv=audw_riga_doc.getitemdecimal(i, "prezzo_metallo")
+	ldc_tara=audw_riga_doc.getitemdecimal(i, "riga_documento_peso_lordo")
+	ll_id_art=audw_riga_doc.getitemnumber(i, "riga_documento_id_articolo")
+
+	  // Set the cell value  
+	lole_worksheet.cells(i+1,1).value = ls_num_cliente
+	lole_worksheet.cells(i+1,2).value = ll_prog_padre
+	lole_worksheet.cells(i+1,3).value = ls_galv
+	lole_worksheet.cells(i+1,4).value =ls_des
+	
+	lole_worksheet.cells(i+1,5).value = ls_des_k
+	lole_worksheet.cells(i+1,6).value = li_pezzi
+	lole_worksheet.cells(i+1,7).value = ldc_legato
+	lole_worksheet.cells(i+1,8).value =ldc_p_medio
+	
+	lole_worksheet.cells(i+1,9).value = ldc_pr_man
+	lole_worksheet.cells(i+1,10).value = ldc_pr_pz
+	lole_worksheet.cells(i+1,11).value = ldc_pr_met_galv
+	lole_worksheet.cells(i+1,12).value =ldc_tara
+	lole_worksheet.cells(i+1,13).value =ll_id_art
+next
+
+ls_nome_file="c:\nita\excel\"+ls_nome_file+".xls"
+//messagebox("2", ls_nome_file)
+if pos(ls_versione_office, "8.0")>0 then
+	 lole_workbook.saveas(ls_nome_file, 43)  //formato 95/97
+else
+  lole_workbook.saveas(ls_nome_file, 56) ////formato più compatibile
+end if
+  // Quit
+  lole_excel.application.quit()
+  lole_excel.DisconnectObject()
+
+  destroy lole_Excel
+
+end subroutine
+

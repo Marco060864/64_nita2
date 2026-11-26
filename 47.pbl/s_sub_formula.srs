@@ -1,0 +1,7 @@
+﻿global type s_sub_formula from structure
+	string		s_subreport
+	string		s_selection_formula
+	string		s_group_formula
+	s_formula		str_formula[]
+end type
+

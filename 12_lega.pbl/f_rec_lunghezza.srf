@@ -1,0 +1,21 @@
+﻿global type f_rec_lunghezza from function_object
+end type
+
+forward prototypes
+global function boolean f_rec_lunghezza (string as_cod_art)
+end prototypes
+
+global function boolean f_rec_lunghezza (string as_cod_art);string ls_ges_lunghezza
+
+select ges_matricole
+into :ls_ges_lunghezza
+from dba.articolo
+where codice=:as_cod_art
+;
+if ls_ges_lunghezza='S' then
+	return true
+else
+	return false
+end if
+end function
+

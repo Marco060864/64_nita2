@@ -1,0 +1,10 @@
+﻿global type s_ordine_fornitori from structure
+	datawindow		dw_righe
+	string		num_doc[]
+	date		data_reg[]
+	string		rag_sociale[]
+	character		personalizza
+	datawindow		dw_ordini
+	long		num_prog[]
+end type
+

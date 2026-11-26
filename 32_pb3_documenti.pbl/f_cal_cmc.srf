@@ -1,0 +1,22 @@
+﻿global type f_cal_cmc from function_object
+end type
+
+forward prototypes
+global subroutine f_cal_cmc (long al_articolo, long al_magazzino, long al_attivita, decimal ad_prezzo, datetime adt_datatime)
+end prototypes
+
+global subroutine f_cal_cmc (long al_articolo, long al_magazzino, long al_attivita, decimal ad_prezzo, datetime adt_datatime);
+update cmc
+set cmc=:ad_prezzo, data_cmc=:adt_datatime
+where id_articolo=:al_articolo
+and id_attivita=:al_attivita
+and id_magazzino=:al_magazzino;
+if sqlca.sqlcode=-1 then messagebox("ERR DB", sqlca.sqlerrtext)
+if sqlca.sqlcode=0 and sqlca.SQLNRows < 1 then
+	insert into cmc (id_articolo, id_magazzino, id_attivita, cmc, data_cmc)
+	values (:al_articolo, :al_magazzino, :al_attivita, :ad_prezzo, :adt_datatime);
+end if
+if sqlca.sqlcode=-1 then messagebox("ERR DB", sqlca.sqlerrtext)
+
+end subroutine
+

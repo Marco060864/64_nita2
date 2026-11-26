@@ -1,0 +1,9 @@
+﻿global type s_fabbisogno from structure
+	long		id_distinta
+	string		tipo_cal_valore
+	string		tipo_applicazione
+	date		data_inizio
+	date		data_fine
+	decimal {0}	quantita
+end type
+

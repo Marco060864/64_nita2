@@ -1,0 +1,346 @@
+﻿global type f_esplodi_documento_2_041212 from function_object
+end type
+
+forward prototypes
+global subroutine f_esplodi_documento_2_041212 (u_tv_distinta tv_dis, long ll_root, boolean lb_con, long id, date data_inizio, date data_fine, long id_testa, datawindow dw_esplodi, decimal quantita, integer ges_lotti, long riga_corrente)
+end prototypes
+
+global subroutine f_esplodi_documento_2_041212 (u_tv_distinta tv_dis, long ll_root, boolean lb_con, long id, date data_inizio, date data_fine, long id_testa, datawindow dw_esplodi, decimal quantita, integer ges_lotti, long riga_corrente);
+long id_base,id_f,ll_child,id_art,id_var,ll_app,ll_id_riga,ll_num_riga,ll_figlio,ll_id_componente
+long ll_riga_trovata,ll_padre,ll_numero,ll_id_doc, ll_id_uc
+boolean controllo
+decimal{4} cs,app,qt,ld_quantita,ld_costo,ld_qt_app, ld_qta
+string cod,tg,pt,testa,path,des,ls_cod_app
+treeviewitem tvi ,ltvi_app
+s_val ls_app,ls_ritorno
+dati dat,dat_app
+dwobject ldwo_app
+controllo=false
+string ls_fine,ls_inizio, ls_dist, ls_bollo, ls_riga_dis_varie
+long ll_id_riga_padre, ll_trova_riga_padre
+decimal ldc_tot_fisso, ld_dim_confezione, ld_dim_documento, ld_qta_componente
+integer li_arrotonda
+
+ls_fine=string(data_fine,'yy/mm/dd')
+ls_inizio=string(data_inizio,'yy/mm/dd')
+//mm inserito per esplodere le distinte che hanno due articoli uguali fra le righe 150110
+select st_dis_tale_quale
+into :ls_dist
+from orafo_par_sistema
+;
+ll_id_riga_padre=dw_esplodi.getitemnumber(riga_corrente, "id_riga_documento")
+ll_id_doc=dw_esplodi.getitemnumber(riga_corrente, "id_documento")
+
+
+DECLARE recupera CURSOR FOR
+  SELECT "articolo"."codice", 
+  			"articolo"."descrizione", 
+  			"articolo"."id_articolo",	
+			"articolo"."immagine",
+			"riga_distinta"."tipo_riga",            
+         "riga_distinta"."quantita",   
+         "riga_distinta"."costo",    
+			"riga_distinta"."id_dis_figlio",
+			"riga_distinta"."id_riga_distinta",
+			"riga_distinta"."num_riga",
+			"riga_distinta"."id_componente",
+			"riga_distinta"."varie"
+    FROM "articolo",   
+         "riga_distinta",   
+       	"distinta"  ,
+   WHERE ( "articolo"."id_articolo" = "riga_distinta"."id_articolo" ) and  
+         ( "distinta"."id_distinta" = "riga_distinta"."id_distinta" ) and 
+			(( dateformat("riga_distinta"."data_fine",'yy/mm/dd')>=:ls_inizio )and 
+			( dateformat("riga_distinta"."data_fine",'yy/mm/dd')<=:ls_fine ) OR
+			("riga_distinta"."data_fine"  is null) and ("riga_distinta"."data_fine" is null )) and
+			(("riga_distinta"."id_distinta" =  :id_base )  or
+          ("riga_distinta"."id_distinta" = :id_var and  "riga_distinta"."id_dis_var"=null) or
+			 ("riga_distinta"."id_dis_var"=:id_var) and ("riga_distinta"."id_distinta" =:id_testa))  and
+			("riga_distinta"."id_riga_distinta" not in (select "var_riga_distinta"."id_riga_distinta"
+			from "var_riga_distinta" where "var_riga_distinta"."id_dis_variante"=:id_testa))
+	ORDER BY "riga_distinta"."num_riga" ;
+ll_app=ll_root
+if lb_con=true then
+	select articolo.id_articolo,articolo.codice,articolo.immagine
+	into:id_art,:testa,:path
+	from articolo,distinta
+	where distinta.id_distinta=:id
+	and articolo.id_articolo=distinta.id_articolo;
+	dat.quantita=1
+	dat.path=path
+	dat.id_dis_figlio=id
+	dat.id_articolo=id_art
+	dat.id_distinta=id
+	tvi.data=dat
+	tvi.label=testa
+	tvi.pictureindex=4
+	tvi.selectedpictureindex=4
+	tvi.Expanded=true
+	ll_root=tv_dis.insertitemfirst(0,tvi)
+	ll_app=ll_root
+end if
+if ll_root<> -1 then
+	tv_dis.getitem(ll_root,tvi)
+	dat=tvi.data
+	id_var=dat.id_dis_figlio
+	select id_dis_base
+	into :id_base
+	from distinta
+	where id_distinta=:id_var;
+	if isnull(id_base) then id_base=id_var
+end if
+//110612 recupero il bollo eventuale dell'articolo
+ls_bollo=dw_esplodi.getitemstring(riga_corrente, "sigla_prezzo")
+//fine 110612
+open recupera;
+	fetch recupera into :cod,:des,:id_art,:pt,:tg,:qt,:cs,:id_f,:ll_id_riga,:ll_num_riga,:ll_id_componente, :ls_riga_dis_varie;
+do while sqlca.sqlcode=0
+	if sqlca.sqlcode=0 then 
+		if id_f>0 then controllo=true
+		if ll_id_componente>0 and not isnull(ll_id_componente) then
+			long ll_art_comp,ll_comp,i
+			for i=1 to upperbound(tv_dis.is_comp) 
+				ll_comp=tv_dis.is_comp[i].id_componente
+				if ll_comp=ll_id_componente then
+					ll_art_comp=tv_dis.is_comp[i].id_articolo					
+					select codice,descrizione
+					into :cod,:des
+					from articolo
+					where id_articolo=:ll_art_comp;
+					select id_distinta
+					into :id_f
+					from distinta
+					where id_articolo=:ll_art_comp;
+					if sqlca.sqlcode=0 then 
+						controllo=true
+					else
+						setnull(id_f)
+					end if
+					exit
+				end if
+				
+			next
+		end if
+		
+		
+		
+		dat.path=pt
+		dat.id_articolo=id_art
+		dat.id_dis_figlio=id_f
+		dat.id_distinta=id_f
+		dat.id_riga=ll_id_riga
+		dat.quantita=qt
+		dat.costo=cs
+		dat.codice=cod
+		dat.descrizione=des
+		dat.tipo_riga=tg
+		dat.num_riga=ll_num_riga
+		if id_f>0 then
+			tvi.Expanded=true
+		else	
+			tvi.Expanded=false
+		end if
+		tvi.data=dat
+		ll_padre=ll_root
+		do while ll_padre<> -1
+			tv_dis.getitem(ll_padre,ltvi_app)
+			dat_app=ltvi_app.data
+			ld_qt_app=dat_app.quantita
+			
+			//050912 gestione lunghezza variante dell'articolo in distinta
+			if ls_riga_dis_varie='J' or ls_riga_dis_varie='L' then
+			//ci vuole la misura dell'articolo regolare (trovo in articolo padre unitaconfezione campo dim_l)
+				select dim_l
+				into :ld_dim_confezione
+				from dba.unita_confezione u, dba.distinta d
+				where d.id_distinta=:id_base
+				and u.id_articolo=d.id_articolo
+				and u.unita_base='S'
+				;
+				//poi si trova la lunghezza e la qta indicata nella riga documento
+				select dim_l
+				into :ld_dim_documento
+				from dba.riga_documento
+				where id_riga_documento=:ll_id_riga_padre
+				;
+				//se le sue misure sono uguali non dobbiamo fare nulla
+				//la qta del doc dovrebbe essere questa come quella del componente
+				ld_qta_componente=qt
+				if ld_dim_documento <> ld_dim_confezione then
+					
+				
+				//intanto occorre trovare la lunghezza fissa per poi stornarla alla luhgezza che varia
+				  ldc_tot_fisso=0
+				  select sum(u.dim_l)  
+				  into :ldc_tot_fisso
+				  from dba.unita_confezione u, dba.riga_distinta r, dba.articolo a
+					where r.id_distinta= :id_base
+					and a.id_articolo=u.id_articolo
+					and u.unita_base='S'
+					and r.id_articolo=a.id_articolo
+					 and (r.varie='C' or r.varie='B' or r.varie='I')
+					 ;		
+				  if isnull(ldc_tot_fisso) then ldc_tot_fisso=0
+					if integer(ld_qta_componente)=ld_qta_componente then 
+						li_arrotonda=0
+					else
+						li_arrotonda=2
+					end if
+	//				ldc_tot_fisso=ld_qta_componente/(ld_dim_confezione - ldc_tot_fisso)
+					
+	//				ld_qta=(ld_qta_componente + (ld_dim_documento- ldc_tot_fisso- ld_dim_confezione)*ld_qta_componente/(ld_dim_confezione - ldc_tot_fisso))
+					//provo così
+					ld_qta=(ld_dim_documento - ldc_tot_fisso)/(ld_dim_confezione - ldc_tot_fisso) * ld_qta_componente
+								
+					ld_qta=round(ld_qta, li_arrotonda)
+					qt=ld_qta
+				end if
+				
+			//050912 fine gestione lunghezza variante
+				
+			end if
+			
+			qt=qt*ld_qt_app
+			ll_padre=tv_dis.finditem(parenttreeitem!,ll_padre)
+		loop
+		ll_child=tv_dis.insertitemlast(ll_root,tvi)
+		if id_f>0 then
+			
+		else
+			select id_unita_confezione
+			INTO :ll_id_uc
+			FROM DBA.UNITA_CONFEZIONE
+			WHERE ID_ARTICOLO=:ID_ART
+			AND UNITA_BASE='S'
+			;
+			
+		
+			//mm inserito per esplodere le distinte che hanno due articoli uguali fra le righe 150110
+			if ges_lotti=1  or ls_dist='S' then
+				ll_riga_trovata=0
+			else
+				ll_riga_trovata=dw_esplodi.find("riga_documento_id_articolo="+string(id_art),1,dw_esplodi.rowcount())
+			end if
+			if ll_riga_trovata>0 then
+				ld_quantita=dw_esplodi.getitemnumber(ll_riga_trovata,"quantita")
+				
+				ld_quantita=ld_quantita+(qt*quantita)
+				dw_esplodi.setitem(ll_riga_trovata,"quantita",ld_quantita)
+				//aggiunta 11-05-12
+				dw_esplodi.setitem(ll_riga_trovata,"qta_un_base",ld_quantita)
+				//fine 11-05-12
+				//inserito 110612 per gestire il bollo nell'esplosione distinta (componente ha stesso bollo della distinta)
+				if ls_riga_dis_varie='B' then
+					dw_esplodi.setitem(ll_riga_trovata,"sigla_prezzo",ls_bollo)
+				end if
+				//fine 110612
+				ldwo_app=dw_esplodi.object.quantita
+				dw_esplodi.setrow(ll_riga_trovata)
+				//faccio ricalcolare il peso del componente 110610 (infatti se è =0 lo mette in automatico itemchanged
+				dw_esplodi.setitem(ll_riga_trovata, "riga_documento_peso_netto", 0)
+				dw_esplodi.event trigger itemchanged(ll_riga_trovata,ldwo_app,string(ld_quantita))
+				
+			else
+				//mm inserito per esplodere le distinte che hanno due articoli uguali fra le righe 150110
+				if ls_dist='S' then
+					ll_trova_riga_padre++
+					ll_trova_riga_padre=dw_esplodi.find("id_riga_doc_padre="+string(ll_id_riga_padre),ll_trova_riga_padre,dw_esplodi.rowcount())
+						if ll_trova_riga_padre>0 then
+							
+							//questo è da cancellare non serve a nulla, viene annulata dall'azione sotto
+							ld_quantita=dw_esplodi.getitemnumber(riga_corrente,"quantita")
+							
+							ld_quantita=(qt*quantita)
+							dw_esplodi.setitem(ll_trova_riga_padre,"quantita",ld_quantita)
+							//aggiunta 11-05-12
+							dw_esplodi.setitem(ll_trova_riga_padre,"qta_un_base",ld_quantita)
+							//fine 11-05-12
+							//inserito 110612 per gestire il bollo nell'esplosione distinta (componente ha stesso bollo della distinta)
+							if ls_riga_dis_varie='B' then
+								dw_esplodi.setitem(ll_trova_riga_padre,"sigla_prezzo",ls_bollo)
+							end if
+							//fine 110612
+							ldwo_app=dw_esplodi.object.quantita
+							dw_esplodi.setrow(ll_trova_riga_padre)
+							//faccio ricalcolare il peso del componente 110610
+							dw_esplodi.setitem(ll_trova_riga_padre, "riga_documento_peso_netto", 0)
+							dw_esplodi.event trigger itemchanged(ll_trova_riga_padre,ldwo_app,string(ld_quantita))
+						else
+							//160312- non capisco cosa facesse il ue_insert	
+							//dw_esplodi.triggerevent("ue_insert")
+							ll_riga_trovata=dw_esplodi.insertrow(0) 
+							//ll_riga_trovata=dw_esplodi.getrow()
+							
+							
+							ll_numero=dw_esplodi.getitemnumber(ll_riga_trovata -1,"riga_documento_num_riga")
+							dw_esplodi.setitem(ll_riga_trovata,"quantita",(qt*quantita))
+							//aggiunta 11-05-12
+							dw_esplodi.setitem(ll_riga_trovata,"qta_un_base",(qt*quantita))
+							//fine 11-05-12
+							
+							//inserito 110612 per gestire il bollo nell'esplosione distinta (componente ha stesso bollo della distinta)
+							if ls_riga_dis_varie='B' then
+								dw_esplodi.setitem(ll_riga_trovata,"sigla_prezzo",ls_bollo)
+							end if
+							//fine 110612
+							dw_esplodi.setitem(ll_riga_trovata,"c_articolo_cod",cod)
+							dw_esplodi.setitem(ll_riga_trovata,"riga_documento_id_articolo",id_art)
+							
+							dw_esplodi.setitem(ll_riga_trovata,"riga_documento_id_UNITA_CONFEZIONE",ll_id_uc)
+							
+							dw_esplodi.setitem(ll_riga_trovata,"riga_documento_num_riga",ll_numero +1)
+							ldwo_app=dw_esplodi.object.c_articolo_cod
+							dw_esplodi.setrow(ll_riga_trovata)
+							dw_esplodi.event trigger itemchanged(ll_riga_trovata,ldwo_app,cod)
+						end if
+					
+					
+				else
+					//160312- non capisco cosa facesse il ue_insert	
+					//dw_esplodi.triggerevent("ue_insert")
+					ll_riga_trovata=dw_esplodi.insertrow(0) 
+					//ll_riga_trovata=dw_esplodi.getrow()
+					
+					
+					ll_numero=dw_esplodi.getitemnumber(ll_riga_trovata -1,"riga_documento_num_riga")
+					dw_esplodi.setitem(ll_riga_trovata,"quantita",(qt*quantita))
+					dw_esplodi.setitem(ll_riga_trovata,"c_articolo_cod",cod)
+					dw_esplodi.setitem(ll_riga_trovata,"riga_documento_id_articolo",id_art)
+					
+					dw_esplodi.setitem(ll_riga_trovata,"riga_documento_id_UNITA_CONFEZIONE",ll_id_uc)
+					//inserito 110612 per gestire il bollo nell'esplosione distinta (componente ha stesso bollo della distinta)
+					if ls_riga_dis_varie='B' then
+						dw_esplodi.setitem(ll_riga_trovata,"sigla_prezzo",ls_bollo)
+					end if
+					//fine 110612
+					dw_esplodi.setitem(ll_riga_trovata,"riga_documento_num_riga",ll_numero +1)
+					ldwo_app=dw_esplodi.object.c_articolo_cod
+					dw_esplodi.setrow(ll_riga_trovata)
+					dw_esplodi.event trigger itemchanged(ll_riga_trovata,ldwo_app,cod)
+				end if
+			
+			
+			
+				
+			end if
+			dw_esplodi.setitem(ll_riga_trovata,"id_documento", ll_id_doc)
+		end if
+		tvi.expanded=false
+	end if
+	fetch recupera into :cod,:des,:id_art,:pt,:tg,:qt,:cs,:id_f,:ll_id_riga,:ll_num_riga,:ll_id_componente, :ls_riga_dis_varie;
+loop
+close recupera;
+if ls_dist<> 'S' then
+	ll_root=ll_app
+	ll_root=tv_dis.finditem(childtreeitem!,ll_root)
+	do while ll_root<> -1 
+		f_esplodi_documento_2(tv_dis,ll_root,false,0,data_inizio,data_fine,id_testa,dw_esplodi,quantita,ges_lotti, riga_corrente)
+		ll_root=tv_dis.finditem(Nexttreeitem!,ll_root)
+	loop
+end if
+
+
+
+
+end subroutine
+

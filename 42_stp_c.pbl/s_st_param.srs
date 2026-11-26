@@ -1,0 +1,6 @@
+﻿global type s_st_param from structure
+	string		ela_def
+	long		id_esercizio
+	date		fino_data
+end type
+

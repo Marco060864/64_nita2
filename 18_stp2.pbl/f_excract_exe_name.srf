@@ -1,0 +1,21 @@
+﻿global type f_excract_exe_name from function_object
+end type
+
+forward prototypes
+global function string f_excract_exe_name (string url)
+end prototypes
+
+global function string f_excract_exe_name (string url);long ll_last_slash, ll_pos
+
+ll_last_slash = 1
+ll_pos=1
+DO
+ 	ll_pos = Pos(url,"\",ll_pos+1)
+	if ll_pos<>0 then
+		ll_last_slash = ll_pos
+	end if
+	
+LOOP UNTIL ll_pos=0
+return mid(url,ll_last_slash+1, len(url) - ll_last_slash - 4)
+end function
+

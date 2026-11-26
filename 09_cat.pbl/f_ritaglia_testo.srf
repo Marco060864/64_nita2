@@ -1,0 +1,30 @@
+﻿global type f_ritaglia_testo from function_object
+end type
+
+forward prototypes
+global function string f_ritaglia_testo (long al_job, string as_font, integer ai_altezza, string as_stringa, long al_spazio)
+end prototypes
+
+global function string f_ritaglia_testo (long al_job, string as_font, integer ai_altezza, string as_stringa, long al_spazio);
+
+decimal ld_app
+long ll_sp_occ
+string ls_stringa=as_stringa
+
+ll_sp_occ=f_calc_larghezza_testo(al_job,as_font,ai_altezza,as_stringa)
+if ll_sp_occ>al_spazio then
+	ld_app=al_spazio/ll_sp_occ
+	ld_app=long(len(ls_stringa)*ld_app)
+	ls_stringa=Left(ls_stringa, ld_app)
+	ll_sp_occ=f_calc_larghezza_testo(al_job,as_font,ai_altezza,ls_stringa)
+	if ll_sp_occ>al_spazio then
+		do while ll_sp_occ>al_spazio
+			ls_stringa=left(ls_stringa, Len(ls_stringa)- 1)
+			ll_sp_occ=f_calc_larghezza_testo(al_job,as_font,ai_altezza,ls_stringa)
+		loop
+	end if
+end if
+return ls_stringa		
+
+end function
+

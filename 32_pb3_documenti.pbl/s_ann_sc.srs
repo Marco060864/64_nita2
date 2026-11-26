@@ -1,0 +1,5 @@
+﻿global type s_ann_sc from structure
+	long		id_tipo_annotazione
+	long		id_sog_commerciale
+end type
+

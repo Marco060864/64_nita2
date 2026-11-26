@@ -1,0 +1,24 @@
+﻿global type f_regstr from function_object
+end type
+
+forward prototypes
+global function string f_regstr (string as_key, string as_name, string as_value, boolean ab_force)
+end prototypes
+
+global function string f_regstr (string as_key, string as_name, string as_value, boolean ab_force);
+integer		li_ret
+string		ls_val
+
+li_ret = RegistryGet (as_key,as_name,ls_val)
+if li_ret=-1 then
+	ls_val = as_value
+end if
+if (li_ret=-1) or (ab_force=true) then
+	li_ret = RegistrySet (as_key,as_name,as_value)
+	ls_val = as_value
+end if
+
+return ls_val
+
+end function
+

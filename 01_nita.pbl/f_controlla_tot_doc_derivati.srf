@@ -1,0 +1,10 @@
+﻿global type f_controlla_tot_doc_derivati from function_object
+end type
+
+forward prototypes
+global subroutine f_controlla_tot_doc_derivati (long al_id_doc)
+end prototypes
+
+global subroutine f_controlla_tot_doc_derivati (long al_id_doc);//7
+end subroutine
+

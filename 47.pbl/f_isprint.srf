@@ -1,0 +1,16 @@
+﻿global type f_isprint from function_object
+end type
+
+forward prototypes
+global function boolean f_isprint (character ac_car)
+end prototypes
+
+global function boolean f_isprint (character ac_car);
+boolean lb_rtv
+
+lb_rtv = false
+if (ac_car>=' ') and (ac_car<char(127)) then lb_rtv = true
+
+return lb_rtv
+end function
+

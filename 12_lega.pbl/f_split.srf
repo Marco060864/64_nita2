@@ -1,0 +1,43 @@
+﻿global type f_split from function_object
+end type
+
+forward prototypes
+global function integer f_split (string as_string, string as_separator, ref string as_outarray[])
+end prototypes
+
+global function integer f_split (string as_string, string as_separator, ref string as_outarray[]);// -----------------------------------------------------------------------------
+// SCRIPT:     n_winsock.of_Parse
+//
+// PURPOSE:    This function parses a string into an array.
+//
+// ARGUMENTS:  as_string		- The string to be separated
+//					as_separate		- The separator characters
+//					as_outarray		- By ref output array
+//
+//	RETURN:		The number of items in the array
+//
+// DATE        CHANGED BY	DESCRIPTION OF CHANGE / REASON
+// ----------  ----------  -----------------------------------------------------
+// 03/17/2012	RolandS		Rewritten based on an example by Mike Bartos
+// -----------------------------------------------------------------------------
+
+Long ll_PosEnd, ll_PosStart = 1, ll_SeparatorLen, ll_Counter = 1
+
+If UpperBound(as_OutArray) > 0 Then as_OutArray = {""}
+
+ll_SeparatorLen = Len(as_Separator)
+
+ll_PosEnd = Pos(as_String, as_Separator, 1)
+
+Do While ll_PosEnd > 0
+	as_OutArray[ll_Counter] = Mid(as_String, ll_PosStart, ll_PosEnd - ll_PosStart)
+	ll_PosStart = ll_PosEnd + ll_SeparatorLen
+	ll_PosEnd = Pos(as_String, as_Separator, ll_PosStart)
+	ll_Counter++
+Loop
+
+as_OutArray[ll_Counter] = Right(as_String, Len(as_String) - ll_PosStart + 1)
+
+Return ll_Counter
+end function
+

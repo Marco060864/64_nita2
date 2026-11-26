@@ -1,0 +1,56 @@
+﻿global type f_info_reg_pd from function_object
+end type
+
+forward prototypes
+global function string f_info_reg_pd (long al_id_reg_pd)
+end prototypes
+
+global function string f_info_reg_pd (long al_id_reg_pd);
+
+long ll_CurrRow, ll_n_progr, ll_num_registro
+string ls_RetVal, ls_esercizio, ls_tipo_registro, ls_des_contab, ls_n_doc
+date ld_data_reg, ld_data_comp, ld_data_doc
+decimal ldc_imp_doc
+
+  SELECT "dba"."esercizio"."codice",   
+         "dba"."registro"."tipo_registro",   
+         "dba"."registro"."numero",   
+         "dba"."reg_pd"."num_progressivo",   
+         "dba"."reg_pd"."data_registrazione",   
+         "dba"."reg_pd"."data_competenza",   
+         "dba"."reg_pd"."num_documento",   
+         "dba"."reg_pd"."data_documento",   
+         "dba"."reg_pd"."descrizione",   
+         "dba"."reg_pd"."importo"  
+    INTO :ls_esercizio,   
+         :ls_tipo_registro,   
+         :ll_num_registro,   
+         :ll_n_progr,   
+         :ld_data_reg,   
+         :ld_data_comp,   
+         :ls_n_doc,   
+         :ld_data_doc,   
+         :ls_des_contab,   
+         :ldc_imp_doc  
+    FROM "dba"."reg_pd",   
+         "dba"."esercizio",   
+         "dba"."registro"  
+   WHERE ( "dba".esercizio.id_esercizio = "dba".registro.id_esercizio ) and  
+         ( "dba".registro.id_registro = "dba".reg_pd.id_registro ) and
+			( "dba".reg_pd.id_reg_pd = :al_id_reg_pd);
+
+CHOOSE CASE SQLCA.SQLCode
+	CASE 0
+		ls_RetVal = "Esercizio: " + ls_esercizio + " - Tipo Registro: " + ls_tipo_registro + &
+						" - N. Registro: " + string(ll_num_registro) + "~rNum. Progr.: " + string(ll_n_progr) + &
+						" - Data Registraz.: " + string(ld_data_reg) + " - Data Comp.: " + string(ld_data_comp) + &
+						"~rNum. Doc.: " + ls_n_doc + " - Data Doc.: " + string(ld_data_doc) + &
+						"~rDes. Contabile: " + ls_des_contab + "~rImporto: " + string(ldc_imp_doc)
+	CASE -1, 100
+		ls_RetVal = ""
+END CHOOSE
+	
+RETURN ls_RetVal
+
+end function
+
